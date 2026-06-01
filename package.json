@@ -1,0 +1,16 @@
+{
+  "name": "eat-out-better",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "mobile": "npm run start --workspace=apps/mobile",
+    "api": "npm run dev --workspace=apps/api",
+    "build:api": "npm run build --workspace=apps/api"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
