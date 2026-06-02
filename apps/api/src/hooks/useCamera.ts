@@ -23,7 +23,7 @@ export type CameraStatus =
 interface UseCameraReturn {
   status: CameraStatus;
   error: string | null;
-  videoRef: React.RefObject<HTMLVideoElement | null>;
+  videoRef: React.RefObject<HTMLVideoElement>;
   startCamera: () => Promise<void>;
   stopCamera: () => void;
   capturePhoto: () => File | null;
@@ -32,7 +32,7 @@ interface UseCameraReturn {
 export function useCamera(): UseCameraReturn {
   const [status, setStatus] = useState<CameraStatus>("idle");
   const [error, setError] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const stopCamera = useCallback(() => {

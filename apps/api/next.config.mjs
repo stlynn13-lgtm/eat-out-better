@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Increase API route body size limit for image uploads (default 1MB)
   // Each image can be up to 5MB compressed; max 10 images
   experimental: {
