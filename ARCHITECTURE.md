@@ -2,8 +2,8 @@
 
 **Authored by:** Claude (Sonnet 4.6)  
 **Date:** 2026-05-27  
-**PRD version:** v0 / v0.5 / v1 (Notion, last updated 2026-05-25)  
-**Grounding:** This doc is the authoritative technical reference. When in conflict with Notion pages other than the PRD, this wins.
+**PRD version:** v0 / v0.5 / v1 (Google Drive, last updated 2026-05-25)  
+**Grounding:** This doc is the authoritative technical reference. When in conflict with Google Drive docs other than the PRD, this wins.
 
 ---
 

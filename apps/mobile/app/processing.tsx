@@ -5,7 +5,7 @@
  * No back-swipe (gestureEnabled: false in _layout).
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,6 +23,17 @@ export default function ProcessingScreen() {
   const router = useRouter();
   const { status, progress, progressMessage, images, error } = useAnalysisStore();
 
+  // Rotate educational tip every 8 seconds
+  const [tipIndex, setTipIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTipIndex((prev) => (prev + 1) % TIPS.length);
+    }, 8_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const tip = TIPS[tipIndex];
+
   // Guard redirects
   useEffect(() => {
     if (images.length === 0 && status === "idle") {
@@ -37,10 +48,6 @@ export default function ProcessingScreen() {
   useEffect(() => {
     if (status === "complete") router.replace("/results");
   }, [status, router]);
-
-  // Rotate tip every 8s
-  const tipIndex = Math.floor(Date.now() / 8_000) % TIPS.length;
-  const tip = TIPS[tipIndex];
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">

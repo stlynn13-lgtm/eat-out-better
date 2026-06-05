@@ -140,4 +140,4 @@ Once you and Ray have tested on real menus:
 2. Those failures become the V0.5 fix list (already designed — see ARCHITECTURE.md)
 3. V0.5 adds: substitution suggestions, image quality detection, session history, manual OCR correction
 
-The spec and backlog live in Notion → Product Hub → PRD.
+The spec and backlog live in Google Drive → https://drive.google.com/drive/project/1w64UTHj8fF50nvfLySNTy9Rl-gnHxTlC?usp=sharing

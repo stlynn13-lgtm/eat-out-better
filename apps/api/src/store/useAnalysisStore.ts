@@ -73,13 +73,13 @@ export const useAnalysisStore = create<AnalysisStore>((set, get) => ({
 
   setResults: (data: AnalyzeResponseData) => {
     const session: MenuSession = {
-      id: data.sessionId,
+      id: data.id,
       healthCondition: data.healthCondition,
       dishes: data.dishes,
       rawDishes: data.rawDishes,
       dishCount: data.dishCount,
       processingTimeMs: data.processingTimeMs,
-      createdAt: new Date().toISOString(),
+      createdAt: data.createdAt,
     };
 
     set({

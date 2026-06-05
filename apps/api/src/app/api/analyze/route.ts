@@ -77,12 +77,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // Handle empty OCR result (no dishes found)
     if (rawDishes.length === 0) {
       return successResponse({
-        sessionId: uuidv4(),
+        id: uuidv4(),
         dishes: [],
         rawDishes: [],
         dishCount: 0,
         processingTimeMs: Date.now() - startTime,
         healthCondition,
+        createdAt: new Date().toISOString(),
       });
     }
 
@@ -112,12 +113,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
 
     return successResponse({
-      sessionId: uuidv4(),
+      id: uuidv4(),
       dishes: rankedDishes,
       rawDishes,
       dishCount: rankedDishes.length,
       processingTimeMs,
       healthCondition,
+      createdAt: new Date().toISOString(),
     });
   } catch (error) {
     console.error("[/api/analyze] Unexpected error:", error);

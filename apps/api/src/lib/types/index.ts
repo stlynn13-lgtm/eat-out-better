@@ -114,13 +114,16 @@ export interface AnalyzeRequest {
 }
 
 export interface AnalyzeResponseData {
-  sessionId: string;
+  /** Session UUID — matches MenuSession.id in shared types */
+  id: string;
   dishes: RankedDish[];
   /** Pre-ranking extract — returned for V0.5 correction UI */
   rawDishes: ExtractedDish[];
   dishCount: number;
   processingTimeMs: number;
   healthCondition: HealthConditionId;
+  /** ISO 8601 timestamp of when analysis completed */
+  createdAt: string;
 }
 
 export interface AnalyzeResponse {

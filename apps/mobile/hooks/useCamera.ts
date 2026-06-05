@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Camera, CameraType, CameraView } from "expo-camera";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 
 export type CameraStatus =
   | "idle"
@@ -11,7 +11,7 @@ export type CameraStatus =
 
 export interface UseCameraReturn {
   status: CameraStatus;
-  cameraRef: React.RefObject<CameraView>;
+  cameraRef: React.RefObject<CameraView | null>;
   requestPermission: () => Promise<void>;
   capturePhoto: () => Promise<string | null>; // Returns local URI
   facing: CameraType;
@@ -19,23 +19,28 @@ export interface UseCameraReturn {
 }
 
 export function useCamera(): UseCameraReturn {
-  const [status, setStatus] = useState<CameraStatus>("idle");
+  // useCameraPermissions is the SDK 53+ recommended API
+  // (replaces deprecated Camera.requestCameraPermissionsAsync())
+  const [permission, requestPermissionAsync] = useCameraPermissions();
   const [facing, setFacing] = useState<CameraType>("back");
   const cameraRef = useRef<CameraView>(null);
 
+  // Derive CameraStatus from the permission object
+  const status: CameraStatus = !permission
+    ? "idle"
+    : permission.granted
+    ? "active"
+    : permission.canAskAgain
+    ? "idle"
+    : "denied";
+
   const requestPermission = useCallback(async () => {
-    setStatus("requesting");
     try {
-      const { status: permStatus } = await Camera.requestCameraPermissionsAsync();
-      if (permStatus === "granted") {
-        setStatus("active");
-      } else {
-        setStatus("denied");
-      }
+      await requestPermissionAsync();
     } catch {
-      setStatus("error");
+      // status is derived from permission object — no extra state needed
     }
-  }, []);
+  }, [requestPermissionAsync]);
 
   const capturePhoto = useCallback(async (): Promise<string | null> => {
     if (!cameraRef.current || status !== "active") return null;

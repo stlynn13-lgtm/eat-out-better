@@ -68,17 +68,11 @@
 
 ---
 
-## Notion Workspace
+## Google Drive Workspace
 
-Hub: https://www.notion.so/36791fcf7cf681008b88f670541c80ec
+Project Folder: https://drive.google.com/drive/project/1w64UTHj8fF50nvfLySNTy9Rl-gnHxTlC?usp=sharing
 
-| Page | URL | Purpose |
-|------|-----|---------|
-| Product Roadmap | https://www.notion.so/36791fcf7cf681139caaf9dcc9800d4a | Now/Next/Later |
-| Architecture Decisions | https://www.notion.so/36791fcf7cf6813899d7dfcdc4e94597 | Stack, schema, open questions |
-| PRDs & Feature Specs | https://www.notion.so/36791fcf7cf68184a2baff08f3ebf024 | Specs per feature |
-| Competitive Research | https://www.notion.so/36791fcf7cf6812eb64bf69df045c1dd | App landscape analysis |
-| Brainstorm & Ideas | https://www.notion.so/36791fcf7cf681e18890c19541699db0 | Session notes, hypotheses |
+All docs (PRD, roadmap, architecture decisions, competitive research, brainstorm) live here. This is the source of truth.
 
 ---
 
@@ -157,8 +151,8 @@ Challenge my assumptions before validating them. I want to leave this session wi
 
 - Start a new conversation for each distinct work session (brainstorm, spec writing, coding, etc.)
 - Always paste a context handoff file (like this one) at the start of a new chat
-- Keep Notion as the source of truth — paste URLs, don't re-type context
+- Keep Google Drive as the source of truth — paste URLs, don't re-type context
 - Flag to Claude when context feels bloated; ask for a new summary file and start fresh
 - Prefer Haiku-class reasoning for quick lookups; Sonnet for analysis and writing
 
-*Session 01 covered: project setup, Notion workspace creation, backlog with RICE scoring, CLAUDE.md project instructions, tech stack decisions, dev environment decision, clarifying questions for brainstorming.*
+*Session 01 covered: project setup, Google Drive workspace creation, backlog with RICE scoring, CLAUDE.md project instructions, tech stack decisions, dev environment decision, clarifying questions for brainstorming.*

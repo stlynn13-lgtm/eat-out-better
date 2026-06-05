@@ -12,19 +12,14 @@
 - **AI Analysis:** Claude API — Haiku for cost efficiency, Sonnet for quality-critical calls
 - **V1 profile storage:** Browser localStorage (no account required)
 
-## Notion Workspace
-All documentation lives in Notion. Verified page IDs (last confirmed 2026-05-21):
+## Google Drive Workspace
+All documentation lives in Google Drive. Project folder (source of truth):
 
-| Page | URL | ID |
-|------|-----|-----|
-| Product Hub [w/ ray] | https://www.notion.so/e0660fe0613e82ba8d7b01a2a354099f | e0660fe0-613e-82ba-8d7b-01a2a354099f |
-| Product Roadmap | https://www.notion.so/e2e60fe0613e8293abe381d8d57ca38f | e2e60fe0-613e-8293-abe3-81d8d57ca38f |
-| Architecture Decisions | https://www.notion.so/dd360fe0613e8304a6bc81021bf578ba | dd360fe0-613e-8304-a6bc-81021bf578ba |
-| PRDs & Feature Specs | https://www.notion.so/1a760fe0613e82899995014e799f2e1b | 1a760fe0-613e-8289-9995-014e799f2e1b |
-| Competitive Research | https://www.notion.so/2a060fe0613e83098aec81f0c49d276c | 2a060fe0-613e-8309-8aec-81f0c49d276c |
-| Brainstorm & Ideas | https://www.notion.so/2a360fe0613e8208af580174d1114310 | 2a360fe0-613e-8208-af58-0174d1114310 |
+| Resource | URL |
+|----------|-----|
+| **Project Folder** | https://drive.google.com/drive/project/1w64UTHj8fF50nvfLySNTy9Rl-gnHxTlC?usp=sharing |
 
-If a Notion page write fails with 404, re-verify the ID via `notion-search` before retrying — IDs in older context handoffs may be stale.
+Always reference this Google Drive project for specs, PRDs, roadmap, architecture decisions, competitive research, and brainstorm docs. Use the Google Drive MCP tools (`mcp__247ec016-17f2-476c-97d4-91ee74017aad__*`) to read and update documents. Do not reference or write to Notion.
 
 ## Backlog
 Feature backlog with RICE scores lives at: `/Users/sean/Documents/Claude/Projects/Eat Out Better/backlog.md`
@@ -62,8 +57,8 @@ Sean is a Senior PM building his first app. He's learning as he goes on the engi
 ## Context Window & Token Management
 - If this conversation exceeds ~80 messages or feels slow, ask Claude to summarize the session into a markdown file and start a new conversation
 - For quick factual lookups, Claude should use lighter reasoning where possible
-- Keep Notion as the source of truth for decisions — don't re-explain context Claude already has stored there
-- Paste Notion page URLs into chat rather than re-typing context
+- Keep Google Drive as the source of truth for decisions — don't re-explain context Claude already has stored there
+- Paste Google Drive file URLs into chat rather than re-typing context
 
 ## What NOT to Do
 - Don't start building before a spec exists for the feature
