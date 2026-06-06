@@ -1,4 +1,4 @@
-import type { ScoreTier, DishTag } from "../types/index.js";
+import type { ScoreTier, DishTag } from "../types/index";
 
 export const SCORE_MIN = 1.0;
 export const SCORE_MAX = 10.0;

@@ -3,9 +3,20 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@eat-out-better/shared": ["../../packages/shared/src/index.ts"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@eat-out-better/shared": [
+        "../../packages/shared/src/index.ts"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.d.ts", "expo-env.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.d.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts",
+    ".expo/types/**/*.ts"
+  ]
 }

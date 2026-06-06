@@ -1,2 +1,2 @@
-export * from "./scoring.js";
-export * from "./health.js";
+export * from "./scoring";
+export * from "./health";
