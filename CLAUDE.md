@@ -3,14 +3,26 @@
 ## What We're Building
 "Eat Out Better" is a menu analysis tool that helps people with dietary restrictions make informed, confident meal choices at restaurants. Users input their health profile and a restaurant menu; the app returns ranked dish recommendations with explanations and substitution suggestions.
 
-**v1 scope:** Single health condition (high cholesterol). Web app. Menu text input. No user accounts. Core output: per-dish risk rating, explanation of why (specific ingredients/cooking methods), and substitution suggestions.
+**v1 scope:** Single health condition (high cholesterol). iOS-first mobile app. Camera/photo menu input. No user accounts. Core output: per-dish risk rating, explanation of why (specific ingredients/cooking methods), and substitution suggestions.
 
 ## Tech Stack (Decided)
-- **Frontend:** Next.js (React) — web-first, mobile-responsive
-- **Hosting:** Vercel — zero config, free tier
+- **Mobile:** React Native (Expo SDK 56, RN 0.85.3) — iOS-first, `jsEngine: jsc`
+- **Routing:** expo-router (file-based, lives in `apps/mobile/app/`)
+- **Styling:** NativeWind v4 (Tailwind for React Native)
+- **State:** Zustand
 - **Backend/DB:** Supabase — Postgres + auth + storage, managed
 - **AI Analysis:** Claude API — Haiku for cost efficiency, Sonnet for quality-critical calls
-- **V1 profile storage:** Browser localStorage (no account required)
+- **V1 session storage:** AsyncStorage (no account required)
+- **Monorepo:** npm workspaces — `apps/mobile` + `packages/shared`
+
+## Mobile Dev Setup
+```bash
+# From repo root
+npm install
+cd apps/mobile
+npx expo run:ios   # generates ios/, installs Pods, builds, runs on simulator
+```
+The `ios/` folder is gitignored — it's generated automatically by Expo prebuild. Do not commit it.
 
 ## Google Drive Workspace
 All documentation lives in Google Drive. Project folder (source of truth):
@@ -47,12 +59,12 @@ Sean is a Senior PM building his first app. He's learning as he goes on the engi
 - Remind Sean of any actions he needs to take that he hasn't confirmed completing
 - Track pending tasks Sean has expressed intent to do (write-spec, competitive brief, etc.)
 
-## Pending Actions (Sean to Complete)
+## Pending Actions
+- [ ] Build the API (`POST /api/analyze`) — this is the critical path, nothing works without it
+- [ ] Set up EAS build for TestFlight distribution (`eas build --platform ios`)
+- [ ] Replace placeholder app icon with real brand asset
 - [ ] Run `product-management:write-spec` for v1 MVP feature
 - [ ] Run `product-management:competitive-brief` for the dietary restriction app landscape
-- [ ] Decide on Replit vs. local dev environment for building
-- [ ] Create Replit account if going that route
-- [ ] Review and confirm tech stack decisions above
 
 ## Context Window & Token Management
 - If this conversation exceeds ~80 messages or feels slow, ask Claude to summarize the session into a markdown file and start a new conversation
