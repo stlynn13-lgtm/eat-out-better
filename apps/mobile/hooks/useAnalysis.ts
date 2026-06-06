@@ -1,16 +1,3 @@
-/**
- * useAnalysis — orchestrates the full analysis pipeline (React Native)
- *
- * Coordinates: image compression → API call → progress simulation → result storage.
- * Architecture is identical to the web version; only image utils and storage differ.
- *
- * Progress simulation:
- *   0–10%:  image compression
- *  10–88%:  single animation across the full server-side call (~15-25s)
- *  92%:     response received, parsing
- * 100%:     done
- */
-
 import { useCallback, useRef } from "react";
 import { useRouter } from "expo-router";
 import { useAnalysisStore } from "../store/useAnalysisStore";
@@ -28,13 +15,9 @@ export function useAnalysis() {
   const store = useAnalysisStore();
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // ---- Progress simulation ----
-
   const startProgressSimulation = useCallback(
     (from: number, to: number, durationMs: number, message: string) => {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-      }
+      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
       store.setProgress(from, message);
       const steps = 20;
       const increment = (to - from) / steps;
@@ -60,8 +43,6 @@ export function useAnalysis() {
     }
   }, []);
 
-  // ---- Main entry point ----
-
   const startAnalysis = useCallback(
     async (imageUris: string[]) => {
       if (imageUris.length === 0) return;
@@ -70,21 +51,17 @@ export function useAnalysis() {
       store.setProgress(0, "Preparing your photos…");
 
       try {
-        // Step 1: Compress all images
         startProgressSimulation(0, 10, 2_000, "Preparing your photos…");
         const compressedImages = await Promise.all(
           imageUris.map((uri) => compressImageUri(uri))
         );
         stopProgressSimulation();
 
-        // Save to store for preview
         compressedImages.forEach((img) => store.addImage(img));
 
-        // Step 2: Navigate to processing screen, then call API
         store.setStatus("extracting");
         router.push("/processing");
 
-        // Single simulation covering full server-side pipeline
         startProgressSimulation(
           10,
           88,
@@ -149,15 +126,8 @@ export function useAnalysis() {
     [store, router, startProgressSimulation, stopProgressSimulation]
   );
 
-  const resetAnalysis = useCallback(() => {
-    stopProgressSimulation();
-    store.reset();
-    router.push("/capture");
-  }, [store, router, stopProgressSimulation]);
-
   return {
     startAnalysis,
-    resetAnalysis,
     status: store.status,
     progress: store.progress,
     progressMessage: store.progressMessage,

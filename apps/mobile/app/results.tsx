@@ -1,9 +1,3 @@
-/**
- * Screen 4 — Ranked Results
- *
- * Displays all dishes sorted by rank (1 = best for heart health).
- */
-
 import { useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
@@ -52,17 +46,16 @@ export default function ResultsScreen() {
     );
   }
 
-  const handleNewMenu = () => {
-    reset();
-    router.push("/capture");
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <FlatList
         data={results}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 32, paddingBottom: 100 }}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: 32,
+          paddingBottom: 100,
+        }}
         ListHeaderComponent={
           <View className="mb-6">
             <View className="flex-row items-center justify-between mb-1">
@@ -89,14 +82,13 @@ export default function ResultsScreen() {
         ItemSeparatorComponent={() => <View className="h-3" />}
       />
 
-      {/* Sticky CTA */}
       <View
         className="absolute bottom-0 left-0 right-0 px-5 pb-8 pt-3"
         style={{ backgroundColor: "rgba(249,250,251,0.97)" }}
       >
         <TouchableOpacity
           className="w-full border-2 border-gray-300 rounded-xl py-4 items-center"
-          onPress={handleNewMenu}
+          onPress={() => { reset(); router.push("/capture"); }}
           activeOpacity={0.8}
         >
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>
@@ -105,8 +97,6 @@ export default function ResultsScreen() {
     </SafeAreaView>
   );
 }
-
-// ---- Dish card ----
 
 function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
   const tier = getTier(dish.score);
@@ -139,7 +129,6 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
 
   return (
     <View className={`rounded-2xl border p-4 ${colors.bg} ${colors.border}`}>
-      {/* Header row */}
       <View className="flex-row items-start justify-between mb-2">
         <View className="flex-1 mr-3">
           <View className="flex-row items-center gap-2 mb-0.5">
@@ -164,10 +153,8 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
         </Text>
       </View>
 
-      {/* Explanation */}
       <Text className="text-sm text-gray-700 leading-relaxed">{dish.explanation}</Text>
 
-      {/* Substitution */}
       {dish.substitution ? (
         <View className="mt-3 bg-white/70 rounded-xl p-3">
           <Text className="text-xs font-semibold text-gray-600 mb-0.5">

@@ -7,7 +7,7 @@ const monorepoRoot = path.resolve(projectRoot, "../..");
 
 const config = getDefaultConfig(projectRoot);
 
-// Allow Metro to resolve packages from the monorepo root node_modules
+// Allow Metro to resolve packages from the monorepo root
 config.watchFolders = [monorepoRoot];
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),

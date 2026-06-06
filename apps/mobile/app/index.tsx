@@ -1,9 +1,3 @@
-/**
- * Screen 1 — Welcome
- *
- * App intro with value prop and Get Started CTA.
- */
-
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";

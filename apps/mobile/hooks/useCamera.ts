@@ -13,19 +13,16 @@ export interface UseCameraReturn {
   status: CameraStatus;
   cameraRef: React.RefObject<CameraView | null>;
   requestPermission: () => Promise<void>;
-  capturePhoto: () => Promise<string | null>; // Returns local URI
+  capturePhoto: () => Promise<string | null>;
   facing: CameraType;
   toggleFacing: () => void;
 }
 
 export function useCamera(): UseCameraReturn {
-  // useCameraPermissions is the SDK 53+ recommended API
-  // (replaces deprecated Camera.requestCameraPermissionsAsync())
   const [permission, requestPermissionAsync] = useCameraPermissions();
   const [facing, setFacing] = useState<CameraType>("back");
   const cameraRef = useRef<CameraView>(null);
 
-  // Derive CameraStatus from the permission object
   const status: CameraStatus = !permission
     ? "idle"
     : permission.granted
@@ -38,7 +35,7 @@ export function useCamera(): UseCameraReturn {
     try {
       await requestPermissionAsync();
     } catch {
-      // status is derived from permission object — no extra state needed
+      // status is derived from permission object
     }
   }, [requestPermissionAsync]);
 
@@ -60,12 +57,5 @@ export function useCamera(): UseCameraReturn {
     setFacing((prev) => (prev === "back" ? "front" : "back"));
   }, []);
 
-  return {
-    status,
-    cameraRef,
-    requestPermission,
-    capturePhoto,
-    facing,
-    toggleFacing,
-  };
+  return { status, cameraRef, requestPermission, capturePhoto, facing, toggleFacing };
 }

@@ -4,16 +4,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Eat Out Better",
   slug: "eat-out-better",
+  scheme: "eat-out-better",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
+  jsEngine: "jsc",
   userInterfaceStyle: "light",
-  splash: {
-    image: "./assets/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#1B4332",
-  },
-  assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
@@ -27,16 +23,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/adaptive-icon.png",
+      foregroundImage: "./assets/android-icon-foreground.png",
+      backgroundImage: "./assets/android-icon-background.png",
       backgroundColor: "#1B4332",
     },
     package: "com.eatoutbetter.app",
-    permissions: ["CAMERA", "READ_EXTERNAL_STORAGE"],
-  },
-  web: {
-    bundler: "metro",
   },
   plugins: [
+    "expo-router",
     [
       "expo-camera",
       {
@@ -44,13 +38,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           "Eat Out Better needs camera access to photograph restaurant menus.",
       },
     ],
-    "expo-router",
   ],
-  experiments: {
-    typedRoutes: true,
-  },
   extra: {
-    // API URL — override with EAS environment variable in production
     apiUrl: process.env.API_URL ?? "http://localhost:3000",
   },
 });

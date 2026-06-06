@@ -1,17 +1,9 @@
-/**
- * Screen 2 — Menu Capture
- *
- * Camera viewfinder + photo gallery fallback.
- * Multi-photo support up to 10 pages.
- */
-
 import { useState, useCallback } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   ScrollView,
-  Alert,
   Image,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -31,14 +23,12 @@ export default function CaptureScreen() {
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Request camera permission on first tap of the viewfinder
   const handleViewfinderPress = useCallback(async () => {
     if (status === "idle") {
       await requestPermission();
     }
   }, [status, requestPermission]);
 
-  // Capture from camera
   const handleCapture = useCallback(async () => {
     if (localPhotos.length >= MAX_PHOTOS) return;
     const uri = await capturePhoto();
@@ -47,7 +37,6 @@ export default function CaptureScreen() {
     }
   }, [capturePhoto, localPhotos.length]);
 
-  // Pick from gallery
   const handleGalleryPick = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -61,12 +50,10 @@ export default function CaptureScreen() {
     }
   }, [localPhotos.length]);
 
-  // Remove a photo
   const removePhoto = useCallback((index: number) => {
     setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
   }, []);
 
-  // Submit for analysis
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
     setIsProcessing(true);
@@ -103,19 +90,13 @@ export default function CaptureScreen() {
           activeOpacity={status === "active" ? 1 : 0.8}
         >
           {status === "active" ? (
-            <CameraView
-              ref={cameraRef}
-              style={{ flex: 1 }}
-              facing={facing}
-            >
-              {/* Corner brackets */}
+            <CameraView ref={cameraRef} style={{ flex: 1 }} facing={facing}>
               <View className="flex-1 items-center justify-center">
                 <View
                   className="border-2 border-white rounded-sm opacity-70"
                   style={{ width: 220, height: 140 }}
                 />
               </View>
-              {/* Capture button */}
               <View className="items-center pb-4">
                 <TouchableOpacity
                   className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
@@ -142,17 +123,12 @@ export default function CaptureScreen() {
           )}
         </TouchableOpacity>
 
-        {/* Gallery upload */}
-        <TouchableOpacity
-          className="mt-3 py-2"
-          onPress={handleGalleryPick}
-        >
+        <TouchableOpacity className="mt-3 py-2" onPress={handleGalleryPick}>
           <Text className="text-center text-sm font-medium text-green-700">
             Upload from Photos
           </Text>
         </TouchableOpacity>
 
-        {/* Photo strip */}
         {localPhotos.length > 0 && (
           <View className="mt-4">
             <Text className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wider">
@@ -188,10 +164,8 @@ export default function CaptureScreen() {
           </View>
         )}
 
-        {/* Spacer */}
         <View className="flex-1" />
 
-        {/* CTA */}
         <TouchableOpacity
           className={`rounded-xl py-4 items-center mt-4 mb-2 ${
             localPhotos.length === 0 || isProcessing

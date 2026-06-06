@@ -16,7 +16,6 @@ interface AnalysisState {
   session: MenuSession | null;
   error: AnalysisError | null;
 
-  // Actions
   setStatus: (status: AnalysisStatus) => void;
   setProgress: (value: number, message?: string) => void;
   addImage: (image: MenuImage) => void;
@@ -61,11 +60,7 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
       progress: 100,
     }),
 
-  setError: (error) =>
-    set({
-      status: "error",
-      error,
-    }),
+  setError: (error) => set({ status: "error", error }),
 
   reset: () => set(initialState),
 }));
