@@ -20,16 +20,6 @@ const nextConfig = {
           { key: "X-XSS-Protection", value: "1; mode=block" },
         ],
       },
-      // Allow camera access on the capture page
-      {
-        source: "/capture",
-        headers: [
-          {
-            key: "Permissions-Policy",
-            value: "camera=self",
-          },
-        ],
-      },
     ];
   },
 };
