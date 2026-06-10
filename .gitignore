@@ -38,6 +38,7 @@ apps/mobile/.env
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+!apps/mobile/package-lock.json
 
 # OS
 .DS_Store

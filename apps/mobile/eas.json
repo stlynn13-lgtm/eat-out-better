@@ -23,7 +23,6 @@
     "production": {
       "ios": {
         "appleId": "ray.r.nakada@gmail.com",
-        "ascAppId": "",
         "appleTeamId": "YR4B6LSC95"
       }
     }

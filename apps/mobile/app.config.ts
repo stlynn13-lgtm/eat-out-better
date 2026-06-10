@@ -8,7 +8,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  jsEngine: "jsc",
   userInterfaceStyle: "light",
   ios: {
     supportsTablet: false,
@@ -19,6 +18,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
       NSPhotoLibraryUsageDescription:
         "Eat Out Better needs photo library access to upload existing menu photos.",
+      ITSAppUsesNonExemptEncryption: false,
     },
   },
   android: {
@@ -40,6 +40,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
   ],
   extra: {
-    apiUrl: process.env.API_URL ?? "http://localhost:3000",
+    ...config.extra,
+    apiUrl: process.env.API_URL ?? "https://eat-out-better-api.vercel.app",
   },
 });

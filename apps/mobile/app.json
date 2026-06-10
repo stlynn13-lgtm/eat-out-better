@@ -24,6 +24,13 @@
     "plugins": [
       "expo-router",
       "expo-status-bar"
-    ]
+    ],
+    "extra": {
+      "apiUrl": "https://eat-out-better-api.vercel.app",
+      "router": {},
+      "eas": {
+        "projectId": "00762885-6323-4fbb-9220-32bee3194ea0"
+      }
+    }
   }
 }
