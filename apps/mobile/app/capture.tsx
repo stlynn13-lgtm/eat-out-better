@@ -91,12 +91,7 @@ export default function CaptureScreen() {
         >
           {status === "active" ? (
             <CameraView ref={cameraRef} style={{ flex: 1 }} facing={facing}>
-              <View className="flex-1 items-center justify-center">
-                <View
-                  className="border-2 border-white rounded-sm opacity-70"
-                  style={{ width: 220, height: 140 }}
-                />
-              </View>
+              <View className="flex-1" />
               <View className="items-center pb-4">
                 <TouchableOpacity
                   className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
