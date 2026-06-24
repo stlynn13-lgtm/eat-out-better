@@ -1,10 +1,11 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { CameraView } from "expo-camera";
@@ -13,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
+import { useAnalysisStore } from "../store/useAnalysisStore";
 
 const MAX_PHOTOS = 12;
 
@@ -20,6 +22,8 @@ export default function CaptureScreen() {
   const router = useRouter();
   const { status, cameraRef, requestPermission, capturePhoto, facing } = useCamera();
   const { startAnalysis } = useAnalysis();
+  const analysisError = useAnalysisStore((s) => s.error);
+  const setStatus = useAnalysisStore((s) => s.setStatus);
 
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -102,9 +106,27 @@ export default function CaptureScreen() {
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
     setIsProcessing(true);
-    await startAnalysis(localPhotos);
-    setIsProcessing(false);
+    try {
+      await startAnalysis(localPhotos);
+    } finally {
+      // Always release the lock, even if startAnalysis throws — otherwise the
+      // Analyze button stays disabled forever and the screen looks stuck.
+      setIsProcessing(false);
+    }
   }, [localPhotos, isProcessing, startAnalysis]);
+
+  // Surface a failed analysis to the user. The analysis flow navigates back
+  // here and sets `status: "error"` on the store; show it and reset the status
+  // so the alert isn't re-fired on the next render.
+  useEffect(() => {
+    if (analysisError) {
+      Alert.alert(
+        "We couldn't analyze your menu",
+        analysisError.message,
+        [{ text: "OK", onPress: () => setStatus("idle") }]
+      );
+    }
+  }, [analysisError, setStatus]);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
