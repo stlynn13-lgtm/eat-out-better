@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import { useRouter } from "expo-router";
 import { CameraView } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 
@@ -22,6 +23,30 @@ export default function CaptureScreen() {
 
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Native camera zoom (expo-camera `zoom` is 0..1). Driven by a pinch
+  // gesture running on the JS thread (no Reanimated worklet dependency).
+  const [zoom, setZoom] = useState(0);
+  const zoomRef = useRef(0);
+  const zoomStartRef = useRef(0);
+
+  const pinchGesture = useRef(
+    Gesture.Pinch()
+      .runOnJS(true)
+      .onStart(() => {
+        zoomStartRef.current = zoomRef.current;
+      })
+      .onUpdate((event) => {
+        // event.scale: 1 = unchanged, >1 zoom in, <1 zoom out.
+        // Scale the gesture delta down so zoom is gradual and controllable.
+        const next = Math.min(
+          Math.max(zoomStartRef.current + (event.scale - 1) * 0.25, 0),
+          1
+        );
+        zoomRef.current = next;
+        setZoom(next);
+      })
+  ).current;
 
   const handleViewfinderPress = useCallback(async () => {
     if (status === "idle") {
@@ -90,15 +115,42 @@ export default function CaptureScreen() {
           activeOpacity={status === "active" ? 1 : 0.8}
         >
           {status === "active" ? (
-            <CameraView ref={cameraRef} style={{ flex: 1 }} facing={facing}>
-              <View className="flex-1" />
-              <View className="items-center pb-4">
-                <TouchableOpacity
-                  className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
-                  onPress={handleCapture}
-                />
-              </View>
-            </CameraView>
+            <GestureDetector gesture={pinchGesture}>
+              <CameraView
+                ref={cameraRef}
+                style={{ flex: 1 }}
+                facing={facing}
+                zoom={zoom}
+              >
+                {/* Zoom feedback: live % when zoomed, hint otherwise */}
+                {zoom > 0.001 ? (
+                  <View
+                    className="absolute top-2 right-2 rounded-full px-2 py-0.5"
+                    style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+                  >
+                    <Text className="text-white text-xs font-medium">
+                      {Math.round(zoom * 100)}%
+                    </Text>
+                  </View>
+                ) : (
+                  <View className="absolute top-2 left-0 right-0 items-center">
+                    <View
+                      className="rounded-full px-3 py-0.5"
+                      style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                    >
+                      <Text className="text-white text-xs">Pinch to zoom</Text>
+                    </View>
+                  </View>
+                )}
+                <View className="flex-1" />
+                <View className="items-center pb-4">
+                  <TouchableOpacity
+                    className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
+                    onPress={handleCapture}
+                  />
+                </View>
+              </CameraView>
+            </GestureDetector>
           ) : (
             <View className="flex-1 items-center justify-center">
               {status === "denied" ? (
