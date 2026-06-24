@@ -5,14 +5,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Eat Out Better",
   slug: "eat-out-better",
   scheme: "eat-out-better",
-  version: "1.0.0",
+  version: "1.1.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    buildNumber: "1",
+    buildNumber: "2",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",

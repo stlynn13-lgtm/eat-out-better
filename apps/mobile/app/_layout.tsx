@@ -15,6 +15,8 @@ export default function RootLayout() {
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen name="results" />
+        <Stack.Screen name="privacy" />
+        <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
       </Stack>
     </GestureHandlerRootView>
   );

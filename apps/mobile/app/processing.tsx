@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { View, Text, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAnalysisStore } from "../store/useAnalysisStore";
@@ -10,19 +10,36 @@ const TIPS = [
   "Omega-3 fatty acids in fish like salmon can help lower triglycerides.",
   "Soluble fiber in oats and beans helps remove cholesterol from your bloodstream.",
   "Requesting sauces on the side is one of the easiest ways to reduce hidden fats.",
+  "Trans fats — often hidden as 'partially hydrogenated oil' — raise LDL and lower HDL.",
+  "A small handful of nuts most days is linked to lower LDL cholesterol over time.",
+  "Swapping butter for olive oil trades saturated fat for heart-healthier unsaturated fat.",
+  "Soda and sweet drinks can raise triglycerides — water or unsweetened tea is a safer bet.",
 ];
 
 export default function ProcessingScreen() {
   const router = useRouter();
   const { status, progress, progressMessage, images } = useAnalysisStore();
   const [tipIndex, setTipIndex] = useState(0);
+  const tipOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTipIndex((prev) => (prev + 1) % TIPS.length);
+      // Fade the current fact out, swap it, then fade the next one in.
+      Animated.timing(tipOpacity, {
+        toValue: 0,
+        duration: 350,
+        useNativeDriver: true,
+      }).start(() => {
+        setTipIndex((prev) => (prev + 1) % TIPS.length);
+        Animated.timing(tipOpacity, {
+          toValue: 1,
+          duration: 350,
+          useNativeDriver: true,
+        }).start();
+      });
     }, 8_000);
     return () => clearInterval(interval);
-  }, []);
+  }, [tipOpacity]);
 
   useEffect(() => {
     if (images.length === 0 && status === "idle") {
@@ -71,9 +88,11 @@ export default function ProcessingScreen() {
           <Text className="text-xs font-semibold text-green-800 uppercase tracking-wider mb-1">
             Did you know?
           </Text>
-          <Text className="text-sm text-green-900 leading-relaxed">
-            {TIPS[tipIndex]}
-          </Text>
+          <Animated.View style={{ opacity: tipOpacity }}>
+            <Text className="text-sm text-green-900 leading-relaxed">
+              {TIPS[tipIndex]}
+            </Text>
+          </Animated.View>
         </View>
 
         <View className="flex-1" />

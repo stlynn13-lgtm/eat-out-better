@@ -64,6 +64,19 @@ export default function WelcomeScreen() {
         <Text className="text-xs text-gray-400 text-center mt-4">
           Not medical advice — always consult your doctor.
         </Text>
+
+        {/* Footer entry points (per Figma welcome design) */}
+        <View className="flex-row items-center justify-center gap-3 mt-6">
+          <TouchableOpacity onPress={() => router.push("/privacy")}>
+            <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
+          <TouchableOpacity onPress={() => router.push("/how-it-works")}>
+            <Text className="text-xs text-gray-700 font-medium">
+              How it works →
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

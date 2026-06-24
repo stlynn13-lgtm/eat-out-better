@@ -10,8 +10,9 @@
 - **Routing:** expo-router (file-based, lives in `apps/mobile/app/`)
 - **Styling:** NativeWind v4 (Tailwind for React Native)
 - **State:** Zustand
-- **Backend/DB:** Supabase — Postgres + auth + storage, managed
+- **Backend/API:** Next.js API at `apps/api`, deployed on Vercel (`https://eat-out-better-api.vercel.app`) — receives menu images/text and calls the Claude API
 - **AI Analysis:** Claude API — Haiku for cost efficiency, Sonnet for quality-critical calls
+- **Future (V1, not yet implemented):** Supabase (Postgres + auth + storage) for accounts/history — deferred until after the no-account MVP is validated
 - **V1 session storage:** AsyncStorage (no account required)
 - **Monorepo:** npm workspaces — `apps/mobile` + `packages/shared`
 
@@ -24,17 +25,16 @@ npx expo run:ios   # generates ios/, installs Pods, builds, runs on simulator
 ```
 The `ios/` folder is gitignored — it's generated automatically by Expo prebuild. Do not commit it.
 
-## Google Drive Workspace
-All documentation lives in Google Drive. Project folder (source of truth):
+## Documentation Sources
+- **Source of truth for code, config, and in-repo docs:** this repository (`CLAUDE.md`, `ARCHITECTURE.md`, `backlog.md`, `CHANGELOG.md`, `V0-launch-checklist.md`).
+- **Google Drive** holds design assets, PRDs, and brainstorm docs:
+  - Project folder: https://drive.google.com/drive/project/1w64UTHj8fF50nvfLySNTy9Rl-gnHxTlC?usp=sharing
+  - Assets (logo, privacy policy): https://drive.google.com/drive/folders/1nbCptkmHQjzNGKgeUjYR92VVnA1XtbA9
 
-| Resource | URL |
-|----------|-----|
-| **Project Folder** | https://drive.google.com/drive/project/1w64UTHj8fF50nvfLySNTy9Rl-gnHxTlC?usp=sharing |
-
-Always reference this Google Drive project for specs, PRDs, roadmap, architecture decisions, competitive research, and brainstorm docs. Use the Google Drive MCP tools (`mcp__247ec016-17f2-476c-97d4-91ee74017aad__*`) to read and update documents. Do not reference or write to Notion.
+**Tooling caveat:** the Google Drive / Figma MCP integrations are only available in **Claude Cowork (desktop)** sessions. In **Claude Code (CLI)** sessions there is *no* Drive or Figma MCP — assets must be downloaded locally (e.g. `~/Downloads/eob-assets/`) or shared by link, and Figma **Make** files are not readable via the Figma REST API (export the code or screenshots instead). Do not reference or write to Notion.
 
 ## Backlog
-Feature backlog with RICE scores lives at: `/Users/sean/Documents/Claude/Projects/Eat Out Better/backlog.md`
+Feature backlog with RICE scores lives in this repo at `backlog.md` (root).
 Reference this before suggesting new features. Add new ideas here before building them.
 
 ## Skills to Use (Already Installed)
@@ -60,11 +60,22 @@ Sean is a Senior PM building his first app. He's learning as he goes on the engi
 - Track pending tasks Sean has expressed intent to do (write-spec, competitive brief, etc.)
 
 ## Pending Actions
-- [ ] Build the API (`POST /api/analyze`) — this is the critical path, nothing works without it
-- [ ] Set up EAS build for TestFlight distribution (`eas build --platform ios`)
-- [ ] Replace placeholder app icon with real brand asset
+- [ ] Build the API (`POST /api/analyze`) — `apps/api` exists and is configured at `https://eat-out-better-api.vercel.app`; verify the endpoint is live and complete
+- [x] Set up EAS build for TestFlight distribution — `apps/mobile/eas.json` present with iOS build/submit profiles
+- [ ] Replace placeholder app icon with real brand asset — **in progress (v1.1.0)**
 - [ ] Run `product-management:write-spec` for v1 MVP feature
 - [ ] Run `product-management:competitive-brief` for the dietary restriction app landscape
+
+### v1.1.0 release
+- [x] App logo (1024×1024) → `apps/mobile/assets/icon.png`
+- [x] Remove white square in camera view (`app/capture.tsx`)
+- [x] Native pinch-to-zoom + zoom pills in camera (expo-camera `zoom` + gesture-handler)
+- [x] 12-photo-per-scan limit + UI messaging (per Figma)
+- [x] Rotating "fun facts" on processing screen (8s auto-cycle, cross-fade)
+- [x] Privacy policy screen + entry point — DRAFT copy; needs final text + hosted URL
+- [x] "How it works" slide-up
+- [ ] Bug fixes — **no list provided yet**
+- [x] Version bump → 1.1.0 / buildNumber 2 + CHANGELOG
 
 ## Context Window & Token Management
 - If this conversation exceeds ~80 messages or feels slow, ask Claude to summarize the session into a markdown file and start a new conversation
