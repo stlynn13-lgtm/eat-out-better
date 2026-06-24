@@ -4,6 +4,17 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ---
 
+## 2026-06-24 — v1.1.0 (build 4): fix stuck state after backgrounding
+
+**What shipped:**
+- **Fixed the app getting permanently stuck after returning from the background mid-upload (EAT-5).** When iOS suspended the app during the menu-analysis network call, the in-flight request hung forever — the processing screen never advanced and the Analyze button stayed locked. Now an `AppState` listener detects the foreground transition, aborts the dead request, and retries once with a fresh request (restarting the progress bar). If the retry also fails, the user gets a clear network-error alert instead of a frozen screen. (Merged via PR #2.)
+
+**Versioning:** iOS `buildNumber 3 → 4` (in `app.config.ts`). App version stays `1.1.0`.
+
+**Note:** build 3 (`final privacy policy text + submit appleId`) was cut and submitted to Apple before this fix landed, so it is not documented above; build 4 is the first build to carry the EAT-5 fix.
+
+---
+
 ## 2026-06-23 — v1.1.0: product-improvement release (build 2)
 
 **What shipped:**
