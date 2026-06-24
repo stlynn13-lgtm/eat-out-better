@@ -1,6 +1,6 @@
 {
   "name": "@eat-out-better/mobile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "main": "index.ts",
   "scripts": {

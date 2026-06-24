@@ -66,16 +66,16 @@ Sean is a Senior PM building his first app. He's learning as he goes on the engi
 - [ ] Run `product-management:write-spec` for v1 MVP feature
 - [ ] Run `product-management:competitive-brief` for the dietary restriction app landscape
 
-### v1.1.0 release (in progress)
-- [ ] App logo (1024×1024) → `apps/mobile/assets/icon.png`
-- [ ] Remove white square in camera view (`app/capture.tsx`)
-- [ ] Native pinch-to-zoom in camera (expo-camera `zoom` + gesture-handler)
-- [ ] 12-photo-per-scan limit + UI messaging (per Figma)
-- [ ] Rotating "fun facts" on processing screen (8s auto-cycle)
-- [ ] Privacy policy screen + entry point
-- [ ] "How it works" slide-up
-- [ ] Bug fixes (list TBD)
-- [ ] Version bump → 1.1.0 / buildNumber 2 + CHANGELOG
+### v1.1.0 release
+- [x] App logo (1024×1024) → `apps/mobile/assets/icon.png`
+- [x] Remove white square in camera view (`app/capture.tsx`)
+- [x] Native pinch-to-zoom + zoom pills in camera (expo-camera `zoom` + gesture-handler)
+- [x] 12-photo-per-scan limit + UI messaging (per Figma)
+- [x] Rotating "fun facts" on processing screen (8s auto-cycle, cross-fade)
+- [x] Privacy policy screen + entry point — DRAFT copy; needs final text + hosted URL
+- [x] "How it works" slide-up
+- [ ] Bug fixes — **no list provided yet**
+- [x] Version bump → 1.1.0 / buildNumber 2 + CHANGELOG
 
 ## Context Window & Token Management
 - If this conversation exceeds ~80 messages or feels slow, ask Claude to summarize the session into a markdown file and start a new conversation
