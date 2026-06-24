@@ -1,4 +1,5 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { AppState, type AppStateStatus } from "react-native";
 import { useRouter } from "expo-router";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import { compressImageUri } from "../lib/utils/image";
@@ -10,10 +11,42 @@ import Constants from "expo-constants";
 const API_URL = Constants.expoConfig?.extra?.apiUrl ?? "http://localhost:3000";
 const ANALYSIS_API = `${API_URL}/api/analyze`;
 
+// We retry the analysis request at most once. The retry is event-driven, not
+// timer-based: iOS suspends the in-flight fetch when the app is backgrounded,
+// so the network promise can hang indefinitely. When the app returns to the
+// foreground we abort the (now-dead) request, which rejects the fetch and lets
+// the catch logic re-issue it. A genuine network rejection triggers the same
+// retry path.
+const MAX_RETRIES = 1;
+
 export function useAnalysis() {
   const router = useRouter();
   const store = useAnalysisStore();
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Lets the AppState listener abort and re-issue the in-flight analysis fetch.
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const requestInFlightRef = useRef(false);
+  const attemptRef = useRef(0);
+
+  // When iOS brings the app back to the foreground while a request is still
+  // in-flight (and we haven't already retried), the suspended fetch will never
+  // resolve. Abort it so the catch logic re-issues a fresh request.
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      "change",
+      (nextState: AppStateStatus) => {
+        if (
+          nextState === "active" &&
+          requestInFlightRef.current &&
+          attemptRef.current <= MAX_RETRIES
+        ) {
+          abortControllerRef.current?.abort();
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, []);
 
   const startProgressSimulation = useCallback(
     (from: number, to: number, durationMs: number, message: string) => {
@@ -76,15 +109,51 @@ export function useAnalysis() {
           healthCondition: DEFAULT_CONDITION,
         };
 
-        const response = await fetch(ANALYSIS_API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        });
+        // Issue the request, retrying once if the in-flight fetch is aborted
+        // (e.g. backgrounded by iOS) or genuinely rejects. Each attempt gets a
+        // fresh AbortController; the progress simulation is restarted on retry
+        // so the bar doesn't sit frozen.
+        let response: Response | undefined;
+        attemptRef.current = 0;
+        requestInFlightRef.current = true;
 
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          const controller = new AbortController();
+          abortControllerRef.current = controller;
+          try {
+            response = await fetch(ANALYSIS_API, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(requestBody),
+              signal: controller.signal,
+            });
+            break;
+          } catch (fetchError) {
+            if (attemptRef.current >= MAX_RETRIES) {
+              throw fetchError;
+            }
+            attemptRef.current += 1;
+            startProgressSimulation(
+              10,
+              88,
+              28_000,
+              imageUris.length > 1
+                ? `Reading ${imageUris.length} menu pages…`
+                : "Reading your menu…"
+            );
+          }
+        }
+
+        requestInFlightRef.current = false;
+        abortControllerRef.current = null;
         stopProgressSimulation();
         store.setStatus("ranking");
         store.setProgress(92, "Finalizing results…");
+
+        if (!response) {
+          throw new Error("API error: no response");
+        }
 
         if (!response.ok) {
           throw new Error(`API error: ${response.status} ${response.statusText}`);
@@ -115,6 +184,8 @@ export function useAnalysis() {
         await saveSession(json.data);
         router.push("/results");
       } catch (error) {
+        requestInFlightRef.current = false;
+        abortControllerRef.current = null;
         stopProgressSimulation();
         store.setError({
           code: "NETWORK_ERROR",
