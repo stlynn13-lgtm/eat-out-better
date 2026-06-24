@@ -14,7 +14,7 @@ import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 
-const MAX_PHOTOS = 10;
+const MAX_PHOTOS = 12;
 
 export default function CaptureScreen() {
   const router = useRouter();
@@ -178,9 +178,14 @@ export default function CaptureScreen() {
 
         {localPhotos.length > 0 && (
           <View className="mt-4">
-            <Text className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wider">
-              Added photos
-            </Text>
+            <View className="flex-row items-center justify-between mb-2">
+              <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Added photos
+              </Text>
+              <Text className="text-xs font-semibold text-green-700">
+                {localPhotos.length} / {MAX_PHOTOS}
+              </Text>
+            </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View className="flex-row gap-2">
                 {localPhotos.map((uri, i) => (
@@ -208,6 +213,11 @@ export default function CaptureScreen() {
                 )}
               </View>
             </ScrollView>
+            <Text className="text-xs text-gray-400 mt-2">
+              {localPhotos.length >= MAX_PHOTOS
+                ? `Maximum of ${MAX_PHOTOS} photos reached`
+                : `Up to ${MAX_PHOTOS} photos per scan`}
+            </Text>
           </View>
         )}
 
