@@ -24,11 +24,31 @@ export default function CaptureScreen() {
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Native camera zoom (expo-camera `zoom` is 0..1). Driven by a pinch
-  // gesture running on the JS thread (no Reanimated worklet dependency).
+  // Native camera zoom (expo-camera `zoom` is 0..1). Two ways in, like the iOS
+  // camera: tappable level pills and a pinch gesture. Pinch runs on the JS
+  // thread (runOnJS) so it needs no Reanimated worklet/babel plugin.
+  //
+  // NOTE: expo-camera's `zoom` (0..1) does not map linearly to optical "x"
+  // magnification, and 0.5x (ultra-wide) needs a lens the SDK doesn't expose
+  // via this prop. The preset values below are sensible defaults and should be
+  // calibrated on a real device.
+  const ZOOM_LEVELS = [
+    { label: "0.5×", value: 0 },
+    { label: "1×", value: 0 },
+    { label: "2×", value: 0.02 },
+    { label: "3×", value: 0.04 },
+  ] as const;
+
   const [zoom, setZoom] = useState(0);
+  const [activeZoomLabel, setActiveZoomLabel] = useState<string | null>("1×");
   const zoomRef = useRef(0);
   const zoomStartRef = useRef(0);
+
+  const selectZoomLevel = useCallback((value: number, label: string) => {
+    zoomRef.current = value;
+    setZoom(value);
+    setActiveZoomLabel(label);
+  }, []);
 
   const pinchGesture = useRef(
     Gesture.Pinch()
@@ -38,13 +58,13 @@ export default function CaptureScreen() {
       })
       .onUpdate((event) => {
         // event.scale: 1 = unchanged, >1 zoom in, <1 zoom out.
-        // Scale the gesture delta down so zoom is gradual and controllable.
         const next = Math.min(
           Math.max(zoomStartRef.current + (event.scale - 1) * 0.25, 0),
           1
         );
         zoomRef.current = next;
         setZoom(next);
+        setActiveZoomLabel(null); // pinch = custom zoom, no preset highlighted
       })
   ).current;
 
@@ -122,8 +142,8 @@ export default function CaptureScreen() {
                 facing={facing}
                 zoom={zoom}
               >
-                {/* Zoom feedback: live % when zoomed, hint otherwise */}
-                {zoom > 0.001 ? (
+                {/* Custom (pinch) zoom feedback */}
+                {activeZoomLabel === null && zoom > 0.001 && (
                   <View
                     className="absolute top-2 right-2 rounded-full px-2 py-0.5"
                     style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
@@ -132,17 +152,36 @@ export default function CaptureScreen() {
                       {Math.round(zoom * 100)}%
                     </Text>
                   </View>
-                ) : (
-                  <View className="absolute top-2 left-0 right-0 items-center">
-                    <View
-                      className="rounded-full px-3 py-0.5"
-                      style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                    >
-                      <Text className="text-white text-xs">Pinch to zoom</Text>
-                    </View>
-                  </View>
                 )}
+
                 <View className="flex-1" />
+
+                {/* Tappable zoom level pills (pinch also drives zoom) */}
+                <View className="flex-row justify-center gap-2 mb-3">
+                  {ZOOM_LEVELS.map((lvl) => {
+                    const active = activeZoomLabel === lvl.label;
+                    return (
+                      <TouchableOpacity
+                        key={lvl.label}
+                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                        className="px-3 py-1 rounded-full"
+                        style={{
+                          backgroundColor: active
+                            ? "rgba(255,255,255,0.95)"
+                            : "rgba(0,0,0,0.45)",
+                        }}
+                      >
+                        <Text
+                          className="text-xs font-semibold"
+                          style={{ color: active ? "#111827" : "#ffffff" }}
+                        >
+                          {lvl.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+
                 <View className="items-center pb-4">
                   <TouchableOpacity
                     className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
