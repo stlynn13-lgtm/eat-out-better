@@ -91,7 +91,7 @@
 
 ## Phase 3 — Push Code to GitHub
 
-- [ ] **3.1 Initialize git and push to your new repo**
+- [x] **3.1 Initialize git and push to your new repo** — ✅ Done. Repo is live on `main` with commit history.
   ```bash
   cd ~/Documents/Claude/Projects/Eat\ Out\ Better
   git init
@@ -102,7 +102,7 @@
   git push -u origin main
   ```
 
-- [ ] **3.2 Verify repo is visible at** https://github.com/stlynn13-lgtm/eat-out-better
+- [x] **3.2 Verify repo is visible at** https://github.com/stlynn13-lgtm/eat-out-better — ✅ confirmed
 
 ---
 
@@ -131,11 +131,7 @@ The API (`apps/api`) is a Next.js app that your mobile app calls. It lives on Ve
   → You'll get a URL like: `https://eat-out-better-api.vercel.app`  
   → Test it: visit `https://your-vercel-url/api/health` — should return `{ status: "ok" }`
 
-- [ ] **4.4 Update mobile app to point to your Vercel URL**
-  ```
-  Open: apps/mobile/lib/config.ts (or wherever API_URL is set)
-  Update PRODUCTION_API_URL to your Vercel deployment URL
-  ```
+- [x] **4.4 Update mobile app to point to your Vercel URL** — ✅ The API URL lives in **`apps/mobile/app.config.ts`** under `extra.apiUrl` (currently `https://eat-out-better-api.vercel.app`, overridable via the `API_URL` env var). There is no `lib/config.ts`.
 
 ---
 
@@ -270,6 +266,8 @@ Once everything above is done, this is your ongoing workflow:
 
 ## What I Still Need to Confirm
 
-- [ ] Where exactly is the `API_URL` constant set in `apps/mobile/`? (I'll check when you're ready to do Phase 4.4)
-- [ ] Does `apps/api/.env.local.example` exist? (Will check in next session)
-- [ ] Does `eas.json` already exist in the project? (Will check in next session)
+- [x] Where exactly is the `API_URL` constant set in `apps/mobile/`? — **Resolved:** `apps/mobile/app.config.ts` → `extra.apiUrl`.
+- [ ] Does `apps/api/.env.local.example` exist? (verify)
+- [x] Does `eas.json` already exist in the project? — **Yes**, at `apps/mobile/eas.json` (dev/preview/production iOS profiles + production submit config).
+
+> **Status note (2026-06-23):** Phases 1–4 are effectively complete (accounts, repo on GitHub, API on Vercel, mobile pointed at it). Current work is the **v1.1.0** product-improvement release (logo, camera zoom, 12-photo limit, fun facts, privacy policy, "how it works", bug fixes) on branch `release/v1.1.0`. EAS build/submit (Phases 5–6) remains the path to TestFlight.

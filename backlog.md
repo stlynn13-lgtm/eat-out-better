@@ -8,6 +8,25 @@
 
 > Assumptions baked in: Users are motivated by *knowledge and empowerment*, not guilt. They will make their own final call — our job is to reduce uncertainty and give them a better starting point. "Least-bad option" is a real and valuable outcome.
 
+**Platform note (updated 2026-06-23):** This backlog was first written during the web-prototype phase. The product is now a **native iOS app** (Expo SDK 56 / React Native). Language below referring to "browser local storage" or "mobile-responsive web" maps to the native equivalents (AsyncStorage, native screens), and item #16 ("Native mobile app") is effectively **shipped** — it's the current platform, not a future bet.
+
+---
+
+## 🚀 v1.1.0 — In Progress (current release)
+
+Product-improvement release on branch `release/v1.1.0`. These are **committed scope**, not RICE-ranked candidates:
+
+| # | Improvement | What / Why |
+|---|-------------|------------|
+| A | App logo (1024×1024) | Real brand icon for App Store + home screen; replaces placeholder. Store submission requirement. |
+| B | Remove camera white square | Stray overlay reads as a bug; restores clean full-frame capture. |
+| C | Native pinch-to-zoom | Sharper menu photos (small print, across a table) → better OCR/analysis, fewer retakes. |
+| D | 12-photo-per-scan limit | Caps cost/latency/quality degradation; limit communicated clearly in UI per Figma. |
+| E | Rotating "fun facts" (processing screen) | Auto-cycles every 8s; makes the wait feel productive and reinforces the health mission. |
+| F | Privacy policy + in-app entry point | Trust + App Store requirement for handling camera/photo data. |
+| G | "How it works" slide-up | Surfaces the reasoning behind scores → builds trust vs. a black-box verdict. |
+| H | Bug fixes | Stability is the retention baseline (specific list TBD). |
+
 ---
 
 ## 🔴 P0 — MVP (Build First)
@@ -66,4 +85,4 @@ All RICE scores assume:
 - **Core motivation:** reduce anxiety and guesswork when eating out, not to be perfect
 - **Key insight:** users don't need the "best" option — they need a *defensible* option they feel good about choosing. The job is confidence, not perfection.
 
-*Last updated: 2026-05-20*
+*Last updated: 2026-06-23 (added v1.1.0 release scope + native-platform note; RICE tables below unchanged from 2026-05-20)*
