@@ -3,6 +3,7 @@ import { AppState, type AppStateStatus } from "react-native";
 import { useRouter } from "expo-router";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import { compressImageUri } from "../lib/utils/image";
+import { hasMenuText } from "../lib/utils/menuTextCheck";
 import { saveSession } from "../lib/storage/session";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
@@ -80,6 +81,21 @@ export function useAnalysis() {
     async (imageUris: string[]) => {
       if (imageUris.length === 0) return;
 
+      // On-device pre-check: if the photo(s) contain essentially no text, it
+      // isn't a menu — warn and skip the API entirely (no upload, no LLM cost).
+      // We run this BEFORE navigating to /processing, so we're still on the
+      // capture screen and its alert effect surfaces the warning reliably (no
+      // navigation race). Anything with text falls through to the API, which
+      // makes the precise menu/not-menu call.
+      const { hasText } = await hasMenuText(imageUris);
+      if (!hasText) {
+        store.setError({
+          code: "NOT_A_MENU",
+          message: "That doesn't look like a menu. Try snapping the menu itself.",
+        });
+        return;
+      }
+
       store.setStatus("uploading");
       store.setProgress(0, "Preparing your photos…");
 
@@ -155,27 +171,39 @@ export function useAnalysis() {
           throw new Error("API error: no response");
         }
 
-        if (!response.ok) {
+        // Parse the body even on non-2xx: the API returns structured errors
+        // (e.g. NOT_A_MENU / OCR_EMPTY at HTTP 422) that we want to surface with
+        // their specific code and message rather than a generic network error.
+        let json: AnalyzeResponse | undefined;
+        try {
+          json = (await response.json()) as AnalyzeResponse;
+        } catch {
+          json = undefined;
+        }
+        stopProgressSimulation();
+
+        if (!json) {
           throw new Error(`API error: ${response.status} ${response.statusText}`);
         }
 
-        const json: AnalyzeResponse = await response.json();
-        stopProgressSimulation();
-
+        // Navigation back to /capture is owned solely by processing.tsx's
+        // `status === "error"` effect (via router.replace). We only set the
+        // error here — pushing /capture from here too caused a double-navigation
+        // race that swallowed the alert (EAT-6).
         if (!json.success || !json.data) {
+          // The API's NOT_A_MENU / OCR_EMPTY messages are already user-friendly
+          // and distinct, so we surface them as-is. Fall back only if absent.
           store.setError(
             json.error ?? { code: "UNKNOWN", message: "An unexpected error occurred." }
           );
-          router.push("/capture");
           return;
         }
 
         if (json.data.dishCount === 0) {
           store.setError({
             code: "OCR_EMPTY",
-            message: "We couldn't read any dishes from your photo. Try again with better lighting.",
+            message: "We couldn't read any dishes. Try again with better lighting.",
           });
-          router.push("/capture");
           return;
         }
 
@@ -191,7 +219,7 @@ export function useAnalysis() {
           code: "NETWORK_ERROR",
           message: error instanceof Error ? error.message : "An unexpected error occurred.",
         });
-        router.push("/capture");
+        // Navigation handled by processing.tsx's error effect (see above).
       }
     },
     [store, router, startProgressSimulation, stopProgressSimulation]

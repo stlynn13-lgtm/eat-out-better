@@ -30,6 +30,7 @@ export type AnalysisStatus =
 
 export type AnalysisErrorCode =
   | "OCR_EMPTY"
+  | "NOT_A_MENU"
   | "CLAUDE_ERROR"
   | "INVALID_IMAGE"
   | "RATE_LIMIT"
