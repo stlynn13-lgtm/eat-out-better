@@ -56,9 +56,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   try {
     // Step 1: OCR — extract dishes from all images
-    let rawDishes;
+    let ocrResult;
     try {
-      rawDishes = await extractDishesFromImages(images);
+      ocrResult = await extractDishesFromImages(images);
     } catch (error) {
       console.error("[/api/analyze] OCR failed:", error);
       const message = error instanceof Error ? error.message : "OCR failed";
@@ -74,17 +74,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return errorResponse("CLAUDE_ERROR", message, 500);
     }
 
-    // Handle empty OCR result (no dishes found)
+    const { isMenu, dishes: rawDishes } = ocrResult;
+
+    // The image didn't look like a menu at all — distinct from "a menu we
+    // couldn't read". HTTP 422 (Unprocessable Entity): valid request, but the
+    // content can't be analyzed.
+    if (!isMenu) {
+      return errorResponse(
+        "NOT_A_MENU",
+        "That doesn't look like a menu. Try snapping the menu itself.",
+        422
+      );
+    }
+
+    // Looked like a menu but we couldn't read any dishes (poor lighting, blur).
     if (rawDishes.length === 0) {
-      return successResponse({
-        id: uuidv4(),
-        dishes: [],
-        rawDishes: [],
-        dishCount: 0,
-        processingTimeMs: Date.now() - startTime,
-        healthCondition,
-        createdAt: new Date().toISOString(),
-      });
+      return errorResponse(
+        "OCR_EMPTY",
+        "We couldn't read any dishes. Try again with better lighting.",
+        422
+      );
     }
 
     // Step 2: Rank dishes
