@@ -66,3 +66,6 @@ yarn-error.log*
 
 # Vercel
 .vercel
+
+# Claude Code harness worktrees (agent scratch space — not source)
+.claude/worktrees/
