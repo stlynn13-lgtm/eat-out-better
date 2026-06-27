@@ -4,6 +4,13 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ---
 
+## [Unreleased]
+
+### Added
+- On-device iOS text-detection pre-check (Apple Vision) that rejects photos with no meaningful text before uploading for analysis, avoiding an unnecessary Claude API call.
+
+---
+
 ## 2026-06-23 — v1.1.0: product-improvement release (build 2)
 
 **What shipped:**
