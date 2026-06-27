@@ -7,6 +7,7 @@ import { saveSession } from "../lib/storage/session";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
 import Constants from "expo-constants";
+import { scanHasMeaningfulText } from "../modules/menu-text-detector";
 
 const API_URL = Constants.expoConfig?.extra?.apiUrl ?? "http://localhost:3000";
 const ANALYSIS_API = `${API_URL}/api/analyze`;
@@ -79,6 +80,19 @@ export function useAnalysis() {
   const startAnalysis = useCallback(
     async (imageUris: string[]) => {
       if (imageUris.length === 0) return;
+
+      // On-device text pre-check (iOS only). Reject obvious non-text photos
+      // (a dog, a wall, a face) before spending an upload + Claude round-trip.
+      // Fail-open: any detection error lets the scan proceed to the server.
+      const precheck = await scanHasMeaningfulText(imageUris);
+      if (!precheck.hasText) {
+        store.setError({
+          code: "NO_TEXT_DETECTED",
+          message:
+            "We couldn't find any text in this photo. Make sure you're capturing a menu in good lighting.",
+        });
+        return;
+      }
 
       store.setStatus("uploading");
       store.setProgress(0, "Preparing your photos…");

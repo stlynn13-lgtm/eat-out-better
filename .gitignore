@@ -17,6 +17,10 @@ ios/
 android/
 *.orig.*
 
+# Keep the on-device text-detector Expo module's iOS source (not generated)
+!apps/mobile/modules/menu-text-detector/ios/
+!apps/mobile/modules/menu-text-detector/ios/**
+
 # EAS Build
 .eas/
 
