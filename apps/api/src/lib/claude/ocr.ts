@@ -18,20 +18,35 @@ const MAX_IMAGES = 10;
 const OCR_TIMEOUT_MS = 30_000;
 const OCR_MAX_TOKENS = 2_048;
 
+/**
+ * Result of the OCR step.
+ * - `isMenu`: did the image(s) look like a restaurant menu at all? Used by the
+ *   caller to distinguish "not a menu" (NOT_A_MENU) from "menu but unreadable"
+ *   (OCR_EMPTY). Aggregated across pages: true if ANY page looked like a menu.
+ * - `dishes`: merged, deduplicated dishes extracted across all pages.
+ */
+export interface OcrResult {
+  isMenu: boolean;
+  dishes: ExtractedDish[];
+}
+
 // -----------------------------------------------------------
 // Public API
 // -----------------------------------------------------------
 
 /**
  * Extracts dishes from one or more base64-encoded menu images.
- * Returns an empty array if no dishes are found (not an error — triggers OCR_EMPTY in the caller).
+ *
+ * Returns `{ isMenu, dishes }`. The caller uses this to distinguish:
+ * - `isMenu: false` → NOT_A_MENU (the photo isn't a menu)
+ * - `isMenu: true, dishes: []` → OCR_EMPTY (a menu, but nothing readable)
  *
  * @param base64Images - Array of base64-encoded JPEG strings (not data URIs)
- * @returns Merged, deduplicated list of extracted dishes
+ * @returns Aggregated menu flag plus merged, deduplicated dishes
  */
 export async function extractDishesFromImages(
   base64Images: string[]
-): Promise<ExtractedDish[]> {
+): Promise<OcrResult> {
   if (base64Images.length === 0) {
     throw new Error("At least one image is required for OCR");
   }
@@ -48,10 +63,14 @@ export async function extractDishesFromImages(
   // Collect successful results; log failures
   const allDishes: ExtractedDish[] = [];
   let failureCount = 0;
+  // Aggregate across pages: treat the upload as a menu if ANY page looked like
+  // one. A multi-page menu with a blank/odd page shouldn't be rejected.
+  let anyMenu = false;
 
   for (const result of perImageResults) {
     if (result.status === "fulfilled") {
-      allDishes.push(...result.value);
+      if (result.value.isMenu) anyMenu = true;
+      allDishes.push(...result.value.dishes);
     } else {
       failureCount++;
       console.error("[OCR] Image extraction failed:", result.reason);
@@ -65,7 +84,7 @@ export async function extractDishesFromImages(
     );
   }
 
-  return deduplicateDishes(allDishes);
+  return { isMenu: anyMenu, dishes: deduplicateDishes(allDishes) };
 }
 
 // -----------------------------------------------------------
@@ -75,7 +94,7 @@ export async function extractDishesFromImages(
 async function extractFromSingleImage(
   base64: string,
   imageIndex: number
-): Promise<ExtractedDish[]> {
+): Promise<OcrResult> {
   const client = getAnthropicClient();
 
   let rawText: string;
@@ -128,8 +147,13 @@ async function extractFromSingleImage(
 /**
  * Parses the JSON response from the OCR step.
  * Strips markdown code fences if Claude adds them despite instructions.
+ *
+ * Handles two shapes defensively:
+ *   - New: {"isMenu": boolean, "dishes": [...]}
+ *   - Legacy: [...] (a bare array) — assumed to be a menu (isMenu: true) for
+ *     backward compatibility, so an old-shaped response never false-rejects.
  */
-function parseOcrResponse(rawText: string, imageIndex: number): ExtractedDish[] {
+function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
   // Strip markdown code fences (Claude sometimes adds them despite instructions)
   const cleaned = rawText
     .replace(/^```(?:json)?\s*/i, "")
@@ -144,24 +168,43 @@ function parseOcrResponse(rawText: string, imageIndex: number): ExtractedDish[] 
       `[OCR] Failed to parse JSON for image ${imageIndex + 1}:`,
       cleaned.slice(0, 200)
     );
-    return []; // Return empty rather than throwing — other images may succeed
+    // Couldn't parse — don't assume "not a menu"; let other images decide.
+    return { isMenu: false, dishes: [] };
   }
 
-  if (!Array.isArray(parsed)) {
-    console.error(
-      `[OCR] Expected array for image ${imageIndex + 1}, got:`,
-      typeof parsed
-    );
-    return [];
+  // New shape: { isMenu, dishes }
+  if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+    const obj = parsed as { isMenu?: unknown; dishes?: unknown };
+    const rawDishes = Array.isArray(obj.dishes) ? obj.dishes : [];
+    const dishes = sanitizeDishes(rawDishes);
+    // Default isMenu sensibly: if the model omitted the flag but found dishes,
+    // treat it as a menu rather than rejecting a real one.
+    const isMenu =
+      typeof obj.isMenu === "boolean" ? obj.isMenu : dishes.length > 0;
+    return { isMenu, dishes };
   }
 
-  return parsed
+  // Legacy shape: bare array. Assume it's a menu for backward compatibility.
+  if (Array.isArray(parsed)) {
+    return { isMenu: true, dishes: sanitizeDishes(parsed) };
+  }
+
+  console.error(
+    `[OCR] Unexpected JSON shape for image ${imageIndex + 1}, got:`,
+    typeof parsed
+  );
+  return { isMenu: false, dishes: [] };
+}
+
+/** Coerces a raw parsed array into validated ExtractedDish records. */
+function sanitizeDishes(raw: unknown[]): ExtractedDish[] {
+  return raw
     .filter(
       (item): item is { name: string; description?: string } =>
-        item &&
+        !!item &&
         typeof item === "object" &&
-        typeof item.name === "string" &&
-        item.name.trim().length > 0
+        typeof (item as { name?: unknown }).name === "string" &&
+        (item as { name: string }).name.trim().length > 0
     )
     .map((item) => ({
       name: item.name.trim(),
