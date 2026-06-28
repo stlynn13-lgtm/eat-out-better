@@ -2,12 +2,20 @@ import { useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from "uuid";
+import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import type { RankedDish } from "@eat-out-better/shared";
 import { getTier, formatScore } from "@eat-out-better/shared";
+import {
+  getCurrentScanSessionId,
+  setCurrentScanSessionId,
+  trackNewScanInitiated,
+} from "../lib/analytics";
 
 export default function ResultsScreen() {
   const router = useRouter();
+  const posthog = usePostHog();
   const { results, session, status, error, reset } = useAnalysisStore();
 
   useEffect(() => {
@@ -88,7 +96,14 @@ export default function ResultsScreen() {
       >
         <TouchableOpacity
           className="w-full border-2 border-gray-300 rounded-xl py-4 items-center"
-          onPress={() => { reset(); router.push("/capture"); }}
+          onPress={() => {
+            const previousSessionId = getCurrentScanSessionId() ?? "";
+            const newSessionId = uuidv4();
+            setCurrentScanSessionId(newSessionId);
+            if (posthog) trackNewScanInitiated(posthog, previousSessionId, newSessionId);
+            reset();
+            router.push(`/capture?entry=loop_back&sid=${newSessionId}`);
+          }}
           activeOpacity={0.8}
         >
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>

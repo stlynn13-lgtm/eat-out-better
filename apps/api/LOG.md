@@ -1,4 +1,4 @@
-# apps/api — Log
+# Eat Out Better — Log
 
 ## 2026-06-09
 
@@ -28,3 +28,33 @@ Stripped `apps/api` down to API-only. Deleted all web UI code left over from the
 - `ANTHROPIC_API_KEY` still needs to be added to Vercel environment variables before the deployed API will work
 - Mobile `API_URL` env var needs to point at the live Vercel URL once deployed (currently defaults to `localhost:3000`)
 - EAS build for TestFlight not yet set up
+
+---
+
+## 2026-06-28
+
+### What I did
+Instrumented all 6 P0 PostHog analytics events (menu scan funnel) + P1 session linking.
+
+**Added:**
+- `apps/mobile/lib/analytics.ts` — typed event capture helpers, module-level scan session ID tracking
+- `posthog-react-native` SDK installed, `PostHogProvider` wrapped in `app/_layout.tsx`
+
+**Instrumented:**
+- `menu_scan_started` → `capture.tsx` on screen mount; includes `entry_point` (cold_start vs loop_back) and `scan_session_id`
+- `menu_photo_captured` → `capture.tsx` on camera capture and gallery pick; fires once per photo with running `photo_count`
+- `menu_analyze_clicked` → `capture.tsx` `handleAnalyze`; passes `scan_session_id` and `startedAt` into `useAnalysis`
+- `menu_analysis_completed` → `useAnalysis.ts` success path; includes `dish_count` and `analysis_duration_seconds`
+- `menu_analysis_failed` → `useAnalysis.ts` all failure paths (API error, OCR empty, network error); includes `error_type` from actual error codes
+- `new_scan_initiated` → `results.tsx` "Analyze New Menu" button; carries `previous_scan_session_id` and `new_scan_session_id`, navigates with `entry=loop_back&sid=<newId>` so capture picks up the right session
+
+**Build bumped:** 3 → 4
+
+### Decisions made
+- Session ID generated in capture's `useEffect`, passed via nav params to results→capture loop so both `new_scan_initiated` and the next `menu_scan_started` share the same new session ID
+- `error_type` taxonomy derived from actual code (not guessed): `NETWORK_ERROR`, `RATE_LIMIT`, `CLAUDE_ERROR`, `OCR_EMPTY`, `UNKNOWN`
+- PostHog host: `https://us.i.posthog.com`
+
+### Open questions
+- QA: verify each event fires exactly once (esp. photo capture and failure paths)
+- PostHog API key is hardcoded in `lib/analytics.ts` — should move to env var before public release

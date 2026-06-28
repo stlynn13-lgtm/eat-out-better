@@ -7,19 +7,29 @@ import {
   Image,
   Alert,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { CameraView } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import { v4 as uuidv4 } from "uuid";
+import { usePostHog } from "posthog-react-native";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
+import {
+  setCurrentScanSessionId,
+  trackMenuScanStarted,
+  trackMenuPhotoCaptured,
+  trackMenuAnalyzeClicked,
+} from "../lib/analytics";
 
 const MAX_PHOTOS = 12;
 
 export default function CaptureScreen() {
   const router = useRouter();
+  const { entry, sid } = useLocalSearchParams<{ entry?: string; sid?: string }>();
+  const posthog = usePostHog();
   const { status, cameraRef, requestPermission, capturePhoto, facing } = useCamera();
   const { startAnalysis } = useAnalysis();
   const analysisError = useAnalysisStore((s) => s.error);
@@ -27,6 +37,18 @@ export default function CaptureScreen() {
 
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const scanSessionIdRef = useRef<string>("");
+
+  // Fire menu_scan_started once on mount. Re-uses the session ID passed from
+  // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
+  useEffect(() => {
+    const sessionId = sid ?? uuidv4();
+    scanSessionIdRef.current = sessionId;
+    setCurrentScanSessionId(sessionId);
+    const entryPoint = entry === "loop_back" ? "loop_back" : "cold_start";
+    if (posthog) trackMenuScanStarted(posthog, sessionId, entryPoint);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Native camera zoom (expo-camera `zoom` is 0..1). Two ways in, like the iOS
   // camera: tappable level pills and a pinch gesture. Pinch runs on the JS
@@ -82,9 +104,13 @@ export default function CaptureScreen() {
     if (localPhotos.length >= MAX_PHOTOS) return;
     const uri = await capturePhoto();
     if (uri) {
-      setLocalPhotos((prev) => [...prev, uri]);
+      setLocalPhotos((prev) => {
+        const next = [...prev, uri];
+        if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, next.length);
+        return next;
+      });
     }
-  }, [capturePhoto, localPhotos.length]);
+  }, [capturePhoto, localPhotos.length, posthog]);
 
   const handleGalleryPick = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -95,9 +121,17 @@ export default function CaptureScreen() {
     });
     if (!result.canceled) {
       const uris = result.assets.map((a) => a.uri);
-      setLocalPhotos((prev) => [...prev, ...uris].slice(0, MAX_PHOTOS));
+      setLocalPhotos((prev) => {
+        const next = [...prev, ...uris].slice(0, MAX_PHOTOS);
+        // Fire one event per photo added from the gallery
+        const added = next.slice(prev.length);
+        added.forEach((_, i) => {
+          if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, prev.length + i + 1);
+        });
+        return next;
+      });
     }
-  }, [localPhotos.length]);
+  }, [localPhotos.length, posthog]);
 
   const removePhoto = useCallback((index: number) => {
     setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
@@ -106,14 +140,16 @@ export default function CaptureScreen() {
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
     setIsProcessing(true);
+    const startedAt = Date.now();
+    if (posthog) trackMenuAnalyzeClicked(posthog, scanSessionIdRef.current, localPhotos.length);
     try {
-      await startAnalysis(localPhotos);
+      await startAnalysis(localPhotos, scanSessionIdRef.current, startedAt);
     } finally {
       // Always release the lock, even if startAnalysis throws — otherwise the
       // Analyze button stays disabled forever and the screen looks stuck.
       setIsProcessing(false);
     }
-  }, [localPhotos, isProcessing, startAnalysis]);
+  }, [localPhotos, isProcessing, startAnalysis, posthog]);
 
   // Surface a failed analysis to the user. The analysis flow navigates back
   // here and sets `status: "error"` on the store; show it and reset the status

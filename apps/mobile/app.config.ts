@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    buildNumber: "3",
+    buildNumber: "4",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
