@@ -101,10 +101,10 @@ export default function ResultsScreen() {
             const newSessionId = generateId();
             setCurrentScanSessionId(newSessionId);
             if (posthog) trackNewScanInitiated(posthog, previousSessionId, newSessionId);
-            // Navigate before reset() so the results screen unmounts first —
-            // otherwise its guard (!results → replace("/capture")) fires on the
-            // cleared store and mounts capture twice.
-            router.push(`/capture?entry=loop_back&sid=${newSessionId}`);
+            // Use replace (not push) so results is removed from the stack before
+            // reset() clears the store — otherwise results stays mounted, its
+            // guard fires on the cleared state, and capture mounts twice.
+            router.replace(`/capture?entry=loop_back&sid=${newSessionId}`);
             reset();
           }}
           activeOpacity={0.8}

@@ -92,3 +92,5 @@ Fires when processing screen mounts. Properties: `scan_session_id`, `page_count`
 ### Decisions made
 - `menu_processing_started` fires in a `[]` useEffect on processing screen mount — same pattern as `menu_scan_started`
 - No build bump — JS-only changes, no native rebuild needed
+
+**Follow-up fix:** First fix (navigate before reset) was insufficient — results screen stays mounted in the stack with `router.push`, so its guard still fires. Real fix: `router.replace` removes results from the stack entirely before reset() clears the store.
