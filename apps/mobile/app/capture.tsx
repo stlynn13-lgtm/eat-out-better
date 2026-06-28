@@ -12,12 +12,12 @@ import { CameraView } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
-import { v4 as uuidv4 } from "uuid";
 import { usePostHog } from "posthog-react-native";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import {
+  generateId,
   setCurrentScanSessionId,
   trackMenuScanStarted,
   trackMenuPhotoCaptured,
@@ -42,7 +42,7 @@ export default function CaptureScreen() {
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
   useEffect(() => {
-    const sessionId = sid ?? uuidv4();
+    const sessionId = sid ?? generateId();
     scanSessionIdRef.current = sessionId;
     setCurrentScanSessionId(sessionId);
     const entryPoint = entry === "loop_back" ? "loop_back" : "cold_start";

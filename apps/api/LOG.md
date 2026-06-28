@@ -58,3 +58,20 @@ Instrumented all 6 P0 PostHog analytics events (menu scan funnel) + P1 session l
 ### Open questions
 - QA: verify each event fires exactly once (esp. photo capture and failure paths)
 - PostHog API key is hardcoded in `lib/analytics.ts` — should move to env var before public release
+
+---
+
+## 2026-06-28 (follow-up)
+
+### What I did
+Fixed crash on simulator launch: `crypto.getRandomValues() not supported` from the `uuid` package.
+
+**Root cause:** Hermes (the JS engine now used after Sean's Claude removed `jsEngine: "jsc"`) does not support `crypto.getRandomValues()`, which `uuid` v4 requires.
+
+**Fix:** Replaced `uuid` with a `Math.random()`-based `generateId()` function in `lib/analytics.ts`. Removed `uuid` imports from `capture.tsx` and `results.tsx`.
+
+### Decisions made
+`Math.random()` is sufficient for analytics session IDs — no cryptographic strength required. Fix applies to both simulator and production (EAS) builds since Hermes is the engine in both contexts.
+
+### Open questions
+- QA still pending — need to verify events fire in PostHog live events after this fix
