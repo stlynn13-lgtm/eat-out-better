@@ -114,6 +114,17 @@ export function trackMenuAnalysisFailed(
   });
 }
 
+export function trackMenuProcessingStarted(
+  ph: PostHog,
+  scanSessionId: string,
+  pageCount: number
+): void {
+  ph.capture("menu_processing_started", {
+    scan_session_id: scanSessionId,
+    page_count: pageCount,
+  });
+}
+
 export function trackNewScanInitiated(
   ph: PostHog,
   previousScanSessionId: string,

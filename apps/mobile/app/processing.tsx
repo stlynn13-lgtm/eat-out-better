@@ -2,7 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { View, Text, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
+import { getCurrentScanSessionId, trackMenuProcessingStarted } from "../lib/analytics";
 
 const TIPS = [
   "Saturated fat raises LDL cholesterol more than dietary cholesterol itself.",
@@ -18,9 +20,16 @@ const TIPS = [
 
 export default function ProcessingScreen() {
   const router = useRouter();
+  const posthog = usePostHog();
   const { status, progress, progressMessage, images } = useAnalysisStore();
   const [tipIndex, setTipIndex] = useState(0);
   const tipOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const sessionId = getCurrentScanSessionId() ?? "";
+    if (posthog) trackMenuProcessingStarted(posthog, sessionId, images.length);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

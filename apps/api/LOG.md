@@ -75,3 +75,20 @@ Fixed crash on simulator launch: `crypto.getRandomValues() not supported` from t
 
 ### Open questions
 - QA still pending — need to verify events fire in PostHog live events after this fix
+
+---
+
+## 2026-06-28 (follow-up 2)
+
+### What I did
+Fixed double-navigation bug causing processing screen to not appear. Added `menu_processing_started` event.
+
+**Bug fix — `results.tsx`:**
+`reset()` was called before `router.push("/capture")`. This cleared the store (results → null, status → idle) while the results screen was still mounted, triggering its guard (`if (!results && status !== "complete") → router.replace("/capture")`). Capture mounted twice, processing screen never appeared. Fix: navigate first, then reset.
+
+**New event — `menu_processing_started`:**
+Fires when processing screen mounts. Properties: `scan_session_id`, `page_count`. Closes the gap in the funnel between `menu_analyze_clicked` and `menu_analysis_completed`.
+
+### Decisions made
+- `menu_processing_started` fires in a `[]` useEffect on processing screen mount — same pattern as `menu_scan_started`
+- No build bump — JS-only changes, no native rebuild needed
