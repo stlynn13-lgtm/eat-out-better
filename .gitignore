@@ -39,6 +39,9 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 !apps/mobile/package-lock.json
+# Commit the root lockfile: Vercel's monorepo install runs a frozen install at
+# the repo root and fails (EUSAGE) when no root package-lock.json is checked in.
+!/package-lock.json
 
 # OS
 .DS_Store
