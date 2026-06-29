@@ -42,5 +42,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     ...config.extra,
     apiUrl: process.env.API_URL ?? "https://eat-out-better-api.vercel.app",
+    environment: process.env.APP_ENV ?? "development",
   },
 });

@@ -74,7 +74,27 @@ Fixed crash on simulator launch: `crypto.getRandomValues() not supported` from t
 `Math.random()` is sufficient for analytics session IDs — no cryptographic strength required. Fix applies to both simulator and production (EAS) builds since Hermes is the engine in both contexts.
 
 ### Open questions
-- QA still pending — need to verify events fire in PostHog live events after this fix
+- QA confirmed — all 6 events firing in PostHog live events
+
+---
+
+## 2026-06-29
+
+### What I did
+Added PostHog environment tagging so simulator, TestFlight, and App Store builds can be distinguished in analytics.
+
+**Files changed:**
+- `eas.json` — added `APP_ENV` env var to each build profile (`development`, `preview`, `production`)
+- `app.config.ts` — exposed `environment` via extras, read from `APP_ENV` (falls back to `"development"` on simulator)
+- `lib/analytics.ts` — added `APP_ENVIRONMENT` constant and `registerSuperProperties()` which registers `environment` as a PostHog super property (auto-attached to every event)
+- `app/_layout.tsx` — added `AnalyticsBootstrap` component that calls `registerSuperProperties` once on app start
+
+### Decisions made
+- Used PostHog super properties (`ph.register()`) so environment is attached to every event automatically — no need to touch individual track calls
+- Simulator defaults to `"development"` since `APP_ENV` is only set by EAS builds
+
+### Open questions
+- None
 
 ---
 

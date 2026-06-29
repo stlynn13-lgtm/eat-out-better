@@ -13,10 +13,21 @@
  *   new_scan_initiated      → results.tsx "Analyze New Menu" button
  */
 
+import Constants from "expo-constants";
 import type { PostHog } from "posthog-react-native";
 
 export const POSTHOG_API_KEY = "phc_rroZb6tXuPv7gbHFJBj5bPTdE2htHHKPmQYxY5ZLgWGF";
 export const POSTHOG_HOST = "https://us.i.posthog.com";
+
+// Derived from APP_ENV via eas.json build profile env vars.
+// "development" = simulator, "preview" = TestFlight, "production" = App Store.
+export const APP_ENVIRONMENT: string =
+  Constants.expoConfig?.extra?.environment ?? "development";
+
+// Call once at app startup (in _layout.tsx) to attach environment to every event.
+export function registerSuperProperties(ph: PostHog): void {
+  ph.register({ environment: APP_ENVIRONMENT });
+}
 
 // uuid's crypto.getRandomValues() is not supported by Hermes. Math.random()
 // is sufficient for analytics session IDs — no cryptographic strength needed.
