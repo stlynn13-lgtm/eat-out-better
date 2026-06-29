@@ -6,9 +6,10 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ## 2026-06-29 — v1.1.1 (build 4): non-menu warning + analytics, reconciled into one build
 
-This release consolidates three streams of work that had diverged across branches into the single iOS build 4 binary. App version bumped `1.1.0 → 1.1.1`; iOS `buildNumber` stays `4` (no build 4 had been cut yet).
+This release consolidates three streams of work that had diverged across branches into the single iOS build 4 binary — the first numbered build to carry all of them. App version bumped `1.1.0 → 1.1.1`; iOS `buildNumber` stays `4` (no build 4 had been cut yet).
 
 **What shipped:**
+- **No more frozen app after backgrounding mid-upload (EAT-5).** An `AppState` listener now detects the foreground transition, aborts the dead in-flight request, and retries once (restarting the progress bar); a clear network-error alert if the retry also fails. (First numbered build to carry this — it landed on `main` after build 3 was already submitted.)
 - **Friendly warning when you photograph a non-menu (EAT-6).** Previously a non-menu photo silently bounced back to the scan screen. Now: (1) an on-device text pre-check (Google ML Kit, free/offline) skips the upload entirely when there's essentially no text; (2) the API returns a distinct `NOT_A_MENU` vs `OCR_EMPTY` error; (3) the swallowed-alert navigation race is fixed (processing screen solely owns navigation back). Fails open — a real menu is never blocked by a tooling hiccup.
 - **PostHog product analytics (Ray's work).** P0 funnel events + P1 session linking, environment tagging (development/preview/production), plus navigation fixes (results-screen unmount, double-navigation prevention) and a Hermes-compatible ID generator.
 - **Combined behavior:** the on-device `NOT_A_MENU` rejection now also fires a `menu_analysis_failed` analytics event, so the full funnel is tracked end-to-end.
@@ -24,14 +25,9 @@ This release consolidates three streams of work that had diverged across branche
 
 ---
 
-## 2026-06-24 — v1.1.0 (build 4): fix stuck state after backgrounding
+## 2026-06-24 — EAT-5 backgrounding fix lands on `main`
 
-**What shipped:**
-- **Fixed the app getting permanently stuck after returning from the background mid-upload (EAT-5).** When iOS suspended the app during the menu-analysis network call, the in-flight request hung forever — the processing screen never advanced and the Analyze button stayed locked. Now an `AppState` listener detects the foreground transition, aborts the dead request, and retries once with a fresh request (restarting the progress bar). If the retry also fails, the user gets a clear network-error alert instead of a frozen screen. (Merged via PR #2.)
-
-**Versioning:** iOS `buildNumber 3 → 4` (in `app.config.ts`). App version stays `1.1.0`.
-
-**Note:** build 3 (`final privacy policy text + submit appleId`) was cut and submitted to Apple before this fix landed, so it is not documented above; build 4 is the first build to carry the EAT-5 fix.
+**What happened:** the stuck-after-backgrounding fix (EAT-5, see above) merged to `main` via PR #2 *after* build 3 had already been cut and submitted to Apple — so no numbered build carried it yet. The `buildNumber` was bumped `3 → 4` in anticipation. This fix ultimately ships in **build 4 / v1.1.1** (documented in the 2026-06-29 entry above), not in a standalone v1.1.0 build.
 
 ---
 
