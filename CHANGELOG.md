@@ -4,6 +4,26 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ---
 
+## 2026-06-29 — v1.1.1 (build 4): non-menu warning + analytics, reconciled into one build
+
+This release consolidates three streams of work that had diverged across branches into the single iOS build 4 binary. App version bumped `1.1.0 → 1.1.1`; iOS `buildNumber` stays `4` (no build 4 had been cut yet).
+
+**What shipped:**
+- **Friendly warning when you photograph a non-menu (EAT-6).** Previously a non-menu photo silently bounced back to the scan screen. Now: (1) an on-device text pre-check (Google ML Kit, free/offline) skips the upload entirely when there's essentially no text; (2) the API returns a distinct `NOT_A_MENU` vs `OCR_EMPTY` error; (3) the swallowed-alert navigation race is fixed (processing screen solely owns navigation back). Fails open — a real menu is never blocked by a tooling hiccup.
+- **PostHog product analytics (Ray's work).** P0 funnel events + P1 session linking, environment tagging (development/preview/production), plus navigation fixes (results-screen unmount, double-navigation prevention) and a Hermes-compatible ID generator.
+- **Combined behavior:** the on-device `NOT_A_MENU` rejection now also fires a `menu_analysis_failed` analytics event, so the full funnel is tracked end-to-end.
+
+**Reconciliation notes:**
+- `chore/build-4-eat5` (EAT-6) had been branched from `main` *before* the PostHog work landed, so the two diverged. Merged `main` into the build-4 line; the only conflict was `hooks/useAnalysis.ts` (both sides edited it) — resolved by keeping the new `startAnalysis(imageUris, scanSessionId, startedAt)` signature + all PostHog tracking *and* layering in the EAT-6 pre-check and error-handling fixes.
+- Added `NOT_A_MENU` to the mobile `AnalysisErrorType` union so the pre-check failure is type-safe to track.
+- The Apple Vision variant of the EAT-6 pre-check (branch `claude/slack-session-azbfka`) was the abandoned alternative; ML Kit is canonical.
+
+**Versioning:** app version `1.1.0 → 1.1.1`, iOS `buildNumber` `4` (in `app.config.ts`).
+
+**Deploy note:** the EAT-6 API half (`NOT_A_MENU` 422 backstop + OCR prompt change) must reach `main`/Vercel for the "has text but isn't a menu" case to be caught server-side; the mobile on-device pre-check and error handling work regardless.
+
+---
+
 ## 2026-06-24 — v1.1.0 (build 4): fix stuck state after backgrounding
 
 **What shipped:**

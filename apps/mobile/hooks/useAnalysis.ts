@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 import { useRouter } from "expo-router";
+import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import { compressImageUri } from "../lib/utils/image";
 import { hasMenuText } from "../lib/utils/menuTextCheck";
@@ -8,6 +9,11 @@ import { saveSession } from "../lib/storage/session";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
 import Constants from "expo-constants";
+import {
+  trackMenuAnalysisCompleted,
+  trackMenuAnalysisFailed,
+  type AnalysisErrorType,
+} from "../lib/analytics";
 
 const API_URL = Constants.expoConfig?.extra?.apiUrl ?? "http://localhost:3000";
 const ANALYSIS_API = `${API_URL}/api/analyze`;
@@ -22,6 +28,7 @@ const MAX_RETRIES = 1;
 
 export function useAnalysis() {
   const router = useRouter();
+  const posthog = usePostHog();
   const store = useAnalysisStore();
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -78,7 +85,7 @@ export function useAnalysis() {
   }, []);
 
   const startAnalysis = useCallback(
-    async (imageUris: string[]) => {
+    async (imageUris: string[], scanSessionId: string, startedAt: number) => {
       if (imageUris.length === 0) return;
 
       // On-device pre-check: if the photo(s) contain essentially no text, it
@@ -89,6 +96,9 @@ export function useAnalysis() {
       // makes the precise menu/not-menu call.
       const { hasText } = await hasMenuText(imageUris);
       if (!hasText) {
+        const durationSeconds = (Date.now() - startedAt) / 1000;
+        if (posthog)
+          trackMenuAnalysisFailed(posthog, scanSessionId, "NOT_A_MENU", durationSeconds, imageUris.length);
         store.setError({
           code: "NOT_A_MENU",
           message: "That doesn't look like a menu. Try snapping the menu itself.",
@@ -193,6 +203,9 @@ export function useAnalysis() {
         if (!json.success || !json.data) {
           // The API's NOT_A_MENU / OCR_EMPTY messages are already user-friendly
           // and distinct, so we surface them as-is. Fall back only if absent.
+          const errorCode = (json.error?.code ?? "UNKNOWN") as AnalysisErrorType;
+          const durationSeconds = (Date.now() - startedAt) / 1000;
+          if (posthog) trackMenuAnalysisFailed(posthog, scanSessionId, errorCode, durationSeconds, imageUris.length);
           store.setError(
             json.error ?? { code: "UNKNOWN", message: "An unexpected error occurred." }
           );
@@ -200,6 +213,8 @@ export function useAnalysis() {
         }
 
         if (json.data.dishCount === 0) {
+          const durationSeconds = (Date.now() - startedAt) / 1000;
+          if (posthog) trackMenuAnalysisFailed(posthog, scanSessionId, "OCR_EMPTY", durationSeconds, imageUris.length);
           store.setError({
             code: "OCR_EMPTY",
             message: "We couldn't read any dishes. Try again with better lighting.",
@@ -207,6 +222,8 @@ export function useAnalysis() {
           return;
         }
 
+        const durationSeconds = (Date.now() - startedAt) / 1000;
+        if (posthog) trackMenuAnalysisCompleted(posthog, scanSessionId, json.data.dishCount, durationSeconds);
         store.setProgress(100, "Done!");
         store.setResults(json.data);
         await saveSession(json.data);
@@ -215,6 +232,8 @@ export function useAnalysis() {
         requestInFlightRef.current = false;
         abortControllerRef.current = null;
         stopProgressSimulation();
+        const durationSeconds = (Date.now() - startedAt) / 1000;
+        if (posthog) trackMenuAnalysisFailed(posthog, scanSessionId, "NETWORK_ERROR", durationSeconds, imageUris.length);
         store.setError({
           code: "NETWORK_ERROR",
           message: error instanceof Error ? error.message : "An unexpected error occurred.",
@@ -222,7 +241,7 @@ export function useAnalysis() {
         // Navigation handled by processing.tsx's error effect (see above).
       }
     },
-    [store, router, startProgressSimulation, stopProgressSimulation]
+    [store, router, startProgressSimulation, stopProgressSimulation, posthog]
   );
 
   return {

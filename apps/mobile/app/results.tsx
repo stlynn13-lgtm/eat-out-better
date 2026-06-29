@@ -2,12 +2,20 @@ import { useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import type { RankedDish } from "@eat-out-better/shared";
 import { getTier, formatScore } from "@eat-out-better/shared";
+import {
+  generateId,
+  getCurrentScanSessionId,
+  setCurrentScanSessionId,
+  trackNewScanInitiated,
+} from "../lib/analytics";
 
 export default function ResultsScreen() {
   const router = useRouter();
+  const posthog = usePostHog();
   const { results, session, status, error, reset } = useAnalysisStore();
 
   useEffect(() => {
@@ -88,7 +96,17 @@ export default function ResultsScreen() {
       >
         <TouchableOpacity
           className="w-full border-2 border-gray-300 rounded-xl py-4 items-center"
-          onPress={() => { reset(); router.push("/capture"); }}
+          onPress={() => {
+            const previousSessionId = getCurrentScanSessionId() ?? "";
+            const newSessionId = generateId();
+            setCurrentScanSessionId(newSessionId);
+            if (posthog) trackNewScanInitiated(posthog, previousSessionId, newSessionId);
+            // Use replace (not push) so results is removed from the stack before
+            // reset() clears the store — otherwise results stays mounted, its
+            // guard fires on the cleared state, and capture mounts twice.
+            router.replace(`/capture?entry=loop_back&sid=${newSessionId}`);
+            reset();
+          }}
           activeOpacity={0.8}
         >
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>
