@@ -38,6 +38,22 @@ const VALID_CONDITIONS = ["high_cholesterol"];
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const startTime = Date.now();
 
+  // Shared-secret gate. The mobile app sends APP_SHARED_TOKEN in the
+  // `x-app-token` header; requests without it are rejected. This protects the
+  // public endpoint, which bills the Anthropic account on every call. It is NOT
+  // unbreakable — the token ships inside the app bundle and a determined
+  // attacker can extract it — so it's paired with Vercel rate-limiting and an
+  // Anthropic spend cap (the real financial backstop).
+  //
+  // Fail-OPEN only when APP_SHARED_TOKEN is unset, so a forgotten Vercel env var
+  // doesn't 401 every real user. Set it in Vercel to activate the gate.
+  if (!isAuthorized(req)) {
+    return NextResponse.json(
+      { success: false, error: { code: "UNAUTHORIZED", message: "Unauthorized." } },
+      { status: 401 }
+    );
+  }
+
   // Parse body
   let body: unknown;
   try {
@@ -218,6 +234,18 @@ function validateRequest(body: unknown): { valid: boolean; error?: string } {
   }
 
   return { valid: true };
+}
+
+function isAuthorized(req: NextRequest): boolean {
+  const expected = process.env.APP_SHARED_TOKEN;
+  if (!expected) {
+    console.warn(
+      "[/api/analyze] APP_SHARED_TOKEN is not set — endpoint is UNPROTECTED. " +
+        "Set it in Vercel env vars to require the app token."
+    );
+    return true;
+  }
+  return req.headers.get("x-app-token") === expected;
 }
 
 function isRateLimitError(error: unknown): boolean {
