@@ -98,7 +98,38 @@ Added PostHog environment tagging so simulator, TestFlight, and App Store builds
 
 ---
 
-## 2026-06-28 (follow-up 2)
+## 2026-07-01
+
+### What I did
+Added feedback system across all screens (Concepts 02 + 04 from Figma Make).
+
+**New file: `components/FeedbackSheet.tsx`**
+- Reusable bottom sheet with emoji rating (results only) + free text input
+- POSTs to Google Sheets via Apps Script endpoint
+- Fields: posthog_distinct_id, screen, feedback, rating
+- Best-effort submit (network failure doesn't block user)
+- Shows confirmation on success, auto-closes after 1.5s
+
+**Footer "Feedback · Privacy Policy" added to:**
+- `index.tsx`, `capture.tsx`, `processing.tsx`, `results.tsx`
+
+**Results screen (Concept 02):**
+- Emoji rating (😕😐🙂😊) shown in the sheet when `showRating` prop is true
+- Rating fires PostHog event immediately on tap (no submit needed)
+
+**New PostHog events:**
+- `feedback_sheet_opened` — `{ screen }`
+- `feedback_submitted` — `{ screen, has_text, character_count, posthog_distinct_id }`
+- `feedback_rating_submitted` — `{ screen, rating }`
+
+### Decisions made
+- Google Sheets via Apps Script — zero backend, free, data in one place
+- PostHog `distinct_id` included in sheet row for cross-referencing funnel data
+- `showRating` prop controls Concept 02 — only results screen passes it
+- Processing screen gets footer but no rating (wrong context for satisfaction feedback)
+
+### Open questions
+- Crash reporting still to do
 
 ### What I did
 Fixed double-navigation bug causing processing screen to not appear. Added `menu_processing_started` event.

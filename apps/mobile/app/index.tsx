@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FeedbackSheet from "../components/FeedbackSheet";
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  const [showFeedback, setShowFeedback] = useState(false);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -67,6 +70,10 @@ export default function WelcomeScreen() {
 
         {/* Footer entry points (per Figma welcome design) */}
         <View className="flex-row items-center justify-center gap-3 mt-6">
+          <TouchableOpacity onPress={() => setShowFeedback(true)}>
+            <Text className="text-xs text-gray-500 underline">Feedback</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
           <TouchableOpacity onPress={() => router.push("/privacy")}>
             <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
           </TouchableOpacity>
@@ -78,6 +85,12 @@ export default function WelcomeScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <FeedbackSheet
+        visible={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        screen="index"
+      />
     </SafeAreaView>
   );
 }

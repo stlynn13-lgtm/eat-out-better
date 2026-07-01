@@ -16,6 +16,7 @@ import { usePostHog } from "posthog-react-native";
 import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
+import FeedbackSheet from "../components/FeedbackSheet";
 import {
   generateId,
   setCurrentScanSessionId,
@@ -37,6 +38,7 @@ export default function CaptureScreen() {
 
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
   const scanSessionIdRef = useRef<string>("");
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
@@ -346,7 +348,23 @@ export default function CaptureScreen() {
                 })`}
           </Text>
         </TouchableOpacity>
+
+        <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
+          <TouchableOpacity onPress={() => setShowFeedback(true)}>
+            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
+          <TouchableOpacity onPress={() => router.push("/privacy")}>
+            <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      <FeedbackSheet
+        visible={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        screen="capture"
+      />
     </SafeAreaView>
   );
 }

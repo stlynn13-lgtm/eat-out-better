@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { View, Text, Animated } from "react-native";
+import { View, Text, Animated, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import { getCurrentScanSessionId, trackMenuProcessingStarted } from "../lib/analytics";
+import FeedbackSheet from "../components/FeedbackSheet";
 
 const TIPS = [
   "Saturated fat raises LDL cholesterol more than dietary cholesterol itself.",
@@ -23,6 +24,7 @@ export default function ProcessingScreen() {
   const posthog = usePostHog();
   const { status, progress, progressMessage, images } = useAnalysisStore();
   const [tipIndex, setTipIndex] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
   const tipOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -111,7 +113,23 @@ export default function ProcessingScreen() {
             <View key={i} className="w-1.5 h-1.5 rounded-full bg-green-500" />
           ))}
         </View>
+
+        <View className="flex-row items-center justify-center gap-2 mt-6">
+          <TouchableOpacity onPress={() => setShowFeedback(true)}>
+            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
+          <TouchableOpacity onPress={() => router.push("/privacy")}>
+            <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      <FeedbackSheet
+        visible={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        screen="processing"
+      />
     </SafeAreaView>
   );
 }

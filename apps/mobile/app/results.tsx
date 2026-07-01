@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,11 +12,13 @@ import {
   setCurrentScanSessionId,
   trackNewScanInitiated,
 } from "../lib/analytics";
+import FeedbackSheet from "../components/FeedbackSheet";
 
 export default function ResultsScreen() {
   const router = useRouter();
   const posthog = usePostHog();
   const { results, session, status, error, reset } = useAnalysisStore();
+  const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
     if (!results && status !== "complete") {
@@ -111,7 +113,24 @@ export default function ResultsScreen() {
         >
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>
         </TouchableOpacity>
+
+        <View className="flex-row items-center justify-center gap-2 mt-3">
+          <TouchableOpacity onPress={() => setShowFeedback(true)}>
+            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
+          <TouchableOpacity onPress={() => router.push("/privacy")}>
+            <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      <FeedbackSheet
+        visible={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        screen="results"
+        showRating
+      />
     </SafeAreaView>
   );
 }

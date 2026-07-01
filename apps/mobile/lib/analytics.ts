@@ -137,6 +137,33 @@ export function trackMenuProcessingStarted(
   });
 }
 
+export function trackFeedbackSheetOpened(ph: PostHog, screen: string): void {
+  ph.capture("feedback_sheet_opened", { screen });
+}
+
+export function trackFeedbackSubmitted(
+  ph: PostHog,
+  screen: string,
+  hasText: boolean,
+  characterCount: number,
+  posthogDistinctId: string
+): void {
+  ph.capture("feedback_submitted", {
+    screen,
+    has_text: hasText,
+    character_count: characterCount,
+    posthog_distinct_id: posthogDistinctId,
+  });
+}
+
+export function trackFeedbackRatingSubmitted(
+  ph: PostHog,
+  screen: string,
+  rating: number
+): void {
+  ph.capture("feedback_rating_submitted", { screen, rating });
+}
+
 export function trackNewScanInitiated(
   ph: PostHog,
   previousScanSessionId: string,
