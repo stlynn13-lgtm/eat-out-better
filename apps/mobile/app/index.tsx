@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Linking } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeedbackSheet from "../components/FeedbackSheet";
@@ -74,7 +74,7 @@ export default function WelcomeScreen() {
             <Text className="text-xs text-gray-500 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
-          <TouchableOpacity onPress={() => router.push("/privacy")}>
+          <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
             <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>

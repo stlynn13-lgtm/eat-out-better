@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Linking } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
@@ -119,7 +119,7 @@ export default function ResultsScreen() {
             <Text className="text-xs text-gray-400 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
-          <TouchableOpacity onPress={() => router.push("/privacy")}>
+          <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
             <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>

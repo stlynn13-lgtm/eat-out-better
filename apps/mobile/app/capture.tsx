@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Alert,
+  Linking,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { CameraView } from "expo-camera";
@@ -354,7 +355,7 @@ export default function CaptureScreen() {
             <Text className="text-xs text-gray-400 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
-          <TouchableOpacity onPress={() => router.push("/privacy")}>
+          <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
             <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>
