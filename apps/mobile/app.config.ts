@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    buildNumber: "4",
+    buildNumber: "5",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
@@ -38,6 +38,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           "Eat Out Better needs camera access to photograph restaurant menus.",
       },
     ],
+    [
+      "@sentry/react-native/expo",
+      {
+        url: "https://sentry.io/",
+        project: "eat-out-better",
+        organization: "eat-out-better",
+      },
+    ],
+    "./plugins/with-mlkit-simulator-patch",
   ],
   extra: {
     ...config.extra,

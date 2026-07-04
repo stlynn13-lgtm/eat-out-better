@@ -4,6 +4,24 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ---
 
+## 2026-07-04 — Sentry crash reporting fixed (unblocks build 5)
+
+Crash reporting (Sentry) had been wired into the app but the iOS build wouldn't compile. Investigation found the failure wasn't Sentry's SDK at all — sentry-cocoa 9.19.1 builds clean on Xcode 26.5 with no modifications. The build was broken by leftover workarounds from an earlier debugging session: hand-edits to Sentry pod sources plus a Swift compiler flag (written against the older sentry-cocoa 8.41.0, which genuinely couldn't build on Xcode 26), and a rewritten MLKit simulator patch that silently corrupted the MLKit archives a little more on every `pod install`.
+
+**What changed:**
+- Removed all Sentry workarounds from the Podfile; restored pristine Sentry and MLKit pod sources
+- Rewrote the MLKit simulator patch as an idempotent in-place byte-patch (the approach documented on 2026-07-02) — it now fails loudly instead of corrupting silently
+- Moved the `@sentry/react-native/expo` config plugin from `app.json` (where it was silently ignored) into `app.config.ts`, so EAS builds get source-map/dSYM upload
+- Verified end to end: simulator build succeeds, app runs, Sentry native SDK initializes with crash handler + session replay recording
+
+**Versioning:** iOS `buildNumber` `4 → 5` (app version stays `1.1.1`).
+
+**Follow-up (same day):** the MLKit simulator patch now lives in an Expo config plugin (`apps/mobile/plugins/`), so `npx expo prebuild --clean` regenerates it automatically instead of silently dropping it. Verified end to end (prebuild → pod install → build → app runs). Also deleted the unreferenced `GoogleService-Info.plist` Firebase leftover.
+
+**Before cutting build 5:** add `SENTRY_AUTH_TOKEN` as an EAS secret (it lives only in local `.env.local`) so source-map upload works on EAS.
+
+---
+
 ## 2026-06-29 — v1.1.1 (build 4): non-menu warning + analytics, reconciled into one build
 
 This release consolidates three streams of work that had diverged across branches into the single iOS build 4 binary — the first numbered build to carry all of them. App version bumped `1.1.0 → 1.1.1`; iOS `buildNumber` stays `4` (no build 4 had been cut yet).

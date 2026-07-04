@@ -145,3 +145,62 @@ Fires when processing screen mounts. Properties: `scan_session_id`, `page_count`
 - No build bump — JS-only changes, no native rebuild needed
 
 **Follow-up fix:** First fix (navigate before reset) was insufficient — results screen stays mounted in the stack with `router.push`, so its guard still fires. Real fix: `router.replace` removes results from the stack entirely before reset() clears the store.
+
+---
+
+## 2026-07-02
+
+### What I did
+Fixed iOS simulator build — was broken due to Xcode 26 dropping x86_64 simulator support combined with MLKit beta pods lacking arm64 simulator slices.
+
+**Root cause:** `@react-native-ml-kit/text-recognition` depends on MLKit pods (MLImage, MLKitCommon, MLKitVision, etc.) at versions that ship arm64 slices built for iOS device only — no arm64 simulator slice. Xcode 26 requires arm64 for simulator on Apple Silicon and no longer runs x86_64 via Rosetta.
+
+**Fix — `apps/mobile/ios/Podfile` post_install block:**
+- Removes `EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64` from MLKit xcconfigs so the simulator build targets arm64
+- Byte-patches the arm64 slice of all 9 MLKit static archives directly in the fat binary — changes `LC_BUILD_VERSION` platform from `2` (iOS) to `7` (iOSSimulator) so the linker accepts them
+- Guarded with `unless ENV['EAS_BUILD']` so EAS device builds are unaffected
+
+**Frameworks patched:** MLImage, MLKitCommon, MLKitVision, MLKitTextRecognition, MLKitTextRecognitionChinese, MLKitTextRecognitionDevanagari, MLKitTextRecognitionJapanese, MLKitTextRecognitionKorean, MLKitTextRecognitionCommon
+
+### Decisions made
+- Direct binary patch (search/replace 12-byte LC_BUILD_VERSION pattern) rather than extract/repack — avoids ar archive object file name collision issues that drop symbols
+- Patch runs on every `pod install` locally; EAS builds get clean originals and build for device normally
+- If `ios/` is deleted and regenerated (`rm -rf ios/ && npx expo run:ios`), run `pod install` once after to re-apply the patch
+
+### Open questions
+- Google Sheets integration returning 403 — Apps Script deployment needs reauthorization or new deployment with "Execute as: Me / Anyone" access. Pick up next session.
+- Crash reporting still to do
+
+---
+
+## 2026-07-04
+
+### What I did
+Fixed the failing Sentry integration (crash reporting) — the last blocker for build 5. iOS simulator build now compiles, app runs, Sentry native SDK initializes with session replay recording.
+
+**Root causes (two separate problems):**
+1. **Sentry pod hacks were breaking the build.** A previous late-night session (July 4, ~00:45–02:30) had added a Podfile post_install block that injected `-D SENTRY_NO_UI_FRAMEWORK` into the Sentry pod's Swift flags and hand-patched three Sentry pod source files (`SentryProfilingConditionals.h`, `SentryUIEventTracker.m`, `SentryViewHierarchyProviderHelper.m`). Those hacks were written against an older sentry-cocoa (8.41.0 was tried) that genuinely couldn't build under Xcode 26 — but the project ended up on sentry-cocoa 9.19.1, which already ships the Xcode 26 fixes. The leftover hacks created an ObjC/Swift interface mismatch that failed compilation. **Fix: removed all Sentry hacks from the Podfile and restored pristine pod sources. Pristine Sentry 9.19.1 compiles clean under Xcode 26.5 with zero modifications.**
+2. **MLKit simulator patch had been rewritten destructively.** The Podfile's MLKit patch used `lipo -thin` + `ar -x` extract/repack — exactly the approach the 2026-07-02 entry warned drops symbols on duplicate archive member names. It also re-ran destructively on every `pod install`, progressively corrupting the archives (`MLKITx_absl::*` symbols vanished from MLKitCommon → linker failure). **Fix: reinstalled pristine MLKit pods from the CocoaPods cache and rewrote the patch as an in-place, idempotent byte-patch of `LC_BUILD_VERSION` load commands (platform 2 → 7), matching the approach documented on 2026-07-02.**
+3. **Sentry Expo config plugin was silently ignored.** The wizard added `@sentry/react-native/expo` to `app.json`'s plugins, but `app.config.ts` defines its own `plugins` array which overrides app.json's entirely. **Fix: moved the plugin (org/project config) into `app.config.ts`, removed the dead entry from app.json.** This matters for EAS builds: prebuild there now wires up source-map/dSYM upload.
+
+**Verified (all pass):**
+- `xcodebuild` Debug simulator build: **BUILD SUCCEEDED**
+- `npx expo export --platform ios`: Metro + `getSentryExpoConfig` bundles clean (2,313 modules)
+- App installed + launched on iPhone 16 Pro simulator: home screen renders, no crash
+- Sentry native SDK initialized: `SentryCrash` handler installed, `io.sentry` cache has active session, breadcrumbs, and replay directory
+
+**Also:** bumped iOS buildNumber 4 → 5 for the next TestFlight build.
+
+### Decisions made
+- No Sentry pod workarounds of any kind — sentry-cocoa 9.19.1 needs none on Xcode 26.5. Never patch Pods sources; if a pod won't build, check whether a newer version fixes it first.
+- MLKit byte-patch raises on failure instead of silently continuing, and prints a `retagged N load commands` line per framework so corruption is visible at pod install time.
+- `MLKitTextRecognitionCommon` needs no retagging — its binary predates `LC_BUILD_VERSION` platform tagging and links as-is.
+
+### Open questions / Sean's actions
+- ~~Add `SENTRY_AUTH_TOKEN` to EAS environment variables~~ **Done** — added via the expo.dev dashboard as a Secret across production/preview/development. EAS builds will now upload source maps/dSYMs so Sentry stack traces are readable.
+- Google Sheets 403 still outstanding (from 2026-07-02).
+
+### Follow-up (same day)
+- **`npx expo prebuild --clean` is now safe.** Moved the MLKit simulator patch into an Expo config plugin: `plugins/with-mlkit-simulator-patch.js` inserts a hook into the generated Podfile that calls `plugins/mlkit_simulator_patch.rb`. Verified: prebuild regenerates the Podfile with the hook intact, `pod install` retags idempotently (found CocoaPods runs post_install twice per install — harmless now, but it explains how the old destructive patch corrupted archives so fast), full rebuild succeeds, app runs on simulator.
+- Prebuild also applied the Sentry Expo plugin's native config (sentry-xcode build phases in the Xcode project), resolving Metro's "Sentry native configuration is missing" warning.
+- Deleted `apps/mobile/GoogleService-Info.plist` (unreferenced Firebase leftover).
