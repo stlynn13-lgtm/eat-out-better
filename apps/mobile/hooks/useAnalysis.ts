@@ -225,9 +225,12 @@ export function useAnalysis() {
         const durationSeconds = (Date.now() - startedAt) / 1000;
         if (posthog) trackMenuAnalysisCompleted(posthog, scanSessionId, json.data.dishCount, durationSeconds);
         store.setProgress(100, "Done!");
+        // Navigation to /results is owned solely by processing.tsx's
+        // `status === "complete"` effect (same convention as the error path).
+        // setResults flips status to "complete", which triggers it — pushing
+        // from here too mounted a second results screen ("double load").
         store.setResults(json.data);
         await saveSession(json.data);
-        router.push("/results");
       } catch (error) {
         requestInFlightRef.current = false;
         abortControllerRef.current = null;
