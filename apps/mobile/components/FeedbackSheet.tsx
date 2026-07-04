@@ -135,7 +135,8 @@ export default function FeedbackSheet({ visible, onClose, screen, showRating = f
     try {
       await fetch(SHEET_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        redirect: "follow",
+        headers: { "Content-Type": "text/plain" },
         body: JSON.stringify({
           posthog_distinct_id: distinctId,
           screen,
