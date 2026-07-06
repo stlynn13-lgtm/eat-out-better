@@ -14,11 +14,26 @@ Crash reporting (Sentry) had been wired into the app but the iOS build wouldn't 
 - Moved the `@sentry/react-native/expo` config plugin from `app.json` (where it was silently ignored) into `app.config.ts`, so EAS builds get source-map/dSYM upload
 - Verified end to end: simulator build succeeds, app runs, Sentry native SDK initializes with crash handler + session replay recording
 
-**Versioning:** iOS `buildNumber` `4 → 5` (app version stays `1.1.1`).
+**Versioning:** iOS `buildNumber` `4 → 5` (app version stays `1.1.1`). *(Superseded on merge: the shared-secret-gate branch below bumps the app version, so the shipped build 5 binary is `1.1.2`.)*
 
 **Follow-up (same day):** the MLKit simulator patch now lives in an Expo config plugin (`apps/mobile/plugins/`), so `npx expo prebuild --clean` regenerates it automatically instead of silently dropping it. Verified end to end (prebuild → pod install → build → app runs). Also deleted the unreferenced `GoogleService-Info.plist` Firebase leftover.
 
 **Before cutting build 5:** add `SENTRY_AUTH_TOKEN` as an EAS secret (it lives only in local `.env.local`) so source-map upload works on EAS.
+
+---
+
+## 2026-07-01 — v1.1.2 (build 5): shared-secret gate on the API
+
+Protects the public `/api/analyze` endpoint from abuse that would bill the Anthropic account. App version `1.1.1 → 1.1.2`, iOS `buildNumber` `4 → 5`.
+
+**What shipped:**
+- **API requires an `x-app-token` header.** The endpoint now checks incoming requests against an `APP_SHARED_TOKEN` env var; requests without a matching token get `401 UNAUTHORIZED`. The mobile app sends the token, injected at build time from an `APP_TOKEN` env var so the real value never lives in committed source.
+- **Fails open when unconfigured.** If `APP_SHARED_TOKEN` is unset in Vercel the gate is a no-op (logs a warning) — so a forgotten env var never 401s real users. Setting the Vercel env var *activates* the gate.
+- Not a security boundary on its own — the token ships inside the app bundle. It's a cheap deterrent paired with Vercel rate-limiting and an Anthropic spend cap (the real financial backstop).
+
+**This binary also carries** the feedback system (bottom sheet + Google Sheets + PostHog events) already merged to `main`.
+
+**Rollout order (important):** merge → API auto-deploys with the gate *inactive* → cut & TestFlight build 5 (with `APP_TOKEN` set) → only then set `APP_SHARED_TOKEN` in Vercel. Setting it earlier would 401 every already-installed build (4 and earlier) that doesn't carry the token. Both secrets must be the same value (`openssl rand -hex 32`).
 
 ---
 

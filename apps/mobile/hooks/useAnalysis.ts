@@ -17,6 +17,10 @@ import {
 
 const API_URL = Constants.expoConfig?.extra?.apiUrl ?? "http://localhost:3000";
 const ANALYSIS_API = `${API_URL}/api/analyze`;
+// Shared secret the API checks (see apps/api .../analyze/route.ts). Injected at
+// build time via app.config.ts `extra.appToken`. Undefined in local dev, where
+// the API fails open.
+const APP_TOKEN: string | undefined = Constants.expoConfig?.extra?.appToken;
 
 // We retry the analysis request at most once. The retry is event-driven, not
 // timer-based: iOS suspends the in-flight fetch when the app is backgrounded,
@@ -150,7 +154,10 @@ export function useAnalysis() {
           try {
             response = await fetch(ANALYSIS_API, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                ...(APP_TOKEN ? { "x-app-token": APP_TOKEN } : {}),
+              },
               body: JSON.stringify(requestBody),
               signal: controller.signal,
             });

@@ -6,12 +6,14 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "environment": "development",
       "env": {
         "APP_ENV": "development"
       }
     },
     "preview": {
       "distribution": "internal",
+      "environment": "preview",
       "ios": {
         "simulator": false
       },
@@ -20,6 +22,7 @@
       }
     },
     "production": {
+      "environment": "production",
       "ios": {
         "buildConfiguration": "Release"
       },
