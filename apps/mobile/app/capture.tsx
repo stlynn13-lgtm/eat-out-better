@@ -7,6 +7,8 @@ import {
   Image,
   Alert,
   Linking,
+  Animated,
+  StyleSheet,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { CameraView } from "expo-camera";
@@ -105,17 +107,31 @@ export default function CaptureScreen() {
     }
   }, [status, requestPermission]);
 
+  // Shutter-flash feedback (EAT-12): a white overlay on the viewfinder blinks
+  // when a photo is successfully taken and added to the tray, confirming the
+  // capture without the user having to spot the new thumbnail.
+  const flashOpacity = useRef(new Animated.Value(0)).current;
+  const triggerCaptureFlash = useCallback(() => {
+    flashOpacity.setValue(0.85);
+    Animated.timing(flashOpacity, {
+      toValue: 0,
+      duration: 320,
+      useNativeDriver: true,
+    }).start();
+  }, [flashOpacity]);
+
   const handleCapture = useCallback(async () => {
     if (localPhotos.length >= MAX_PHOTOS) return;
     const uri = await capturePhoto();
     if (uri) {
+      triggerCaptureFlash();
       setLocalPhotos((prev) => {
         const next = [...prev, uri];
         if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, next.length);
         return next;
       });
     }
-  }, [capturePhoto, localPhotos.length, posthog]);
+  }, [capturePhoto, localPhotos.length, posthog, triggerCaptureFlash]);
 
   const handleGalleryPick = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -227,6 +243,14 @@ export default function CaptureScreen() {
                     </Text>
                   </View>
                 )}
+
+                <Animated.View
+                  pointerEvents="none"
+                  style={[
+                    StyleSheet.absoluteFillObject,
+                    { backgroundColor: "#ffffff", opacity: flashOpacity },
+                  ]}
+                />
               </CameraView>
             </GestureDetector>
           ) : (
