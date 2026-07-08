@@ -2,15 +2,18 @@
   "name": "eat-out-better",
   "private": true,
   "workspaces": [
-    "apps/*",
+    "apps/api",
     "packages/*"
   ],
   "scripts": {
-    "mobile": "npm run start --workspace=apps/mobile",
+    "mobile": "cd apps/mobile && npx expo start",
     "api": "npm run dev --workspace=apps/api",
     "build:api": "npm run build --workspace=apps/api"
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "zod": "3.22.4"
   }
 }

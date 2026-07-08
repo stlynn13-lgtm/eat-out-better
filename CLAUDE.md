@@ -33,6 +33,21 @@ The `ios/` folder is gitignored — it's generated automatically by Expo prebuil
 
 **Tooling caveat:** the Google Drive / Figma MCP integrations are only available in **Claude Cowork (desktop)** sessions. In **Claude Code (CLI)** sessions there is *no* Drive or Figma MCP — assets must be downloaded locally (e.g. `~/Downloads/eob-assets/`) or shared by link, and Figma **Make** files are not readable via the Figma REST API (export the code or screenshots instead). Do not reference or write to Notion.
 
+## Documentation System (Source of Truth) — keep these in sync
+Three living docs, each with one job. Do not duplicate task lists across them.
+
+| File | Job | When to update |
+|------|-----|----------------|
+| **CLAUDE.md** (this file) | Stable rules: what we're building, stack, principles, conventions. Changes rarely. | When an architectural decision, principle, or convention changes. |
+| **plan.md** | Plain-language "what's next" — Now / Next / Later. Non-developer readable. | At the end of any session where priorities or status changed. |
+| **log.md** | Plain-language "what changed and why." Newest on top. Replaces the old `session-NN-summary.md` files. | At the end of any session where anything changed. |
+
+Supporting reference files (not living trackers): **Eat_Out_Better_GTM_Launch_Tracker.xlsx** (full detailed execution tracker — the detail behind plan.md), **ARCHITECTURE.md** (technical reference), **backlog.md** (idea pool — add ideas here before building), **Scoring_KB_Generation_Prompt.md** (scoring knowledge-base generator). Formal specs/PRDs/research live in Google Drive (below).
+
+**The update rule (event-driven, not scheduled):** whenever a working session changes the product, the plan, or a decision, update `log.md` (what changed) and `plan.md` (what's next) before ending the session. This is why docs drift — they update on a clock instead of when work happens. A weekly drift-check is a safety net, not the mechanism.
+
+**Deprecated (moved to `/archive`):** `session-01..05`, `CHANGELOG.md`, and `V0-launch-checklist.md` are superseded by `log.md` + `plan.md` + the GTM Launch Tracker. They live in `archive/` for history only — not maintained, not a source of truth, nothing reads them. Don't write new ones.
+
 ## Backlog
 Feature backlog with RICE scores lives in this repo at `backlog.md` (root).
 Reference this before suggesting new features. Add new ideas here before building them.
@@ -60,11 +75,7 @@ Sean is a Senior PM building his first app. He's learning as he goes on the engi
 - Track pending tasks Sean has expressed intent to do (write-spec, competitive brief, etc.)
 
 ## Pending Actions
-- [ ] Build the API (`POST /api/analyze`) — `apps/api` exists and is configured at `https://eat-out-better-api.vercel.app`; verify the endpoint is live and complete
-- [x] Set up EAS build for TestFlight distribution — `apps/mobile/eas.json` present with iOS build/submit profiles
-- [ ] Replace placeholder app icon with real brand asset — **in progress (v1.1.0)**
-- [ ] Run `product-management:write-spec` for v1 MVP feature
-- [ ] Run `product-management:competitive-brief` for the dietary restriction app landscape
+Do not keep a task list here — it goes stale (this section used to, which is why we moved it). **Live task state lives in `plan.md` (readable summary) and the GTM Launch Tracker (full detail).** Read those for what's open. As of 2026-06-22 the original items here — build the API, set up EAS, run write-spec, run competitive-brief — are all done; only the final app icon is unconfirmed.
 
 ### v1.1.0 release
 - [x] App logo (1024×1024) → `apps/mobile/assets/icon.png`
