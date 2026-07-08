@@ -227,41 +227,6 @@ export default function CaptureScreen() {
                     </Text>
                   </View>
                 )}
-
-                <View className="flex-1" />
-
-                {/* Tappable zoom level pills (pinch also drives zoom) */}
-                <View className="flex-row justify-center gap-2 mb-3">
-                  {ZOOM_LEVELS.map((lvl) => {
-                    const active = activeZoomLabel === lvl.label;
-                    return (
-                      <TouchableOpacity
-                        key={lvl.label}
-                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                        className="px-3 py-1 rounded-full"
-                        style={{
-                          backgroundColor: active
-                            ? "rgba(255,255,255,0.95)"
-                            : "rgba(0,0,0,0.45)",
-                        }}
-                      >
-                        <Text
-                          className="text-xs font-semibold"
-                          style={{ color: active ? "#111827" : "#ffffff" }}
-                        >
-                          {lvl.label}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-
-                <View className="items-center pb-4">
-                  <TouchableOpacity
-                    className="w-16 h-16 rounded-full bg-white items-center justify-center border-4 border-gray-200"
-                    onPress={handleCapture}
-                  />
-                </View>
               </CameraView>
             </GestureDetector>
           ) : (
@@ -283,11 +248,50 @@ export default function CaptureScreen() {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity className="mt-3 py-2" onPress={handleGalleryPick}>
-          <Text className="text-center text-sm font-medium text-green-700">
-            Upload from Photos
-          </Text>
-        </TouchableOpacity>
+        {/* Camera controls live BELOW the viewfinder so they never block the
+            menu being framed (EAT-16). Zoom left, shutter center, gallery right. */}
+        {status === "active" ? (
+          <View className="flex-row items-center mt-3">
+            <View className="flex-1 flex-row gap-1.5">
+              {ZOOM_LEVELS.map((lvl) => {
+                const active = activeZoomLabel === lvl.label;
+                return (
+                  <TouchableOpacity
+                    key={lvl.label}
+                    onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                    className={`px-2.5 py-1.5 rounded-full ${
+                      active ? "bg-brand-900" : "bg-gray-100"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-semibold ${
+                        active ? "text-white" : "text-gray-600"
+                      }`}
+                    >
+                      {lvl.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <TouchableOpacity
+              className="w-14 h-14 rounded-full bg-white items-center justify-center border-4 border-brand-900"
+              onPress={handleCapture}
+              accessibilityLabel="Take photo"
+            />
+            <View className="flex-1 items-end">
+              <TouchableOpacity className="py-2 pl-2" onPress={handleGalleryPick}>
+                <Text className="text-sm font-medium text-green-700">Photos</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <TouchableOpacity className="mt-3 py-2" onPress={handleGalleryPick}>
+            <Text className="text-center text-sm font-medium text-green-700">
+              Upload from Photos
+            </Text>
+          </TouchableOpacity>
+        )}
 
         {localPhotos.length > 0 && (
           <View className="mt-4">
