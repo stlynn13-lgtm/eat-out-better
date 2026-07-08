@@ -77,6 +77,22 @@ export default function ResultsScreen() {
         }}
         ListHeaderComponent={
           <View className="mb-6">
+            {/* Back pops to the capture screen the user came from — it's still
+                mounted below us with its photos loaded (EAT-11). Going home
+                requires a second back from there, matching the app hierarchy. */}
+            <TouchableOpacity
+              className="w-8 h-8 items-center justify-center rounded-full bg-gray-100 mb-4"
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                } else {
+                  router.replace("/capture");
+                }
+              }}
+              accessibilityLabel="Back to menu photos"
+            >
+              <Text className="text-gray-600 text-base">←</Text>
+            </TouchableOpacity>
             <View className="flex-row items-center justify-between mb-1">
               <Text className="text-xl font-bold text-gray-900">Menu Results</Text>
               <View className="bg-gray-100 rounded-full px-2.5 py-1">
