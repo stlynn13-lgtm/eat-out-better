@@ -4,6 +4,35 @@ A plain-English log of meaningful changes to the project. Updated when something
 
 ---
 
+## 2026-07-07 — v1.1.3 (build 6): full-codebase bug sweep
+
+A review of the whole codebase surfaced ~20 bugs concentrated in failure paths — cases where a real scan failed with the wrong message, lost the user's photos, or hit platform limits the code didn't know about. App version `1.1.2 → 1.1.3`, iOS `buildNumber` `5 → 6`.
+
+**Critical fixes:**
+- **Uploads now fit Vercel's hard ~4.5MB request-body limit.** The old `serverActions.bodySizeLimit: 52mb` config never applied to route handlers, so multi-photo scans regularly got platform-413'd. The client now compresses to a total-upload budget (3MB decoded across all photos, split per image), caps the LONG edge at 1568px (tall photos were previously uncapped; small photos were being *upscaled*), and steps down quality → dimensions until each image fits.
+- **Photo cap aligned at 10** (was 12 in the app vs 10 in the API — an 11/12-page scan always 400'd).
+- **Dense menus no longer get "That doesn't look like a menu."** OCR output was capped at 2k tokens; dense pages truncated mid-JSON, the parse failed, and the code mapped that to `isMenu: false`. Now: 8k token cap, complete dishes are salvaged out of truncated JSON, and an unparseable page counts as a *failed image* instead of "not a menu".
+- **Ranking is now chunked and parallel** (35 dishes per request). A single 100-dish call could exceed its 8k output cap (truncated → every dish silently scored 5.0) and could outlive the 60s function limit. Chunks are merged by score; a failed chunk degrades to neutral fallbacks instead of failing the scan. Pipeline worst case now ~55s, inside `maxDuration: 60`.
+
+**Failure-path UX:**
+- **Analysis errors no longer throw away the user's photos.** Processing now navigates *back* to the existing capture screen (replace() stacked a fresh empty capture, losing all photos and double-firing the alert).
+- Users see friendly, status-aware error copy; raw internals ("Aborted", "API error: 413") go to Sentry/console instead of the alert.
+- Dismissing an error clears it from the store (stale errors could hijack the results screen); failed attempts no longer leave multi-MB base64 blobs in memory or skew page-count analytics.
+- Backgrounding the app twice mid-scan no longer kills the analysis (aborts get their own retry budget, separate from network failures).
+- Fallback ranking copy no longer blames the user's connection.
+
+**Other:**
+- Best-effort per-IP rate limit on `/api/analyze` (20 scans / 10 min, in-memory) — a speed bump while the shared-token gate is fail-open, not a security boundary.
+- **Privacy policy updated (App Store blocker):** Section 5 claimed no third-party sharing; it now discloses PostHog (analytics), Sentry (crash reports + session replay), and Google Sheets (feedback), plus matching Section 3/6 updates.
+- Dish descriptions extracted by OCR now actually reach the results screen (they were dropped during enrichment; the description UI was dead code).
+- Model dish-renames no longer create duplicate entries (normalized name matching); ranks are re-sequenced 1..n server-side.
+- Ranking prompt hardened against instructions embedded in menu text; OCR content is delimited as untrusted.
+- Removed dead browser-only image util from the API; zoom pills no longer show a non-functional 0.5×; migrated off deprecated `ImagePicker.MediaTypeOptions`.
+
+**Still open (not code):** re-rotate `APP_TOKEN` before ever setting `APP_SHARED_TOKEN` in Vercel (build-5 value is burned); App Store privacy nutrition labels need "Usage Data / Diagnostics" added to match the updated policy.
+
+---
+
 ## 2026-07-04 — Sentry crash reporting fixed (unblocks build 5)
 
 Crash reporting (Sentry) had been wired into the app but the iOS build wouldn't compile. Investigation found the failure wasn't Sentry's SDK at all — sentry-cocoa 9.19.1 builds clean on Xcode 26.5 with no modifications. The build was broken by leftover workarounds from an earlier debugging session: hand-edits to Sentry pod sources plus a Swift compiler flag (written against the older sentry-cocoa 8.41.0, which genuinely couldn't build on Xcode 26), and a rewritten MLKit simulator patch that silently corrupted the MLKit archives a little more on every `pod install`.

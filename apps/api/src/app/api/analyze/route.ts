@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
+import { isRateLimited } from "@/lib/utils/rateLimit";
 import type {
   AnalyzeRequest,
   AnalyzeResponse,
@@ -21,14 +22,21 @@ import type {
 } from "@/lib/types";
 
 // Runtime config
-export const maxDuration = 60; // Vercel: allow up to 60s per invocation
+// 60s per invocation. The pipeline is budgeted to fit: OCR ≤25s (parallel per
+// image) + ranking ≤30s (parallel chunks) ≈ 55s worst case. If the Vercel
+// project has Fluid Compute enabled this can be raised for more headroom.
+export const maxDuration = 60;
 
 // -----------------------------------------------------------
 // Validation constants
 // -----------------------------------------------------------
 
+// NOTE: Vercel enforces a hard ~4.5MB request-body limit on route handlers
+// (regardless of any Next.js config), so the REAL payload ceiling is the
+// client's total-upload budget (see apps/mobile lib/utils/image.ts). These
+// limits are a server-side backstop for direct API callers.
 const MAX_IMAGES = 10;
-const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB compressed
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB per image (backstop)
 const VALID_CONDITIONS = ["high_cholesterol"];
 
 // -----------------------------------------------------------
@@ -51,6 +59,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       { success: false, error: { code: "UNAUTHORIZED", message: "Unauthorized." } },
       { status: 401 }
+    );
+  }
+
+  // Best-effort per-IP rate limit (in-memory; see rateLimit.ts for scope).
+  // Matters most while the shared-token gate is fail-open.
+  const clientIp =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (isRateLimited(clientIp)) {
+    return errorResponse(
+      "RATE_LIMIT",
+      "Too many scans in a short time. Please wait a few minutes and try again.",
+      429
     );
   }
 

@@ -17,7 +17,7 @@ import FeedbackSheet from "../components/FeedbackSheet";
 export default function ResultsScreen() {
   const router = useRouter();
   const posthog = usePostHog();
-  const { results, session, status, error, reset } = useAnalysisStore();
+  const { results, session, status, error, reset, clearError } = useAnalysisStore();
   const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
@@ -40,7 +40,16 @@ export default function ResultsScreen() {
         </Text>
         <TouchableOpacity
           className="w-full bg-brand-900 rounded-xl py-4 items-center"
-          onPress={() => router.push("/capture")}
+          onPress={() => {
+            // Clear the stale error and go BACK to the existing capture screen
+            // — push() stacked a fresh empty capture on top of the old one.
+            clearError();
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace("/capture");
+            }
+          }}
         >
           <Text className="text-white font-semibold">Try again</Text>
         </TouchableOpacity>
@@ -87,7 +96,9 @@ export default function ResultsScreen() {
           </View>
         }
         renderItem={({ item, index }) => (
-          <DishCard dish={item} rank={index + 1} />
+          // Server ranks are guaranteed sequential (1..n) as of build 6; fall
+          // back to list position for sessions saved by older builds.
+          <DishCard dish={item} rank={item.rank ?? index + 1} />
         )}
         ItemSeparatorComponent={() => <View className="h-3" />}
       />

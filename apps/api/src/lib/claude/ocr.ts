@@ -15,8 +15,14 @@ import { OCR_SYSTEM_PROMPT } from "./prompts";
 import type { ExtractedDish } from "@/lib/types";
 
 const MAX_IMAGES = 10;
-const OCR_TIMEOUT_MS = 30_000;
-const OCR_MAX_TOKENS = 2_048;
+// Per-image (images run in parallel). Budgeted so OCR (≤25s) + ranking (≤30s)
+// stays inside the route's maxDuration of 60s — previously 30s + 60s could hit
+// 90s and Vercel killed the function mid-scan.
+const OCR_TIMEOUT_MS = 25_000;
+// Haiku 4.5 supports large outputs; 8k tokens comfortably fits a dense menu
+// page (~150+ dishes with descriptions). The old 2k cap truncated dense menus
+// mid-JSON, which parsed as garbage and false-rejected real menus (EAT bug).
+const OCR_MAX_TOKENS = 8_192;
 
 /**
  * Result of the OCR step.
@@ -134,6 +140,13 @@ async function extractFromSingleImage(
       throw new Error(`Unexpected response type from OCR: ${content.type}`);
     }
 
+    if (message.stop_reason === "max_tokens") {
+      // Truncated output — parseOcrResponse will salvage what it can.
+      console.warn(
+        `[OCR] Response for image ${imageIndex + 1} hit max_tokens (${OCR_MAX_TOKENS}); output truncated`
+      );
+    }
+
     rawText = content.text.trim();
   } catch (error) {
     throw new Error(
@@ -164,12 +177,27 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
   try {
     parsed = JSON.parse(cleaned);
   } catch {
+    // Unparseable — most often a truncated response on a dense menu page.
+    // Salvage every complete dish object we can find rather than discarding
+    // the page. Previously this returned `isMenu: false`, which told users
+    // with perfectly real (dense) menus "that doesn't look like a menu".
+    const salvaged = salvageDishesFromTruncatedJson(cleaned);
+    if (salvaged.length > 0) {
+      console.warn(
+        `[OCR] Salvaged ${salvaged.length} dishes from unparseable JSON for image ${imageIndex + 1}`
+      );
+      return { isMenu: true, dishes: salvaged };
+    }
     console.error(
       `[OCR] Failed to parse JSON for image ${imageIndex + 1}:`,
       cleaned.slice(0, 200)
     );
-    // Couldn't parse — don't assume "not a menu"; let other images decide.
-    return { isMenu: false, dishes: [] };
+    // Nothing salvageable — treat this image as a *failure*, not "not a
+    // menu". The caller's Promise.allSettled counts it against failureCount;
+    // other pages still decide the menu/not-menu question.
+    throw new Error(
+      `OCR returned unparseable JSON for image ${imageIndex + 1}`
+    );
   }
 
   // New shape: { isMenu, dishes }
@@ -193,7 +221,39 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
     `[OCR] Unexpected JSON shape for image ${imageIndex + 1}, got:`,
     typeof parsed
   );
-  return { isMenu: false, dishes: [] };
+  // A malformed response is a failure of THIS image, not evidence that the
+  // user's photo isn't a menu.
+  throw new Error(`OCR returned unexpected JSON shape for image ${imageIndex + 1}`);
+}
+
+/**
+ * Best-effort recovery of complete dish objects from truncated/malformed JSON.
+ * Matches `{"name": "...", "description": "..."}` fragments individually so a
+ * response cut off mid-array still yields every dish before the cutoff.
+ */
+function salvageDishesFromTruncatedJson(text: string): ExtractedDish[] {
+  const dishPattern =
+    /\{\s*"name"\s*:\s*"((?:[^"\\]|\\.)*)"\s*(?:,\s*"description"\s*:\s*"((?:[^"\\]|\\.)*)"\s*)?\}/g;
+  const dishes: ExtractedDish[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = dishPattern.exec(text)) !== null) {
+    try {
+      // Re-parse each fragment so escape sequences are decoded correctly.
+      const obj = JSON.parse(match[0]) as { name?: unknown; description?: unknown };
+      if (typeof obj.name === "string" && obj.name.trim().length > 0) {
+        dishes.push({
+          name: obj.name.trim(),
+          description:
+            typeof obj.description === "string" && obj.description.trim()
+              ? obj.description.trim()
+              : undefined,
+        });
+      }
+    } catch {
+      // Skip fragments that still don't parse
+    }
+  }
+  return dishes;
 }
 
 /** Coerces a raw parsed array into validated ExtractedDish records. */

@@ -59,7 +59,17 @@ export default function ProcessingScreen() {
   }, [images.length, status, router]);
 
   useEffect(() => {
-    if (status === "error") router.replace("/capture");
+    // Pop BACK to the capture screen the user came from (photos intact) rather
+    // than replacing with a fresh instance — replace() stacked an empty
+    // duplicate capture screen and threw away the user's photos on every
+    // failure. Fallback replace covers the no-history edge (deep link).
+    if (status === "error") {
+      if (router.canGoBack()) {
+        router.back();
+      } else {
+        router.replace("/capture");
+      }
+    }
   }, [status, router]);
 
   useEffect(() => {
