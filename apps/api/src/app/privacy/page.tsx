@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: June 25, 2026</p>
+      <p style={styles.meta}>Last Updated: July 7, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -41,11 +41,20 @@ export default function PrivacyPage() {
           results. This information is used only to generate your in-session analysis and is
           not stored, shared, or linked to you in any way.
         </p>
-        <h3 style={styles.subheading}>Device Data</h3>
+        <h3 style={styles.subheading}>Device &amp; Usage Data</h3>
         <p>
-          We may collect basic technical information (device type, OS version, crash reports)
-          to maintain app performance. This data is not linked to your health information or
-          photos.
+          We collect basic technical information (device type, OS version, crash reports) and
+          anonymous usage analytics (which screens you visit, whether an analysis succeeded,
+          how long it took) to maintain and improve the app. Crash reports may include an IP
+          address and, when an error occurs, a visual replay of the app screens leading up to
+          it. This data is not linked to your health information, and menu photos are not
+          included in analytics or crash reports.
+        </p>
+        <h3 style={styles.subheading}>Feedback</h3>
+        <p>
+          If you choose to send feedback through the in-app feedback form, we collect the text
+          and rating you submit, along with an anonymous app identifier so we can spot repeat
+          issues. Feedback is optional and never required to use the app.
         </p>
       </Section>
 
@@ -60,19 +69,46 @@ export default function PrivacyPage() {
 
       <Section title="5. Third-Party Services">
         <p>
-          To provide AI-powered analysis, your menu photos and health context are processed
-          by Anthropic, PBC via their Claude API. Anthropic acts as a data processor on our
-          behalf. Their privacy policy is available at{" "}
-          <a href="https://anthropic.com/privacy">https://anthropic.com/privacy</a>.
+          We use a small number of service providers, each acting as a data processor on our
+          behalf:
         </p>
-        <p>We do not share your data with any other third parties.</p>
+        <ul>
+          <li>
+            <strong>Anthropic, PBC (Claude API)</strong> — processes your menu photos and
+            health context to generate the analysis. Photos are not retained after
+            processing. Privacy policy:{" "}
+            <a href="https://anthropic.com/privacy">anthropic.com/privacy</a>.
+          </li>
+          <li>
+            <strong>PostHog, Inc.</strong> — anonymous product analytics (screen views,
+            scan funnel events, error types). No photos or health details are sent.
+            Privacy policy: <a href="https://posthog.com/privacy">posthog.com/privacy</a>.
+          </li>
+          <li>
+            <strong>Sentry (Functional Software, Inc.)</strong> — crash reporting and
+            error diagnostics, including session replays of app screens when an error
+            occurs. Privacy policy:{" "}
+            <a href="https://sentry.io/privacy/">sentry.io/privacy</a>.
+          </li>
+          <li>
+            <strong>Google LLC</strong> — in-app feedback you submit is stored in a Google
+            Sheet operated by us. Privacy policy:{" "}
+            <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.
+          </li>
+        </ul>
+        <p>
+          We do not share your data with any other third parties, and we never sell your
+          personal information.
+        </p>
       </Section>
 
       <Section title="6. Data Retention">
         <p>
           We do not retain your photos or health information after your session. Device-level
           session data is stored locally on your device via AsyncStorage and is cleared when
-          you uninstall the app.
+          you uninstall the app. Analytics events, crash reports, and submitted feedback are
+          retained by the providers listed in Section 5 under their standard retention
+          policies; none of it contains your photos or health information.
         </p>
       </Section>
 

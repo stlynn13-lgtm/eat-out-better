@@ -35,7 +35,7 @@ export default function HowItWorksScreen() {
         <Step
           n="1"
           title="Snap the menu"
-          body="Photograph each page of the menu — up to 12 photos per scan. No typing, no searching. You can pinch or tap to zoom in on small print for a clearer shot."
+          body="Photograph each page of the menu — up to 10 photos per scan. No typing, no searching. You can pinch or tap to zoom in on small print for a clearer shot."
         />
         <Step
           n="2"

@@ -22,6 +22,7 @@ interface AnalysisState {
   clearImages: () => void;
   setResults: (session: MenuSession) => void;
   setError: (error: AnalysisError) => void;
+  clearError: () => void;
   reset: () => void;
 }
 
@@ -61,6 +62,10 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
     }),
 
   setError: (error) => set({ status: "error", error }),
+
+  // Dismissing an error must clear the error object too — leaving it set made
+  // stale errors hijack later renders (e.g. the results screen's error state).
+  clearError: () => set({ error: null }),
 
   reset: () => set(initialState),
 }));

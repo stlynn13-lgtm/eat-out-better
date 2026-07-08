@@ -26,7 +26,9 @@ import {
   trackMenuAnalyzeClicked,
 } from "../lib/analytics";
 
-const MAX_PHOTOS = 12;
+// Must not exceed the API's MAX_IMAGES (10) — the previous value of 12 let
+// users build a scan the server always rejected with a 400.
+const MAX_PHOTOS = 10;
 
 export default function CaptureScreen() {
   const router = useRouter();
@@ -36,6 +38,7 @@ export default function CaptureScreen() {
   const { startAnalysis } = useAnalysis();
   const analysisError = useAnalysisStore((s) => s.error);
   const setStatus = useAnalysisStore((s) => s.setStatus);
+  const clearError = useAnalysisStore((s) => s.clearError);
 
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -58,11 +61,10 @@ export default function CaptureScreen() {
   // thread (runOnJS) so it needs no Reanimated worklet/babel plugin.
   //
   // NOTE: expo-camera's `zoom` (0..1) does not map linearly to optical "x"
-  // magnification, and 0.5x (ultra-wide) needs a lens the SDK doesn't expose
-  // via this prop. The preset values below are sensible defaults and should be
-  // calibrated on a real device.
+  // magnification. The preset values below are sensible defaults and should be
+  // calibrated on a real device. (No 0.5× pill: the ultra-wide lens isn't
+  // exposed via this prop, so a 0.5× option would lie — it did nothing.)
   const ZOOM_LEVELS = [
-    { label: "0.5×", value: 0 },
     { label: "1×", value: 0 },
     { label: "2×", value: 0.02 },
     { label: "3×", value: 0.04 },
@@ -117,9 +119,10 @@ export default function CaptureScreen() {
 
   const handleGalleryPick = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"], // MediaTypeOptions is deprecated in SDK 52+
       allowsMultipleSelection: true,
-      selectionLimit: MAX_PHOTOS - localPhotos.length,
+      // Guard against 0: iOS treats selectionLimit 0 as "unlimited".
+      selectionLimit: Math.max(MAX_PHOTOS - localPhotos.length, 1),
       quality: 1,
     });
     if (!result.canceled) {
@@ -162,10 +165,20 @@ export default function CaptureScreen() {
       Alert.alert(
         "We couldn't analyze your menu",
         analysisError.message,
-        [{ text: "OK", onPress: () => setStatus("idle") }]
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              // Clear the error object too — leaving it set caused stale
+              // errors to resurface (e.g. on the results screen) and re-fire.
+              clearError();
+              setStatus("idle");
+            },
+          },
+        ]
       );
     }
-  }, [analysisError, setStatus]);
+  }, [analysisError, setStatus, clearError]);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">

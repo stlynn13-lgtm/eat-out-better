@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Increase API route body size limit for image uploads (default 1MB)
-  // Each image can be up to 5MB compressed; max 10 images
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "52mb",
-    },
-  },
+  // NOTE on upload size: /api/analyze is a route handler, and Vercel enforces
+  // a hard ~4.5MB request-body limit on route handlers at the platform level.
+  // No Next.js config can raise it (`serverActions.bodySizeLimit` only applies
+  // to Server Actions and previously lived here giving false confidence).
+  // The mobile client compresses to a total-upload budget under that ceiling —
+  // see apps/mobile/lib/utils/image.ts.
 
   // Security headers
   async headers() {
