@@ -101,7 +101,7 @@ export default function ResultsScreen() {
                 </Text>
               </View>
             </View>
-            <Text className="text-sm text-gray-500">
+            <Text className="text-base text-gray-500">
               Ranked best to worst for your heart
             </Text>
             {session?.processingTimeMs ? (
@@ -207,7 +207,7 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
           </View>
           <Text className="text-base font-semibold text-gray-900">{dish.name}</Text>
           {dish.description ? (
-            <Text className="text-xs text-gray-500 mt-0.5" numberOfLines={2}>
+            <Text className="text-sm text-gray-500 mt-0.5" numberOfLines={2}>
               {dish.description}
             </Text>
           ) : null}
@@ -217,14 +217,14 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
         </Text>
       </View>
 
-      <Text className="text-sm text-gray-700 leading-relaxed">{dish.explanation}</Text>
+      <Text className="text-base text-gray-700 leading-relaxed">{dish.explanation}</Text>
 
       {dish.substitution ? (
         <View className="mt-3 bg-white/70 rounded-xl p-3">
           <Text className="text-xs font-semibold text-gray-600 mb-0.5">
             💡 Make it better
           </Text>
-          <Text className="text-xs text-gray-600 leading-relaxed">
+          <Text className="text-sm text-gray-600 leading-relaxed">
             {dish.substitution}
           </Text>
         </View>

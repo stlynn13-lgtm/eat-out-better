@@ -27,7 +27,7 @@ export default function HowItWorksScreen() {
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
-        <Text className="text-sm text-gray-500 leading-relaxed mb-6">
+        <Text className="text-base text-gray-500 leading-relaxed mb-6">
           Eat Out Better turns a photo of a menu into a heart-smart ranking in
           about half a minute. Here's what happens behind the scenes.
         </Text>
@@ -60,7 +60,7 @@ export default function HowItWorksScreen() {
         <Text className="text-sm font-semibold text-gray-900 mb-1">
           Your privacy
         </Text>
-        <Text className="text-sm text-gray-600 leading-relaxed mb-6">
+        <Text className="text-base text-gray-600 leading-relaxed mb-6">
           Menu photos are analyzed and then discarded — they're never stored on
           our servers, and the app works without an account.
         </Text>
@@ -82,7 +82,7 @@ function Step({ n, title, body }: { n: string; title: string; body: string }) {
       </View>
       <View className="flex-1">
         <Text className="text-base font-semibold text-gray-900 mb-1">{title}</Text>
-        <Text className="text-sm text-gray-600 leading-relaxed">{body}</Text>
+        <Text className="text-base text-gray-600 leading-relaxed">{body}</Text>
       </View>
     </View>
   );

@@ -213,7 +213,7 @@ export default function CaptureScreen() {
         <Text className="text-xl font-bold text-gray-900 mb-1">
           Photograph the menu
         </Text>
-        <Text className="text-sm text-gray-500 mb-4">
+        <Text className="text-base text-gray-500 mb-4">
           One photo per page — we'll do the rest.
         </Text>
 
