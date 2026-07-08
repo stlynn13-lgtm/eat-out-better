@@ -86,7 +86,7 @@ export default function ProcessingScreen() {
         <Text className="text-2xl font-bold text-gray-900 text-center mb-2">
           Analyzing your menu
         </Text>
-        <Text className="text-sm text-gray-500 text-center px-4 mb-8 leading-relaxed">
+        <Text className="text-base text-gray-500 text-center px-4 mb-8 leading-relaxed">
           {progressMessage || "Reading dish names and checking cholesterol impact…"}
         </Text>
 
@@ -110,7 +110,7 @@ export default function ProcessingScreen() {
             Did you know?
           </Text>
           <Animated.View style={{ opacity: tipOpacity }}>
-            <Text className="text-sm text-green-900 leading-relaxed">
+            <Text className="text-base text-green-900 leading-relaxed">
               {TIPS[tipIndex]}
             </Text>
           </Animated.View>

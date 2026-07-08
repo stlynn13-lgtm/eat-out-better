@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
             <Text className="text-white text-3xl">🥗</Text>
           </View>
           <Text className="text-2xl font-bold text-gray-900">Eat Out Better</Text>
-          <Text className="text-sm text-gray-500 mt-1 text-center">
+          <Text className="text-base text-gray-500 mt-1 text-center">
             Smart dining for your heart health
           </Text>
         </View>
@@ -31,7 +31,7 @@ export default function WelcomeScreen() {
           <Text className="text-base font-semibold text-gray-900 mb-2">
             What we do
           </Text>
-          <Text className="text-sm text-gray-600 leading-relaxed">
+          <Text className="text-base text-gray-600 leading-relaxed">
             Photograph any restaurant menu and get every dish ranked for your
             specific health goals — with clear explanations and ways to make any
             choice work better for you.

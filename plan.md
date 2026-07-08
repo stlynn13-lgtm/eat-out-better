@@ -2,27 +2,26 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-06-22
+**Last updated:** 2026-07-08
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-The app's happy path works in TestFlight: take a photo of a menu, get an analysis, see results. The backend API is built and deployed; EAS is configured for builds. What's left before strangers can use it falls into four buckets: **prove the AI is trustworthy**, **protect ourselves from runaway cost and legal exposure**, **clear Apple's submission gates**, and **be able to see what's happening** (crashes + basic analytics). We are deliberately NOT building accounts, history, or a bigger backend yet — but we've decided the trigger point for when we will.
+Build 5 (v1.1.2) is on TestFlight. **Build 6 (v1.1.3) is code-complete on `main`** — a ~20-bug sweep of the failure paths — and we're adding UI enhancements to it before cutting it to TestFlight. Of the 7 Linear tickets: **5 are built** (on `feat/build6-ui-enhancements`), **2 are waiting on designs** (EAT-13 photo full-screen viewer, EAT-14 landscape capture). Several of the old P0s are now done: API auth + rate limiting (build 5/6), image cap (10), crash reporting (Sentry), analytics (PostHog), hosted privacy policy.
 
 ---
 
-## NOW — do these first (the P0 blockers)
+## NOW — finish build 6 and get it onto TestFlight
 
-Nothing public happens until these are done. None of them are big; skipping them is what gets expensive.
+1. **Designs for EAT-13 and EAT-14** (Sean) — Figma links or react-to mockups; then build them on the same branch.
+2. **Merge `feat/build6-ui-enhancements`** into `main` once the design tickets are in (or ship the 5 done ones without them if designs stall).
+3. **EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 6.
+4. **On-device verification pass**: the 5 new UI changes, plus the leave-during-analysis fix (EAT-10) and back-with-photos (EAT-11) from the sweep.
+5. **Verify the Vercel deploy** of `main` picked up the API + privacy-page changes.
 
-- **Set a hard spend cap + budget alert** in the Anthropic console. Today. One setting, biggest unprotected risk.
-- **Lock down the API**: add auth + per-device rate limiting, and move the secret URL out of the app bundle. Right now anyone who extracts it can run up our bill.
-- **Cap images per upload** (e.g. 3) — each image costs money on every scan.
-- **Prove the AI works**: run the three unvalidated tests on real menus — can it read them (OCR), does it score dishes correctly, is it fast enough (<30s). This is our #1 launch risk, not Apple or legal.
-- **Build the scoring source of truth**: move scoring out of the prompt into a versioned knowledge base so the same dish gets the same score every time (see `Scoring_KB_Generation_Prompt.md`).
-- **Add crash reporting** (Crashlytics). Today we have zero visibility when something breaks.
+**Carried-over P0s to confirm (status unknown, cheap to check):** Anthropic spend cap + budget alert set? The three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
 
 ➡️ Full detail + owners + status: GTM Launch Tracker, filter Priority = P0.
 
