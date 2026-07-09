@@ -70,3 +70,9 @@ yarn-error.log*
 # Vercel
 .vercel
 .env*
+
+# Transient / local-only files (keep the working tree clean so EAS doesn't
+# prompt about uncommitted changes mid-build)
+my-app/
+Eat_Out_Better_GTM_Launch_Tracker.xlsx
+HANDOFF-build6-ui.md
