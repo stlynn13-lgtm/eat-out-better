@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-07-08
+**Last updated:** 2026-07-26
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -10,6 +10,12 @@
 ## Where we are right now
 
 Build 5 (v1.1.2) is on TestFlight. **Build 6 (v1.1.3) is code-complete on `main`** — a ~20-bug sweep of the failure paths — and we're adding UI enhancements to it before cutting it to TestFlight. Of the 7 Linear tickets: **5 are built** (on `feat/build6-ui-enhancements`), **2 are waiting on designs** (EAT-13 photo full-screen viewer, EAT-14 landscape capture). Several of the old P0s are now done: API auth + rate limiting (build 5/6), image cap (10), crash reporting (Sentry), analytics (PostHog), hosted privacy policy.
+
+**Two more branches not yet merged:**
+- `feat/scoring-explained-ui` — the "how scores work" screen from the NEXT list below. **Built and verified on the simulator (2026-07-26)** — ready to merge.
+- `feat/cholesterol-rubric-rewrite` — reworked scoring prompt (saturated-fat budget model, drops outdated trans-fat/cholesterol assumptions). Still needs testing against real menus.
+
+The launch crash that had blocked all simulator testing is **fixed** (duplicate React from a lockfile/workspaces mismatch — see `log.md` 2026-07-26). One related trap is still open: the root `package-lock.json` will recreate that crash on the next root `npm install`, and fixing it touches the Vercel API install.
 
 ---
 
@@ -32,7 +38,7 @@ Build 5 (v1.1.2) is on TestFlight. **Build 6 (v1.1.3) is code-complete on `main`
 - **Fix the two known bugs**: the 2nd-submission crash (the "go back" button) and the double loading screen.
 - **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and an LLC decision.
 - **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), support URL, age rating, App Privacy questionnaire.
-- **UI transparency**: a simple "how scores work" screen + per-dish reasons ("High — fried + cream sauce. Try grilled.").
+- **UI transparency**: a simple "how scores work" screen (✅ built + verified on `feat/scoring-explained-ui`, needs merge) + per-dish reasons ("High — fried + cream sauce. Try grilled.").
 - **Basic analytics**: wire Firebase and the core funnel events so we can see if people complete a scan.
 - **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime).
 

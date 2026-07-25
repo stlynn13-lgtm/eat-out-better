@@ -6,6 +6,52 @@
 
 ---
 
+## 2026-07-26 — Launch crash root-caused and fixed (duplicate React); scoring UI verified on simulator
+
+**What changed**
+- **Found and fixed the real cause of the app not launching.** It was never Sentry (see the correction below) and never the sandbox — it was two copies of React and two copies of React Native in the dependency tree. In plain terms: the project's root config says "the mobile app is not part of this workspace," but the root lockfile still said it was. So installing from the root quietly placed NativeWind (our styling library) next to the *website's* React 18 instead of the app's React 19 — and npm, trying to be helpful, gave NativeWind its own private copies of React and React Native. The app then had two of each, which breaks in two stages: the duplicate React Native made the app's startup code run twice and abort with a red `[runtime not ready]` error, and the duplicate React made the styling library crash with "Invalid hook call," leaving a blank white screen. Fixed by installing the mobile app's dependencies from its own (correct) lockfile and deleting the stray root copy. **No app code was involved.**
+- **Fixed a silent styling bug that had been latent for weeks.** Our Tailwind config only looked for styles inside the `app/` folder, so any style used *only* in a shared component in `components/` was never generated and silently did nothing. This is why the new "?" button rendered on the wrong side of the screen — the "align right" instruction was simply never built. Now `components/` is scanned too. (Checked the one pre-existing shared component, `FeedbackSheet`, for affected styles: none, so nothing else changes visually.)
+- **Verified the "What goes into your score" feature on the simulator**, which had never been possible before: the "?" button appears top-right, opens the sheet, all five scoring factors and the disclaimer render, the sheet scrolls, "Done" closes it, and the button correctly hides itself on the info screens. Ray also clicked through it on the capture and results screens.
+
+**Correction to the 2026-07-25 entry below**
+- That entry named `Sentry.init()` as the likely trigger for the launch crash. **That was wrong.** The error came from inside React Native's own startup sequence, which runs before any of our code — so Sentry could never have caused it. Sentry needed no changes and none were made.
+
+**Why it mattered**
+- This crash had blocked all on-simulator verification and had been written off as an unfixable quirk of the sandbox. It was a real bug that would bite anyone doing a fresh install, and it took minutes to find once we read the actual error text instead of guessing.
+- The Tailwind blind spot is the more insidious one: it fails *silently*. Styles just don't apply, with no error anywhere.
+
+**Decisions made**
+- Fix the mobile side now; **leave the stale root lockfile alone for now** (Ray's call). It's the underlying cause and will recreate this problem on the next root install, but regenerating it changes how Vercel installs the API — that deserves its own change with the API build verified, not a drive-by fix. Flagged below.
+- Don't rebuild native to test JS changes. This is a JS-only reload: start Metro and deep-link the dev client. The previous session burned 30+ min on native rebuilds that could never have helped.
+
+**What this sets up next**
+- `feat/scoring-explained-ui` is now tested and committed — ready to merge.
+- **Known trap, not yet fixed:** root `package-lock.json` still lists `apps/*` as workspaces while root `package.json` lists only `apps/api` + `packages/*`. The next root `npm install` will recreate the duplicate-React crash. Fixing it means regenerating the root lockfile and confirming the Vercel API still installs and builds.
+
+---
+
+## 2026-07-25 — Cholesterol rubric rewrite branched off; "What goes into your score" UI built; simulator crash misattributed to Sentry
+
+**What changed**
+- Found a Cowork instance had made substantive uncommitted edits directly on `main` (the cholesterol scoring rubric rewrite in `apps/api/src/lib/claude/prompts.ts` — saturated-fat budget model, drops outdated trans-fat/dietary-cholesterol assumptions — see prior entry above for the rubric detail). Moved that work onto `feat/cholesterol-rubric-rewrite` (commit `0e2b761`) so `main` stays clean. Nothing was lost, just relocated.
+- Built the P1 backlog item "a simple 'how scores work' screen" (see `plan.md`'s NEXT section): a global "?" button (top-right, every screen except processing/how-it-works/scoring-explained) opening a new modal, `apps/mobile/app/scoring-explained.tsx`, with plain-English scoring factors matching the rewritten rubric. Lives on `feat/scoring-explained-ui`, uncommitted — ready for Sean to pull and test on his own simulator.
+- While trying to verify the UI change on-device (per this repo's manual-verification convention), hit a reproducible `[runtime not ready]` crash on app launch in this sandbox. Confirmed via a clean-`main` baseline test that the crash is **not** caused by the new UI code. Root-cause debugging (disabling Sentry's replay integration, then `Sentry.init()` entirely) pointed at `Sentry.init()` — specifically its early, synchronous runtime patching in `_layout.tsx` — as the likely trigger, but this was **not fully confirmed** before the investigation was cut short (see below) and `_layout.tsx` was reverted back to the clean, Sentry-enabled state. No code changes were kept from this investigation.
+
+**Why it mattered**
+- Uncommitted work sitting on `main` (twice in one session — once from Cowork, once when Claude Code itself briefly repeated the mistake) risks being lost or accidentally shipped. Both instances are now cleanly isolated on branches.
+- The "how scores work" UI directly answers the P1 backlog item already in `plan.md`.
+
+**Decisions made**
+- Ray flagged that the Sentry crash investigation went on an unprompted, unbounded tangent after a simple "why did it crash" question — should have proposed a bounded diagnostic plan and checked in before burning ~30+ min of build cycles. Noted for future sessions (see `feedback_debugging_approach` memory).
+- Stopped the Sentry investigation short of a confirmed root cause. The lead (Sentry.init's early patching) is real but unverified — someone should pick this up deliberately, not as a tangent.
+
+**What this sets up next**
+- Sean: pull `feat/scoring-explained-ui` and `feat/cholesterol-rubric-rewrite`, test both on his own machine, decide on merge.
+- If the Sentry crash matters for local dev (vs. just this sandbox), someone should deliberately reproduce and fix it — not clear yet whether it's sandbox-specific or would also hit Sean's machine.
+- Open question: are these two branches meant to ship together or independently?
+
+---
+
 ## 2026-07-08 (later) — Build 6 UI enhancements: 5 of 7 Linear tickets done
 
 **What changed**
