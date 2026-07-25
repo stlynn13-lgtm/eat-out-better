@@ -24,8 +24,13 @@
 - Fix the mobile side now; **leave the stale root lockfile alone for now** (Ray's call). It's the underlying cause and will recreate this problem on the next root install, but regenerating it changes how Vercel installs the API — that deserves its own change with the API build verified, not a drive-by fix. Flagged below.
 - Don't rebuild native to test JS changes. This is a JS-only reload: start Metro and deep-link the dev client. The previous session burned 30+ min on native rebuilds that could never have helped.
 
+**Also decided: the rubric rewrite and the UI that explains it are one change, not two**
+- The two branches were folded into one (`feat/scoring-explained-ui` now contains both). They were only separate because of how the work happened across sessions — nobody decided they were independent, and the 2026-07-25 entry left it as an open question.
+- Why they can't ship apart: the scoring screen tells users we measure against a ~13g saturated-fat budget and that we no longer penalize dishes for trans fat or dietary cholesterol. `main`'s deployed prompt still docks dishes for "high dietary cholesterol" and flags "trans fat present," and has no 13g budget at all. Shipping the UI alone would have the app confidently explaining a methodology it isn't using — on a health app, the worst kind of wrong.
+- Consequence: the tested UI is now gated behind the **untested** rubric. That's the right trade — but nothing merges until someone runs real menus through the new prompt.
+
 **What this sets up next**
-- `feat/scoring-explained-ui` is now tested and committed — ready to merge.
+- **Before merging:** validate the new rubric against real menus (and ideally run `apps/api/scripts/repeatability-test.ts`). Merging to `main` redeploys the API and changes live scoring for users the moment it lands.
 - **Known trap, not yet fixed:** root `package-lock.json` still lists `apps/*` as workspaces while root `package.json` lists only `apps/api` + `packages/*`. The next root `npm install` will recreate the duplicate-React crash. Fixing it means regenerating the root lockfile and confirming the Vercel API still installs and builds.
 
 ---
@@ -33,7 +38,7 @@
 ## 2026-07-25 — Cholesterol rubric rewrite branched off; "What goes into your score" UI built; simulator crash misattributed to Sentry
 
 **What changed**
-- Found a Cowork instance had made substantive uncommitted edits directly on `main` (the cholesterol scoring rubric rewrite in `apps/api/src/lib/claude/prompts.ts` — saturated-fat budget model, drops outdated trans-fat/dietary-cholesterol assumptions — see prior entry above for the rubric detail). Moved that work onto `feat/cholesterol-rubric-rewrite` (commit `0e2b761`) so `main` stays clean. Nothing was lost, just relocated.
+- Found a Cowork instance had made substantive uncommitted edits directly on `main` (the cholesterol scoring rubric rewrite in `apps/api/src/lib/claude/prompts.ts` — saturated-fat budget model, drops outdated trans-fat/dietary-cholesterol assumptions — see the rubric entry below for the detail). Moved that work onto `feat/cholesterol-rubric-rewrite` (commit `0e2b761`) so `main` stays clean. Nothing was lost, just relocated.
 - Built the P1 backlog item "a simple 'how scores work' screen" (see `plan.md`'s NEXT section): a global "?" button (top-right, every screen except processing/how-it-works/scoring-explained) opening a new modal, `apps/mobile/app/scoring-explained.tsx`, with plain-English scoring factors matching the rewritten rubric. Lives on `feat/scoring-explained-ui`, uncommitted — ready for Sean to pull and test on his own simulator.
 - While trying to verify the UI change on-device (per this repo's manual-verification convention), hit a reproducible `[runtime not ready]` crash on app launch in this sandbox. Confirmed via a clean-`main` baseline test that the crash is **not** caused by the new UI code. Root-cause debugging (disabling Sentry's replay integration, then `Sentry.init()` entirely) pointed at `Sentry.init()` — specifically its early, synchronous runtime patching in `_layout.tsx` — as the likely trigger, but this was **not fully confirmed** before the investigation was cut short (see below) and `_layout.tsx` was reverted back to the clean, Sentry-enabled state. No code changes were kept from this investigation.
 
@@ -48,7 +53,37 @@
 **What this sets up next**
 - Sean: pull `feat/scoring-explained-ui` and `feat/cholesterol-rubric-rewrite`, test both on his own machine, decide on merge.
 - If the Sentry crash matters for local dev (vs. just this sandbox), someone should deliberately reproduce and fix it — not clear yet whether it's sandbox-specific or would also hit Sean's machine.
-- Open question: are these two branches meant to ship together or independently?
+- Open question: are these two branches meant to ship together or independently? *(Answered 2026-07-26: together — see the top entry.)*
+
+---
+
+## 2026-07-25 — Regrounded the cholesterol ranking prompt (saturated-fat budget + science fixes)
+
+**What changed**
+- Rewrote `RANKING_SYSTEM_BASE` in `apps/api/src/lib/claude/prompts.ts` — the live prompt that scores each dish 1–10 for high cholesterol. It now:
+  - Makes saturated fat the explicit primary lever, anchored to the real AHA daily budget (~13g/day), with gram-based tier bands instead of vague qualitative ones.
+  - Adds protective factors (unsaturated/omega-3 fat quality, soluble fiber, plant sterols) as a real second axis that can raise a score even when saturated fat is moderate.
+  - Demotes trans fat from the default worst-case trigger to an edge-case flag (partially hydrogenated oils have been out of US food since 2018–2021). "Fried/crispy" now routes to a preparation penalty, not trans fat.
+  - Demotes dietary cholesterol (egg yolk, shellfish) per the 2015 Dietary Guidelines / 2019 AHA advisory — these are now judged on their (usually low) saturated fat.
+- Persona, one-sentence non-judgmental explanation rules, and the prompt-injection guardrail were left unchanged. OCR prompt, scoring thresholds, and pipeline untouched.
+
+**Why it mattered**
+- The old rubric's two worst-case triggers rested on outdated science: trans fat (effectively banned) and dietary cholesterol (de-emphasized). The clearest behavior change is an egg omelet moving from red to green.
+- The old scoring bands were qualitative and ungrounded; anchoring to the 13g/day budget replaces invented precision with a defensible reference. Component-level nutrient decomposition also showed several of Sean's KB per-ingredient point weights were the same saturated-fat lever double-counted.
+- Reviewed with Sean before implementing.
+
+**Decisions made**
+- Stayed on the single-LLM-call approach (Option A); did NOT build a deterministic scoring engine (Option B).
+- Sean's 30-page Scoring Knowledge Base was confirmed to have never been wired into the live system — it's reference-only and was banner'd as such. This work targets the live prompt, not the KB.
+
+**What this sets up next**
+- Run the repeatability test (`apps/api/scripts/repeatability-test.ts`) to measure score drift at temp 0.2 vs 0.
+- Higher-value follow-up: the ingredient-guessing validation (~15 ambiguous real-restaurant dish names vs. assumed hidden ingredients).
+- Optional: USDA FoodData Central rigor pass on the per-ingredient saturated-fat numbers used to design the bands.
+
+**Reference docs added**
+- `rubric-prompt-change-proposal.md` — the full proposal (rationale + before/after + open questions).
+- `prompts-snapshot.md` — verbatim baseline of all live prompts before this change.
 
 ---
 
