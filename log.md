@@ -6,6 +6,36 @@
 
 ---
 
+## 2026-07-25 — Regrounded the cholesterol ranking prompt (saturated-fat budget + science fixes)
+
+**What changed**
+- Rewrote `RANKING_SYSTEM_BASE` in `apps/api/src/lib/claude/prompts.ts` — the live prompt that scores each dish 1–10 for high cholesterol. It now:
+  - Makes saturated fat the explicit primary lever, anchored to the real AHA daily budget (~13g/day), with gram-based tier bands instead of vague qualitative ones.
+  - Adds protective factors (unsaturated/omega-3 fat quality, soluble fiber, plant sterols) as a real second axis that can raise a score even when saturated fat is moderate.
+  - Demotes trans fat from the default worst-case trigger to an edge-case flag (partially hydrogenated oils have been out of US food since 2018–2021). "Fried/crispy" now routes to a preparation penalty, not trans fat.
+  - Demotes dietary cholesterol (egg yolk, shellfish) per the 2015 Dietary Guidelines / 2019 AHA advisory — these are now judged on their (usually low) saturated fat.
+- Persona, one-sentence non-judgmental explanation rules, and the prompt-injection guardrail were left unchanged. OCR prompt, scoring thresholds, and pipeline untouched.
+
+**Why it mattered**
+- The old rubric's two worst-case triggers rested on outdated science: trans fat (effectively banned) and dietary cholesterol (de-emphasized). The clearest behavior change is an egg omelet moving from red to green.
+- The old scoring bands were qualitative and ungrounded; anchoring to the 13g/day budget replaces invented precision with a defensible reference. Component-level nutrient decomposition also showed several of Sean's KB per-ingredient point weights were the same saturated-fat lever double-counted.
+- Reviewed with Sean before implementing.
+
+**Decisions made**
+- Stayed on the single-LLM-call approach (Option A); did NOT build a deterministic scoring engine (Option B).
+- Sean's 30-page Scoring Knowledge Base was confirmed to have never been wired into the live system — it's reference-only and was banner'd as such. This work targets the live prompt, not the KB.
+
+**What this sets up next**
+- Run the repeatability test (`apps/api/scripts/repeatability-test.ts`) to measure score drift at temp 0.2 vs 0.
+- Higher-value follow-up: the ingredient-guessing validation (~15 ambiguous real-restaurant dish names vs. assumed hidden ingredients).
+- Optional: USDA FoodData Central rigor pass on the per-ingredient saturated-fat numbers used to design the bands.
+
+**Reference docs added**
+- `rubric-prompt-change-proposal.md` — the full proposal (rationale + before/after + open questions).
+- `prompts-snapshot.md` — verbatim baseline of all live prompts before this change.
+
+---
+
 ## 2026-07-08 (later) — Build 6 UI enhancements: 5 of 7 Linear tickets done
 
 **What changed**
