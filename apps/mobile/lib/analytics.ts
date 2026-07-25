@@ -164,6 +164,10 @@ export function trackFeedbackRatingSubmitted(
   ph.capture("feedback_rating_submitted", { screen, rating });
 }
 
+export function trackScoringInfoOpened(ph: PostHog, screen: string): void {
+  ph.capture("scoring_info_opened", { screen });
+}
+
 export function trackNewScanInitiated(
   ph: PostHog,
   previousScanSessionId: string,

@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PostHogProvider, usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 import { POSTHOG_API_KEY, POSTHOG_HOST, registerSuperProperties } from "../lib/analytics";
+import ScoringInfoButton from "../components/ScoringInfoButton";
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
@@ -49,7 +50,9 @@ export default Sentry.wrap(function RootLayout() {
           />
           <Stack.Screen name="results" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
+          <Stack.Screen name="scoring-explained" options={{ presentation: "modal" }} />
         </Stack>
+        <ScoringInfoButton />
       </GestureHandlerRootView>
     </PostHogProvider>
   );
