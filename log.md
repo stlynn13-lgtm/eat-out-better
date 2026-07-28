@@ -6,6 +6,39 @@
 
 ---
 
+## 2026-07-27 — Critical review of the cholesterol rubric rewrite; 6 fixes made before shipping as build 7
+
+**What changed**
+- **Found that Ray's rubric rewrite (`0e2b761`) had already reached `origin/main`** via the `a82fe94` merge — despite the 2026-07-26 log entry explicitly stating "nothing merges until someone runs real menus through the new prompt." No live-menu validation had happened yet. Flagged to Sean immediately; Vercel deploy status of `main` needs manual confirmation (no `.vercel` link or CLI available in this environment to check directly).
+- **Ran a critical accuracy review of the rubric** (no `ANTHROPIC_API_KEY` available in this environment, so this was a manual walk-through of the exact prompt text against real nutrition figures and adversarial dish examples, not a live API test — a live-API repeatability/validation pass per `rubric-prompt-change-proposal.md` §8 is still outstanding). Found and fixed 6 issues in `apps/api/src/lib/claude/prompts.ts`:
+  1. **Real accuracy risk:** the "eggs/shellfish are de-emphasized" language sat right next to the scoring instruction with no separation from preparation — a dish like Eggs Benedict (hollandaise = butter) or Shrimp Scampi (garlic butter sauce) risked getting a pass on cholesterol grounds while the actual butter-heavy sauce went uncounted. Rewrote to explicitly cover the protein only, and added hollandaise/scampi to the hidden-fat inference examples.
+  2. **Structural bug:** the saturated-fat tier bands had two gaps (6.0–6.5g and 7.5–8.0g) where no score was reachable — a dish estimated at 5.9g vs 6.1g (indistinguishable at estimation precision) could swing 2+ points. Made the bands contiguous.
+  3. **Double-counting:** "mostly unsaturated fat" was both a base-tier trigger and a protective-factor bump — same signal credited twice. Now credited in one place only.
+  4. **Unquantified adjustment:** the protective-factor bump had no stated size (unlike the preparation adjustment, which does) — the prompt's own salmon example implied a magnitude it never stated. Quantified it (~1.0–2.0 points).
+  5. **Narrow cooking-fat inference:** only alfredo/curry/fried-breaded triggered a cooking-fat assumption; anything else pan-cooked (e.g. an omelet) risked only counting named ingredients. Broadened to a general rule.
+  6. **Minor:** softened "no general cardiovascular link" (overstates the 2019 AHA advisory's actual finding of weak/insufficient evidence, not zero risk) to avoid overclaiming certainty for an app whose users specifically have high cholesterol.
+- **Also fixed a pre-existing, unrelated security gap** noticed while in the file: `getRankingUserPrompt` interpolated OCR'd dish names/descriptions into the `<dishes>...</dishes>` block with no sanitization — a crafted menu photo containing literal `</dishes>` text could close the tag early and defeat the prompt-injection guardrail. Added angle-bracket stripping. This predates Ray's rubric change; not part of the rubric logic.
+
+**Why it mattered**
+- This is a health-scoring feature; getting the cholesterol logic right matters more than most bugs in this app. The Eggs Benedict/scampi risk was the most serious: it could make the score *less* accurate for exactly the dishes where restaurant butter content is highest, in the opposite direction from what the rewrite intended.
+
+**Decisions made**
+- Fixed in place on `feat/scoring-explained-ui` rather than a new branch, since that branch and `origin/main` currently point at the same commit — committed as a new, separate commit on top so the fix is reviewable independently of Ray's original change.
+- Did not push. Did not merge/redeploy. Sean to review and decide.
+
+**What this sets up next**
+- **Still outstanding (per the original proposal, unchanged by this review):** run `apps/api/scripts/repeatability-test.ts` against the fixed prompt with a real `ANTHROPIC_API_KEY`, and do the ~15-dish ingredient-guessing validation against real restaurant menus, before this becomes build 7.
+- **Confirm whether `origin/main`'s current (pre-fix) prompt is live on Vercel right now** — if so, the Eggs Benedict/scampi-style underestimate may be affecting real users until this fix ships.
+- Bump `apps/mobile/app.config.ts` to version `1.1.4` / buildNumber `7` once merged, then EAS build + TestFlight submit (same flow as build 6).
+
+**Still needs Sean**
+- Review the 6 prompt fixes (diff in `apps/api/src/lib/claude/prompts.ts` on `feat/scoring-explained-ui`).
+- Run the repeatability test with a real API key, or say go-ahead to run it another way.
+- Confirm Vercel's current deployed state of `main`.
+- Decide whether to merge now or wait for the live-menu validation pass.
+
+---
+
 ## 2026-07-26 — Launch crash root-caused and fixed (duplicate React); scoring UI verified on simulator
 
 **What changed**

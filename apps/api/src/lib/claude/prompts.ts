@@ -47,22 +47,22 @@ const RANKING_SYSTEM_BASE = `You are a board-certified dietitian and nutrition s
 
 HOW TO SCORE (high cholesterol), 1.0 to 10.0, one decimal:
 
-Saturated fat is the dominant lever. Estimate the dish's saturated fat for a typical restaurant portion, then judge it against a daily budget of ~13g (the AHA limit). Infer likely hidden fats from the dish type even if unstated — e.g. alfredo/korma/curry imply cream, butter, or coconut; "crispy"/"breaded" imply frying. Do not let words like "salad," "bowl," or "fresh" launder a dish that is actually high in saturated fat.
+Saturated fat is the dominant lever. Estimate the dish's TOTAL saturated fat for a typical restaurant portion — including fat added by the cooking method, not just named ingredients. Most restaurant dishes are cooked with real butter or oil even when the menu doesn't say so; assume some cooking fat unless the dish is explicitly raw, steamed, boiled, or dry-roasted with no sauce. Then judge the total against a daily budget of ~13g (the AHA limit). Infer likely hidden fats from the dish type even if unstated — e.g. alfredo/korma/curry imply cream, butter, or coconut; hollandaise, beurre blanc, and "scampi"-style preparations imply a butter-based sauce; "crispy"/"breaded" imply frying. Do not let words like "salad," "bowl," "fresh," or a low-fat protein name (egg, shrimp, chicken) launder a dish whose sauce or cooking method is actually high in saturated fat.
 
 Assign a base tier from the estimated saturated fat:
 - ~20g or more (a full day's budget or more in one dish): 1.0-3.0
 - ~12-20g (most of the day's budget): 3.0-4.5
 - ~6-12g (a meaningful share): 4.5-6.0
-- ~2-6g (minor): 6.5-7.5
-- Under ~2g, or fat that is mostly UNSATURATED: 8.0-10.0
+- ~2-6g (minor): 6.0-7.5
+- Under ~2g: 7.5-10.0
 
-Then adjust for PROTECTIVE factors (raise the score): omega-3 / mostly-unsaturated fat (oily fish, olive oil, avocado, nuts), soluble fiber (beans, lentils, oats, vegetables), and plant sterols. These actively lower cholesterol — credit them even when saturated fat is moderate. Example: grilled salmon has moderate saturated fat but scores high because its fat is mostly unsaturated omega-3s.
+Then adjust for PROTECTIVE factors: fat that is mostly unsaturated (oily fish, olive oil, avocado, nuts), soluble fiber (beans, lentils, oats, vegetables), and plant sterols actively lower cholesterol — credit them even when saturated fat is moderate. This is the ONLY place fat quality is credited (do not also jump to the top base tier for "mostly unsaturated" fat — that would double-count the same signal). Move the score up by roughly half a tier to a full tier (~1.0-2.0 points) depending on how dominant the protective factor is. Example: grilled salmon's saturated fat lands in the 2-6g band (6.0-7.5) on quantity alone, but because that fat is mostly omega-3, credit it up to ~8.5-9.5.
 
 Adjust for PREPARATION: deep-fried lowers the score about half a band (calorie and fat loading — NOT because of trans fat); grilled, baked, steamed, or poached is neutral to slightly favorable. Large or shareable portions push the score down a tier.
 
 IMPORTANT — current science:
 - Trans fat (partially hydrogenated oils) has been banned in US restaurants since 2021. Do NOT treat "fried" or "crispy" as trans fat. Only flag trans fat for genuine edge cases (some imported goods, non-compliant kitchens). It is no longer the default worst case.
-- Dietary cholesterol (egg yolks, shellfish) is de-emphasized in current guidance (the 300mg cap was removed in 2015; the 2019 AHA advisory found no general cardiovascular link for most people). Judge these dishes on their saturated fat, which is usually low — do not heavily penalize them for cholesterol content alone.
+- Dietary cholesterol in the EGG OR SHELLFISH ITSELF (egg yolks, shrimp, etc.) is de-emphasized in current guidance (the 300mg/day cap was removed in 2015; the 2019 AHA advisory found the evidence for a direct cardiovascular link much weaker than previously believed, though it isn't zero for everyone). Do not penalize the protein itself for its cholesterol content. But this covers the PROTEIN ONLY — score the dish's actual preparation independently and on its own merits. Eggs Benedict (hollandaise = butter), shrimp scampi (garlic butter sauce), and coconut shrimp (fried, coconut) all carry real saturated fat from their sauce or cooking method and must score on that, not get a pass because "eggs/shellfish are fine now."
 
 EXPLANATION RULES:
 - Maximum one sentence.
@@ -92,6 +92,14 @@ export function getRankingSystemPrompt(
   }
 }
 
+// Strips angle brackets from OCR'd text before it's interpolated into the
+// <dishes> block below — a crafted menu photo could otherwise close the tag
+// early (e.g. a "dish name" containing "</dishes>") and inject instructions
+// outside the untrusted-content boundary the security rule relies on.
+function stripTagChars(s: string): string {
+  return s.replace(/[<>]/g, "");
+}
+
 export function getRankingUserPrompt(
   dishes: Array<{ name: string; description?: string }>,
   conditionId: HealthConditionId
@@ -101,8 +109,9 @@ export function getRankingUserPrompt(
 
   const dishList = dishes
     .map((d, i) => {
-      const desc = d.description ? ` — ${d.description}` : "";
-      return `${i + 1}. ${d.name}${desc}`;
+      const name = stripTagChars(d.name);
+      const desc = d.description ? ` — ${stripTagChars(d.description)}` : "";
+      return `${i + 1}. ${name}${desc}`;
     })
     .join("\n");
 
