@@ -76,3 +76,11 @@ yarn-error.log*
 my-app/
 Eat_Out_Better_GTM_Launch_Tracker.xlsx
 HANDOFF-build6-ui.md
+
+# Living strategy/reference docs. These change continuously, aren't tied to any
+# build version, and ship no code. Source of truth is Google Drive — the repo
+# would only carry stale copies.
+GTM-strategy-phase1.md
+cost-and-golive-requirements.md
+monetization-brainstorm-prompt.md
+monetization-strategy.md
