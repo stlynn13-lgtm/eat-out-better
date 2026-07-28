@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
-import type { RankedDish } from "@eat-out-better/shared";
+import type { RankedDish, UnreadableItem } from "@eat-out-better/shared";
 import { getTier, formatScore } from "@eat-out-better/shared";
 import {
   generateId,
@@ -57,7 +57,7 @@ export default function ResultsScreen() {
     );
   }
 
-  if (!results || results.length === 0) {
+  if (!session && status !== "complete") {
     return (
       <SafeAreaView className="flex-1 bg-gray-50 items-center justify-center">
         <Text className="text-gray-500 text-sm">Loading results…</Text>
@@ -65,10 +65,13 @@ export default function ResultsScreen() {
     );
   }
 
+  const dishes = results ?? [];
+  const unreadable: UnreadableItem[] = session?.unreadableItems ?? [];
+
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <FlatList
-        data={results}
+        data={dishes}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
           paddingHorizontal: 20,
@@ -94,15 +97,21 @@ export default function ResultsScreen() {
               <Text className="text-gray-600 text-base">←</Text>
             </TouchableOpacity>
             <View className="flex-row items-center justify-between mb-1">
-              <Text className="text-xl font-bold text-gray-900">Menu Results</Text>
-              <View className="bg-gray-100 rounded-full px-2.5 py-1">
-                <Text className="text-xs font-semibold text-gray-700">
-                  {results.length} dish{results.length !== 1 ? "es" : ""}
-                </Text>
-              </View>
+              <Text className="text-xl font-bold text-gray-900">
+                {dishes.length > 0 ? "Menu Results" : "We couldn't read your menu"}
+              </Text>
+              {dishes.length > 0 ? (
+                <View className="bg-gray-100 rounded-full px-2.5 py-1">
+                  <Text className="text-xs font-semibold text-gray-700">
+                    {dishes.length} dish{dishes.length !== 1 ? "es" : ""}
+                  </Text>
+                </View>
+              ) : null}
             </View>
             <Text className="text-base text-gray-500">
-              Ranked best to worst for your heart
+              {dishes.length > 0
+                ? "Ranked best to worst for your heart"
+                : "We couldn't confidently read any dishes from your photos."}
             </Text>
             {session?.processingTimeMs ? (
               <Text className="text-xs text-gray-400 mt-1">
@@ -117,6 +126,9 @@ export default function ResultsScreen() {
           <DishCard dish={item} rank={item.rank ?? index + 1} />
         )}
         ItemSeparatorComponent={() => <View className="h-3" />}
+        ListFooterComponent={
+          unreadable.length > 0 ? <UnreadableSection items={unreadable} /> : null
+        }
       />
 
       <View
@@ -229,6 +241,35 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
           </Text>
         </View>
       ) : null}
+    </View>
+  );
+}
+
+function UnreadableSection({ items }: { items: UnreadableItem[] }) {
+  return (
+    <View className="mt-6">
+      <Text className="text-base font-bold text-gray-900 mb-1">
+        Couldn't read these
+      </Text>
+      <Text className="text-xs text-gray-500 mb-3 leading-relaxed">
+        We weren't sure what these said, so we didn't rank them. Here's our best
+        guess at the text — double-check the menu yourself.
+      </Text>
+      {items.map((item, index) => (
+        <View
+          key={`${item.text}-${index}`}
+          className="rounded-2xl border border-gray-200 bg-white p-4 mb-3"
+        >
+          <Text className="text-sm font-semibold text-gray-800">
+            "{item.text}"
+          </Text>
+          <Text className="text-xs text-gray-500 mt-1 leading-relaxed">
+            {item.reason
+              ? `${item.reason} — can't be ranked.`
+              : "We couldn't confidently identify this item, so it can't be ranked."}
+          </Text>
+        </View>
+      ))}
     </View>
   );
 }

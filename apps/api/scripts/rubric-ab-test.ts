@@ -120,6 +120,21 @@ const client = new Anthropic({
   timeout: 60_000,
 });
 
+/** Full error detail — an SDK error's `message` alone hides status and body. */
+function describeError(err: unknown): string {
+  if (err && typeof err === "object") {
+    const e = err as { status?: number; name?: string; message?: string; error?: unknown };
+    const parts = [
+      e.name && `name=${e.name}`,
+      e.status != null && `status=${e.status}`,
+      e.message && `message=${e.message}`,
+      e.error && `body=${JSON.stringify(e.error).slice(0, 400)}`,
+    ].filter(Boolean);
+    if (parts.length) return parts.join("  ");
+  }
+  return String(err);
+}
+
 async function scoreOnce(system: string): Promise<Map<string, number>> {
   const message = await client.messages.create({
     model: MODEL,
@@ -129,11 +144,30 @@ async function scoreOnce(system: string): Promise<Map<string, number>> {
     messages: [{ role: "user", content: getRankingUserPrompt(DISHES, CONDITION) }],
   });
 
-  const block = message.content[0];
-  const raw = block.type === "text" ? block.text.trim() : "";
+  // Find the text block rather than assuming content[0] — a non-text leading
+  // block would otherwise surface as an opaque JSON parse failure.
+  const block = message.content.find((b) => b.type === "text");
+  const raw = block && block.type === "text" ? block.text.trim() : "";
+  if (!raw) {
+    throw new Error(
+      `No text block in response (stop_reason=${message.stop_reason}, blocks=[${message.content
+        .map((b) => b.type)
+        .join(", ")}])`
+    );
+  }
+  if (message.stop_reason === "max_tokens") {
+    throw new Error(
+      `Response truncated at max_tokens — raise max_tokens or cut the probe set (got ${raw.length} chars)`
+    );
+  }
   const cleaned = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
 
-  const parsed = JSON.parse(cleaned) as Array<{ name: string; score: number }>;
+  let parsed: Array<{ name: string; score: number }>;
+  try {
+    parsed = JSON.parse(cleaned) as Array<{ name: string; score: number }>;
+  } catch {
+    throw new Error(`Model did not return valid JSON. First 300 chars: ${cleaned.slice(0, 300)}`);
+  }
   const scores = new Map<string, number>();
   // Match the way ranking.ts reconciles model output back to input dishes, so
   // a cosmetic rename by the model doesn't silently drop a probe.
@@ -165,8 +199,31 @@ async function main() {
 
   console.log(`model=${MODEL}  temp=${TEMP}  runs=${RUNS}  dishes=${DISHES.length}`);
 
+  // Preflight: one real call before spending 2 x RUNS of them. If the key,
+  // model, or response shape is wrong, fail here with the actual reason rather
+  // than printing a wall of "x" and an empty results file.
+  process.stdout.write("preflight... ");
+  try {
+    const probe = await scoreOnce(VARIANTS[0].system);
+    console.log(`ok (${probe.size}/${DISHES.length} dishes parsed)`);
+    if (probe.size < DISHES.length) {
+      console.warn(
+        `  WARNING: ${DISHES.length - probe.size} probe dish(es) missing from the response — ` +
+          `results for those will read "no data", not "unchanged".`
+      );
+    }
+  } catch (err) {
+    console.error("\nPREFLIGHT FAILED — no runs attempted.");
+    console.error(`  ${describeError(err)}`);
+    console.error("\nCommon causes: invalid or expired ANTHROPIC_API_KEY, no credit balance,");
+    console.error("the account lacking access to " + MODEL + ", or a corporate proxy blocking api.anthropic.com.");
+    process.exit(1);
+  }
+
   const csvRows: string[] = ["variant,run,dish,score"];
   const meansByVariant = new Map<string, Map<string, number>>();
+  let totalFailures = 0;
+  const firstErrors: string[] = [];
 
   for (const variant of VARIANTS) {
     console.log(`\n=== ${variant.label} — ${RUNS} runs at temp ${TEMP} ===`);
@@ -186,7 +243,8 @@ async function main() {
         process.stdout.write(".");
       } catch (err) {
         process.stdout.write("x");
-        console.error(`\n run ${i + 1} failed:`, err instanceof Error ? err.message : err);
+        totalFailures++;
+        if (firstErrors.length < 3) firstErrors.push(`${variant.label} run ${i + 1}: ${describeError(err)}`);
       }
     }
 
@@ -237,11 +295,28 @@ async function main() {
     for (const d of DISHES) console.log(`  ${d.name.padEnd(24)} ${d.why}`);
   }
 
+  // A run that collected nothing must never look like a clean run. The CSV is
+  // only written when it has real rows, and any failure is a nonzero exit.
+  const dataRows = csvRows.length - 1;
+  if (firstErrors.length) {
+    console.error(`\n${totalFailures} run(s) failed. First errors:`);
+    for (const e of firstErrors) console.error(`  ${e}`);
+  }
+  if (dataRows === 0) {
+    console.error("\nNO DATA COLLECTED — every run failed. Nothing was written; there is no result to read.");
+    process.exit(1);
+  }
+
   const outPath = "rubric-ab-results.csv";
   writeFileSync(outPath, csvRows.join("\n"));
-  console.log(`\nRaw scores written to ${outPath}`);
+  console.log(`\n${dataRows} score rows written to ${outPath}`);
   console.log("Read: range <= 0.5 and 0 flips = cosmetic. Any tier flip or range > 1.0 = real.");
   console.log("Decide: every TIER CHANGE above must be one you intended. Unintended ones block the ship.");
+
+  if (totalFailures > 0) {
+    console.error(`\nWARNING: ${totalFailures} run(s) failed — the table above is based on partial data.`);
+    process.exit(1);
+  }
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => { console.error(describeError(e)); process.exit(1); });

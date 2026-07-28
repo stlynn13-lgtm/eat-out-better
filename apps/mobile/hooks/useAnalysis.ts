@@ -257,7 +257,10 @@ export function useAnalysis() {
           return;
         }
 
-        if (json.data.dishCount === 0) {
+        // Only treat as empty if we found NOTHING — if OCR surfaced unreadable
+        // items we still show results so the "couldn't read" section appears (EAT-9).
+        const unreadableCount = json.data.unreadableItems?.length ?? 0;
+        if (json.data.dishCount === 0 && unreadableCount === 0) {
           const durationSeconds = (Date.now() - startedAt) / 1000;
           if (posthog) trackMenuAnalysisFailed(posthog, scanSessionId, "OCR_EMPTY", durationSeconds, imageUris.length);
           store.setError({
