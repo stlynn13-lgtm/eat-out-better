@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:repeatability": "npx --yes tsx scripts/repeatability-test.ts",
+    "test:rubric-ab": "npx --yes tsx scripts/rubric-ab-test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

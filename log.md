@@ -6,6 +6,41 @@
 
 ---
 
+## 2026-07-27 (later) — Second-opinion review of the rubric fixes; 3 of 6 revised, tier bands re-cut, test harness made runnable
+
+**What changed**
+- **Confirmed the thing that was previously unverified: the unvalidated rubric IS live in production.** `a82fe94` is the current head of `origin/main`, Vercel auto-builds `main`, and `https://eat-out-better-api.vercel.app/api/health` returns `"environment":"production"`. Real users are being scored by the rewrite right now, with no live-menu validation behind it.
+- **Found that the test scripts could never have been run non-interactively.** `tsx` isn't installed in this repo, so the documented command (`npx tsx scripts/repeatability-test.ts`) drops into npx's "Ok to proceed? (y)" prompt and hangs forever in any non-interactive shell — which is exactly what a background agent or CI job gets. Added `npm run test:repeatability` / `npm run test:rubric-ab`, both using `npx --yes`, and verified they execute and stop cleanly at the API-key guard. This is plausibly a large part of *why* the validation never happened.
+  - Deliberately did **not** add `tsx` as a devDependency: doing so meant regenerating the root `package-lock.json` (a 15k-line, 11.7k-deletion diff), which is precisely the change Ray deferred on 2026-07-26 because it alters how Vercel installs the API. Reverted it. `apps/api/package.json` now changes by exactly two script lines and the lockfile is untouched. (Mobile `node_modules` verified undamaged afterwards — React still 19.2.3.)
+- **Re-cut the saturated-fat tier bands.** The previous fix closed the two gaps by moving the band floors *down* (2–6g became 6.0–7.5). That dragged the 2–6g band below the app's 7.0 green line — which is where the Spinach & Egg Omelet sits, the single dish whose red→green move was the whole point of Ray's rewrite. Closed the gaps *upward* instead (`4.5–6.5 / 6.5–8.0 / 8.0–10.0`), so the bands are contiguous **and** the 7.0 line sits inside the 2–6g band rather than above it.
+- **Fixed an internal contradiction in the cooking-fat rule.** It instructed the model to assume added cooking fat for anything not "raw, steamed, boiled, or dry-roasted" — which excluded *grilled*, while the very next paragraph calls grilled "neutral to slightly favorable." Grilled salmon and grilled chicken, the app's flagship green dishes, were being told to add butter and not to, in adjacent sentences. Grilled/broiled/baked/poached are now explicitly on the no-added-fat list.
+- **Fixed the protective-factor arithmetic.** The previous version said base band 6.0–7.5 plus a 1.0–2.0 bump, then asserted salmon "lands at 8.5–9.5" — unreachable from the band floor. It also let the top band (7.5–10.0) plus a 2.0 bump imply a score of 12.0. Now: bump is 0.5–1.5, capped at 10.0, and the salmon example resolves cleanly (~5g sat fat → base 6.5–8.0 → ~9.0, matching the proposal's own target).
+- **Trimmed the prompt.** The rubric section went 2,816 → 3,937 chars in the previous fix; it is now 3,517 — same corrections, ~420 chars less. Token cost was never the real concern (~$0.0008/scan on Haiku); instruction dilution was.
+- **Added `apps/api/scripts/rubric-ab-test.ts`** — runs the live-on-`main` rubric and the candidate rubric head-to-head over 17 probe dishes and prints a tier-change table. The probe set includes the proposal's 7 sanity dishes plus the dishes the two rubrics actually disagree about (Eggs Benedict, Shrimp Scampi, Coconut Shrimp, and a plain Shrimp Cocktail control), plus over-correction probes (Grilled Chicken Breast, Steamed Broccoli) and a Lentil Soup to check the protective bump can't exceed 10.0.
+
+**What was confirmed as correct in the previous review**
+- The Eggs Benedict / Shrimp Scampi concern is **real**, though for a sharper reason than was given: Ray's wording asserted these dishes' saturated fat "is usually low," which is factually false for a butter-sauce preparation (hollandaise ≈ 10–15g; scampi ≈ 14–29g at 2–4 Tbsp butter, USDA butter = 7.3g sat fat/Tbsp). Correcting it was warranted. Kept, tightened.
+- The `<dishes>` tag-injection fix is **sound and safe to keep.** Verified no code path breaks: `normalizeDishName()` in `ranking.ts` already strips non-alphanumerics for matching, and both fallback paths return the *original* unstripped name to the client, so what the user sees is unaffected.
+- Nutrition figures spot-checked against USDA: butter 7.3g sat/Tbsp ✓, farmed Atlantic salmon 3.1g/100g → ~5.3g per 6oz ✓ (the proposal's 5.25g holds), one large egg ~1.6g ✓, AHA ~13g/day ✓.
+
+**What was wrong in the previous review**
+- **The "double-counting" finding was a misdiagnosis.** The `or fat that is mostly UNSATURATED: 8.0-10.0` clause wasn't a redundant second credit — it was Ray's *primary* mechanism for salmon reaching ~9.0, with the protective paragraph as the prose explanation. Removing it broke salmon's calibration, which is precisely why a bump magnitude then had to be invented to restore it. Two fixes chasing one self-inflicted problem. The removal is fine *now* only because the bands were re-cut to make the arithmetic work.
+- **The dead-zone fix solved a cosmetic problem and created a real one.** The gaps (6.0–6.5, 7.5–8.0) were genuine, but both sat entirely *within* a single tier, so neither could ever change a dish's green/yellow/red outcome. The fix for them did.
+- **The AHA characterisation was overcorrected on a wrong premise.** The 2019 advisory *did* report that observational studies generally show no significant CVD association; it separately declined to set a numeric target and noted intervention data linking above-average intakes to higher LDL. Ray's original wording was closer to correct than credited. Current wording reflects both halves.
+
+**Why it mattered**
+- The previous review's own headline fix and its band change collided on the omelet — the one dish the entire rewrite was built around — and neither the collision nor its direction was noticed. That is the kind of error a manual walk-through cannot catch and the A/B test will.
+
+**Open question for Sean (needs a decision, not more analysis)**
+- **Should a restaurant omelet actually be green?** Ray's proposal predicted 7.0/green from 3.2g saturated fat — counting only the eggs, not the pan butter. At a realistic 1–2 tsp of butter it's ~6–8g total, which is honestly yellow. So either the proposal's target is wrong, or omelets should be scored as cooked with minimal fat. This is a nutrition call, and the "red→green omelet" headline of the whole rewrite depends on it.
+
+**What this sets up next**
+- Run `npm run test:rubric-ab` from `apps/api` with a real key. Every TIER CHANGE it prints must be one we intended; unintended ones block the ship.
+- Still outstanding: the ~15-dish real-menu ingredient-guessing validation (proposal §8).
+- Not pushed, not merged, not redeployed — same as before. Production still runs the unfixed rubric.
+
+---
+
 ## 2026-07-27 — Critical review of the cholesterol rubric rewrite; 6 fixes made before shipping as build 7
 
 **What changed**
