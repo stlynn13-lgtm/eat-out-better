@@ -50,6 +50,14 @@ export interface ExtractedDish {
   description?: string;
 }
 
+/** Text the OCR step saw but could NOT confidently read as a dish. Never ranked. */
+export interface UnreadableItem {
+  /** Our best-guess transcription of the text we couldn't confidently identify. */
+  text: string;
+  /** Short reason we couldn't read it (e.g. blur, glare, handwriting). */
+  reason?: string;
+}
+
 /** Score tier based on 1–10 scale */
 export type ScoreTier = "green" | "yellow" | "red";
 
@@ -120,6 +128,8 @@ export interface AnalyzeResponseData {
   dishes: RankedDish[];
   /** Pre-ranking extract — returned for V0.5 correction UI */
   rawDishes: ExtractedDish[];
+  /** Items OCR couldn't confidently read — surfaced separately, never ranked (EAT-9). */
+  unreadableItems: UnreadableItem[];
   dishCount: number;
   processingTimeMs: number;
   healthCondition: HealthConditionId;
@@ -142,6 +152,7 @@ export interface MenuSession {
   healthCondition: HealthConditionId;
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];
+  unreadableItems?: UnreadableItem[];
   dishCount: number;
   processingTimeMs: number;
   /** ISO string */

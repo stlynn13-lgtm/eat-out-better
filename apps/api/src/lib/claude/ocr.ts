@@ -12,7 +12,7 @@
 
 import { getAnthropicClient, MODELS } from "./client";
 import { OCR_SYSTEM_PROMPT } from "./prompts";
-import type { ExtractedDish } from "@/lib/types";
+import type { ExtractedDish, UnreadableItem } from "@/lib/types";
 
 const MAX_IMAGES = 10;
 // Per-image (images run in parallel). Budgeted so OCR (≤25s) + ranking (≤30s)
@@ -30,10 +30,14 @@ const OCR_MAX_TOKENS = 8_192;
  *   caller to distinguish "not a menu" (NOT_A_MENU) from "menu but unreadable"
  *   (OCR_EMPTY). Aggregated across pages: true if ANY page looked like a menu.
  * - `dishes`: merged, deduplicated dishes extracted across all pages.
+ * - `unreadable`: text the model saw but could NOT confidently read as a dish
+ *   (blur, glare, handwriting). Surfaced separately, NEVER ranked (EAT-9) —
+ *   the alternative was guessing it into `dishes`, i.e. hallucination.
  */
 export interface OcrResult {
   isMenu: boolean;
   dishes: ExtractedDish[];
+  unreadable: UnreadableItem[];
 }
 
 // -----------------------------------------------------------
@@ -68,6 +72,7 @@ export async function extractDishesFromImages(
 
   // Collect successful results; log failures
   const allDishes: ExtractedDish[] = [];
+  const allUnreadable: UnreadableItem[] = [];
   let failureCount = 0;
   // Aggregate across pages: treat the upload as a menu if ANY page looked like
   // one. A multi-page menu with a blank/odd page shouldn't be rejected.
@@ -77,6 +82,7 @@ export async function extractDishesFromImages(
     if (result.status === "fulfilled") {
       if (result.value.isMenu) anyMenu = true;
       allDishes.push(...result.value.dishes);
+      allUnreadable.push(...result.value.unreadable);
     } else {
       failureCount++;
       console.error("[OCR] Image extraction failed:", result.reason);
@@ -90,7 +96,11 @@ export async function extractDishesFromImages(
     );
   }
 
-  return { isMenu: anyMenu, dishes: deduplicateDishes(allDishes) };
+  return {
+    isMenu: anyMenu,
+    dishes: deduplicateDishes(allDishes),
+    unreadable: deduplicateUnreadable(allUnreadable),
+  };
 }
 
 // -----------------------------------------------------------
@@ -186,7 +196,7 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
       console.warn(
         `[OCR] Salvaged ${salvaged.length} dishes from unparseable JSON for image ${imageIndex + 1}`
       );
-      return { isMenu: true, dishes: salvaged };
+      return { isMenu: true, dishes: salvaged, unreadable: [] };
     }
     console.error(
       `[OCR] Failed to parse JSON for image ${imageIndex + 1}:`,
@@ -200,21 +210,29 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
     );
   }
 
-  // New shape: { isMenu, dishes }
+  // New shape: { isMenu, dishes, unreadable }
   if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-    const obj = parsed as { isMenu?: unknown; dishes?: unknown };
+    const obj = parsed as {
+      isMenu?: unknown;
+      dishes?: unknown;
+      unreadable?: unknown;
+    };
     const rawDishes = Array.isArray(obj.dishes) ? obj.dishes : [];
     const dishes = sanitizeDishes(rawDishes);
+    // EAT-9: text the model couldn't confidently read is routed here instead of
+    // being guessed into `dishes`. Never ranked — surfaced separately.
+    const rawUnreadable = Array.isArray(obj.unreadable) ? obj.unreadable : [];
+    const unreadable = sanitizeUnreadable(rawUnreadable);
     // Default isMenu sensibly: if the model omitted the flag but found dishes,
     // treat it as a menu rather than rejecting a real one.
     const isMenu =
       typeof obj.isMenu === "boolean" ? obj.isMenu : dishes.length > 0;
-    return { isMenu, dishes };
+    return { isMenu, dishes, unreadable };
   }
 
   // Legacy shape: bare array. Assume it's a menu for backward compatibility.
   if (Array.isArray(parsed)) {
-    return { isMenu: true, dishes: sanitizeDishes(parsed) };
+    return { isMenu: true, dishes: sanitizeDishes(parsed), unreadable: [] };
   }
 
   console.error(
@@ -270,6 +288,32 @@ function sanitizeDishes(raw: unknown[]): ExtractedDish[] {
       name: item.name.trim(),
       description: item.description?.trim() || undefined,
     }));
+}
+
+/** Coerces a raw parsed array into validated UnreadableItem records (EAT-9). */
+function sanitizeUnreadable(raw: unknown[]): UnreadableItem[] {
+  return raw
+    .filter(
+      (item): item is { text: string; reason?: string } =>
+        !!item &&
+        typeof item === "object" &&
+        typeof (item as { text?: unknown }).text === "string" &&
+        (item as { text: string }).text.trim().length > 0
+    )
+    .map((item) => ({
+      text: item.text.trim(),
+      reason: item.reason?.trim() || undefined,
+    }));
+}
+
+/** Deduplicates unreadable items by best-guess text (case-insensitive). */
+function deduplicateUnreadable(items: UnreadableItem[]): UnreadableItem[] {
+  const seen = new Map<string, UnreadableItem>();
+  for (const item of items) {
+    const key = item.text.toLowerCase().trim();
+    if (!seen.has(key)) seen.set(key, item);
+  }
+  return Array.from(seen.values());
 }
 
 /**

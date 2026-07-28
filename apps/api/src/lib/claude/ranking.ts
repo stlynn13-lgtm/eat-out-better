@@ -154,6 +154,14 @@ async function callRankingAPI(
 
 /**
  * Parses the JSON response from the ranking step.
+ *
+ * EAT-9 guard: the ranker may only return dishes that were actually extracted
+ * from the menu. Every returned item is matched (by normalized name) back to an
+ * input dish; anything that does not match is DROPPED as a hallucination. Any
+ * input dish the ranker omitted is re-added with a neutral fallback. This makes
+ * the output set exactly equal to the OCR-extracted set — we can never rank a
+ * dish that was not on the menu.
+ *
  * Falls back gracefully if parsing fails — assigns default scores.
  */
 function parseRankingResponse(
@@ -179,50 +187,72 @@ function parseRankingResponse(
     return generateFallbackRankings(originalDishes);
   }
 
-  const validated: RawRankedDish[] = parsed
-    .filter((item): item is Record<string, unknown> => {
-      if (!item || typeof item !== "object") return false;
-      const o = item as Record<string, unknown>;
-      // Accept numeric-string scores/ranks — Claude occasionally quotes them,
-      // and dropping the dish over that gave it a meaningless 5.0 fallback.
-      return (
-        typeof o.name === "string" &&
-        Number.isFinite(Number(o.score)) &&
-        Number.isFinite(Number(o.rank)) &&
-        typeof o.explanation === "string"
+  // Map normalized input name → canonical extracted dish. We only ever emit
+  // dishes that appear in this map, guaranteeing no off-menu items (EAT-9).
+  const inputByName = new Map<string, ExtractedDish>();
+  for (const dish of originalDishes) {
+    inputByName.set(normalizeDishName(dish.name), dish);
+  }
+
+  const seen = new Set<string>();
+  const validated: RawRankedDish[] = [];
+
+  for (const raw of parsed) {
+    if (!raw || typeof raw !== "object") continue;
+    const item = raw as Record<string, unknown>;
+    // Accept numeric-string scores/ranks — Claude occasionally quotes them,
+    // and dropping the dish over that gave it a meaningless 5.0 fallback.
+    if (
+      typeof item.name !== "string" ||
+      !Number.isFinite(Number(item.score)) ||
+      !Number.isFinite(Number(item.rank)) ||
+      typeof item.explanation !== "string"
+    ) {
+      continue;
+    }
+
+    const key = normalizeDishName(item.name);
+    const canonical = inputByName.get(key);
+    if (!canonical) {
+      // The ranker returned a dish that was never extracted from the menu — drop it.
+      console.warn(
+        `[Ranking] Dropped off-menu dish (not in OCR extraction): "${item.name}"`
       );
-    })
-    .map((item) => ({
-      name: item.name as string,
+      continue;
+    }
+    if (seen.has(key)) continue; // dedupe repeated dishes
+    seen.add(key);
+
+    validated.push({
+      name: canonical.name, // use the exact extracted name, not the model's echo
       score: Math.min(Math.max(Number(Number(item.score).toFixed(1)), 1.0), 10.0),
       rank: Number(item.rank),
       explanation: item.explanation as string,
       substitution: typeof item.substitution === "string" ? item.substitution : null,
-    }));
+    });
+  }
 
-  // If Claude returned fewer dishes than we sent, add fallbacks for missing
-  // ones. Match on normalized names (lowercase, alphanumerics only) so a minor
-  // rename by the model ("Chicken Parmigiana" → "Chicken Parmesan") doesn't
+  // Re-add any extracted dish the ranker omitted so every real dish still
+  // appears. Match on normalized names so a minor rename by the model doesn't
   // create both a renamed entry AND a duplicate 5.0 fallback.
   if (validated.length < originalDishes.length) {
-    const rankedNames = new Set(validated.map((d) => normalizeDishName(d.name)));
-    const missing = originalDishes.filter(
-      (d) => !rankedNames.has(normalizeDishName(d.name))
-    );
     const maxRank = validated.reduce((max, d) => Math.max(max, d.rank), 0);
-    for (const [i, dish] of missing.entries()) {
+    let offset = 1;
+    for (const dish of originalDishes) {
+      if (seen.has(normalizeDishName(dish.name))) continue;
       validated.push({
         name: dish.name,
         score: 5.0,
-        rank: maxRank + i + 1,
+        rank: maxRank + offset,
         explanation: "Unable to assess — insufficient information about preparation.",
         substitution: null,
       });
+      offset++;
     }
   }
 
   // Sort by the model's rank, then reassign sequential ranks (1..n) so
-  // duplicates or gaps from the model never surface in the UI.
+  // duplicates or gaps (dropping items can leave gaps) never surface in the UI.
   validated.sort((a, b) => a.rank - b.rank);
   return validated.map((dish, i) => ({ ...dish, rank: i + 1 }));
 }

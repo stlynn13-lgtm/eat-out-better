@@ -6,6 +6,27 @@
 
 ---
 
+## 2026-07-28 — Menu analysis no longer invents dishes (EAT-9); unreadable text gets its own section
+
+**What changed**
+- **The analyzer can no longer rank a dish that wasn't on the photographed menu.** Previously the two-step pipeline (read the menu, then rank what was read) could occasionally output a dish the restaurant never listed — the reading step or the ranking step would "helpfully" fill in something plausible. On a health app that reads as the app making things up, and it quietly erodes trust. Two fixes now prevent it:
+  - **A hard, deterministic guard in the ranking step.** Every dish the ranker returns is matched by name back to the exact list of dishes we actually read off the menu. Anything that doesn't match is dropped. This is code, not a polite instruction to the model — the ranked results can now only ever be a subset of what was really on the menu.
+  - **A stricter reading prompt.** The menu reader is told to transcribe text verbatim and never infer dishes a restaurant "would" have.
+- **Text we can't confidently read now gets surfaced honestly instead of guessed or dropped.** When the reader can see something that looks like a menu item but can't make it out (blur, glare, handwriting), it no longer either invents a dish name or silently discards it. That text goes into a separate "Couldn't read these" section on the results screen, showing our best-guess transcription and a plain note that it couldn't be ranked. If a photo is *only* unreadable text (no clearly readable dishes), the app now shows that section rather than a dead-end "we couldn't read any dishes" error.
+- **Every analysis is still computed only from the photos in that one request.** No results carry over from a previous scan or another user — this was already true server-side and stays that way.
+
+**Why it mattered**
+- A single hallucinated dish is worse than a missing one: the user can't tell it's wrong, and it undermines confidence in every other recommendation. The guarantee is now structural, not "the model usually behaves."
+
+**Where the work landed**
+- API: the reader (`ocr.ts`) now returns readable dishes *and* an "unreadable" list; the ranker (`ranking.ts`) enforces the subset guard; prompts hardened; the analyze route passes the unreadable list through to the app.
+- App: the results screen renders the new "Couldn't read these" section; iOS build number bumped 6 → 7 (app version stays 1.1.3).
+
+**Note on the ticket**
+- The original EAT-9 fix plan was written against an earlier version of the code and assumed things that had since changed (e.g. an older menu-reading format, a lower build number, and the old developer `CHANGELOG.md`). The *intent* was implemented faithfully and merged into the current code rather than applied verbatim; this log entry replaces the CHANGELOG entry the plan called for, since CHANGELOG.md is retired in favor of this file.
+
+---
+
 ## 2026-07-26 — Launch crash root-caused and fixed (duplicate React); scoring UI verified on simulator
 
 **What changed**

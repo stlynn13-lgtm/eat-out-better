@@ -50,6 +50,12 @@ export interface ExtractedDish {
   description?: string;
 }
 
+/** Text the OCR step saw but could NOT confidently read as a dish. Never ranked. */
+export interface UnreadableItem {
+  text: string;
+  reason?: string;
+}
+
 /** Fully scored and ranked dish — the main output unit */
 export interface RankedDish {
   id: string;
@@ -71,6 +77,7 @@ export interface MenuSession {
   healthCondition: HealthConditionId;
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];
+  unreadableItems?: UnreadableItem[]; // EAT-9: items we couldn't confidently read
   dishCount: number;
   processingTimeMs: number;
   createdAt: string; // ISO 8601

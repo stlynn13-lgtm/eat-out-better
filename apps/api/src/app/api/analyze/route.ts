@@ -110,7 +110,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return errorResponse("CLAUDE_ERROR", message, 500);
     }
 
-    const { isMenu, dishes: rawDishes } = ocrResult;
+    const { isMenu, dishes: rawDishes, unreadable: unreadableItems } = ocrResult;
 
     // The image didn't look like a menu at all — distinct from "a menu we
     // couldn't read". HTTP 422 (Unprocessable Entity): valid request, but the
@@ -123,8 +123,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Looked like a menu but we couldn't read any dishes (poor lighting, blur).
+    // Looked like a menu but we couldn't read any dishes clearly. If OCR
+    // surfaced unreadable text (blur/glare/handwriting), return SUCCESS with an
+    // empty ranked list so the client can show the "couldn't read" section
+    // (EAT-9). Only when there is truly nothing to show do we error OCR_EMPTY.
     if (rawDishes.length === 0) {
+      if (unreadableItems.length > 0) {
+        return successResponse({
+          id: uuidv4(),
+          dishes: [],
+          rawDishes: [],
+          unreadableItems,
+          dishCount: 0,
+          processingTimeMs: Date.now() - startTime,
+          healthCondition,
+          createdAt: new Date().toISOString(),
+        });
+      }
       return errorResponse(
         "OCR_EMPTY",
         "We couldn't read any dishes. Try again with better lighting.",
@@ -161,6 +176,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       id: uuidv4(),
       dishes: rankedDishes,
       rawDishes,
+      unreadableItems,
       dishCount: rankedDishes.length,
       processingTimeMs,
       healthCondition,
