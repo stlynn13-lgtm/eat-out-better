@@ -11,6 +11,7 @@ import {
   type NativeSyntheticEvent,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAssetScale } from "../../lib/utils/scale";
 
 interface PhotoViewerProps {
   /** The capture screen's photo tray, in tray order. */
@@ -42,6 +43,9 @@ export default function PhotoViewer({
   onDelete,
 }: PhotoViewerProps) {
   const { width, height } = useWindowDimensions();
+  // Controls track the phone's text-size setting like the rest of the app's
+  // fixed-size assets (EAT-15).
+  const controlSize = Math.round(36 * useAssetScale());
   const listRef = useRef<FlatList<string>>(null);
   const [index, setIndex] = useState(0);
   const visible = initialIndex !== null;
@@ -135,9 +139,14 @@ export default function PhotoViewer({
             className="flex-row items-center justify-between px-5 pt-3"
           >
             <TouchableOpacity
-              className="w-9 h-9 rounded-full items-center justify-center"
-              style={{ backgroundColor: "rgba(17,24,39,0.65)" }}
+              className="rounded-full items-center justify-center"
+              style={{
+                width: controlSize,
+                height: controlSize,
+                backgroundColor: "rgba(17,24,39,0.65)",
+              }}
               onPress={onClose}
+              accessibilityRole="button"
               accessibilityLabel="Close photo"
             >
               <Text className="text-white text-lg leading-none">×</Text>
@@ -154,13 +163,21 @@ export default function PhotoViewer({
               </View>
             ) : null}
 
+            {/* Icon, not a text button — EAT-13 asks for clear icons, and it
+                mirrors the close control opposite it. Destructive intent is
+                carried by the red fill plus the accessibility label. */}
             <TouchableOpacity
-              className="rounded-full px-3 py-1.5"
-              style={{ backgroundColor: "rgba(220,38,38,0.9)" }}
+              className="rounded-full items-center justify-center"
+              style={{
+                width: controlSize,
+                height: controlSize,
+                backgroundColor: "rgba(220,38,38,0.92)",
+              }}
               onPress={handleDelete}
+              accessibilityRole="button"
               accessibilityLabel="Delete this photo"
             >
-              <Text className="text-white text-sm font-semibold">Delete</Text>
+              <Text className="text-white text-base leading-none">🗑</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
