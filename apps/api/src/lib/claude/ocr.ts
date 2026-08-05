@@ -12,6 +12,7 @@
 
 import { getAnthropicClient, MODELS } from "./client";
 import { OCR_SYSTEM_PROMPT } from "./prompts";
+import { normalizeDishName } from "./dishName";
 import type { ExtractedDish, UnreadableItem } from "@/lib/types";
 
 const MAX_IMAGES = 10;
@@ -317,43 +318,54 @@ function deduplicateUnreadable(items: UnreadableItem[]): UnreadableItem[] {
 }
 
 /**
- * Deduplicates dishes by name (case-insensitive).
- * When duplicates exist (same dish on two menu pages), keep the one with a description.
+ * Deduplicates dishes by canonical name.
  *
- * Exception: if the same dish name arrives with two DIFFERENT descriptions, at
- * least one of them is wrong — on a dense multi-column menu that is the
- * signature of a description being paired with the wrong dish. We cannot tell
- * which is correct, so we drop the description and keep the name alone. A dish
- * with no description scores fine; a dish carrying another dish's description
- * produces exactly the "coffee described as an arugula salad" failure.
+ * A description is only trusted when every occurrence of that dish that carries
+ * one agrees. If the same dish name arrives with two DIFFERENT descriptions, at
+ * least one is wrong — on a dense multi-column menu that is the signature of a
+ * description being paired with the wrong dish — and we cannot tell which. We
+ * keep the name alone. A dish with no description scores fine; a dish carrying
+ * another dish's description produces exactly the "coffee described as an
+ * arugula salad" failure (EAT-9).
+ *
+ * Collecting every description first makes this independent of page order. The
+ * previous pass-by-pass version compared each dish only against the entry it
+ * happened to find, which let the guard be walked around two ways: a wrongly
+ * described copy silently overwrote a bare one (nothing to disagree with yet),
+ * and once a conflict HAD dropped a description, the next page repeating that
+ * description put it straight back — a 3-page menu could re-poison the dish the
+ * guard had just cleaned.
  */
-function deduplicateDishes(dishes: ExtractedDish[]): ExtractedDish[] {
-  const seen = new Map<string, ExtractedDish>();
+export function deduplicateDishes(dishes: ExtractedDish[]): ExtractedDish[] {
+  const order: string[] = [];
+  const nameByKey = new Map<string, string>();
+  const descriptionsByKey = new Map<string, Map<string, string>>();
 
   for (const dish of dishes) {
-    const key = dish.name.toLowerCase().trim();
-    const existing = seen.get(key);
-
-    if (!existing) {
-      seen.set(key, dish);
-      continue;
+    const key = normalizeDishName(dish.name);
+    if (!key) continue; // punctuation-only name — nothing rankable
+    if (!nameByKey.has(key)) {
+      order.push(key);
+      nameByKey.set(key, dish.name);
+      descriptionsByKey.set(key, new Map());
     }
-
-    if (!existing.description && dish.description) {
-      // Prefer the entry that has a description
-      seen.set(key, dish);
-    } else if (
-      existing.description &&
-      dish.description &&
-      existing.description.trim().toLowerCase() !==
-        dish.description.trim().toLowerCase()
-    ) {
-      console.warn(
-        `[OCR] Conflicting descriptions for "${dish.name}" — dropping both as unreliable`
-      );
-      seen.set(key, { ...existing, description: undefined });
+    if (dish.description) {
+      // Compare case-insensitively, but keep the first spelling we saw.
+      const variants = descriptionsByKey.get(key)!;
+      const descKey = dish.description.trim().toLowerCase();
+      if (!variants.has(descKey)) variants.set(descKey, dish.description);
     }
   }
 
-  return Array.from(seen.values());
+  return order.map((key) => {
+    const variants = descriptionsByKey.get(key)!;
+    const name = nameByKey.get(key)!;
+    if (variants.size > 1) {
+      console.warn(
+        `[OCR] ${variants.size} conflicting descriptions for "${name}" — dropping all as unreliable`
+      );
+      return { name, description: undefined };
+    }
+    return { name, description: variants.values().next().value };
+  });
 }

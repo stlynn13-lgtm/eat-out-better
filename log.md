@@ -6,6 +6,40 @@
 
 ---
 
+## 2026-08-05 — Reviewed the five "In Review" tickets, found four things that weren't actually finished; built EAT-13
+
+**What changed**
+
+Sean asked for a review of the tickets sitting in **In Review** (EAT-15, EAT-12, EAT-10) and for EAT-9, EAT-17 and EAT-13 to be finished. Reading each ticket against the code turned up six real gaps — in most cases the ticket's headline behaviour worked and a case around it didn't, and in two cases **the ticket asked for something that was never built at all**.
+
+- **EAT-10 (leave-and-return during analysis) was aborting scans that were perfectly healthy.** The app listened for "came back to the foreground" and killed the in-flight request. But iOS fires that same signal for Control Center, the notification shade, an incoming call banner and permission dialogs — none of which actually interrupt anything. So pulling down a notification mid-scan threw away a good analysis, re-uploaded every photo and paid for a second round of AI calls. The budget is three retries, so **four notifications during one scan failed the scan outright.** Now only a genuine background→return counts.
+- **EAT-10 had a second hole in a place nobody had looked: reading the reply.** The fix covered sending the request, but not downloading the answer. iOS suspends that download exactly the same way — and because the app had already "released" the request by then, nothing could interrupt it. Leaving the app during those few seconds froze it at 92% forever, which is the original EAT-10 complaint, just later in the process. The reply is now downloaded while the request can still be interrupted.
+- **EAT-9's wrong-description guard could be walked around two ways.** The guard drops a dish's description when the same dish turns up with two different ones (that's the "coffee shown as an arugula salad" bug). But it only ever compared a dish against the first copy it happened to meet, so: a bare "Coffee" arriving *before* the wrongly-described one let the bad description in unopposed, and — worse — once a conflict had cleaned a description off, the *next* page repeating it put it straight back. A three-page menu could re-poison the dish the guard had just fixed. Now all descriptions for a dish are gathered first and kept only if they agree, which can't depend on page order.
+- **EAT-9 could also silently lose a real dish.** The menu-reading step and the ranking step were matching dish names by different rules, so "Caesar Salad" and "Caesar-Salad" counted as two dishes in one step and one in the other. The odd one out had nowhere to go and vanished from the results with no warning — which quietly breaks EAT-9's actual promise, that what you see is exactly what was read off the menu. Both steps now use one shared rule.
+- **EAT-12 (capture flash) confirmed success but never failure.** If taking the photo failed, the app caught the error and said nothing at all — no flash, no thumbnail, no message. And at the 10-photo limit the shutter simply did nothing, which reads as a broken button. Both now say what happened.
+- **EAT-15 (bigger reading text) had already regressed, and half of it was never built.** The "Couldn't read these" section added by EAT-9 two weeks later came in at the smallest text size in the app — below even the pre-EAT-15 baseline. That is the copy telling someone what we failed to read off their menu, shown to people squinting at small print in a dim restaurant. Raised to match, along with the results error message. **Separately, the ticket is titled "Support larger text and *asset scaling* with phone zoom settings" and asks for font *and image* sizes to follow the phone's setting.** Only the text half was done. Text does scale by itself, so the comment closing the ticket out was right about that — but there was no size-scaling code in the app at all, and the photo thumbnails stayed a fixed 64pt while the captions above them grew past them. The tray thumbnails, their remove buttons and the add tile now follow the phone's text-size setting, capped so a triple-size accessibility setting doesn't tear the tray apart.
+- **EAT-17 was the opposite problem: the app was being *too* careful.** The ticket asks that a scan always assume what an item is and what a restaurant typically puts in it, and score on that — giving up only when the item genuinely can't be read. The EAT-9 work had over-corrected in exactly this direction: the real bug there was a dish carrying *another item's* description, but the fix also banned inferring anything about a dish from its name, which is a different thing and is precisely what EAT-17 wants. The scoring instructions had also started contradicting themselves — the worked example was "High saturated fat from cream sauce" while the next line forbade naming any ingredient the menu hadn't printed. Now: assume the typical restaurant preparation of the named dish (an Alfredo arrives with cream and butter; a restaurant kitchen is not a home kitchen), and the one hard rule is that assumptions may never be borrowed from a *different* item on the same menu. Explanations must flag an assumption as an assumption ("typically", "usually") rather than stating it as though the menu said it — on a health app the user has to be able to tell the two apart.
+- **EAT-13 (tap a photo to see it full-screen) is built.** Tap a thumbnail to open the photo full-bleed, with close, delete, and swipe to page through the rest. Deleting moves you to the next photo and closes the viewer when the last one goes. Both controls are icons, per the ticket.
+
+**Why it mattered**
+
+- Most of this was sitting in "In Review" or already shipped. Each ticket did the thing it was written for and then fell over one step to the side of it — the sort of gap that only shows up when someone reads the code against the ticket rather than checking the happy path.
+- **EAT-9 and EAT-17 pull in opposite directions and both are right.** EAT-9 governs *which dishes exist and which text belongs to them*; EAT-17 governs *how hard to think about a dish that is genuinely on the menu*. Conflating them is what produced both bugs. Worth keeping straight: the fix for one keeps re-breaking the other otherwise.
+- The two EAT-9 gaps put wrong information in front of someone choosing food for a heart condition, which is the failure mode this app can least afford.
+
+**Decisions made**
+
+- **EAT-13 was built without the Figma design it was paused for.** Sean asked for it finished. The layout is deliberately conventional (the iOS Photos pattern) and uses existing colors and control styles, so a design can later replace the look without touching the wiring. Flagging it rather than burying it: this is the one piece of work here that wasn't specified.
+- **Added `npm run test:dedupe`** — ten cases pinning the EAT-9 description behaviour, including both walk-arounds above. No API key, no network. Writing it caught a wrong assumption in my own first attempt at the name-matching fix, which is the argument for having it.
+
+**Verified / not verified**
+
+- API typecheck clean; mobile typecheck unchanged at its two known pre-existing errors; the dedupe suite passes 10/10.
+- **Nothing was checked on a device.** This machine has no iOS simulator runtime installed at all, so there was nothing to boot. EAT-13, EAT-12 and EAT-15 are visual and still need a real look — see the verification list in `plan.md`.
+- **The EAT-17 scoring change has not been run against a real menu.** No `ANTHROPIC_API_KEY` in this environment, same as the earlier rubric sessions. It is a prompt-only change so it cannot crash, but whether the assumptions it now makes are *good* assumptions needs a live scan. This folds into the ~15-dish ingredient-guessing validation that has been outstanding since the rubric rewrite — EAT-17 is that validation's most direct use case.
+
+---
+
 ## 2026-07-28 — Menu analysis no longer invents dishes (EAT-9); unreadable text gets its own section
 
 **What changed**

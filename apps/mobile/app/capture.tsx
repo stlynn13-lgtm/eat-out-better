@@ -20,6 +20,8 @@ import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
+import PhotoViewer from "../components/menu/PhotoViewer";
+import { useAssetScale } from "../lib/utils/scale";
 import {
   generateId,
   setCurrentScanSessionId,
@@ -45,7 +47,16 @@ export default function CaptureScreen() {
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  // Index of the photo open in the full-screen viewer; null = closed (EAT-13).
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const scanSessionIdRef = useRef<string>("");
+
+  // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
+  // scales on its own; fixed-point images and their controls don't, so without
+  // this the thumbnails stay 64pt while their caption grows past them.
+  const assetScale = useAssetScale();
+  const thumbSize = Math.round(64 * assetScale);
+  const removeBtnSize = Math.round(20 * assetScale);
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -121,7 +132,15 @@ export default function CaptureScreen() {
   }, [flashOpacity]);
 
   const handleCapture = useCallback(async () => {
-    if (localPhotos.length >= MAX_PHOTOS) return;
+    if (localPhotos.length >= MAX_PHOTOS) {
+      // The tray caption already explains the cap, but a shutter that does
+      // nothing at all reads as a broken button — say why (EAT-12).
+      Alert.alert(
+        "Photo limit reached",
+        `You can analyze up to ${MAX_PHOTOS} photos at once. Remove one to add another.`
+      );
+      return;
+    }
     const uri = await capturePhoto();
     if (uri) {
       triggerCaptureFlash();
@@ -130,6 +149,14 @@ export default function CaptureScreen() {
         if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, next.length);
         return next;
       });
+    } else {
+      // capturePhoto() swallows failures and returns null. Without this the
+      // shutter tap produced no flash, no thumbnail and no message — the
+      // exact "did that work?" ambiguity EAT-12 exists to remove.
+      Alert.alert(
+        "That photo didn't save",
+        "Something went wrong taking the picture. Please try again."
+      );
     }
   }, [capturePhoto, localPhotos.length, posthog, triggerCaptureFlash]);
 
@@ -158,6 +185,9 @@ export default function CaptureScreen() {
   const removePhoto = useCallback((index: number) => {
     setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
   }, []);
+
+  // Stable so PhotoViewer's close-on-empty effect doesn't re-fire every render.
+  const closeViewer = useCallback(() => setViewerIndex(null), []);
 
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
@@ -331,14 +361,25 @@ export default function CaptureScreen() {
               <View className="flex-row gap-2">
                 {localPhotos.map((uri, i) => (
                   <View key={`${uri}-${i}`} className="relative">
-                    <Image
-                      source={{ uri }}
-                      className="w-16 h-16 rounded-xl"
-                      resizeMode="cover"
-                    />
+                    {/* Tap to inspect full-screen — a 64pt thumbnail can't tell
+                        you whether the page is actually legible (EAT-13). */}
                     <TouchableOpacity
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gray-800 items-center justify-center"
+                      onPress={() => setViewerIndex(i)}
+                      activeOpacity={0.7}
+                      accessibilityLabel={`View photo ${i + 1} full screen`}
+                    >
+                      <Image
+                        source={{ uri }}
+                        className="rounded-xl"
+                        style={{ width: thumbSize, height: thumbSize }}
+                        resizeMode="cover"
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="absolute -top-1.5 -right-1.5 rounded-full bg-gray-800 items-center justify-center"
+                      style={{ width: removeBtnSize, height: removeBtnSize }}
                       onPress={() => removePhoto(i)}
+                      accessibilityLabel={`Remove photo ${i + 1}`}
                     >
                       <Text className="text-white text-xs">×</Text>
                     </TouchableOpacity>
@@ -346,8 +387,10 @@ export default function CaptureScreen() {
                 ))}
                 {localPhotos.length < MAX_PHOTOS && (
                   <TouchableOpacity
-                    className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
                     onPress={handleGalleryPick}
+                    accessibilityLabel="Add photos from your library"
                   >
                     <Text className="text-gray-400 text-2xl">+</Text>
                   </TouchableOpacity>
@@ -406,6 +449,13 @@ export default function CaptureScreen() {
         visible={showFeedback}
         onClose={() => setShowFeedback(false)}
         screen="capture"
+      />
+
+      <PhotoViewer
+        photos={localPhotos}
+        initialIndex={viewerIndex}
+        onClose={closeViewer}
+        onDelete={removePhoto}
       />
     </SafeAreaView>
   );
