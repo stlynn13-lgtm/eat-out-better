@@ -6,6 +6,41 @@
 
 ---
 
+## 2026-08-05 — Reviewed the five "In Review" tickets, found four things that weren't actually finished; built EAT-13
+
+**What changed**
+
+Sean asked for a review of the tickets sitting in **In Review** (EAT-15, EAT-12, EAT-10) and for EAT-9, EAT-17 and EAT-13 to be finished. Reviewing the code behind the "done" tickets turned up four real gaps — in each case the ticket's headline behaviour worked, but a case around it didn't.
+
+- **EAT-10 (leave-and-return during analysis) was aborting scans that were perfectly healthy.** The app listened for "came back to the foreground" and killed the in-flight request. But iOS fires that same signal for Control Center, the notification shade, an incoming call banner and permission dialogs — none of which actually interrupt anything. So pulling down a notification mid-scan threw away a good analysis, re-uploaded every photo and paid for a second round of AI calls. The budget is three retries, so **four notifications during one scan failed the scan outright.** Now only a genuine background→return counts.
+- **EAT-10 had a second hole in a place nobody had looked: reading the reply.** The fix covered sending the request, but not downloading the answer. iOS suspends that download exactly the same way — and because the app had already "released" the request by then, nothing could interrupt it. Leaving the app during those few seconds froze it at 92% forever, which is the original EAT-10 complaint, just later in the process. The reply is now downloaded while the request can still be interrupted.
+- **EAT-9's wrong-description guard could be walked around two ways.** The guard drops a dish's description when the same dish turns up with two different ones (that's the "coffee shown as an arugula salad" bug). But it only ever compared a dish against the first copy it happened to meet, so: a bare "Coffee" arriving *before* the wrongly-described one let the bad description in unopposed, and — worse — once a conflict had cleaned a description off, the *next* page repeating it put it straight back. A three-page menu could re-poison the dish the guard had just fixed. Now all descriptions for a dish are gathered first and kept only if they agree, which can't depend on page order.
+- **EAT-9 could also silently lose a real dish.** The menu-reading step and the ranking step were matching dish names by different rules, so "Caesar Salad" and "Caesar-Salad" counted as two dishes in one step and one in the other. The odd one out had nowhere to go and vanished from the results with no warning — which quietly breaks EAT-9's actual promise, that what you see is exactly what was read off the menu. Both steps now use one shared rule.
+- **EAT-12 (capture flash) confirmed success but never failure.** If taking the photo failed, the app caught the error and said nothing at all — no flash, no thumbnail, no message. And at the 10-photo limit the shutter simply did nothing, which reads as a broken button. Both now say what happened.
+- **EAT-15 (bigger reading text) had already regressed.** The "Couldn't read these" section added by EAT-9 two weeks later came in at the smallest text size in the app — below even the pre-EAT-15 baseline. That is the copy telling someone what we failed to read off their menu, shown to people squinting at small print in a dim restaurant. Raised to match, along with the results error message.
+- **EAT-13 (tap a photo to see it full-screen) is built.** Tap a thumbnail to open the photo full-bleed, with close, delete, and swipe to page through the rest. Deleting moves you to the next photo and closes the viewer when the last one goes.
+
+**Why it mattered**
+
+- Everything above was sitting in "In Review" or shipped. Four of the five tickets did the thing they were written for and then fell over one step to the side of it — the sort of gap that only shows up when someone reads the code against the ticket rather than checking the happy path.
+- The two EAT-9 gaps both put wrong information in front of someone choosing food for a heart condition, which is the failure mode this app can least afford.
+
+**Decisions made**
+
+- **EAT-13 was built without the Figma design it was paused for.** Sean asked for it finished. The layout is deliberately conventional (the iOS Photos pattern) and uses existing colors and control styles, so a design can later replace the look without touching the wiring. Flagging it rather than burying it: this is the one piece of work here that wasn't specified.
+- **Added `npm run test:dedupe`** — ten cases pinning the EAT-9 description behaviour, including both walk-arounds above. No API key, no network. Writing it caught a wrong assumption in my own first attempt at the name-matching fix, which is the argument for having it.
+
+**Verified / not verified**
+
+- API typecheck clean; mobile typecheck unchanged at its two known pre-existing errors; the dedupe suite passes 10/10.
+- **Nothing was checked on a device.** This machine has no iOS simulator runtime installed at all, so there was nothing to boot. EAT-13 and the EAT-12/EAT-15 changes are visual and still need a real look — see the verification list in `plan.md`.
+
+**Blocked**
+
+- **EAT-17 could not be started.** It isn't mentioned anywhere in this repo, in git history, or in any project notes, and the Linear connector isn't authorized in this session (and can't be authorized from a non-interactive one). Nothing about the ticket is known beyond its number.
+
+---
+
 ## 2026-07-28 — Menu analysis no longer invents dishes (EAT-9); unreadable text gets its own section
 
 **What changed**

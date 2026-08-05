@@ -2,30 +2,33 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-07-26
+**Last updated:** 2026-08-05
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-Build 5 (v1.1.2) is on TestFlight. **Build 6 (v1.1.3) is code-complete on `main`** — a ~20-bug sweep of the failure paths — and we're adding UI enhancements to it before cutting it to TestFlight. Of the 7 Linear tickets: **5 are built** (on `feat/build6-ui-enhancements`), **2 are waiting on designs** (EAT-13 photo full-screen viewer, EAT-14 landscape capture). Several of the old P0s are now done: API auth + rate limiting (build 5/6), image cap (10), crash reporting (Sentry), analytics (PostHog), hosted privacy policy.
+Build 5 (v1.1.2) is on TestFlight. Build 6's work and build 7 (the cholesterol rubric rewrite + EAT-9 anti-hallucination) are **merged and live on `main`**; EAS build 7 was cut on 2026-07-28, so that build number is burned.
 
-**Two more branches not yet merged:**
-- `feat/scoring-explained-ui` — the "how scores work" screen from the NEXT list below. **Built and verified on the simulator (2026-07-26)** — ready to merge.
-- `feat/cholesterol-rubric-rewrite` — reworked scoring prompt (saturated-fat budget model, drops outdated trans-fat/cholesterol assumptions). Still needs testing against real menus.
+**Build 8 (v1.1.3 / iOS build 8) is now on `fix/build8-eat-review-finish`, not yet merged.** It's the result of reviewing the tickets sitting in In Review: EAT-10, EAT-9, EAT-12 and EAT-15 each turned out to have a real gap one step to the side of what the ticket described, and EAT-13 is now built. Full detail in the `log.md` 2026-08-05 entry.
 
-The launch crash that had blocked all simulator testing is **fixed** (duplicate React from a lockfile/workspaces mismatch — see `log.md` 2026-07-26). One related trap is still open: the root `package-lock.json` will recreate that crash on the next root `npm install`, and fixing it touches the Vercel API install.
+Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and has still never been validated against real menus.
 
 ---
 
-## NOW — finish build 6 and get it onto TestFlight
+## NOW — verify build 8 and get it onto TestFlight
 
-1. **Designs for EAT-13 and EAT-14** (Sean) — Figma links or react-to mockups; then build them on the same branch.
-2. **Merge `feat/build6-ui-enhancements`** into `main` once the design tickets are in (or ship the 5 done ones without them if designs stall).
-3. **EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 6.
-4. **On-device verification pass**: the 5 new UI changes, plus the leave-during-analysis fix (EAT-10) and back-with-photos (EAT-11) from the sweep.
-5. **Verify the Vercel deploy** of `main` picked up the API + privacy-page changes.
+1. **On-device verification pass** (Sean) — nothing on `fix/build8-eat-review-finish` has been seen running. This machine has no iOS simulator runtime installed, so none of it could be checked visually. Specifically worth looking at:
+   - **EAT-13** — tap a tray thumbnail: photo opens full-screen, swipe pages through the others, delete moves to the next one and closes the viewer on the last.
+   - **EAT-12** — the shutter at the 10-photo cap, and a failed capture, both now show a message.
+   - **EAT-15** — the "Couldn't read these" section and the results error text are a size bigger.
+   - **EAT-10** — pull down a notification mid-scan: the scan should now survive it rather than restarting. Then background the app properly mid-scan and return: it should recover, not freeze at 92%.
+2. **Decide on EAT-13's design.** It was built without one because it was asked for; the layout is conventional and swappable. Either accept it or send a design and it gets restyled.
+3. **EAT-17 — say what it is.** It's referenced nowhere in the repo and Linear isn't reachable from a non-interactive session. Paste the ticket text and it can be picked up.
+4. **EAT-14 (landscape capture)** — still genuinely waiting on a design.
+5. **Merge `fix/build8-eat-review-finish`, then EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 8.
+6. **Verify the Vercel deploy** of `main` picked up the API changes (the API's `/api/health` now exposes a commit SHA, so this is finally checkable).
 
 **Carried-over P0s to confirm (status unknown, cheap to check):** Anthropic spend cap + budget alert set? The three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
 
