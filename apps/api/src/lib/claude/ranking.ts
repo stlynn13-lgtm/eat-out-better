@@ -8,6 +8,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { getAnthropicClient, MODELS } from "./client";
 import { getRankingSystemPrompt, getRankingUserPrompt } from "./prompts";
+import { normalizeDishName } from "./dishName";
 import { getTier, getTag } from "@/lib/config/scoring";
 import type { ExtractedDish, RankedDish, HealthConditionId } from "@/lib/types";
 
@@ -234,32 +235,29 @@ function parseRankingResponse(
 
   // Re-add any extracted dish the ranker omitted so every real dish still
   // appears. Match on normalized names so a minor rename by the model doesn't
-  // create both a renamed entry AND a duplicate 5.0 fallback.
-  if (validated.length < originalDishes.length) {
-    const maxRank = validated.reduce((max, d) => Math.max(max, d.rank), 0);
-    let offset = 1;
-    for (const dish of originalDishes) {
-      if (seen.has(normalizeDishName(dish.name))) continue;
-      validated.push({
-        name: dish.name,
-        score: 5.0,
-        rank: maxRank + offset,
-        explanation: "Unable to assess — insufficient information about preparation.",
-        substitution: null,
-      });
-      offset++;
-    }
+  // create both a renamed entry AND a duplicate 5.0 fallback. Driven off `seen`
+  // rather than a length comparison: counts only line up while OCR and ranking
+  // key dishes identically, and a dish missing its slot disappears silently.
+  const maxRank = validated.reduce((max, d) => Math.max(max, d.rank), 0);
+  let offset = 1;
+  for (const dish of originalDishes) {
+    const key = normalizeDishName(dish.name);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    validated.push({
+      name: dish.name,
+      score: 5.0,
+      rank: maxRank + offset,
+      explanation: "Unable to assess — insufficient information about preparation.",
+      substitution: null,
+    });
+    offset++;
   }
 
   // Sort by the model's rank, then reassign sequential ranks (1..n) so
   // duplicates or gaps (dropping items can leave gaps) never surface in the UI.
   validated.sort((a, b) => a.rank - b.rank);
   return validated.map((dish, i) => ({ ...dish, rank: i + 1 }));
-}
-
-/** Lowercase, alphanumerics only — tolerant matching for dish names. */
-function normalizeDishName(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
 /**
