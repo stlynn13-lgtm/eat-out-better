@@ -20,6 +20,7 @@ import { useCamera } from "../hooks/useCamera";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
+import PhotoViewer from "../components/menu/PhotoViewer";
 import {
   generateId,
   setCurrentScanSessionId,
@@ -45,6 +46,8 @@ export default function CaptureScreen() {
   const [localPhotos, setLocalPhotos] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  // Index of the photo open in the full-screen viewer; null = closed (EAT-13).
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const scanSessionIdRef = useRef<string>("");
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
@@ -174,6 +177,9 @@ export default function CaptureScreen() {
   const removePhoto = useCallback((index: number) => {
     setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
   }, []);
+
+  // Stable so PhotoViewer's close-on-empty effect doesn't re-fire every render.
+  const closeViewer = useCallback(() => setViewerIndex(null), []);
 
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
@@ -347,14 +353,23 @@ export default function CaptureScreen() {
               <View className="flex-row gap-2">
                 {localPhotos.map((uri, i) => (
                   <View key={`${uri}-${i}`} className="relative">
-                    <Image
-                      source={{ uri }}
-                      className="w-16 h-16 rounded-xl"
-                      resizeMode="cover"
-                    />
+                    {/* Tap to inspect full-screen — a 64pt thumbnail can't tell
+                        you whether the page is actually legible (EAT-13). */}
+                    <TouchableOpacity
+                      onPress={() => setViewerIndex(i)}
+                      activeOpacity={0.7}
+                      accessibilityLabel={`View photo ${i + 1} full screen`}
+                    >
+                      <Image
+                        source={{ uri }}
+                        className="w-16 h-16 rounded-xl"
+                        resizeMode="cover"
+                      />
+                    </TouchableOpacity>
                     <TouchableOpacity
                       className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gray-800 items-center justify-center"
                       onPress={() => removePhoto(i)}
+                      accessibilityLabel={`Remove photo ${i + 1}`}
                     >
                       <Text className="text-white text-xs">×</Text>
                     </TouchableOpacity>
@@ -422,6 +437,13 @@ export default function CaptureScreen() {
         visible={showFeedback}
         onClose={() => setShowFeedback(false)}
         screen="capture"
+      />
+
+      <PhotoViewer
+        photos={localPhotos}
+        initialIndex={viewerIndex}
+        onClose={closeViewer}
+        onDelete={removePhoto}
       />
     </SafeAreaView>
   );
