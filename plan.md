@@ -11,7 +11,9 @@
 
 Build 5 (v1.1.2) is on TestFlight. Build 6's work and build 7 (the cholesterol rubric rewrite + EAT-9 anti-hallucination) are **merged and live on `main`**; EAS build 7 was cut on 2026-07-28, so that build number is burned.
 
-**Build 8 (v1.1.3 / iOS build 8) is now on `fix/build8-eat-review-finish`, not yet merged.** It's the result of reviewing the tickets sitting in In Review: EAT-10, EAT-9, EAT-12 and EAT-15 each turned out to have a real gap one step to the side of what the ticket described, and EAT-13 is now built. Full detail in the `log.md` 2026-08-05 entry.
+**Build 8 (v1.1.3 / iOS build 8) is pushed on `fix/build8-eat-review-finish`, not yet merged to `main`.** It's the result of reviewing every open ticket against the code: EAT-10, EAT-9, EAT-12 and EAT-15 each had a real gap one step to the side of what the ticket described, EAT-15 and EAT-17 each had a requirement that was never built at all, and EAT-13 is now done. Full detail in the `log.md` 2026-08-05 entry.
+
+**Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.
 
 Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and has still never been validated against real menus.
 
@@ -19,15 +21,15 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 
 ## NOW — verify build 8 and get it onto TestFlight
 
-1. **On-device verification pass** (Sean) — nothing on `fix/build8-eat-review-finish` has been seen running. This machine has no iOS simulator runtime installed, so none of it could be checked visually. Specifically worth looking at:
+1. **Run a real menu through the new scoring (Sean, needs an API key)** — this is the one that matters. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing here could test whether those assumptions are *good* ones. It's also the long-outstanding ~15-dish ingredient-guessing validation from the rubric rewrite, which EAT-17 is the most direct use case for. Check especially: bare dish names (no description) now get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu.
+2. **On-device verification pass** (Sean) — nothing on `fix/build8-eat-review-finish` has been seen running. This machine has no iOS simulator runtime installed, so none of it could be checked visually. Specifically worth looking at:
    - **EAT-13** — tap a tray thumbnail: photo opens full-screen, swipe pages through the others, delete moves to the next one and closes the viewer on the last.
    - **EAT-12** — the shutter at the 10-photo cap, and a failed capture, both now show a message.
-   - **EAT-15** — the "Couldn't read these" section and the results error text are a size bigger.
+   - **EAT-15** — the "Couldn't read these" section and the results error text are a size bigger; and with the phone's text size turned up, the photo thumbnails should now grow with it instead of staying small.
    - **EAT-10** — pull down a notification mid-scan: the scan should now survive it rather than restarting. Then background the app properly mid-scan and return: it should recover, not freeze at 92%.
-2. **Decide on EAT-13's design.** It was built without one because it was asked for; the layout is conventional and swappable. Either accept it or send a design and it gets restyled.
-3. **EAT-17 — say what it is.** It's referenced nowhere in the repo and Linear isn't reachable from a non-interactive session. Paste the ticket text and it can be picked up.
-4. **EAT-14 (landscape capture)** — still genuinely waiting on a design.
-5. **Merge `fix/build8-eat-review-finish`, then EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 8.
+3. **Decide on EAT-13's design.** It was built without one because it was asked for; the layout is conventional and swappable. Either accept it or send a design and it gets restyled.
+4. **EAT-14 (landscape capture)** — the last ticket still genuinely waiting on a design.
+5. **Merge `fix/build8-eat-review-finish`, then EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 8. Note merging redeploys the API, which is where the EAT-9 and EAT-17 scoring changes go live.
 6. **Verify the Vercel deploy** of `main` picked up the API changes (the API's `/api/health` now exposes a commit SHA, so this is finally checkable).
 
 **Carried-over P0s to confirm (status unknown, cheap to check):** Anthropic spend cap + budget alert set? The three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
