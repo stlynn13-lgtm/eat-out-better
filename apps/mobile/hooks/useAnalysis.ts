@@ -65,16 +65,26 @@ export function useAnalysis() {
   const networkRetriesRef = useRef(0);
   const abortRetriesRef = useRef(0);
 
-  // When iOS brings the app back to the foreground while a request is still
-  // in-flight, the suspended fetch will never resolve. ALWAYS abort it: within
-  // the abort budget the catch logic re-issues a fresh request; past the
-  // budget it surfaces an error — either way the user is never left staring
-  // at a frozen progress bar attached to a dead request.
+  // When iOS brings the app back from the BACKGROUND while a request is still
+  // in-flight, the suspended fetch will never resolve. Abort it: within the
+  // abort budget the catch logic re-issues a fresh request; past the budget it
+  // surfaces an error — either way the user is never left staring at a frozen
+  // progress bar attached to a dead request.
+  //
+  // Only a background→active transition counts. iOS also fires inactive→active
+  // for Control Center, the notification shade, an incoming call banner and
+  // system permission dialogs, none of which suspend the request. Aborting on
+  // those threw away a perfectly healthy in-flight analysis, re-uploaded every
+  // photo and paid for a second set of LLM calls — and with a budget of 3, four
+  // notification banners during one scan failed the scan outright.
+  const appStateRef = useRef<AppStateStatus>(AppState.currentState);
   useEffect(() => {
     const subscription = AppState.addEventListener(
       "change",
       (nextState: AppStateStatus) => {
-        if (nextState === "active" && requestInFlightRef.current) {
+        const wasBackgrounded = appStateRef.current === "background";
+        appStateRef.current = nextState;
+        if (nextState === "active" && wasBackgrounded && requestInFlightRef.current) {
           abortControllerRef.current?.abort();
         }
       }
@@ -173,6 +183,7 @@ export function useAnalysis() {
         // separate budgets. Each attempt gets a fresh AbortController; the
         // progress simulation is restarted on retry so the bar doesn't freeze.
         let response: Response | undefined;
+        let rawBody = "";
         networkRetriesRef.current = 0;
         abortRetriesRef.current = 0;
         requestInFlightRef.current = true;
@@ -182,7 +193,7 @@ export function useAnalysis() {
           const controller = new AbortController();
           abortControllerRef.current = controller;
           try {
-            response = await fetch(ANALYSIS_API, {
+            const res = await fetch(ANALYSIS_API, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -191,6 +202,13 @@ export function useAnalysis() {
               body: JSON.stringify(requestBody),
               signal: controller.signal,
             });
+            // Drain the body HERE, while the request is still abortable. iOS
+            // suspends an in-progress body read exactly as it suspends the
+            // fetch itself, so reading it after we released the controller left
+            // the app frozen at 92% with nothing able to interrupt it — the
+            // original EAT-10 symptom, just moved later in the pipeline.
+            rawBody = await res.text();
+            response = res;
             break;
           } catch (fetchError) {
             const wasAborted = controller.signal.aborted;
@@ -227,11 +245,10 @@ export function useAnalysis() {
         // their specific code and message rather than a generic network error.
         let json: AnalyzeResponse | undefined;
         try {
-          json = (await response.json()) as AnalyzeResponse;
+          json = JSON.parse(rawBody) as AnalyzeResponse;
         } catch {
           json = undefined;
         }
-        stopProgressSimulation();
 
         if (!json) {
           // Non-JSON response = the platform (not our API) rejected the
