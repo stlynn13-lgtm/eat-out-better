@@ -248,7 +248,12 @@ function parseRankingResponse(
       name: dish.name,
       score: 5.0,
       rank: maxRank + offset,
-      explanation: "Unable to assess — insufficient information about preparation.",
+      // Reached only when the ranker skipped a dish it was given — a service
+      // failure, not a judgement about the dish. The old copy blamed
+      // "insufficient information about preparation", which under EAT-17 is
+      // never a reason to withhold a score and told the user something false
+      // about their menu.
+      explanation: "We couldn't score this one — treat this as a neutral score.",
       substitution: null,
     });
     offset++;
