@@ -35,7 +35,7 @@ export default function ResultsScreen() {
         <Text className="text-xl font-bold text-gray-900 mb-2 text-center">
           Something went wrong
         </Text>
-        <Text className="text-sm text-gray-500 text-center mb-8 leading-relaxed">
+        <Text className="text-base text-gray-500 text-center mb-8 leading-relaxed">
           {error.message}
         </Text>
         <TouchableOpacity
@@ -251,7 +251,12 @@ function UnreadableSection({ items }: { items: UnreadableItem[] }) {
       <Text className="text-base font-bold text-gray-900 mb-1">
         Couldn't read these
       </Text>
-      <Text className="text-xs text-gray-500 mb-3 leading-relaxed">
+      {/* Body copy here matches the EAT-15 reading scale (text-base primary,
+          text-sm secondary). This section was added after EAT-15 landed and
+          came in a step small — the audience is people squinting at a menu in
+          dim restaurant light, and this is the copy telling them what we got
+          wrong, so it is the last place to shrink text. */}
+      <Text className="text-sm text-gray-500 mb-3 leading-relaxed">
         We weren't sure what these said, so we didn't rank them. Here's our best
         guess at the text — double-check the menu yourself.
       </Text>
@@ -260,10 +265,10 @@ function UnreadableSection({ items }: { items: UnreadableItem[] }) {
           key={`${item.text}-${index}`}
           className="rounded-2xl border border-gray-200 bg-white p-4 mb-3"
         >
-          <Text className="text-sm font-semibold text-gray-800">
+          <Text className="text-base font-semibold text-gray-800">
             "{item.text}"
           </Text>
-          <Text className="text-xs text-gray-500 mt-1 leading-relaxed">
+          <Text className="text-sm text-gray-500 mt-1 leading-relaxed">
             {item.reason
               ? `${item.reason} — can't be ranked.`
               : "We couldn't confidently identify this item, so it can't be ranked."}
