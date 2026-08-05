@@ -121,7 +121,15 @@ export default function CaptureScreen() {
   }, [flashOpacity]);
 
   const handleCapture = useCallback(async () => {
-    if (localPhotos.length >= MAX_PHOTOS) return;
+    if (localPhotos.length >= MAX_PHOTOS) {
+      // The tray caption already explains the cap, but a shutter that does
+      // nothing at all reads as a broken button — say why (EAT-12).
+      Alert.alert(
+        "Photo limit reached",
+        `You can analyze up to ${MAX_PHOTOS} photos at once. Remove one to add another.`
+      );
+      return;
+    }
     const uri = await capturePhoto();
     if (uri) {
       triggerCaptureFlash();
@@ -130,6 +138,14 @@ export default function CaptureScreen() {
         if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, next.length);
         return next;
       });
+    } else {
+      // capturePhoto() swallows failures and returns null. Without this the
+      // shutter tap produced no flash, no thumbnail and no message — the
+      // exact "did that work?" ambiguity EAT-12 exists to remove.
+      Alert.alert(
+        "That photo didn't save",
+        "Something went wrong taking the picture. Please try again."
+      );
     }
   }, [capturePhoto, localPhotos.length, posthog, triggerCaptureFlash]);
 
