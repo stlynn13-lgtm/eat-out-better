@@ -21,6 +21,7 @@ import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
 import PhotoViewer from "../components/menu/PhotoViewer";
+import { useAssetScale } from "../lib/utils/scale";
 import {
   generateId,
   setCurrentScanSessionId,
@@ -49,6 +50,13 @@ export default function CaptureScreen() {
   // Index of the photo open in the full-screen viewer; null = closed (EAT-13).
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const scanSessionIdRef = useRef<string>("");
+
+  // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
+  // scales on its own; fixed-point images and their controls don't, so without
+  // this the thumbnails stay 64pt while their caption grows past them.
+  const assetScale = useAssetScale();
+  const thumbSize = Math.round(64 * assetScale);
+  const removeBtnSize = Math.round(20 * assetScale);
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -362,12 +370,14 @@ export default function CaptureScreen() {
                     >
                       <Image
                         source={{ uri }}
-                        className="w-16 h-16 rounded-xl"
+                        className="rounded-xl"
+                        style={{ width: thumbSize, height: thumbSize }}
                         resizeMode="cover"
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gray-800 items-center justify-center"
+                      className="absolute -top-1.5 -right-1.5 rounded-full bg-gray-800 items-center justify-center"
+                      style={{ width: removeBtnSize, height: removeBtnSize }}
                       onPress={() => removePhoto(i)}
                       accessibilityLabel={`Remove photo ${i + 1}`}
                     >
@@ -377,8 +387,10 @@ export default function CaptureScreen() {
                 ))}
                 {localPhotos.length < MAX_PHOTOS && (
                   <TouchableOpacity
-                    className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
                     onPress={handleGalleryPick}
+                    accessibilityLabel="Add photos from your library"
                   >
                     <Text className="text-gray-400 text-2xl">+</Text>
                   </TouchableOpacity>
