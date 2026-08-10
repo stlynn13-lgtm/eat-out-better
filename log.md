@@ -6,6 +6,37 @@
 
 ---
 
+## 2026-08-10 — EAT-18: real dishes were coming back "We couldn't score this one"
+
+**What changed**
+
+Ray pulled build 8 and, playing with it, noticed some dishes showing "We couldn't score this one — treat this as a neutral score" and a flat 5.0. **Those dishes had been scored correctly. We were throwing the score away.**
+
+Scoring a menu takes two AI calls — one reads the photos, one scores the dish list. They share no memory, so when the second call hands back its scores we have to work out which result belongs to which dish. We were matching them **by name**. Before comparing, both names were stripped down to plain letters and numbers — and that step *deleted* accented characters instead of folding them. "Crème Brûlée" became `crmebrle`; the scorer's perfectly reasonable "Creme Brulee" became `cremebrulee`. No match. EAT-9's anti-hallucination guard then did exactly what it was built to do — discard a dish it didn't recognise — and the dish was re-added, unscored. Eight of eleven realistic menu names failed this way; anything with an accent, an `&`, or a "(GF)" tag.
+
+**This was a genuine regression from build 8, caused by two changes that were each individually correct.** EAT-9 made the matching strict (before, an unrecognised name was just kept, so a rename was a harmless cosmetic wart). And the new menu-reading prompt started demanding *verbatim* transcription — the right call for accuracy, but it deliberately pushes accents, ampersands and ALL-CAPS into dish names, which is exactly the material the scoring call tidies up one step later. One change made names messier; the other made matching unforgiving.
+
+The fix keys off the **item number** we already print next to each dish (`1. Grilled Salmon`) rather than the name. We were numbering the dishes all along and simply never asked for the number back.
+
+**Decisions made**
+
+- **The number is cross-checked against the name, not trusted on its own.** This was the important call, and it changed the plan mid-implementation. Swapping keys only helps if the new key fails *better*, and an index doesn't: a name mismatch fails **visibly** ("we couldn't score this"), while a drifted index fails **invisibly** — it puts a real score on the wrong dish. On a health app that's a worse bug than the one being fixed. So: the number finds the candidate, the name confirms it, and if they disagree we fall back to exact name matching. If that fails too, the dish goes unscored. We never guess which dish a score belongs to.
+- **We stopped asking the model to sort the results.** The prompt demanded results sorted best-to-worst, which meant carrying each item number correctly *through a re-sort* of up to 35 dishes — precisely the bookkeeping that makes indexes drift. And the code threw that ordering away anyway, re-sorting by score before anyone saw it. We were paying the risk for nothing.
+- **The item number never reaches the user** (Ray's requirement). It's an internal join key — the model's line number, not a menu position — and showing it would read as a rank nobody could explain. It's resolved to a dish and discarded inside the scoring step, never stored on any object, and a test asserts no scored dish carries it.
+- **The anti-hallucination guard is untouched.** A dish that genuinely isn't on the menu is still dropped. We changed how dishes are recognised, not what's allowed through.
+- **One deliberate side effect:** the name-folding rule is shared with the menu-reading step, so treating `&` as "and" also merges them there. A menu photographed twice that transcribed "Fish & Chips" once and "Fish and Chips" once now collapses to one dish instead of listing both. That's a fix; it changed an existing test, which was updated.
+
+**Open questions**
+
+- **We had no evals — a harness now exists, but it has never been run.** Ray flagged the gap while this was in flight. The repo's three test scripts couldn't answer "did this prompt change help?": two check plumbing (`test:dedupe`, the new `test:dishmatch` — pure logic, no API key) and the third measures score *wander* between identical runs (`test:repeatability`). There was no menu corpus and no reference scores; the closest thing, `rubric-ab-test.ts`, was deleted on 2026-08-04. So the rubric rewrite, EAT-17 and today's change all shipped unmeasured.
+
+  Built `apps/api/evals/` — `npm run eval`, with Ray's usual BCD Tofu House menu as the first corpus (32 dishes, transcribed from a photo). It asserts **tiers, not exact scores** (scores wander, and a flaky eval gets ignored), takes a median across several runs, and drives the real `rankDishes()` so it covers the live prompt *and* the name matching — EAT-18 would have shown up here as a tier flip.
+
+  **Two things stop it being trustworthy yet, both needing a human, not a model:** the dish names were read off a photo and need checking, and the *expected* tiers are the one part an AI must not write — otherwise the eval marks its own homework. Four uncontroversial ones are seeded as proposals; the rest is baseline-only until someone has an opinion. Not run yet — no API key on this machine.
+- Build 8 is live in production (`/api/health` reports `d83c44f`). This fix is on `fix/eat-18-unscored-dishes` and is **not** deployed — merging redeploys the API.
+
+---
+
 ## 2026-08-05 — Reviewed the five "In Review" tickets, found four things that weren't actually finished; built EAT-13
 
 **What changed**

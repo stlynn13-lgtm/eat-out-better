@@ -1,0 +1,50 @@
+{
+  "id": "bcd",
+  "label": "BCD Tofu House",
+  "note": "Ray's standard test menu. Transcribed from a photo of the in-store menu (2026-08-10). Names only — the printed descriptions were too small to read reliably in the photo, and inventing them would poison the reference. That is realistic anyway: bare dish names are the common real case and exactly what EAT-17 governs. NEEDS A HUMAN PASS: see README 'Adding a menu' — confirm the transcription and fill in expected tiers.",
+  "dishes": [
+    { "name": "Original Soon Tofu" },
+    { "name": "Assorted Soon Tofu" },
+    { "name": "Seafood Soon Tofu" },
+    { "name": "Mushroom Soon Tofu" },
+    { "name": "Kimchi Soon Tofu" },
+    { "name": "Beef Soon Tofu" },
+    { "name": "Dumpling Soon Tofu" },
+    { "name": "Ham & Sausage Soon Tofu" },
+    { "name": "Vegetable Soon Tofu" },
+
+    { "name": "Bulgogi" },
+    { "name": "Galbi" },
+    { "name": "Hot Stone Bulgogi" },
+    { "name": "Spicy Pork Bulgogi" },
+    { "name": "Chicken Teriyaki" },
+    { "name": "Spicy BBQ Chicken" },
+    { "name": "Bibimbap" },
+    { "name": "Hot Stone Bibimbap" },
+    { "name": "Yellow Corvina" },
+    { "name": "Spicy Mackerel" },
+
+    { "name": "Galbi Combo" },
+    { "name": "Bulgogi Combo" },
+    { "name": "Spicy Pork Bulgogi Combo" },
+    { "name": "Chicken Teriyaki Combo" },
+    { "name": "Spicy BBQ Chicken Combo" },
+    { "name": "Hot Stone Bibimbap Combo" },
+    { "name": "Spicy Raw Crab Combo" },
+    { "name": "Yellow Corvina Combo" },
+    { "name": "Spicy Mackerel Combo" },
+
+    { "name": "Popcorn Dumpling" },
+    { "name": "Tofu Japchae" },
+    { "name": "Crispy Garlic Tofu Bites" },
+    { "name": "Haemul Pajeon" }
+  ],
+
+  "_expectedNote": "PROPOSED ONLY — these are the tiers that are uncontroversial on saturated fat alone. They are my read, not a human's, and expected tiers are the one part of an eval that must NOT be model-generated or the eval just marks its own homework. Confirm or correct these, then delete this note. Everything else is baseline-only until someone has an opinion.",
+  "expected": {
+    "Galbi": "red",
+    "Vegetable Soon Tofu": "green",
+    "Mushroom Soon Tofu": "green",
+    "Yellow Corvina": "green"
+  }
+}
