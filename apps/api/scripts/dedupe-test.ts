@@ -86,9 +86,23 @@ const CASES: Case[] = [
     // The normalizer strips punctuation but does not transliterate words, so
     // these stay distinct on BOTH sides. That is consistent, which is all the
     // subset guard needs — worth pinning so nobody "fixes" one side alone.
-    name: "word-level variants stay distinct (consistently, on both sides)",
+    // Changed by EAT-18. This used to expect two separate dishes, because the
+    // shared key folded punctuation but not "&". No real menu lists "Fish &
+    // Chips" and "Fish and Chips" as different things — it's two photos of one
+    // menu transcribed inconsistently, and showing the user both was the bug.
+    // The invariant this case exists to protect is unchanged: OCR and ranking
+    // draw the line in the SAME place, because they call the same function.
+    name: "ampersand and 'and' are one dish, not two",
     input: [d("Fish & Chips", "Beer battered cod"), d("Fish and Chips")],
-    expect: [d("Fish & Chips", "Beer battered cod"), d("Fish and Chips", undefined)],
+    expect: [d("Fish & Chips", "Beer battered cod")],
+  },
+  {
+    // The line still exists, just further out: abbreviations are NOT folded by
+    // the key. Only namesPlausiblyMatch accepts those, and only to confirm an
+    // item number the ranker already gave us — never to merge dishes here.
+    name: "word-level variants stay distinct (consistently, on both sides)",
+    input: [d("Chicken Parm.", "With marinara"), d("Chicken Parmesan")],
+    expect: [d("Chicken Parm.", "With marinara"), d("Chicken Parmesan", undefined)],
   },
   {
     name: "distinct dishes are left alone",

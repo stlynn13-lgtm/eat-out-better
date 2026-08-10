@@ -9,7 +9,9 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test:repeatability": "npx --yes tsx scripts/repeatability-test.ts",
-    "test:dedupe": "npx --yes tsx scripts/dedupe-test.ts"
+    "test:dedupe": "npx --yes tsx scripts/dedupe-test.ts",
+    "test:dishmatch": "npx --yes tsx scripts/dishmatch-test.ts",
+    "eval": "npx --yes tsx evals/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
