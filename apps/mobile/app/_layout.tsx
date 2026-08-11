@@ -50,7 +50,6 @@ export default Sentry.wrap(function RootLayout() {
           />
           <Stack.Screen name="results" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
-          <Stack.Screen name="scoring-explained" options={{ presentation: "modal" }} />
         </Stack>
         <ScoringInfoButton />
       </GestureHandlerRootView>

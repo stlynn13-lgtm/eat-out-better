@@ -6,9 +6,9 @@ import {
   ScrollView,
   Image,
   Alert,
-  Linking,
   Animated,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { CameraView } from "expo-camera";
@@ -22,6 +22,12 @@ import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
 import PhotoViewer from "../components/menu/PhotoViewer";
 import { useAssetScale } from "../lib/utils/scale";
+import {
+  getScanQuota,
+  QUOTA_ALERT_TITLE,
+  QUOTA_ALERT_BODY,
+  type ScanQuota,
+} from "../lib/utils/scanQuota";
 import {
   generateId,
   setCurrentScanSessionId,
@@ -50,13 +56,30 @@ export default function CaptureScreen() {
   // Index of the photo open in the full-screen viewer; null = closed (EAT-13).
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const scanSessionIdRef = useRef<string>("");
+  // null until the first read resolves — the Analyze button must not flash
+  // "limit reached" for a frame before we actually know.
+  const [quota, setQuota] = useState<ScanQuota | null>(null);
 
   // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
   // scales on its own; fixed-point images and their controls don't, so without
-  // this the thumbnails stay 64pt while their caption grows past them.
+  // this the thumbnails stay small while their caption grows past them.
   const assetScale = useAssetScale();
-  const thumbSize = Math.round(64 * assetScale);
-  const removeBtnSize = Math.round(20 * assetScale);
+  const thumbSize = Math.round(96 * assetScale);
+  const removeBtnSize = Math.round(26 * assetScale);
+  // The remove button hangs off the thumbnail's top-right corner, which the
+  // horizontal ScrollView clips at its content bounds — the reported "top of
+  // the circle is cut off". Reserve the overhang as content padding instead of
+  // moving the button inside the photo, where it would cover the menu.
+  const trayOverhang = Math.ceil(removeBtnSize / 2) + 2;
+
+  // Viewfinder height scales with the screen instead of a fixed 280pt. The
+  // controls and tray below grew in this pass, and on a short phone (SE) a
+  // fixed height pushed the Analyze button off the bottom — this screen has no
+  // ScrollView, so the flex spacer just collapsed and content was cut.
+  const { height: screenHeight } = useWindowDimensions();
+  const viewfinderHeight = Math.round(
+    Math.min(360, Math.max(240, screenHeight * 0.38))
+  );
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -73,10 +96,22 @@ export default function CaptureScreen() {
   // camera: tappable level pills and a pinch gesture. Pinch runs on the JS
   // thread (runOnJS) so it needs no Reanimated worklet/babel plugin.
   //
-  // NOTE: expo-camera's `zoom` (0..1) does not map linearly to optical "x"
-  // magnification. The preset values below are sensible defaults and should be
-  // calibrated on a real device. (No 0.5× pill: the ultra-wide lens isn't
-  // exposed via this prop, so a 0.5× option would lie — it did nothing.)
+  // CALIBRATION REQUIRED — these values are placeholders, not measurements.
+  //
+  // expo-camera documents `zoom` as "a percentage of the device's max zoom",
+  // and there is no API to read what that maximum is (getAvailableLensesAsync
+  // returns lens names, not zoom factors). Max zoom ranges from roughly 16× to
+  // 123× depending on the iPhone and the active format, so 0.02 is somewhere
+  // between ~1.3× and ~3.4× — the label cannot be trusted on an arbitrary
+  // device, and no constant chosen here can fix that.
+  //
+  // To calibrate: open the camera, pinch until the framing matches what a real
+  // 2× should look like, and read the live percentage badge on the viewfinder.
+  // That number ÷ 100 is the value to put here. Because this is plain JS, the
+  // corrected values ship as an `eas update` — no new build required.
+  //
+  // (No 0.5× pill: the ultra-wide lens isn't exposed via this prop, so a 0.5×
+  // option would lie — it did nothing.)
   const ZOOM_LEVELS = [
     { label: "1×", value: 0 },
     { label: "2×", value: 0.02 },
@@ -186,16 +221,68 @@ export default function CaptureScreen() {
     setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
   }, []);
 
+  // Confirmed — this throws away every photo the user just took, and the tray
+  // is the only place they exist.
+  const clearAllPhotos = useCallback(() => {
+    Alert.alert(
+      "Remove all photos?",
+      "This clears every photo you've added to this scan.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Remove all",
+          style: "destructive",
+          onPress: () => {
+            setLocalPhotos([]);
+            setViewerIndex(null);
+          },
+        },
+      ]
+    );
+  }, []);
+
+  // Retake = drop this photo and return to the camera, which is already behind
+  // the viewer (EAT-13's viewer is a Modal over this screen, not a route).
+  const retakePhoto = useCallback((index: number) => {
+    setLocalPhotos((prev) => prev.filter((_, i) => i !== index));
+    setViewerIndex(null);
+  }, []);
+
   // Stable so PhotoViewer's close-on-empty effect doesn't re-fire every render.
   const closeViewer = useCallback(() => setViewerIndex(null), []);
 
+  // Re-read on every mount, which covers both of the moments the cap has to
+  // hold: coming back here after a scan ("Analyze New Menu"), and a cold start
+  // the next time the app is opened.
+  useEffect(() => {
+    let cancelled = false;
+    getScanQuota().then((q) => {
+      if (!cancelled) setQuota(q);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const handleAnalyze = useCallback(async () => {
     if (localPhotos.length === 0 || isProcessing) return;
+
+    // Checked here rather than in useAnalysis so a capped scan never compresses
+    // or uploads a single byte. Re-read rather than trusting mount-time state:
+    // the app may have been open across midnight, or scans spent elsewhere.
+    const current = await getScanQuota();
+    setQuota(current);
+    if (current.exhausted) {
+      Alert.alert(QUOTA_ALERT_TITLE, QUOTA_ALERT_BODY);
+      return;
+    }
+
     setIsProcessing(true);
     const startedAt = Date.now();
     if (posthog) trackMenuAnalyzeClicked(posthog, scanSessionIdRef.current, localPhotos.length);
     try {
       await startAnalysis(localPhotos, scanSessionIdRef.current, startedAt);
+      setQuota(await getScanQuota());
     } finally {
       // Always release the lock, even if startAnalysis throws — otherwise the
       // Analyze button stays disabled forever and the screen looks stuck.
@@ -250,7 +337,7 @@ export default function CaptureScreen() {
         {/* Camera viewfinder */}
         <TouchableOpacity
           className="w-full rounded-2xl overflow-hidden bg-gray-900"
-          style={{ height: 280 }}
+          style={{ height: viewfinderHeight }}
           onPress={handleViewfinderPress}
           activeOpacity={status === "active" ? 1 : 0.8}
         >
@@ -262,13 +349,17 @@ export default function CaptureScreen() {
                 facing={facing}
                 zoom={zoom}
               >
-                {/* Custom (pinch) zoom feedback */}
-                {activeZoomLabel === null && zoom > 0.001 && (
+                {/* Zoom readout. Shown for preset taps as well as pinch (it
+                    used to appear only for pinch), so the viewfinder always
+                    says whether it is zoomed — and so the presets above can be
+                    calibrated by pinching to the right framing and reading the
+                    number off the screen. */}
+                {zoom > 0.001 && (
                   <View
-                    className="absolute top-2 right-2 rounded-full px-2 py-0.5"
+                    className="absolute top-2 right-2 rounded-full px-2.5 py-1"
                     style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
                   >
-                    <Text className="text-white text-xs font-medium">
+                    <Text className="text-white text-xs font-semibold">
                       {Math.round(zoom * 100)}%
                     </Text>
                   </View>
@@ -303,46 +394,63 @@ export default function CaptureScreen() {
         </TouchableOpacity>
 
         {/* Camera controls live BELOW the viewfinder so they never block the
-            menu being framed (EAT-16). Zoom left, shutter center, gallery right. */}
+            menu being framed (EAT-16). Split across two rows: the zoom and
+            gallery controls both grew in this pass and no longer fit either
+            side of the shutter on a 390pt-wide phone without shrinking back
+            down to the sizes this change exists to fix. */}
         {status === "active" ? (
-          <View className="flex-row items-center mt-3">
-            <View className="flex-1 flex-row gap-1.5">
-              {ZOOM_LEVELS.map((lvl) => {
-                const active = activeZoomLabel === lvl.label;
-                return (
-                  <TouchableOpacity
-                    key={lvl.label}
-                    onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                    className={`px-2.5 py-1.5 rounded-full ${
-                      active ? "bg-brand-900" : "bg-gray-100"
-                    }`}
-                  >
-                    <Text
-                      className={`text-xs font-semibold ${
-                        active ? "text-white" : "text-gray-600"
+          <>
+            <View className="flex-row items-center justify-between mt-3">
+              <View className="flex-row gap-2">
+                {ZOOM_LEVELS.map((lvl) => {
+                  const active = activeZoomLabel === lvl.label;
+                  return (
+                    <TouchableOpacity
+                      key={lvl.label}
+                      onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                      className={`px-4 py-2.5 rounded-full ${
+                        active ? "bg-brand-900" : "bg-gray-100"
                       }`}
+                      accessibilityLabel={`Zoom ${lvl.label}`}
                     >
-                      {lvl.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            <TouchableOpacity
-              className="w-14 h-14 rounded-full bg-white items-center justify-center border-4 border-brand-900"
-              onPress={handleCapture}
-              accessibilityLabel="Take photo"
-            />
-            <View className="flex-1 items-end">
-              <TouchableOpacity className="py-2 pl-2" onPress={handleGalleryPick}>
-                <Text className="text-sm font-medium text-green-700">Photos</Text>
+                      <Text
+                        className={`text-sm font-bold ${
+                          active ? "text-white" : "text-gray-600"
+                        }`}
+                      >
+                        {lvl.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <TouchableOpacity
+                className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
+                onPress={handleGalleryPick}
+                accessibilityLabel="Add your photos from your library"
+              >
+                <Text className="text-sm font-semibold text-green-700">
+                  Add your photos
+                </Text>
               </TouchableOpacity>
             </View>
-          </View>
+
+            <View className="items-center mt-3">
+              <TouchableOpacity
+                className="rounded-full bg-white items-center justify-center border-4 border-brand-900"
+                style={{ width: 68, height: 68 }}
+                onPress={handleCapture}
+                accessibilityLabel="Take photo"
+              />
+            </View>
+          </>
         ) : (
-          <TouchableOpacity className="mt-3 py-2" onPress={handleGalleryPick}>
-            <Text className="text-center text-sm font-medium text-green-700">
-              Upload from Photos
+          <TouchableOpacity
+            className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
+            onPress={handleGalleryPick}
+          >
+            <Text className="text-center text-base font-semibold text-green-700">
+              Add your photos
             </Text>
           </TouchableOpacity>
         )}
@@ -353,11 +461,31 @@ export default function CaptureScreen() {
               <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Added photos
               </Text>
-              <Text className="text-xs font-semibold text-green-700">
-                {localPhotos.length} / {MAX_PHOTOS}
-              </Text>
+              <View className="flex-row items-center gap-3">
+                <Text className="text-xs font-semibold text-green-700">
+                  {localPhotos.length} / {MAX_PHOTOS}
+                </Text>
+                <TouchableOpacity
+                  onPress={clearAllPhotos}
+                  accessibilityLabel="Remove all photos"
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Text className="text-xs font-semibold text-red-600">
+                    Clear all
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              // Without this the ScrollView clips the remove buttons hanging off
+              // each thumbnail's top-right corner (and the last one's right edge).
+              contentContainerStyle={{
+                paddingTop: trayOverhang,
+                paddingRight: trayOverhang,
+              }}
+            >
               <View className="flex-row gap-2">
                 {localPhotos.map((uri, i) => (
                   <View key={`${uri}-${i}`} className="relative">
@@ -376,12 +504,26 @@ export default function CaptureScreen() {
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      className="absolute -top-1.5 -right-1.5 rounded-full bg-gray-800 items-center justify-center"
-                      style={{ width: removeBtnSize, height: removeBtnSize }}
+                      className="absolute rounded-full bg-gray-800 items-center justify-center border-2 border-gray-50"
+                      style={{
+                        width: removeBtnSize,
+                        height: removeBtnSize,
+                        // Offsets are derived from the button size rather than
+                        // fixed, so the overhang and the ScrollView padding
+                        // reserved for it stay in step at any text scale.
+                        top: -Math.round(removeBtnSize / 3),
+                        right: -Math.round(removeBtnSize / 3),
+                      }}
                       onPress={() => removePhoto(i)}
                       accessibilityLabel={`Remove photo ${i + 1}`}
+                      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                     >
-                      <Text className="text-white text-xs">×</Text>
+                      <Text
+                        className="text-white font-semibold leading-none"
+                        style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
+                      >
+                        ×
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 ))}
@@ -407,25 +549,38 @@ export default function CaptureScreen() {
 
         <View className="flex-1" />
 
+        {/* Warn only when the allowance is nearly gone. Showing a counter from
+            the first scan makes a generous limit feel like a meter running. */}
+        {quota && !quota.exhausted && quota.remaining <= 2 ? (
+          <Text className="text-xs text-amber-700 text-center mt-4">
+            {quota.remaining} scan{quota.remaining === 1 ? "" : "s"} left today
+          </Text>
+        ) : null}
+
         <TouchableOpacity
           className={`rounded-xl py-4 items-center mt-4 mb-2 ${
-            localPhotos.length === 0 || isProcessing
+            localPhotos.length === 0 || isProcessing || quota?.exhausted
               ? "bg-gray-300"
               : "bg-brand-900"
           }`}
           onPress={handleAnalyze}
+          // Not disabled when the quota is spent: the button still needs to be
+          // tappable so it can explain why, which is the whole point of the
+          // native alert. A dead button explains nothing.
           disabled={localPhotos.length === 0 || isProcessing}
           activeOpacity={0.85}
         >
           <Text
             className={`font-semibold text-base ${
-              localPhotos.length === 0 || isProcessing
+              localPhotos.length === 0 || isProcessing || quota?.exhausted
                 ? "text-gray-500"
                 : "text-white"
             }`}
           >
             {isProcessing
               ? "Processing…"
+              : quota?.exhausted
+              ? "Daily scan limit reached"
               : localPhotos.length === 0
               ? "Add a photo to continue"
               : `Analyze Menu (${localPhotos.length} page${
@@ -434,13 +589,12 @@ export default function CaptureScreen() {
           </Text>
         </TouchableOpacity>
 
+        {/* Privacy Policy deliberately not repeated here — it lives on the
+            welcome and results screens only, so the mid-flow screens stay
+            focused on the task. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
             <Text className="text-xs text-gray-400 underline">Feedback</Text>
-          </TouchableOpacity>
-          <Text className="text-xs text-gray-300">·</Text>
-          <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
-            <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -456,6 +610,7 @@ export default function CaptureScreen() {
         initialIndex={viewerIndex}
         onClose={closeViewer}
         onDelete={removePhoto}
+        onRetake={retakePhoto}
       />
     </SafeAreaView>
   );

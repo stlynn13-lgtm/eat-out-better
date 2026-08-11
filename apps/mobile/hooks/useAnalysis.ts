@@ -7,6 +7,7 @@ import { useAnalysisStore } from "../store/useAnalysisStore";
 import { compressImageUri, perImageByteTarget } from "../lib/utils/image";
 import { hasMenuText } from "../lib/utils/menuTextCheck";
 import { saveSession } from "../lib/storage/session";
+import { recordScan } from "../lib/utils/scanQuota";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
 import Constants from "expo-constants";
@@ -141,6 +142,13 @@ export function useAnalysis() {
         });
         return;
       }
+
+      // Counted here, past the on-device not-a-menu check and immediately
+      // before the work that costs money starts. A photo of a wall is rejected
+      // for free, so it must not cost the user one of the day's scans; anything
+      // that gets past this point will be uploaded and billed even if it later
+      // fails, which is what the cap exists to bound.
+      await recordScan();
 
       store.setStatus("uploading");
       store.setProgress(0, "Preparing your photos…");

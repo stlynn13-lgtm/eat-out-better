@@ -11,14 +11,31 @@ import {
   getCurrentScanSessionId,
   setCurrentScanSessionId,
   trackNewScanInitiated,
+  trackFeedbackRatingSubmitted,
 } from "../lib/analytics";
 import FeedbackSheet from "../components/FeedbackSheet";
+
+/**
+ * Five faces so the inline row maps 1:1 onto the sheet's five stars — tapping
+ * the third face opens the sheet on three stars. A four-face row would have to
+ * guess at the translation.
+ */
+const HELPFUL_FACES = [
+  { emoji: "😞", value: 1 },
+  { emoji: "😕", value: 2 },
+  { emoji: "😐", value: 3 },
+  { emoji: "🙂", value: 4 },
+  { emoji: "😍", value: 5 },
+] as const;
 
 export default function ResultsScreen() {
   const router = useRouter();
   const posthog = usePostHog();
   const { results, session, status, error, reset, clearError } = useAnalysisStore();
   const [showFeedback, setShowFeedback] = useState(false);
+  // "scan" = the per-menu prompt (stars required); "general" = the footer link.
+  const [feedbackVariant, setFeedbackVariant] = useState<"general" | "scan">("general");
+  const [inlineRating, setInlineRating] = useState<number | null>(null);
 
   useEffect(() => {
     if (!results && status !== "complete") {
@@ -68,6 +85,16 @@ export default function ResultsScreen() {
   const dishes = results ?? [];
   const unreadable: UnreadableItem[] = session?.unreadableItems ?? [];
 
+  // One tap records the rating on its own, so we still learn something from the
+  // large majority who won't fill in a whole sheet. The sheet then opens
+  // pre-filled for anyone willing to say more.
+  const handleFaceTap = (value: number) => {
+    setInlineRating(value);
+    if (posthog) trackFeedbackRatingSubmitted(posthog, "results", value);
+    setFeedbackVariant("scan");
+    setShowFeedback(true);
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <FlatList
@@ -76,7 +103,9 @@ export default function ResultsScreen() {
         contentContainerStyle={{
           paddingHorizontal: 20,
           paddingTop: 32,
-          paddingBottom: 100,
+          // Clears the absolutely-positioned action bar plus the helpful-rating
+          // card now sitting at the end of the list.
+          paddingBottom: 130,
         }}
         ListHeaderComponent={
           <View className="mb-6">
@@ -127,7 +156,13 @@ export default function ResultsScreen() {
         )}
         ItemSeparatorComponent={() => <View className="h-3" />}
         ListFooterComponent={
-          unreadable.length > 0 ? <UnreadableSection items={unreadable} /> : null
+          <>
+            {unreadable.length > 0 ? <UnreadableSection items={unreadable} /> : null}
+            {/* Asked at the end of the list rather than as a popup over the
+                results — the user just waited 20 seconds for these, so nothing
+                covers them uninvited. */}
+            <HelpfulRating selected={inlineRating} onSelect={handleFaceTap} />
+          </>
         }
       />
 
@@ -154,7 +189,12 @@ export default function ResultsScreen() {
         </TouchableOpacity>
 
         <View className="flex-row items-center justify-center gap-2 mt-3">
-          <TouchableOpacity onPress={() => setShowFeedback(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setFeedbackVariant("general");
+              setShowFeedback(true);
+            }}
+          >
             <Text className="text-xs text-gray-400 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
@@ -168,9 +208,61 @@ export default function ResultsScreen() {
         visible={showFeedback}
         onClose={() => setShowFeedback(false)}
         screen="results"
-        showRating
+        variant={feedbackVariant}
+        initialRating={feedbackVariant === "scan" ? inlineRating : null}
+        scanSessionId={getCurrentScanSessionId() ?? undefined}
+        dishCount={dishes.length}
       />
     </SafeAreaView>
+  );
+}
+
+function HelpfulRating({
+  selected,
+  onSelect,
+}: {
+  selected: number | null;
+  onSelect: (value: number) => void;
+}) {
+  return (
+    <View className="mt-8 rounded-2xl border border-gray-200 bg-white p-4">
+      <Text className="text-base font-semibold text-gray-900 text-center mb-1">
+        Was this analysis helpful?
+      </Text>
+      <Text className="text-xs text-gray-500 text-center mb-3">
+        {selected !== null
+          ? "Thanks — tap another face to change your answer."
+          : "One tap. It's how we know the scores are landing."}
+      </Text>
+      <View className="flex-row items-center justify-center gap-2">
+        {HELPFUL_FACES.map(({ emoji, value }) => {
+          const isSelected = selected === value;
+          return (
+            <TouchableOpacity
+              key={value}
+              onPress={() => onSelect(value)}
+              accessibilityRole="button"
+              accessibilityLabel={`Rate this analysis ${value} out of 5`}
+              accessibilityState={{ selected: isSelected }}
+              className="rounded-full items-center justify-center"
+              style={{
+                width: 52,
+                height: 52,
+                backgroundColor: isSelected ? "#e0f2e8" : "#f3f4f6",
+                borderWidth: isSelected ? 1.5 : 0,
+                borderColor: "#2a6041",
+              }}
+            >
+              {/* Unselected faces are dimmed rather than greyed out — emoji
+                  ignore tintColor, so opacity is the only lever. */}
+              <Text style={{ fontSize: 26, opacity: selected === null || isSelected ? 1 : 0.4 }}>
+                {emoji}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </View>
   );
 }
 

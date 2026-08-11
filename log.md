@@ -6,6 +6,59 @@
 
 ---
 
+## 2026-08-10 — UX pass for build 9, and the app can now be updated without a new build
+
+**What changed**
+
+Sean brought a list of UX improvements screen by screen and asked whether they could ship without an App Store release. Two answers came out of that:
+
+- **There was no way to update the app without a full build, and now there is.** The app had never included Expo's over-the-air update support, so every change — even a single word of copy — required a new TestFlight build. Build 9 adds it. From build 9 onward, anything that is purely app code (copy, layout, colours, animations) can be pushed straight to testers' phones with one command; they pick it up the next time they open the app. Changes that touch the phone's native side still need a real build. **This does nothing for anyone still on build 8 — testers have to install build 9 once before any over-the-air update can reach them.**
+- **To be clear about the App Store question:** nothing here needs one. TestFlight is not an App Store release, and the app is not publicly launched yet, so build 9 goes out exactly the way build 8 did.
+
+The list itself was split. Everything unambiguous was built; everything that would have meant inventing a design was deliberately left alone (see "Still waiting on you" below).
+
+**Built:**
+
+- **The camera screen's photos and buttons are bigger.** Thumbnails went from 64pt to 96pt, the zoom buttons and shutter grew, and the viewfinder now sizes itself to the screen instead of being pinned at 280pt. That last one was also a latent bug: on a short phone the fixed height plus the photo tray pushed the Analyze button off the bottom of a screen that has no scrolling.
+- **The "×" that removes a photo is no longer cut off.** It hangs off the corner of each thumbnail, and the sideways-scrolling strip was clipping anything outside its bounds — so the top of the circle was sliced. The strip now reserves that space.
+- **A "Clear all" button**, with a confirmation, since it throws away every photo in one tap.
+- **"Photos" now reads "Add your photos."**
+- **"Retake" added to the full-screen photo view**, alongside close and delete — it drops the photo and returns you to the camera.
+- **The loading screen's progress bar is rebuilt.** It counts through every number instead of jumping in 4% steps, runs as a real animation on the phone's display thread rather than being computed as it goes, and is tuned to feel fast — a quick run to 90%, then a slow creep, then straight to 100 when the analysis actually lands. The percentage is now the biggest thing on the screen, which is what people watch while waiting.
+- **The "Did you know?" facts are shorter.** They were long enough that they changed before you could finish reading. One of them also contradicted the app's own scoring explanation — it warned about trans fats, which the same app correctly says have been banned in U.S. restaurants since 2018–2021. Replaced.
+- **The Privacy Policy link now appears only on the welcome and results screens**, not mid-flow.
+- **The two "explain the app" screens are now one.** The welcome screen had a "How it works →" link in the footer *and* a floating "?" in the corner leading somewhere else — the same question with two answers. They're merged into a single screen behind the one "?". That "?" was also a dark charcoal circle sitting on a near-white screen, which read as a smudge rather than a button; it's now light.
+- **The welcome screen animates in**, staggered top to bottom, built as a reusable wrapper so it survives the redesign that screen is still due.
+- **A per-scan rating on the results screen.** "Was this analysis helpful?" with five faces at the end of the results. One tap records an answer on its own — so we hear from the majority who won't fill in a form — and opens the fuller prompt already filled in for anyone willing to say more.
+- **The feedback prompt is rebuilt** as "Your experience" (five stars, the only required field), "What did you think" (quick options that change depending on whether the rating was low or high, so each one can be specific), and "Tell us more". Everything toggles: tap a selected star to clear it, tap a chosen option to unchoose it. Closing without sending is always allowed.
+- **Scan ratings are now tagged separately in the same Google Sheet**, with the scan's session ID, dish count, app version and environment alongside — so per-menu ratings can be told apart from general feedback.
+- **A daily cap of 5 scans per device**, with a native alert on the sixth. It's checked before anything is uploaded, so a blocked scan costs nothing at all, and it survives closing the app. The limit is deliberately readable from config, which means it can be retuned over the air without a build.
+
+**Decisions made**
+
+- **A global daily cost cap was NOT built.** It can't be, on the current setup: the API's rate limiter lives in each serverless instance's memory, so it resets on cold starts and isn't shared between instances — it cannot bound a day's spend across users. A real one needs durable shared storage (Upstash/Vercel KV). Sean chose to ship the per-device cap now and keep the Anthropic account spend cap as the financial backstop — which is still an unconfirmed P0 in `plan.md` and is now the *only* global limit. Worth confirming it's actually set.
+- **The per-device cap is a cost guard, not a security boundary.** It lives in the app's own storage, so deleting and reinstalling resets it. That's an acceptable trade for something whose job is to bound ordinary heavy use.
+- **The 2×/3× zoom buttons are wrong and were left alone on purpose.** Sean asked to confirm them. They don't do what they say: expo-camera's zoom setting is documented as "a percentage of the device's max zoom", and there is no way to ask the phone what its maximum is. That maximum ranges from about 16× to 123× depending on the iPhone, so the current 0.02 is somewhere between ~1.3× and ~3.4× and the labels can't be trusted on any given device. Guessing a new number would just be wrong in a different way. Instead the viewfinder's zoom percentage now shows for button taps as well as pinching, so calibration takes about thirty seconds on a real phone: pinch until the framing looks like a true 2×, read the number, divide by 100. **Those corrected values can then ship over the air — no build.**
+- **Landscape photos will not be rejected by the analyzer.** Sean flagged this as needing confirmation before any landscape work. Checked: the photo compression already handles both orientations (it resizes by the long edge either way) and the menu-reading prompt judges whether something is a menu by its content, not its shape. The real risk is a *rotated* photo — phone held upright, menu sideways in the frame — which is a framing-guidance problem, not a rejection one. Note also that the app is locked to portrait in its native config, so the vertical/horizontal swap can never ship as an over-the-air update.
+
+**Still waiting on you**
+
+Deliberately not built, because doing them without a design meant guessing:
+
+- **The welcome screen's redesign** — the four feature chips becoming numbered steps 1-3, and the "have high cholesterol?" targeted headline. Also: "background too dark" could not be reproduced — that screen's background is already near-white, and the only genuinely dark thing on it was the "?" button, which has been lightened. A screenshot would settle it.
+- **The camera filling most of the screen** — the biggest change on the list, and a full re-layout of what sits above and below the viewfinder.
+- **Vertical/horizontal swap (EAT-14)** — still the ticket that has always been waiting on a design.
+- **The condition dropdown** — deferred; the API only accepts high cholesterol today.
+- **The Google Apps Script needs new columns.** The app now sends `feedback_type`, `tags`, `scan_session_id`, `dish_count`, `app_version` and `environment`. The script that writes to the sheet lives outside this repo, so until someone adds those columns there, the new fields arrive and go nowhere.
+
+**Verified / not verified**
+
+- Mobile typecheck is back to its two known pre-existing errors and no new ones; API typecheck clean; the dedupe suite passes 10/10; the Expo config evaluates to v1.1.4 / build 9 with the update policy and scan limit set.
+- **Nothing was seen running.** This machine still has no iOS simulator runtime installed (`xcrun simctl list runtimes` is empty). Every visual change above — the bigger controls, the fixed "×", the new progress bar, the rebuilt feedback sheet, the merged info screen, the welcome animation — is unverified on a device.
+- **The zoom values are known-wrong and still wrong**, by choice, pending calibration. Note a simulator would not help here even if one were installed — it has no camera.
+
+---
+
 ## 2026-08-05 — Reviewed the five "In Review" tickets, found four things that weren't actually finished; built EAT-13
 
 **What changed**

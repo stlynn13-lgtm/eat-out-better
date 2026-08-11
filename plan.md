@@ -2,16 +2,20 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-08-05
+**Last updated:** 2026-08-10
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-Build 5 (v1.1.2) is on TestFlight. Build 6's work and build 7 (the cholesterol rubric rewrite + EAT-9 anti-hallucination) are **merged and live on `main`**; EAS build 7 was cut on 2026-07-28, so that build number is burned.
+Build 8 (v1.1.3) is **merged, deployed and on TestFlight** — that's the build on Sean's phone.
 
-**Build 8 (v1.1.3 / iOS build 8) is pushed on `fix/build8-eat-review-finish`, not yet merged to `main`.** It's the result of reviewing every open ticket against the code: EAT-10, EAT-9, EAT-12 and EAT-15 each had a real gap one step to the side of what the ticket described, EAT-15 and EAT-17 each had a requirement that was never built at all, and EAT-13 is now done. Full detail in the `log.md` 2026-08-05 entry.
+**Build 9 (v1.1.4 / iOS build 9) is on `feat/build9-ux-pass`, not yet merged.** It's a UX pass across every screen from Sean's own list, plus the single biggest change to how this project ships: **the app can now be updated without a new build.**
+
+**The thing to understand about build 9:** it adds Expo's over-the-air updates. Until now every change, down to one word of copy, needed a full TestFlight build. From build 9 onward, anything that's purely app code — copy, layout, colours, animations — ships with one command and reaches testers the next time they open the app. Native changes still need a real build, and this does nothing for anyone still on build 8; **testers must install build 9 once before any over-the-air update can reach them.** Also worth being clear: none of this ever required an App Store release. TestFlight isn't one, and we're not publicly launched.
+
+Roughly half of Sean's UX list was built; the other half was deliberately left alone because doing it would have meant inventing a design. Full detail in the `log.md` 2026-08-10 entry.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.
 
@@ -19,20 +23,17 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 
 ---
 
-## NOW — verify build 8 and get it onto TestFlight
+## NOW — get build 9 onto TestFlight, then send the missing designs
 
-1. **Run a real menu through the new scoring (Sean, needs an API key)** — this is the one that matters. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing here could test whether those assumptions are *good* ones. It's also the long-outstanding ~15-dish ingredient-guessing validation from the rubric rewrite, which EAT-17 is the most direct use case for. Check especially: bare dish names (no description) now get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu.
-2. **On-device verification pass** (Sean) — nothing on `fix/build8-eat-review-finish` has been seen running. This machine has no iOS simulator runtime installed, so none of it could be checked visually. Specifically worth looking at:
-   - **EAT-13** — tap a tray thumbnail: photo opens full-screen, swipe pages through the others, delete moves to the next one and closes the viewer on the last.
-   - **EAT-12** — the shutter at the 10-photo cap, and a failed capture, both now show a message.
-   - **EAT-15** — the "Couldn't read these" section and the results error text are a size bigger; and with the phone's text size turned up, the photo thumbnails should now grow with it instead of staying small.
-   - **EAT-10** — pull down a notification mid-scan: the scan should now survive it rather than restarting. Then background the app properly mid-scan and return: it should recover, not freeze at 92%.
-3. **Decide on EAT-13's design.** It was built without one because it was asked for; the layout is conventional and swappable. Either accept it or send a design and it gets restyled.
-4. **EAT-14 (landscape capture)** — the last ticket still genuinely waiting on a design.
-5. **Merge `fix/build8-eat-review-finish`, then EAS build + TestFlight submit** (Sean, manual) — version/build already set to 1.1.3 / 8. Note merging redeploys the API, which is where the EAT-9 and EAT-17 scoring changes go live.
-6. **Verify the Vercel deploy** of `main` picked up the API changes (the API's `/api/health` now exposes a commit SHA, so this is finally checkable).
+1. **Run a real menu through the scoring (Sean, needs an API key)** — still the one that matters, and still outstanding from build 8. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing in this environment can test whether those assumptions are *good* ones. Check especially: bare dish names (no description) get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu.
+2. **On-device verification pass (Sean)** — nothing in build 9 has been seen running; this machine still has no iOS simulator runtime. Worth looking at: the bigger photos/buttons, the "×" no longer clipped, the new progress bar counting every number, the rebuilt star feedback prompt, the merged "?" info screen, the welcome animation, and the daily cap alert on the 6th scan.
+3. **Calibrate the zoom buttons (Sean, 30 seconds, needs a real phone).** The 2×/3× buttons don't do what they say and can't be fixed in code — the camera library only accepts "a percentage of the device's max zoom" and won't say what that maximum is. Open the camera, pinch until the framing looks like a true 2×, read the percentage badge on the viewfinder, divide by 100. Same for 3×. **Those two numbers then ship over the air — no build.**
+4. **Add the new columns to the feedback Google Apps Script.** The app now sends `feedback_type`, `tags`, `scan_session_id`, `dish_count`, `app_version`, `environment`. The script lives outside this repo, so until it's updated those fields arrive and go nowhere.
+5. **Send the designs that are blocking the rest of the UX list** — the welcome screen (feature chips → numbered steps, the "have high cholesterol?" headline) and the camera filling most of the screen. Plus a screenshot of the welcome screen: "background too dark" couldn't be reproduced, since that background is already near-white. **All three of these are pure app code, so once designed they ship over the air rather than as build 10.**
+6. **Merge `feat/build9-ux-pass`, then EAS build + TestFlight submit** — version/build already set to 1.1.4 / 9. Use `--auto-submit` so it completes with the laptop closed.
+7. **EAT-14 (vertical/horizontal swap)** — still waiting on a design, and note it's the one item here that can *never* ship over the air: the app is locked to portrait in native config.
 
-**Carried-over P0s to confirm (status unknown, cheap to check):** Anthropic spend cap + budget alert set? The three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
+**Carried-over P0s to confirm (status unknown, cheap to check):** **Anthropic spend cap + budget alert set?** — this got more important, not less: build 9's daily cap is per-device only, so the account spend cap is now the *only* global limit on a runaway day. A true global cap needs durable shared storage (Upstash/Vercel KV) and was deliberately deferred. Also: the three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
 
 ➡️ Full detail + owners + status: GTM Launch Tracker, filter Priority = P0.
 

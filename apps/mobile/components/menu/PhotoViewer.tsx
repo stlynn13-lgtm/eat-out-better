@@ -21,6 +21,12 @@ interface PhotoViewerProps {
   onClose: () => void;
   /** Removes the photo at `index` from the tray. Must be stable (useCallback). */
   onDelete: (index: number) => void;
+  /**
+   * Removes the photo at `index` AND closes the viewer, returning the user to
+   * the camera to shoot it again. Distinct from `onDelete`, which keeps the
+   * viewer open on the next photo. Must be stable (useCallback).
+   */
+  onRetake: (index: number) => void;
 }
 
 /**
@@ -41,6 +47,7 @@ export default function PhotoViewer({
   initialIndex,
   onClose,
   onDelete,
+  onRetake,
 }: PhotoViewerProps) {
   const { width, height } = useWindowDimensions();
   // Controls track the phone's text-size setting like the rest of the app's
@@ -182,17 +189,34 @@ export default function PhotoViewer({
           </View>
         </SafeAreaView>
 
-        {photos.length > 1 ? (
-          <SafeAreaView
-            edges={["bottom"]}
-            pointerEvents="none"
-            style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
-          >
-            <Text className="text-center text-sm text-gray-400 pb-3">
-              Swipe to see your other photos
-            </Text>
-          </SafeAreaView>
-        ) : null}
+        {/* Retake sits at the bottom rather than in the top row: it is the one
+            action here whose meaning isn't obvious from an icon, so it carries
+            a label, and putting it under the thumb keeps the top row's
+            close/delete pairing intact (EAT-13 asked for icons there). */}
+        <SafeAreaView
+          edges={["bottom"]}
+          pointerEvents="box-none"
+          style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
+        >
+          <View pointerEvents="box-none" className="items-center pb-3">
+            <TouchableOpacity
+              className="flex-row items-center rounded-full px-5 py-3 mb-2"
+              style={{ backgroundColor: "rgba(17,24,39,0.65)" }}
+              onPress={() => onRetake(safeIndex)}
+              accessibilityRole="button"
+              accessibilityLabel="Retake this photo"
+            >
+              <Text className="text-white text-base mr-2">📷</Text>
+              <Text className="text-white text-base font-semibold">Retake</Text>
+            </TouchableOpacity>
+
+            {photos.length > 1 ? (
+              <Text className="text-center text-sm text-gray-400">
+                Swipe to see your other photos
+              </Text>
+            ) : null}
+          </View>
+        </SafeAreaView>
       </View>
     </Modal>
   );
