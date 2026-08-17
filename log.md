@@ -6,6 +6,35 @@
 
 ---
 
+## 2026-08-15 — EAT-19: every dish with a menu description was coming back unscored
+
+**What changed**
+
+Sean scanned a brunch menu and got a screenshot Ray described as "pretty terrible results" — 29 dishes found, 8 with real scores, **21 showing "We couldn't score this one" at a flat 5.0.** The working theory was that Haiku wasn't good enough and we should try Sonnet.
+
+It wasn't a model problem. Cross-referencing all 29 results against the menu photo, the split was perfect and had nothing to do with dish difficulty: **every dish printed with a description failed; every dish printed as a bare name scored.** All 8 that worked (Bottomless Classic Orange, Half Avocado, Seasonal Fruit, Home Fries, the bacon, the sausage, the sweet potato fries) are bare names on that menu. "2 Eggs" is the tell — an ordinary side like the others, but it carries "VITAL Farms Pasture Raised," and it failed.
+
+The cause: the ranking prompt printed each dish as `2. 2 EGGS — VITAL Farms Pasture Raised` on one line, immediately next to a rule saying to copy the input dish name exactly. The model read the whole line as the name and echoed it back. We compared that to `2 EGGS`, found no match, discarded it as an off-menu hallucination, and re-added it unscored. A bare name has nothing to conflate, so it survived.
+
+**Two fixes.** The prompt now puts the description on its own labelled line, so there is nothing to conflate. And the matcher recognises a name echoed with that dish's own description as a match — the prompt change is prevention, the matcher change is the safety net, and neither depends on the other working.
+
+**Decisions made**
+
+- **Not Sonnet.** OCR delivered all 29 dishes with legible, correct names and descriptions, no "couldn't read" items, and a count matching the menu exactly — the loss happened downstream in our own code. Switching models could have *masked* it (a different model might echo the name cleanly) at 3× the cost per scan, while leaving the defect live for every other menu. Worth stating plainly because the screenshot was genuinely persuasive in the other direction.
+- **You cannot evaluate model quality through this bug.** Two thirds of the ranking output was discarded before reaching the screen, so that screenshot showed the fallback text, not Haiku's judgement. Any Haiku-vs-Sonnet comparison run before this fix would have measured both models through the same lossy filter.
+- **The rescue is two narrow checks, not one loose one.** A general "the input name is a prefix of the echo" rule would have been simpler and would also accept "HOUSE SALAD LARGE" for a slot holding "HOUSE SALAD" on a menu listing both — a confident score on the wrong dish, which on a health app is worse than an unscored dish. The description check is an exact comparison against that dish's own name+description.
+- **An ambiguous echo is discarded, not guessed.** If the item number says slot 1 but the name is plainly dish 2, neither is trusted and both dishes fall back. Pinned by a test.
+- **Sean's menu is now the second eval corpus** (`edible-beats-brunch.json`), and the better of the two: 21 of its 29 dishes carry descriptions. `bcd.json` is names-only — it would have passed at 100% through this entire bug, and now carries a note saying so.
+
+**Open questions**
+
+- **This fix makes 29 scores appear; it does not make them right.** Whether they're any good is still the unanswered EAT-17 question and still needs an API key. `npm run eval -- --menu edible-beats-brunch` answers it for about 4 cents.
+- **The prompt half is unverified.** `npm run replay:eat19` proves the matcher rescues the exact 8/29 → 29/29 case with no key or network, but whether the model now stops conflating needs a real call. It doesn't gate the merge, because the matcher catches it either way.
+- **Ray has no API key** — the Anthropic key is Sean's, and `client.ts` requires a static key with no OAuth-profile fallback. Every eval run currently routes through Sean, which is the same friction that left six prior prompt changes unmeasured. A personal dev key for Ray removes it permanently.
+- **Separate, smaller, real: OCR made four transcription errors** on a clean, well-lit menu — "Crumpet"→"Cornmeal", "Masala Potatoes"→"Potato Potatoes", "Tender Belly Ham"→"Smoked Ham", "Short Rib"→"Short Ribs". Vision quality *is* where Sonnet would help, but note `image.ts` caps uploads at 1568px while Sonnet 5 reads to 2576px, and raising that runs into Vercel's ~4.5MB body limit. Needs its own ticket.
+
+---
+
 ## 2026-08-10 — EAT-18: real dishes were coming back "We couldn't score this one"
 
 **What changed**

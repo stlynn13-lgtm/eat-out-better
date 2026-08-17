@@ -87,6 +87,35 @@ function foldToWords(name: string): string[] {
  */
 const MIN_ABBREVIATION = 3;
 
+/**
+ * Did the ranker echo back this dish's name with its OWN description appended?
+ *
+ * EAT-19: the prompt used to print "2 EGGS — VITAL Farms Pasture Raised" on one
+ * line, so the model copied the whole thing back as the name. Every dish with a
+ * printed description was then unmatched, dropped as off-menu, and re-added
+ * unscored. The prompt no longer renders it that way, but a model can still
+ * concatenate the two, so this catches it.
+ *
+ * Deliberately an EXACT comparison against this dish's own name+description
+ * rather than a loose "expected name is a prefix of the echo" rule. A prefix
+ * rule would also accept "HOUSE SALAD LARGE" for a slot holding "HOUSE SALAD"
+ * on a menu listing both — which puts a real score on the wrong dish, the one
+ * failure worse than leaving a dish unscored.
+ */
+export function matchesNameWithDescription(
+  dish: { name: string; description?: string },
+  candidate: string
+): boolean {
+  if (!dish.description) return false;
+  const echoed = normalizeDishName(candidate);
+  return (
+    echoed === normalizeDishName(`${dish.name} ${dish.description}`) ||
+    // Some models drop the separator, others keep it; normalization strips
+    // punctuation either way, so one comparison covers "—", "-", ":" and none.
+    echoed === normalizeDishName(`${dish.name}${dish.description}`)
+  );
+}
+
 export function namesPlausiblyMatch(expected: string, candidate: string): boolean {
   if (normalizeDishName(expected) === normalizeDishName(candidate)) return true;
 

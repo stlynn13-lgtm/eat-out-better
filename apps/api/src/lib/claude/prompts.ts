@@ -124,11 +124,19 @@ export function getRankingUserPrompt(
   const conditionLabel =
     conditionId === "high_cholesterol" ? "high cholesterol management" : conditionId;
 
+  // The description goes on its own labelled line, never beside the name.
+  // Why (EAT-19): these used to render as "2. 2 EGGS — VITAL Farms Pasture
+  // Raised" on one line, right next to a rule saying to copy the input dish
+  // name exactly. The model reasonably read the whole line as the name and
+  // echoed it back, nothing matched, and every dish that had a printed
+  // description was discarded and re-added unscored — 21 of 29 on a real menu.
+  // Splitting the lines leaves nothing to conflate.
   const dishList = dishes
     .map((d, i) => {
       const name = stripTagChars(d.name);
-      const desc = d.description ? ` — ${stripTagChars(d.description)}` : "";
-      return `${i + 1}. ${name}${desc}`;
+      const line = `${i + 1}. ${name}`;
+      if (!d.description) return line;
+      return `${line}\n   menu description: ${stripTagChars(d.description)}`;
     })
     .join("\n");
 
@@ -157,7 +165,7 @@ Rules:
 - Do NOT sort, reorder, or rank the dishes. Return them in input order, 1 to ${dishes.length}. The ordering is done elsewhere
 - Score ONLY the dishes in the numbered list above — these are the only dishes that exist
 - Do NOT add, invent, merge, split, translate, or rename any dish
-- "name" must match the input dish name exactly
+- "name" is the text on the numbered line only, copied exactly. NEVER append the "menu description" line to it
 - "score" is a float between 1.0 and 10.0
 - "explanation" is one sentence, factual, specific, non-judgmental
 - "substitution" is null for V0 (will be populated in V0.5)

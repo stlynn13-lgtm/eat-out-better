@@ -1,0 +1,45 @@
+{
+  "id": "edible-beats-brunch",
+  "label": "Edible Beats brunch menu (Sean's scan)",
+  "note": "The menu Sean scanned on 2026-08-15 that produced 8 real scores and 21 'We couldn't score this one' fallbacks (EAT-19). Transcribed from the menu photo — this is MENU TRUTH, deliberately not the app's OCR output, which slipped in three places ('Crumpet'→'Cornmeal', 'Masala Potatoes'→'Potato Potatoes', 'Tender Belly Ham'→'Smoked Ham'); those are a separate OCR ticket and must not be baked into the reference. Venue unconfirmed: the menu carries the Edible Beats group logo and 'Chef & Founder / Justin Cucci' but does not name the restaurant. NEEDS A HUMAN PASS: expected tiers below are unset — a model must not write its own answer key.",
+
+  "_whyThisCorpus": "21 of the 29 dishes carry a printed description. That is the point of this corpus and the gap bcd.json cannot cover: EAT-19 only fires on dishes WITH descriptions, so a names-only corpus passes at 100% while two thirds of a real menu comes back unscored. Keep the described/undescribed mix intact when editing.",
+
+  "dishes": [
+    { "name": "SINGLE MIMOSA", "description": "Classic or Blood Orange" },
+    { "name": "BOTTOMLESS CLASSIC ORANGE" },
+    { "name": "BOTTOMLESS BLOOD ORANGE" },
+    { "name": "ELDERFLOWER SPRITZ", "description": "Elderflower Liqueur, Sumac, Lemon & Bubbles" },
+    { "name": "BLOODY MARY", "description": "Choice of Spirit, Bloody Mix, Salt & Tajin Rim" },
+
+    { "name": "MONGOLIAN BBQ DUCK BAO", "description": "Koji Pickled Cucumber & Scallion" },
+    { "name": "CHAR SIU PORK BELLY BAO", "description": "Apple, Shiso & Tangerine Yuzu Vinaigrette" },
+    { "name": "KOREAN FRIED CHICKEN BAO", "description": "Kimchee, Pickled Fresno & Korean Chili Aioli" },
+
+    { "name": "CARROT CAKE FRENCH TOAST", "description": "Salted Cream Cheese Whip, Walnuts & Carrot Caramel" },
+    { "name": "LEMON POPPY SEED PANCAKE", "description": "Grilled Strawberry Jam, Pistachio Crumble & Cardamom-Mascarpone Whip" },
+    { "name": "PANDAN WAFFLE", "description": "Kaya Jam, Salted Cream Cheese Whip, Seasonal Fruit & Maple Syrup" },
+    { "name": "DONUT HOLES", "description": "Chocolate Hazelnut Dulce de Leche" },
+
+    { "name": "2 EGGS", "description": "VITAL Farms Pasture Raised" },
+    { "name": "CHICKEN APPLE SAUSAGE" },
+    { "name": "BRUNSON BLACK PEPPER BACON" },
+    { "name": "HALF AVOCADO" },
+    { "name": "SEASONAL FRUIT" },
+    { "name": "HOME FRIES" },
+    { "name": "HOT HONEY SWEET POTATO FRIES" },
+
+    { "name": "MAKE YOUR OWN BREAKFAST", "description": "2 Eggs Your Way, Choice of Avocado, Bacon or Chicken Sausage & Home Fries" },
+    { "name": "DENVER \"OMELETTE\" SAMMY", "description": "Crumpet, Soufflé Egg, Tender Belly Ham, American Cheese, Chile Aioli & Home Fries" },
+    { "name": "BIRRIA BREAKFAST TAMALE", "description": "Short Rib, Sunny Egg, Oaxacan Cheese, Red Onion Curtido & Birria Consommé" },
+    { "name": "LOX BENEDICT", "description": "Everything Milk Bread, Scallion Schmear, Fried Capers, Arugula & Lemon Hollandaise" },
+    { "name": "BLT BISCUIT", "description": "Fluffy Egg, Crispy Bacon, Fine Herbs, Bacon-Onion Jam & Paprika Aioli" },
+    { "name": "BREAKFAST DOSA", "description": "Sunny Egg, Masala Potatoes, Mushroom, Asparagus, Maple Drizzle & Coriander Chutney" },
+    { "name": "CHICKEN & PANDAN WAFFLE", "description": "Crispy Thigh, Sunny Egg, Kaya Jam, Gochujang Maple & Yuzu Kosho Slaw" },
+    { "name": "FARRO CAESAR", "description": "BeatBox Greens, Smoked Almond, Pecorino, Spiced Croutons & Miso Caesar Dressing" },
+    { "name": "MAINE LOBSTER ROLL", "description": "Knuckle & Claw Meat, Yuzu Kosho Aioli, Brioche Bun & Home Fries" },
+    { "name": "DOUBLE SMASH BURGER", "description": "Bacon-Onion Jam, American Cheese, Pickle, Special Sauce & Hot Honey Sweet Fries" }
+  ],
+
+  "expected": {}
+}

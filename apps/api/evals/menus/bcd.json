@@ -40,6 +40,8 @@
     { "name": "Haemul Pajeon" }
   ],
 
+  "_knownGap": "NAMES ONLY — every dish here is a bare name, because the printed descriptions were illegible in the source photo. That is a real blind spot, not just missing detail: EAT-19 (dishes with descriptions coming back unscored) could not have been caught by this corpus, which would have passed at 100% while two thirds of a real menu failed. edible-beats-brunch.json covers the described-dish path. Add descriptions here from a clearer photo when one is available.",
+
   "_expectedNote": "PROPOSED ONLY — these are the tiers that are uncontroversial on saturated fat alone. They are my read, not a human's, and expected tiers are the one part of an eval that must NOT be model-generated or the eval just marks its own homework. Confirm or correct these, then delete this note. Everything else is baseline-only until someone has an opinion.",
   "expected": {
     "Galbi": "red",

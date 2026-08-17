@@ -8,7 +8,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { getAnthropicClient, MODELS } from "./client";
 import { getRankingSystemPrompt, getRankingUserPrompt } from "./prompts";
-import { normalizeDishName, namesPlausiblyMatch } from "./dishName";
+import {
+  normalizeDishName,
+  namesPlausiblyMatch,
+  matchesNameWithDescription,
+} from "./dishName";
 import { getTier, getTag } from "@/lib/config/scoring";
 import type { ExtractedDish, RankedDish, HealthConditionId } from "@/lib/types";
 
@@ -309,7 +313,14 @@ function resolveDishIndex(
   const rawItem = Number(item.item);
   if (Number.isInteger(rawItem) && rawItem >= 1 && rawItem <= originalDishes.length) {
     const index = rawItem - 1;
-    if (namesPlausiblyMatch(originalDishes[index].name, name)) {
+    const dish = originalDishes[index];
+    // Two narrow checks rather than one loose one: a rename/abbreviation of the
+    // name (EAT-18), or the name with this dish's own description appended
+    // (EAT-19). Both are anchored to the dish the item number already named.
+    if (
+      namesPlausiblyMatch(dish.name, name) ||
+      matchesNameWithDescription(dish, name)
+    ) {
       return index;
     }
     // The number and the name disagree. Trust neither — fall through to an

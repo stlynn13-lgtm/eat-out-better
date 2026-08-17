@@ -16,7 +16,11 @@
  */
 
 import { parseRankingResponse } from "../src/lib/claude/ranking";
-import { normalizeDishName, namesPlausiblyMatch } from "../src/lib/claude/dishName";
+import {
+  normalizeDishName,
+  namesPlausiblyMatch,
+  matchesNameWithDescription,
+} from "../src/lib/claude/dishName";
 import type { ExtractedDish } from "../src/lib/types";
 
 let failures = 0;
@@ -144,6 +148,67 @@ check(
   "no item/index/rank field on a scored dish",
   leaked.length === 0,
   `leaked: ${[...new Set(leaked)].join(", ")}`
+);
+
+// ---------------------------------------------------------------
+// 5. EAT-19 — the ranker echoes the name WITH the description appended
+// ---------------------------------------------------------------
+console.log("\nEAT-19 — a name echoed with its description still scores:");
+
+const described = [
+  d("2 EGGS", "VITAL Farms Pasture Raised"),
+  d("HALF AVOCADO"), // no description — the control
+  d("MONGOLIAN BBQ DUCK BAO", "Koji Pickled Cucumber & Scallion"),
+];
+const conflated = JSON.stringify([
+  { item: 1, name: "2 EGGS — VITAL Farms Pasture Raised", score: 8.0, explanation: "Low saturated fat.", substitution: null },
+  { item: 2, name: "HALF AVOCADO", score: 9.0, explanation: "Mostly unsaturated.", substitution: null },
+  { item: 3, name: "MONGOLIAN BBQ DUCK BAO — Koji Pickled Cucumber & Scallion", score: 4.0, explanation: "Duck skin.", substitution: null },
+]);
+const rescued = parseRankingResponse(conflated, described);
+
+check(
+  "all three kept",
+  !rescued.some((p) => p.explanation.includes("couldn't score")),
+  rescued.filter((p) => p.explanation.includes("couldn't score")).map((p) => p.name).join(", ")
+);
+check("described dish kept its 8.0", rescued[0].score === 8.0, `got ${rescued[0].score}`);
+check("undescribed control kept its 9.0", rescued[1].score === 9.0, `got ${rescued[1].score}`);
+check(
+  "names shown are the menu's, not the echo",
+  rescued[0].name === "2 EGGS" && rescued[2].name === "MONGOLIAN BBQ DUCK BAO",
+  rescued.map((p) => p.name).join(", ")
+);
+
+console.log("\nEAT-19 guards — the rescue must not mis-assign a score:");
+
+// A menu where one dish name is a prefix of another. An echo naming the LONGER
+// dish must never be accepted for the shorter one's slot.
+const prefixMenu = [d("HOUSE SALAD", "Mixed greens"), d("HOUSE SALAD LARGE", "Mixed greens, double")];
+const wrongSlot = JSON.stringify([
+  { item: 1, name: "HOUSE SALAD LARGE — Mixed greens, double", score: 2.0, explanation: "Wrong slot.", substitution: null },
+]);
+const guarded19 = parseRankingResponse(wrongSlot, prefixMenu);
+// The item number says slot 1, the name says dish 2. Which one is wrong is
+// unknowable, so the score is DISCARDED rather than attributed to either dish.
+// An unscored dish is recoverable; a confident score on the wrong dish is not.
+check(
+  "an ambiguous echo is discarded, not attributed to either dish",
+  guarded19.every((p) => p.explanation.includes("couldn't score")),
+  `salad=${guarded19[0].score} large=${guarded19[1].score}`
+);
+check(
+  "specifically, HOUSE SALAD did not inherit the 2.0",
+  guarded19[0].score === 5.0,
+  `got ${guarded19[0].score}`
+);
+check(
+  "a different dish's name+description is not accepted for this slot",
+  !matchesNameWithDescription(prefixMenu[0], "HOUSE SALAD LARGE — Mixed greens, double")
+);
+check(
+  "an undescribed dish never matches the description rule",
+  !matchesNameWithDescription(d("HALF AVOCADO"), "HALF AVOCADO — anything at all")
 );
 
 // ---------------------------------------------------------------
