@@ -143,7 +143,14 @@ async function callRankingAPI(
       {
         model: MODELS.HAIKU,
         max_tokens: RANKING_MAX_TOKENS,
-        temperature: 0.2, // Low but not zero — allows nuanced scoring
+        // Zero, not 0.2. The old comment here said 0.2 "allows nuanced scoring";
+        // measurement says otherwise. At 0.2, test:repeatability shows the same
+        // dish scoring differently run to run — a cheese pizza spanning a full
+        // point, an omelet changing tier colour. That is noise, not nuance: the
+        // user rescanning one menu gets a different answer. At 0 the same nine
+        // dishes returned identical scores across twelve runs each, and on a real
+        // 24-dish menu every dish returned range 0.0 across 8 runs.
+        temperature: 0,
         system: systemPrompt,
         messages: [
           {
