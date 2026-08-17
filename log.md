@@ -6,6 +6,32 @@
 
 ---
 
+## 2026-08-17 — Categories, and the discovery that scores weren't repeatable
+
+**What changed**
+
+Two things shipped or landed, and one investigation stopped short on purpose.
+
+**Scores now repeat.** Chasing why the new category groups looked wobbly, the ranking call turned out to run at `temperature: 0.2`, commented "low but not zero — allows nuanced scoring". Measured, that comment was wrong. `test:repeatability` had existed since July to answer exactly this and had never been run for want of an API key; Ray got one. At 0.2 a cheese pizza spanned a full point across 12 runs and a spinach omelet changed tier colour. On Sean's real 24-dish menu it was far worse: Lox Benedict ranged 3.0–5.0, and **roughly a quarter of the menu had score ranges straddling a tier boundary** — whether you saw red or amber depended on which scan you happened to run. At temperature 0 every one of the 24 dishes returned range 0.0 across 8 runs. One character. **Live on main.**
+
+**Dishes are grouped by category, and alcohol is no longer ranked (EAT-20).** The rubric is saturated-fat-driven, so anything with near-zero fat scores near 10 whether or not it is food — which is why Sean's top four were two mimosas, seasonal fruit and half an avocado. Dishes now carry a category and are ranked within it; alcohol and standalone sauces are filtered out before the ranking call and returned separately, shown and labelled. Categorisation is deterministic code rather than a model call, so all 44 of its cases are tested with no API key. **On `feat/eat-20-dish-categories`, pushed but deliberately not merged** — merging would break TestFlight build 8, which would render "Enjoy Occasionally" on every category winner and silently drop the five drinks.
+
+**Decisions made**
+
+- **The positive badge is comparative, not evaluative.** "Best main" on an amber card, awarded to the top dish in each category regardless of tier, with the colour carrying how good that best actually is. A green-only rule left a menu with no green entrée offering no steer toward a meal at all, and this app's job is a defensible option rather than a perfect one.
+- **Categorisation is code, not prompt.** OCR reads the section heading (a fact); `config/categories.ts` maps heading plus item name to a category (judgment as rules). Deterministic, offline-testable, and traceable when a dish lands in the wrong group.
+- **The description never moves a dish's category.** "Steak, brandy cream sauce" stays a main — losing a real meal option is the worst outcome available. The brandy still affects the score, which is a separate path.
+- **Scan volume is the gate on the scoring KB, not conviction.** See open questions.
+
+**Open questions**
+
+- **The KB investigation stopped short of the one test that matters.** The whole architecture assumes the model reliably decomposes a dish name into ingredients and a cooking method; if it decomposes "hot honey" into butter, a lookup table faithfully scores butter. Nobody has tested that. It is ~10 cents against the existing 29-dish corpus. Also note temperature 0 spent the *determinism* argument for a KB — what survives is multi-condition scaling (adding hypertension today means a second 1,450-token rubric tuned blind; with a table, sodium is another column), bounded fabrication, auditable weights, and one fewer model call.
+- **There is no server-side scan persistence**, so a KB cannot be grown from real misses and every unrecorded scan is gone permanently. That logging is the same work as the per-scan cost logging already flagged ship-before-launch in `cost-gtm-condensed.md`.
+- **EAT-20 needs a results-screen update** to display the groups — Ray is taking that to Sean. Until then the branch stays unmerged.
+- **Still open from EAT-19:** four OCR transcription slips, and suspected inflated saturated-fat figures on the bacon and the sweet potato fries.
+
+---
+
 ## 2026-08-15 — EAT-19: every dish with a menu description was coming back unscored
 
 **What changed**
