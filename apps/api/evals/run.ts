@@ -12,6 +12,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadEnvConfig } from "@next/env";
 import { rankDishes } from "../src/lib/claude/ranking";
 import { getTier, GREEN_MIN, YELLOW_MIN } from "../src/lib/config/scoring";
 import type { ExtractedDish, ScoreTier } from "../src/lib/types";
@@ -19,6 +20,12 @@ import type { ExtractedDish, ScoreTier } from "../src/lib/types";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MENUS_DIR = join(HERE, "menus");
 const BASELINES_DIR = join(HERE, "baselines");
+
+// Read apps/api/.env.local the same way `next dev` does. A bare tsx script does
+// NOT pick that file up on its own, so without this the runner reports "no API
+// key" even when the key is sitting right there — and the obvious workaround
+// (exporting the key inline) is the one that ends up in shell history.
+loadEnvConfig(join(HERE, ".."));
 
 /**
  * How close to a tier edge counts as "could have gone either way". A dish
