@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
+import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
 import { isRateLimited } from "@/lib/utils/rateLimit";
 import type {
   AnalyzeRequest,
@@ -134,6 +135,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           dishes: [],
           rawDishes: [],
           unreadableItems,
+          unrankedItems: [],
           dishCount: 0,
           processingTimeMs: Date.now() - startTime,
           healthCondition,
@@ -147,10 +149,48 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // Step 1b: categorise every dish, then split off the ones we deliberately
+    // don't score (EAT-20). Alcohol and standalone sauces are filtered out BEFORE
+    // the ranking call rather than scored-then-hidden: it's cheaper, and a score
+    // that doesn't exist can't leak into the UI. They are still returned to the
+    // client in `unrankedItems` — EAT-9's promise is that what the user sees
+    // equals what was read off their menu, so nothing may silently disappear.
+    const categorized = rawDishes.map((dish) => ({
+      ...dish,
+      category: dish.category ?? categorizeDish(dish),
+    }));
+
+    const rankableDishes = categorized.filter((d) => isRanked(d.category));
+    const unrankedItems = categorized
+      .filter((d) => !isRanked(d.category))
+      .map((d) => ({
+        name: d.name,
+        description: d.description,
+        category: d.category,
+        reason: UNRANKED_REASON[d.category] ?? "Not scored for this condition.",
+      }));
+
+    // Every dish was alcohol or condiments — nothing to rank, but there IS
+    // something to show, so this is a success with an empty ranked list rather
+    // than an error.
+    if (rankableDishes.length === 0) {
+      return successResponse({
+        id: uuidv4(),
+        dishes: [],
+        rawDishes: categorized,
+        unreadableItems,
+        unrankedItems,
+        dishCount: 0,
+        processingTimeMs: Date.now() - startTime,
+        healthCondition,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
     // Step 2: Rank dishes
     let rankedDishes;
     try {
-      rankedDishes = await rankDishes(rawDishes, healthCondition);
+      rankedDishes = await rankDishes(rankableDishes, healthCondition);
     } catch (error) {
       console.error("[/api/analyze] Ranking failed:", error);
       const message = error instanceof Error ? error.message : "Ranking failed";
@@ -169,14 +209,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const processingTimeMs = Date.now() - startTime;
 
     console.log(
-      `[/api/analyze] Success: ${rankedDishes.length} dishes in ${processingTimeMs}ms`
+      `[/api/analyze] Success: ${rankedDishes.length} ranked, ${unrankedItems.length} unranked in ${processingTimeMs}ms`
     );
 
     return successResponse({
       id: uuidv4(),
       dishes: rankedDishes,
-      rawDishes,
+      rawDishes: categorized,
       unreadableItems,
+      unrankedItems,
       dishCount: rankedDishes.length,
       processingTimeMs,
       healthCondition,

@@ -44,10 +44,47 @@ export interface MenuImage {
 // Dishes
 // -----------------------------------------------------------
 
+/**
+ * Which group a menu item belongs to (EAT-20). Derived deterministically from the
+ * item's name and its menu section — see config/categories.ts. Two of these are
+ * never scored: alcohol (no saturated fat, so the rubric can only produce a
+ * non-answer) and standalone condiments.
+ */
+export type DishCategory =
+  | "main"
+  | "side"
+  | "dessert"
+  | "drink_non_alcoholic"
+  | "drink_alcoholic"
+  | "condiment";
+
 /** Raw dish extracted by OCR — pre-ranking */
 export interface ExtractedDish {
   name: string;
   description?: string;
+  /**
+   * The menu section header this dish appeared under, verbatim ("STEAMED BAO").
+   * A FACT read off the page, kept separate from the category derived from it, so
+   * a mis-bucketed dish can be traced to the header that caused it. Absent means
+   * the menu had no section here and the category was inferred from the name.
+   */
+  section?: string;
+  /** Derived from `name` + `section` after extraction. See config/categories.ts. */
+  category?: DishCategory;
+}
+
+/**
+ * A dish read off the menu but deliberately not scored — alcohol and standalone
+ * condiments. Shown and labelled rather than dropped: EAT-9's promise is that
+ * what the user sees equals what was read off their menu, and silently removing
+ * items is the bug class we've now fixed twice.
+ */
+export interface UnrankedItem {
+  name: string;
+  description?: string;
+  category: DishCategory;
+  /** Plain-language explanation shown to the user. */
+  reason: string;
 }
 
 /** Text the OCR step saw but could NOT confidently read as a dish. Never ranked. */
@@ -61,8 +98,17 @@ export interface UnreadableItem {
 /** Score tier based on 1–10 scale */
 export type ScoreTier = "green" | "yellow" | "red";
 
-/** Label shown on a dish card */
-export type DishTag = "top-pick" | "enjoy-occasionally" | null;
+/**
+ * Badge shown on a dish card.
+ *
+ * "best-in-category" is COMPARATIVE, not evaluative: it marks the strongest
+ * option in its group, whatever that group's absolute quality. The tier colour
+ * carries the absolute judgment, so the two compose — "Best Main, 6.5, amber"
+ * is both honest and useful. It replaced a score-only "top-pick" (score >= 7.0),
+ * which put the badge on four cocktails and, once alcohol was excluded, gave a
+ * menu with no green entrée no steer toward a meal at all.
+ */
+export type DishTag = "best-in-category" | "enjoy-occasionally" | null;
 
 /** Fully ranked dish — the core output of the pipeline */
 export interface RankedDish {
@@ -82,6 +128,8 @@ export interface RankedDish {
   tier: ScoreTier;
   /** Derived from score via scoring config */
   tag: DishTag;
+  /** Which group this dish belongs to; ranking is per-category, not one flat list. */
+  category: DishCategory;
   /** V0.5+: How confident was OCR on this dish name */
   ocrConfidence?: "high" | "medium" | "low";
 }
@@ -130,6 +178,8 @@ export interface AnalyzeResponseData {
   rawDishes: ExtractedDish[];
   /** Items OCR couldn't confidently read — surfaced separately, never ranked (EAT-9). */
   unreadableItems: UnreadableItem[];
+  /** Items read fine but deliberately not scored — alcohol, standalone sauces (EAT-20). */
+  unrankedItems: UnrankedItem[];
   dishCount: number;
   processingTimeMs: number;
   healthCondition: HealthConditionId;
@@ -153,6 +203,7 @@ export interface MenuSession {
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];
   unreadableItems?: UnreadableItem[];
+  unrankedItems?: UnrankedItem[];
   dishCount: number;
   processingTimeMs: number;
   /** ISO string */

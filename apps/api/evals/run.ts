@@ -15,7 +15,8 @@ import { fileURLToPath } from "node:url";
 import { loadEnvConfig } from "@next/env";
 import { rankDishes } from "../src/lib/claude/ranking";
 import { getTier, GREEN_MIN, YELLOW_MIN } from "../src/lib/config/scoring";
-import type { ExtractedDish, ScoreTier } from "../src/lib/types";
+import { categorizeDish, isRanked, CATEGORY_LABEL, RANKED_CATEGORIES } from "../src/lib/config/categories";
+import type { ExtractedDish, ScoreTier, DishCategory } from "../src/lib/types";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MENUS_DIR = join(HERE, "menus");
@@ -45,10 +46,17 @@ interface MenuFile {
 
 interface DishResult {
   name: string;
+  category: DishCategory;
   scores: number[];
   median: number;
   tier: ScoreTier;
+  /** How many runs this dish won its category's badge. Below RUNS means the
+   * badge MOVES between scans — the user gets a different recommendation for the
+   * same menu, which is worse than a slightly wrong one. */
+  bestWins: number;
   unscored: boolean;
+  /** Deliberately not scored (alcohol, standalone sauce) — not a failure. */
+  excluded: boolean;
 }
 
 // --- CLI ------------------------------------------------------
@@ -96,14 +104,27 @@ function loadMenus(): MenuFile[] {
 // --- Scoring --------------------------------------------------
 
 async function scoreMenu(menu: MenuFile): Promise<DishResult[]> {
+  // Mirror the route: derive the category from the menu's own section heading,
+  // then rank ONLY the rankable ones. Without this the excluded dishes would come
+  // back with no scores, median 0, tier red — five phantom catastrophic
+  // regressions on any menu with a bar.
+  const categorized = menu.dishes.map((d) => ({ ...d, category: categorizeDish(d) }));
+  const rankable = categorized.filter((d) => isRanked(d.category));
+
   const perDishScores = new Map<string, number[]>();
   const unscoredNames = new Set<string>();
+  // COUNT badge wins per dish rather than collecting a set of winners. A set
+  // hides the thing that matters: if two dishes in one category each won some
+  // runs, the badge is unstable and the user's "Best Side" changes between scans.
+  const bestWins = new Map<string, number>();
 
   for (let run = 1; run <= RUNS; run++) {
     process.stdout.write(`    run ${run}/${RUNS}…\r`);
-    const ranked = await rankDishes(menu.dishes, "high_cholesterol");
+    const ranked = await rankDishes(rankable, "high_cholesterol");
     for (const dish of ranked) {
       if (isUnscored(dish.explanation)) unscoredNames.add(dish.name);
+      if (dish.tag === "best-in-category")
+        bestWins.set(dish.name, (bestWins.get(dish.name) ?? 0) + 1);
       const list = perDishScores.get(dish.name) ?? [];
       list.push(dish.score);
       perDishScores.set(dish.name, list);
@@ -111,15 +132,19 @@ async function scoreMenu(menu: MenuFile): Promise<DishResult[]> {
   }
   process.stdout.write("                    \r");
 
-  return menu.dishes.map((dish) => {
+  return categorized.map((dish) => {
+    const excluded = !isRanked(dish.category);
     const scores = perDishScores.get(dish.name) ?? [];
     const med = scores.length ? median(scores) : 0;
     return {
       name: dish.name,
+      category: dish.category,
       scores,
       median: med,
       tier: getTier(med),
-      unscored: unscoredNames.has(dish.name),
+      bestWins: bestWins.get(dish.name) ?? 0,
+      unscored: !excluded && unscoredNames.has(dish.name),
+      excluded,
     };
   });
 }
@@ -142,8 +167,36 @@ function evaluate(menu: MenuFile, results: DishResult[]): Problem[] {
   const problems: Problem[] = [];
   const pad = Math.max(...results.map((r) => r.name.length), 4);
 
-  console.log(`  ${"dish".padEnd(pad)}  median  tier    vs expected / baseline`);
-  for (const r of results) {
+  const order: DishCategory[] = [
+    ...RANKED_CATEGORIES,
+    ...[...new Set(results.filter((r) => r.excluded).map((r) => r.category))],
+  ];
+
+  for (const category of order) {
+    const inCategory = results.filter((r) => r.category === category);
+    if (inCategory.length === 0) continue;
+    const ranked = isRanked(category);
+    console.log(`\n  ${CATEGORY_LABEL[category]}${ranked ? "" : "  (not scored)"}`);
+    for (const r of inCategory) {
+      if (!ranked) {
+        console.log(`  ${r.name.padEnd(pad)}       —  —       excluded by design`);
+        continue;
+      }
+      reportDish(r, menu, baseline, hasBaseline, problems, pad);
+    }
+  }
+  return problems;
+}
+
+function reportDish(
+  r: DishResult,
+  menu: MenuFile,
+  baseline: Record<string, ScoreTier>,
+  hasBaseline: boolean,
+  problems: Problem[],
+  pad: number
+) {
+  {
     const notes: string[] = [];
 
     if (r.unscored) {
@@ -179,6 +232,9 @@ function evaluate(menu: MenuFile, results: DishResult[]): Problem[] {
       notes.push("new");
     }
 
+    if (r.bestWins > 0) {
+      notes.push(r.bestWins === RUNS ? "◆BEST" : `◆best ${r.bestWins}/${RUNS} UNSTABLE`);
+    }
     if (nearEdge(r.median)) notes.push("near-edge");
 
     const spread =
@@ -191,17 +247,14 @@ function evaluate(menu: MenuFile, results: DishResult[]): Problem[] {
     );
   }
 
-  if (!hasBaseline) {
-    console.log(`\n  (no baseline yet for "${menu.id}" — run with --update-baseline to record one)`);
-  }
-
-  return problems;
 }
 
 function writeBaseline(menu: MenuFile, results: DishResult[]) {
   const tiers: Record<string, ScoreTier> = {};
   const medians: Record<string, number> = {};
-  for (const r of results) {
+  // Excluded dishes have no score, so recording a tier for them would bake a
+  // meaningless "red" into the reference and report drift the moment anything moves.
+  for (const r of results.filter((x) => !x.excluded)) {
     tiers[r.name] = r.tier;
     medians[r.name] = Number(r.median.toFixed(1));
   }

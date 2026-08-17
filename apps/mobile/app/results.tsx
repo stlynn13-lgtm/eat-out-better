@@ -4,7 +4,19 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
-import type { RankedDish, UnreadableItem } from "@eat-out-better/shared";
+import type { RankedDish, UnreadableItem, DishCategory } from "@eat-out-better/shared";
+
+/**
+ * The positive badge is COMPARATIVE — "best in its group" — not an endorsement.
+ * The card's tier colour still says how good that best actually is, so a
+ * "Best Main" on an amber card reads honestly on a menu with no great entrée.
+ */
+const BEST_IN_CATEGORY_LABEL: Partial<Record<DishCategory, string>> = {
+  main: "Best Main",
+  side: "Best Side",
+  dessert: "Best Dessert",
+  drink_non_alcoholic: "Best Drink",
+};
 import { getTier, formatScore } from "@eat-out-better/shared";
 import {
   generateId,
@@ -212,7 +224,9 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
             {dish.tag && (
               <View className={`rounded-full px-2 py-0.5 ${colors.badge}`}>
                 <Text className={`text-xs font-semibold ${colors.badgeText}`}>
-                  {dish.tag === "top-pick" ? "Top Pick" : "Enjoy Occasionally"}
+                  {dish.tag === "best-in-category"
+                    ? BEST_IN_CATEGORY_LABEL[dish.category] ?? "Best Choice"
+                    : "Enjoy Occasionally"}
                 </Text>
               </View>
             )}
