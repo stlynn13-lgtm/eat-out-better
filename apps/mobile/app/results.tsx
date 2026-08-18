@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
-import type { RankedDish, UnreadableItem, DishCategory } from "@eat-out-better/shared";
+import type { RankedDish, UnreadableItem, UnrankedItem, DishCategory } from "@eat-out-better/shared";
 
 /**
  * The positive badge is COMPARATIVE — "best in its group" — not an endorsement.
@@ -79,6 +79,7 @@ export default function ResultsScreen() {
 
   const dishes = results ?? [];
   const unreadable: UnreadableItem[] = session?.unreadableItems ?? [];
+  const unranked: UnrankedItem[] = session?.unrankedItems ?? [];
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -139,7 +140,12 @@ export default function ResultsScreen() {
         )}
         ItemSeparatorComponent={() => <View className="h-3" />}
         ListFooterComponent={
-          unreadable.length > 0 ? <UnreadableSection items={unreadable} /> : null
+          unranked.length > 0 || unreadable.length > 0 ? (
+            <>
+              {unranked.length > 0 ? <UnrankedSection items={unranked} /> : null}
+              {unreadable.length > 0 ? <UnreadableSection items={unreadable} /> : null}
+            </>
+          ) : null
         }
       />
 
@@ -255,6 +261,42 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
           </Text>
         </View>
       ) : null}
+    </View>
+  );
+}
+
+/**
+ * Items read off the menu but deliberately not scored — alcohol, standalone
+ * sauces (EAT-20). Minimal on purpose: the grouped results layout is a separate
+ * design conversation. What this must NOT do is nothing, because the API now
+ * filters these out of the ranked list, and showing neither list nor
+ * explanation would silently drop items off the user's menu — the exact bug
+ * EAT-9 and EAT-19 were both about, and the invariant this app promises is that
+ * what you see equals what was read.
+ */
+function UnrankedSection({ items }: { items: UnrankedItem[] }) {
+  const reasons = [...new Set(items.map((i) => i.reason))];
+  return (
+    <View className="mt-6">
+      <Text className="text-base font-bold text-gray-900 mb-1">
+        Not scored
+      </Text>
+      <Text className="text-sm text-gray-500 mb-3 leading-relaxed">
+        {reasons.join(" ")} They're on your menu, so they're listed here.
+      </Text>
+      {items.map((item) => (
+        <View
+          key={item.name}
+          className="mb-2 rounded-xl border border-gray-200 bg-white p-3"
+        >
+          <Text className="text-base font-semibold text-gray-900">{item.name}</Text>
+          {item.description ? (
+            <Text className="text-sm text-gray-500 mt-0.5 leading-relaxed">
+              {item.description}
+            </Text>
+          ) : null}
+        </View>
+      ))}
     </View>
   );
 }

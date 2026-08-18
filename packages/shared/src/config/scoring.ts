@@ -16,8 +16,13 @@ export function getTier(score: number): ScoreTier {
   return "red";
 }
 
+/**
+ * The positive badge is no longer score-based (EAT-20) — it goes to the best
+ * dish in each category and is assigned server-side, where the grouping is
+ * known. A score threshold gave every green dish the badge, which on a real menu
+ * meant four cocktails wearing it. This only assigns the negative tag now.
+ */
 export function getTag(score: number): DishTag {
-  if (score >= TOP_PICK_MIN) return "top-pick";
   if (score <= ENJOY_OCCASIONALLY_MAX) return "enjoy-occasionally";
   return null;
 }

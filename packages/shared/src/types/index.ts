@@ -95,6 +95,7 @@ export interface MenuSession {
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];
   unreadableItems?: UnreadableItem[]; // EAT-9: items we couldn't confidently read
+  unrankedItems?: UnrankedItem[]; // EAT-20: read fine, deliberately not scored
   dishCount: number;
   processingTimeMs: number;
   createdAt: string; // ISO 8601
