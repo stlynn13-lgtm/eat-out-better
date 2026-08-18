@@ -11,6 +11,7 @@
     "test:repeatability": "npx --yes tsx scripts/repeatability-test.ts",
     "test:dedupe": "npx --yes tsx scripts/dedupe-test.ts",
     "test:dishmatch": "npx --yes tsx scripts/dishmatch-test.ts",
+    "test:categories": "npx --yes tsx scripts/categories-test.ts",
     "eval": "npx --yes tsx evals/run.ts",
     "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts"
   },

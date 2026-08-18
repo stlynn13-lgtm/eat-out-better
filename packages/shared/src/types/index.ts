@@ -16,7 +16,7 @@ export type HealthConditionId =
 // ---- Scoring ----
 
 export type ScoreTier = "green" | "yellow" | "red";
-export type DishTag = "top-pick" | "enjoy-occasionally" | null;
+export type DishTag = "best-in-category" | "enjoy-occasionally" | null;
 
 // ---- Analysis pipeline status ----
 
@@ -57,10 +57,27 @@ export interface UnreadableItem {
 }
 
 /** Fully scored and ranked dish — the main output unit */
+export type DishCategory =
+  | "main"
+  | "side"
+  | "dessert"
+  | "drink_non_alcoholic"
+  | "drink_alcoholic"
+  | "condiment";
+
+/** Read off the menu but deliberately not scored — alcohol, standalone sauces (EAT-20). */
+export interface UnrankedItem {
+  name: string;
+  description?: string;
+  category: DishCategory;
+  reason: string;
+}
+
 export interface RankedDish {
   id: string;
   name: string;
   description?: string;
+  category: DishCategory;
   score: number;       // 1.0–10.0
   rank: number;        // 1 = best
   explanation: string;
@@ -78,6 +95,7 @@ export interface MenuSession {
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];
   unreadableItems?: UnreadableItem[]; // EAT-9: items we couldn't confidently read
+  unrankedItems?: UnrankedItem[]; // EAT-20: read fine, deliberately not scored
   dishCount: number;
   processingTimeMs: number;
   createdAt: string; // ISO 8601

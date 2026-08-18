@@ -21,6 +21,12 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 
 ## NOW — verify build 8 and get it onto TestFlight
 
+0aa. **EAT-20 (categories) is built and pushed, NOT merged** — `feat/eat-20-dish-categories`. Needs a results-screen update to show the groups before it can merge; merging without one breaks build 8 (it would label every category winner "Enjoy Occasionally" and silently drop the drinks). Sean conversation pending.
+
+0ab. **Scoring now runs at temperature 0 — live.** A quarter of a menu previously had coin-flip tier colours. Don't raise it without re-running `npm run test:repeatability`.
+
+0ac. **Before any decision on the scoring KB, run the decomposition test** — can the model reliably turn a dish name into ingredients + cooking method? ~10 cents against the existing corpus. And add per-scan dish logging regardless: it's the same work as the cost ceiling's logging, and unrecorded scans are gone permanently.
+
 0a. **EAT-19 — dishes with menu descriptions came back unscored.** On Sean's brunch menu, 21 of 29 dishes showed "We couldn't score this one" at 5.0; the split was exactly "has a printed description" vs "doesn't." The prompt put the name and description on one line, the model echoed both back as the name, and our matcher discarded every one. Fixed on `fix/eat-19-description-echo`, **not merged**. Verify with no API key: `cd apps/api && npm run replay:eat19` (shows 8/29 → 29/29). **This was mistaken for a model-quality problem** — the fix is ~15 lines and switching to Sonnet would have masked it at 3× the cost per scan.
 
 0. **Merge EAT-18 before doing step 1.** Build 8 has a bug where real dishes come back "We couldn't score this one" at a flat 5.0 — the score was computed correctly and then discarded because the dish name came back spelled slightly differently (accents, `&`, "(GF)"). Fixed on `fix/eat-18-unscored-dishes`, not yet merged. **This must land before the scoring validation below**, because affected dishes look exactly like EAT-17 failing to make an ingredient assumption — you'd conclude EAT-17 is broken when it isn't. Full write-up in `eat-18-unscored-dishes.md`.

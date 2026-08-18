@@ -14,7 +14,13 @@ import {
   matchesNameWithDescription,
 } from "./dishName";
 import { getTier, getTag } from "@/lib/config/scoring";
-import type { ExtractedDish, RankedDish, HealthConditionId } from "@/lib/types";
+import { RANKED_CATEGORIES } from "@/lib/config/categories";
+import type {
+  ExtractedDish,
+  RankedDish,
+  HealthConditionId,
+  DishCategory,
+} from "@/lib/types";
 
 const MAX_DISHES = 100;
 // Dishes are ranked in parallel chunks so one request never needs a huge
@@ -95,13 +101,45 @@ export async function rankDishes(
       : new Error("All ranking requests failed");
   }
 
-  // Global order: score descending (scores are absolute per the rubric), then
-  // sequential ranks 1..n. This is the ONLY place rank is assigned — the model
-  // is no longer asked to order anything, since its ordering was always
-  // overwritten here and asking for it only risked drifting the item numbers
-  // we now use to identify dishes (EAT-18).
-  merged.sort((a, b) => b.score - a.score);
-  const reranked: RankedRawDish[] = merged.map((dish, i) => ({ ...dish, rank: i + 1 }));
+  // Rank WITHIN each category, not across all dishes (EAT-20). A flat list
+  // ranked purely by score put four cocktails and a half avocado above every
+  // entrée — the rubric is saturated-fat-driven, so anything with no fat wins
+  // regardless of whether it is a meal. "#1" now means "best main", not "best
+  // thing on the menu including the mimosas".
+  //
+  // This is also the ONLY place rank is assigned. The model is no longer asked to
+  // order anything; its ordering was always overwritten here and asking for it
+  // only risked drifting the item numbers we use to identify dishes (EAT-18).
+  const categoryByName = new Map(
+    dishesToRank.map((d) => [normalizeDishName(d.name), d.category ?? "main"] as const)
+  );
+
+  const reranked: RankedRawDish[] = [];
+  for (const category of RANKED_CATEGORIES) {
+    const inCategory = merged
+      .filter((d) => (categoryByName.get(normalizeDishName(d.name)) ?? "main") === category)
+      .sort((a, b) => b.score - a.score);
+
+    inCategory.forEach((dish, i) => {
+      reranked.push({ ...dish, rank: i + 1, category });
+    });
+  }
+
+  // Any dish whose category somehow isn't in RANKED_CATEGORIES would be dropped
+  // by the loop above, which would silently lose it from the results — the exact
+  // failure EAT-9 and EAT-19 were about. Sweep them into `main` rather than
+  // letting them vanish.
+  const placed = new Set(reranked.map((d) => normalizeDishName(d.name)));
+  const stranded = merged.filter((d) => !placed.has(normalizeDishName(d.name)));
+  if (stranded.length > 0) {
+    console.warn(
+      `[Ranking] ${stranded.length} dish(es) had no ranked category; placing in main`
+    );
+    const mainCount = reranked.filter((d) => d.category === "main").length;
+    stranded
+      .sort((a, b) => b.score - a.score)
+      .forEach((dish, i) => reranked.push({ ...dish, rank: mainCount + i + 1, category: "main" }));
+  }
 
   return enrichRankings(reranked, dishesToRank);
 }
@@ -125,7 +163,7 @@ interface RawRankedDish {
 }
 
 /** A scored dish that has been given its final display position (1 = best). */
-type RankedRawDish = RawRankedDish & { rank: number };
+type RankedRawDish = RawRankedDish & { rank: number; category: DishCategory };
 
 async function callRankingAPI(
   dishes: ExtractedDish[],
@@ -371,15 +409,29 @@ function enrichRankings(
       .map((d) => [normalizeDishName(d.name), d.description as string])
   );
 
+  // The badge goes to the best dish in each ranked category, regardless of tier.
+  // Deliberately comparative: on a menu whose best entrée is amber, a green-only
+  // rule leaves the user with no steer toward a meal at all, and this app's job is
+  // a defensible option rather than a perfect one. The tier colour still carries
+  // how good "best" actually is.
+  const bestByCategory = new Map<DishCategory, string>();
+  for (const dish of raw) {
+    if (dish.rank === 1) bestByCategory.set(dish.category, dish.name);
+  }
+
   return raw.map((dish) => ({
     id: uuidv4(),
     name: dish.name,
     description: descriptionsByName.get(normalizeDishName(dish.name)),
+    category: dish.category,
     score: dish.score,
     rank: dish.rank,
     explanation: dish.explanation,
     substitution: dish.substitution ?? undefined,
     tier: getTier(dish.score),
-    tag: getTag(dish.score),
+    tag:
+      bestByCategory.get(dish.category) === dish.name
+        ? "best-in-category"
+        : getTag(dish.score),
   }));
 }
