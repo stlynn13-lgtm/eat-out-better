@@ -6,6 +6,34 @@
 
 ---
 
+## 2026-08-26 — Build 9 merged and submitted to TestFlight
+
+**What changed**
+
+Build 9 finally went out. The UX pass had been sitting on `feat/build9-ux-pass` since 10 August, committed but never pushed, while a separate line of scoring work (EAT-18, EAT-19, EAT-20 and the temperature-0 fix) landed on `main` in the meantime. Nobody had combined them. This session merged the two and submitted the result.
+
+The merge needed three real decisions rather than a rubber stamp:
+
+- **The results screen wanted two different footers.** The UX pass added the five-face "Was this analysis helpful?" prompt at the end of the list; the EAT-20 work added the section for items the API deliberately doesn't rank (alcohol, standalone sauces). Both were correct and neither knew about the other. The footer now shows the unranked section, then the unreadable section, then the rating.
+- **The plan's "what's next" list was half-stale.** It still told the reader to merge EAT-18, EAT-19 and EAT-20 — all three had already merged. Rewritten to what is actually outstanding.
+- **The change log had two competing "newest" entries.** Reordered by date; nothing was dropped.
+
+**Why it mattered**
+
+Build 8 is what is on the testers' phones, and it predates every one of the scoring fixes — including the one where roughly a quarter of a real menu had coin-flip tier colours, and the one where 21 of 29 dishes on a brunch menu came back "We couldn't score this one." Build 9 carries all of that plus the UX pass, so this is a substantially different app from what testers currently have.
+
+**What it sets up**
+
+Build 9 is the first build with over-the-air updates compiled in. Once testers install it once, the whole "blocked on designs" list — the welcome redesign, the camera sizing, the zoom calibration numbers — ships with `eas update` instead of another TestFlight round trip.
+
+**Verified / not verified**
+
+- Mobile typecheck is back at its two known pre-existing errors and no new ones; API typecheck clean; the Expo config evaluates to v1.1.4 / build 9 with the update URL and the appVersion runtime policy set.
+- `main` pushed as `2c40cc9`. **Note this redeploys the API**, since the merge carries the EAT-18/19/20 changes into whatever Vercel builds from `main`.
+- **Still nothing seen running.** No iOS simulator runtime on this machine, so none of the merged UI — including the new footer ordering above — has been looked at. That check moves to the device once build 9 lands in TestFlight.
+
+---
+
 ## 2026-08-17 — Categories, and the discovery that scores weren't repeatable
 
 **What changed**

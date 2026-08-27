@@ -23,7 +23,10 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 
 ---
 
-## NOW — get build 9 onto TestFlight, then send the missing designs
+## NOW — build 9 is submitted; verify it on a device, then send the missing designs
+
+**Status:** `main` is at `2c40cc9` (build 9 UX pass + EAT-18/19/20 scoring work, merged and pushed 2026-08-26). iOS build `15d57da0-4f78-49df-96d3-00f9860b6290` — v1.1.4 / build 9 — is building on EAS with auto-submit to TestFlight scheduled.
+
 
 1. **Run a real menu through the scoring (Sean, needs an API key)** — still the one that matters, outstanding since build 8. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing in this environment can test whether those assumptions are *good* ones. Check especially: bare dish names (no description) get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu. EAT-18 and EAT-19 are now merged, so unscored-looking dishes are no longer a confound.
 
