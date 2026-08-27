@@ -55,7 +55,10 @@ export function getTier(score: number): ScoreTier {
  * Returns null for the yellow middle tier.
  */
 export function getTag(score: number): DishTag {
-  if (score >= TOP_PICK_MIN) return "top-pick";
+  // The positive badge is NOT score-based any more — it goes to the best dish in
+  // each category, assigned in ranking.ts where the grouping is known. A pure
+  // score threshold gave every green dish the badge, which on a real menu meant
+  // four cocktails wearing it.
   if (score <= ENJOY_OCCASIONALLY_MAX) return "enjoy-occasionally";
   return null;
 }
@@ -104,11 +107,16 @@ export const TIER_BADGE_STYLE: Record<ScoreTier, string> = {
 };
 
 export const TAG_STYLE: Record<NonNullable<DishTag>, string> = {
-  "top-pick": "bg-brand-100 text-brand-800 font-medium",
+  "best-in-category": "bg-brand-100 text-brand-800 font-medium",
   "enjoy-occasionally": "bg-score-redBg text-score-red font-medium",
 };
 
+/**
+ * Fallback label. The positive badge is normally rendered per-category via
+ * BEST_IN_CATEGORY_LABEL ("Best main"), because the badge is comparative — this
+ * generic string is only for a context where the category isn't to hand.
+ */
 export const TAG_LABEL: Record<NonNullable<DishTag>, string> = {
-  "top-pick": "Top pick",
+  "best-in-category": "Best choice",
   "enjoy-occasionally": "Enjoy occasionally",
 };

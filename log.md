@@ -6,6 +6,91 @@
 
 ---
 
+## 2026-08-17 — Categories, and the discovery that scores weren't repeatable
+
+**What changed**
+
+Two things shipped or landed, and one investigation stopped short on purpose.
+
+**Scores now repeat.** Chasing why the new category groups looked wobbly, the ranking call turned out to run at `temperature: 0.2`, commented "low but not zero — allows nuanced scoring". Measured, that comment was wrong. `test:repeatability` had existed since July to answer exactly this and had never been run for want of an API key; Ray got one. At 0.2 a cheese pizza spanned a full point across 12 runs and a spinach omelet changed tier colour. On Sean's real 24-dish menu it was far worse: Lox Benedict ranged 3.0–5.0, and **roughly a quarter of the menu had score ranges straddling a tier boundary** — whether you saw red or amber depended on which scan you happened to run. At temperature 0 every one of the 24 dishes returned range 0.0 across 8 runs. One character. **Live on main.**
+
+**Dishes are grouped by category, and alcohol is no longer ranked (EAT-20).** The rubric is saturated-fat-driven, so anything with near-zero fat scores near 10 whether or not it is food — which is why Sean's top four were two mimosas, seasonal fruit and half an avocado. Dishes now carry a category and are ranked within it; alcohol and standalone sauces are filtered out before the ranking call and returned separately, shown and labelled. Categorisation is deterministic code rather than a model call, so all 44 of its cases are tested with no API key. **On `feat/eat-20-dish-categories`, pushed but deliberately not merged** — merging would break TestFlight build 8, which would render "Enjoy Occasionally" on every category winner and silently drop the five drinks.
+
+**Decisions made**
+
+- **The positive badge is comparative, not evaluative.** "Best main" on an amber card, awarded to the top dish in each category regardless of tier, with the colour carrying how good that best actually is. A green-only rule left a menu with no green entrée offering no steer toward a meal at all, and this app's job is a defensible option rather than a perfect one.
+- **Categorisation is code, not prompt.** OCR reads the section heading (a fact); `config/categories.ts` maps heading plus item name to a category (judgment as rules). Deterministic, offline-testable, and traceable when a dish lands in the wrong group.
+- **The description never moves a dish's category.** "Steak, brandy cream sauce" stays a main — losing a real meal option is the worst outcome available. The brandy still affects the score, which is a separate path.
+- **Scan volume is the gate on the scoring KB, not conviction.** See open questions.
+
+**Open questions**
+
+- **The KB investigation stopped short of the one test that matters.** The whole architecture assumes the model reliably decomposes a dish name into ingredients and a cooking method; if it decomposes "hot honey" into butter, a lookup table faithfully scores butter. Nobody has tested that. It is ~10 cents against the existing 29-dish corpus. Also note temperature 0 spent the *determinism* argument for a KB — what survives is multi-condition scaling (adding hypertension today means a second 1,450-token rubric tuned blind; with a table, sodium is another column), bounded fabrication, auditable weights, and one fewer model call.
+- **There is no server-side scan persistence**, so a KB cannot be grown from real misses and every unrecorded scan is gone permanently. That logging is the same work as the per-scan cost logging already flagged ship-before-launch in `cost-gtm-condensed.md`.
+- **EAT-20 needs a results-screen update** to display the groups — Ray is taking that to Sean. Until then the branch stays unmerged.
+- **Still open from EAT-19:** four OCR transcription slips, and suspected inflated saturated-fat figures on the bacon and the sweet potato fries.
+
+---
+
+## 2026-08-15 — EAT-19: every dish with a menu description was coming back unscored
+
+**What changed**
+
+Sean scanned a brunch menu and got a screenshot Ray described as "pretty terrible results" — 29 dishes found, 8 with real scores, **21 showing "We couldn't score this one" at a flat 5.0.** The working theory was that Haiku wasn't good enough and we should try Sonnet.
+
+It wasn't a model problem. Cross-referencing all 29 results against the menu photo, the split was perfect and had nothing to do with dish difficulty: **every dish printed with a description failed; every dish printed as a bare name scored.** All 8 that worked (Bottomless Classic Orange, Half Avocado, Seasonal Fruit, Home Fries, the bacon, the sausage, the sweet potato fries) are bare names on that menu. "2 Eggs" is the tell — an ordinary side like the others, but it carries "VITAL Farms Pasture Raised," and it failed.
+
+The cause: the ranking prompt printed each dish as `2. 2 EGGS — VITAL Farms Pasture Raised` on one line, immediately next to a rule saying to copy the input dish name exactly. The model read the whole line as the name and echoed it back. We compared that to `2 EGGS`, found no match, discarded it as an off-menu hallucination, and re-added it unscored. A bare name has nothing to conflate, so it survived.
+
+**Two fixes.** The prompt now puts the description on its own labelled line, so there is nothing to conflate. And the matcher recognises a name echoed with that dish's own description as a match — the prompt change is prevention, the matcher change is the safety net, and neither depends on the other working.
+
+**Decisions made**
+
+- **Not Sonnet.** OCR delivered all 29 dishes with legible, correct names and descriptions, no "couldn't read" items, and a count matching the menu exactly — the loss happened downstream in our own code. Switching models could have *masked* it (a different model might echo the name cleanly) at 3× the cost per scan, while leaving the defect live for every other menu. Worth stating plainly because the screenshot was genuinely persuasive in the other direction.
+- **You cannot evaluate model quality through this bug.** Two thirds of the ranking output was discarded before reaching the screen, so that screenshot showed the fallback text, not Haiku's judgement. Any Haiku-vs-Sonnet comparison run before this fix would have measured both models through the same lossy filter.
+- **The rescue is two narrow checks, not one loose one.** A general "the input name is a prefix of the echo" rule would have been simpler and would also accept "HOUSE SALAD LARGE" for a slot holding "HOUSE SALAD" on a menu listing both — a confident score on the wrong dish, which on a health app is worse than an unscored dish. The description check is an exact comparison against that dish's own name+description.
+- **An ambiguous echo is discarded, not guessed.** If the item number says slot 1 but the name is plainly dish 2, neither is trusted and both dishes fall back. Pinned by a test.
+- **Sean's menu is now the second eval corpus** (`edible-beats-brunch.json`), and the better of the two: 21 of its 29 dishes carry descriptions. `bcd.json` is names-only — it would have passed at 100% through this entire bug, and now carries a note saying so.
+
+**Open questions**
+
+- **This fix makes 29 scores appear; it does not make them right.** Whether they're any good is still the unanswered EAT-17 question and still needs an API key. `npm run eval -- --menu edible-beats-brunch` answers it for about 4 cents.
+- **The prompt half is unverified.** `npm run replay:eat19` proves the matcher rescues the exact 8/29 → 29/29 case with no key or network, but whether the model now stops conflating needs a real call. It doesn't gate the merge, because the matcher catches it either way.
+- **Ray has no API key** — the Anthropic key is Sean's, and `client.ts` requires a static key with no OAuth-profile fallback. Every eval run currently routes through Sean, which is the same friction that left six prior prompt changes unmeasured. A personal dev key for Ray removes it permanently.
+- **Separate, smaller, real: OCR made four transcription errors** on a clean, well-lit menu — "Crumpet"→"Cornmeal", "Masala Potatoes"→"Potato Potatoes", "Tender Belly Ham"→"Smoked Ham", "Short Rib"→"Short Ribs". Vision quality *is* where Sonnet would help, but note `image.ts` caps uploads at 1568px while Sonnet 5 reads to 2576px, and raising that runs into Vercel's ~4.5MB body limit. Needs its own ticket.
+
+---
+
+## 2026-08-10 — EAT-18: real dishes were coming back "We couldn't score this one"
+
+**What changed**
+
+Ray pulled build 8 and, playing with it, noticed some dishes showing "We couldn't score this one — treat this as a neutral score" and a flat 5.0. **Those dishes had been scored correctly. We were throwing the score away.**
+
+Scoring a menu takes two AI calls — one reads the photos, one scores the dish list. They share no memory, so when the second call hands back its scores we have to work out which result belongs to which dish. We were matching them **by name**. Before comparing, both names were stripped down to plain letters and numbers — and that step *deleted* accented characters instead of folding them. "Crème Brûlée" became `crmebrle`; the scorer's perfectly reasonable "Creme Brulee" became `cremebrulee`. No match. EAT-9's anti-hallucination guard then did exactly what it was built to do — discard a dish it didn't recognise — and the dish was re-added, unscored. Eight of eleven realistic menu names failed this way; anything with an accent, an `&`, or a "(GF)" tag.
+
+**This was a genuine regression from build 8, caused by two changes that were each individually correct.** EAT-9 made the matching strict (before, an unrecognised name was just kept, so a rename was a harmless cosmetic wart). And the new menu-reading prompt started demanding *verbatim* transcription — the right call for accuracy, but it deliberately pushes accents, ampersands and ALL-CAPS into dish names, which is exactly the material the scoring call tidies up one step later. One change made names messier; the other made matching unforgiving.
+
+The fix keys off the **item number** we already print next to each dish (`1. Grilled Salmon`) rather than the name. We were numbering the dishes all along and simply never asked for the number back.
+
+**Decisions made**
+
+- **The number is cross-checked against the name, not trusted on its own.** This was the important call, and it changed the plan mid-implementation. Swapping keys only helps if the new key fails *better*, and an index doesn't: a name mismatch fails **visibly** ("we couldn't score this"), while a drifted index fails **invisibly** — it puts a real score on the wrong dish. On a health app that's a worse bug than the one being fixed. So: the number finds the candidate, the name confirms it, and if they disagree we fall back to exact name matching. If that fails too, the dish goes unscored. We never guess which dish a score belongs to.
+- **We stopped asking the model to sort the results.** The prompt demanded results sorted best-to-worst, which meant carrying each item number correctly *through a re-sort* of up to 35 dishes — precisely the bookkeeping that makes indexes drift. And the code threw that ordering away anyway, re-sorting by score before anyone saw it. We were paying the risk for nothing.
+- **The item number never reaches the user** (Ray's requirement). It's an internal join key — the model's line number, not a menu position — and showing it would read as a rank nobody could explain. It's resolved to a dish and discarded inside the scoring step, never stored on any object, and a test asserts no scored dish carries it.
+- **The anti-hallucination guard is untouched.** A dish that genuinely isn't on the menu is still dropped. We changed how dishes are recognised, not what's allowed through.
+- **One deliberate side effect:** the name-folding rule is shared with the menu-reading step, so treating `&` as "and" also merges them there. A menu photographed twice that transcribed "Fish & Chips" once and "Fish and Chips" once now collapses to one dish instead of listing both. That's a fix; it changed an existing test, which was updated.
+
+**Open questions**
+
+- **We had no evals — a harness now exists, but it has never been run.** Ray flagged the gap while this was in flight. The repo's three test scripts couldn't answer "did this prompt change help?": two check plumbing (`test:dedupe`, the new `test:dishmatch` — pure logic, no API key) and the third measures score *wander* between identical runs (`test:repeatability`). There was no menu corpus and no reference scores; the closest thing, `rubric-ab-test.ts`, was deleted on 2026-08-04. So the rubric rewrite, EAT-17 and today's change all shipped unmeasured.
+
+  Built `apps/api/evals/` — `npm run eval`, with Ray's usual BCD Tofu House menu as the first corpus (32 dishes, transcribed from a photo). It asserts **tiers, not exact scores** (scores wander, and a flaky eval gets ignored), takes a median across several runs, and drives the real `rankDishes()` so it covers the live prompt *and* the name matching — EAT-18 would have shown up here as a tier flip.
+
+  **Two things stop it being trustworthy yet, both needing a human, not a model:** the dish names were read off a photo and need checking, and the *expected* tiers are the one part an AI must not write — otherwise the eval marks its own homework. Four uncontroversial ones are seeded as proposals; the rest is baseline-only until someone has an opinion. Not run yet — no API key on this machine.
+- Build 8 is live in production (`/api/health` reports `d83c44f`). This fix is on `fix/eat-18-unscored-dishes` and is **not** deployed — merging redeploys the API.
+---
+
 ## 2026-08-10 — UX pass for build 9, and the app can now be updated without a new build
 
 **What changed**

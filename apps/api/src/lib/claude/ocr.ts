@@ -279,7 +279,7 @@ function salvageDishesFromTruncatedJson(text: string): ExtractedDish[] {
 function sanitizeDishes(raw: unknown[]): ExtractedDish[] {
   return raw
     .filter(
-      (item): item is { name: string; description?: string } =>
+      (item): item is { name: string; description?: string; section?: string } =>
         !!item &&
         typeof item === "object" &&
         typeof (item as { name?: unknown }).name === "string" &&
@@ -288,6 +288,7 @@ function sanitizeDishes(raw: unknown[]): ExtractedDish[] {
     .map((item) => ({
       name: item.name.trim(),
       description: item.description?.trim() || undefined,
+      section: item.section?.trim() || undefined,
     }));
 }
 
@@ -340,6 +341,7 @@ export function deduplicateDishes(dishes: ExtractedDish[]): ExtractedDish[] {
   const order: string[] = [];
   const nameByKey = new Map<string, string>();
   const descriptionsByKey = new Map<string, Map<string, string>>();
+  const sectionsByKey = new Map<string, Map<string, string>>();
 
   for (const dish of dishes) {
     const key = normalizeDishName(dish.name);
@@ -348,6 +350,7 @@ export function deduplicateDishes(dishes: ExtractedDish[]): ExtractedDish[] {
       order.push(key);
       nameByKey.set(key, dish.name);
       descriptionsByKey.set(key, new Map());
+      sectionsByKey.set(key, new Map());
     }
     if (dish.description) {
       // Compare case-insensitively, but keep the first spelling we saw.
@@ -355,17 +358,39 @@ export function deduplicateDishes(dishes: ExtractedDish[]): ExtractedDish[] {
       const descKey = dish.description.trim().toLowerCase();
       if (!variants.has(descKey)) variants.set(descKey, dish.description);
     }
+
+    // Sections can disagree between photos for the same reason descriptions can
+    // (EAT-9): a dish photographed twice, once near the wrong heading. Same
+    // treatment — keep only if every copy agrees, else drop and let the category
+    // fall back to name inference. A wrong section silently moves a dish into
+    // the wrong group, or out of the ranked list entirely if it reads as alcohol.
+    if (dish.section) {
+      const sectionSet = sectionsByKey.get(key)!;
+      const sectionKey = dish.section.trim().toLowerCase();
+      if (!sectionSet.has(sectionKey)) sectionSet.set(sectionKey, dish.section);
+    }
   }
 
   return order.map((key) => {
     const variants = descriptionsByKey.get(key)!;
+    const sections = sectionsByKey.get(key)!;
     const name = nameByKey.get(key)!;
+
+    let section: string | undefined;
+    if (sections.size === 1) {
+      section = sections.values().next().value;
+    } else if (sections.size > 1) {
+      console.warn(
+        `[OCR] ${sections.size} conflicting sections for "${name}" — dropping as unreliable`
+      );
+    }
+
     if (variants.size > 1) {
       console.warn(
         `[OCR] ${variants.size} conflicting descriptions for "${name}" — dropping all as unreliable`
       );
-      return { name, description: undefined };
+      return { name, description: undefined, section };
     }
-    return { name, description: variants.values().next().value };
+    return { name, description: variants.values().next().value, section };
   });
 }

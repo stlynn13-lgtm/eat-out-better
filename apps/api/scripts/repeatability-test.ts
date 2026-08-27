@@ -19,8 +19,16 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
+import { loadEnvConfig } from "@next/env";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { writeFileSync } from "node:fs";
 import { getRankingSystemPrompt, getRankingUserPrompt } from "../src/lib/claude/prompts";
+
+// A bare tsx script doesn't load .env.local the way `next dev` does — same trap
+// the eval runner hit. Without this the script reports no API key with the key
+// sitting in the file the repo tells you to create.
+loadEnvConfig(join(dirname(fileURLToPath(import.meta.url)), ".."));
 
 // --- Config -------------------------------------------------
 const MODEL = "claude-haiku-4-5-20251001"; // mirrors MODELS.HAIKU
