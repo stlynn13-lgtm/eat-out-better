@@ -141,21 +141,39 @@ export function trackFeedbackSheetOpened(ph: PostHog, screen: string): void {
   ph.capture("feedback_sheet_opened", { screen });
 }
 
+/** Distinguishes a per-scan analysis rating from unprompted general feedback. */
+export type FeedbackType = "scan_rating" | "general";
+
 export function trackFeedbackSubmitted(
   ph: PostHog,
   screen: string,
   hasText: boolean,
   characterCount: number,
-  posthogDistinctId: string
+  posthogDistinctId: string,
+  feedbackType: FeedbackType,
+  rating: number | null,
+  tags: string[]
 ): void {
   ph.capture("feedback_submitted", {
     screen,
     has_text: hasText,
     character_count: characterCount,
     posthog_distinct_id: posthogDistinctId,
+    feedback_type: feedbackType,
+    // Omitted rather than sent as null when absent — PostHog's JsonType has no
+    // undefined, and an absent property reads better in the UI than "null".
+    ...(rating !== null ? { rating } : {}),
+    tags,
+    tag_count: tags.length,
   });
 }
 
+/**
+ * Fired for the inline "Was this analysis helpful?" tap on the results screen
+ * ONLY. The stars inside the sheet deliberately do not fire this: they are
+ * re-selectable, so one thoughtful user changing their mind three times used to
+ * emit three ratings and skew the average. The sheet reports once, on submit.
+ */
 export function trackFeedbackRatingSubmitted(
   ph: PostHog,
   screen: string,
