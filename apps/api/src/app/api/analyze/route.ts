@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
-import { isRateLimited } from "@/lib/utils/rateLimit";
+import { checkRateLimit } from "@/lib/utils/rateLimit";
 import type {
   AnalyzeRequest,
   AnalyzeResponse,
@@ -63,16 +63,34 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // Best-effort per-IP rate limit (in-memory; see rateLimit.ts for scope).
-  // Matters most while the shared-token gate is fail-open.
+  // Durable rate limiting (see rateLimit.ts). Matters most while the
+  // shared-token gate is fail-open — right now this is the only thing standing
+  // between a stranger who finds this URL and the Anthropic bill.
   const clientIp =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (isRateLimited(clientIp)) {
-    return errorResponse(
-      "RATE_LIMIT",
-      "Too many scans in a short time. Please wait a few minutes and try again.",
-      429
-    );
+  const rateLimit = await checkRateLimit(clientIp);
+
+  if (!rateLimit.allowed) {
+    // The global cap is not this caller's fault — the service as a whole has
+    // spent its budget for the day — so it reads as "temporarily unavailable"
+    // (503) rather than "you did too much" (429).
+    if (rateLimit.reason === "global_daily") {
+      return errorResponse(
+        "RATE_LIMIT",
+        "Menu analysis is temporarily unavailable. Please try again tomorrow.",
+        503,
+        { "Retry-After": String(rateLimit.retryAfterSeconds) }
+      );
+    }
+
+    const message =
+      rateLimit.reason === "ip_daily"
+        ? "You've reached today's scan limit. Your scans reset tomorrow."
+        : "Too many scans in a short time. Please wait a few minutes and try again.";
+
+    return errorResponse("RATE_LIMIT", message, 429, {
+      "Retry-After": String(rateLimit.retryAfterSeconds),
+    });
   }
 
   // Parse body
@@ -245,13 +263,14 @@ function successResponse(data: AnalyzeResponse["data"]): NextResponse {
 function errorResponse(
   code: AnalysisErrorCode,
   message: string,
-  status: number
+  status: number,
+  headers?: Record<string, string>
 ): NextResponse {
   const body: AnalyzeResponse = {
     success: false,
     error: { code, message },
   };
-  return NextResponse.json(body, { status });
+  return NextResponse.json(body, { status, headers });
 }
 
 // -----------------------------------------------------------
