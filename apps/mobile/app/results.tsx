@@ -156,8 +156,19 @@ export default function ResultsScreen() {
                 : "We couldn't confidently read any dishes from your photos."}
             </Text>
             {session?.processingTimeMs ? (
-              <Text className="text-xs text-gray-400 mt-1">
+              <Text className="text-xs text-gray-500 mt-1">
                 Analyzed in {(session.processingTimeMs / 1000).toFixed(1)}s
+              </Text>
+            ) : null}
+            {/* The disclaimer belongs HERE, not only on the welcome and info
+                screens. This is the one screen where someone is actually
+                choosing what to order, and it is the screen App Store
+                Guideline 1.4.1 is about. It sits above the first dish card so
+                it lands in the first frame without scrolling. */}
+            {dishes.length > 0 ? (
+              <Text className="text-sm text-gray-600 leading-relaxed mt-3">
+                Scores are estimates read from the menu text, not medical advice —
+                check with your doctor about your own needs.
               </Text>
             ) : null}
           </View>
@@ -209,11 +220,11 @@ export default function ResultsScreen() {
               setShowFeedback(true);
             }}
           >
-            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+            <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
           <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
-            <Text className="text-xs text-gray-400 underline">Privacy Policy</Text>
+            <Text className="text-xs text-gray-600 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -314,7 +325,7 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
       <View className="flex-row items-start justify-between mb-2">
         <View className="flex-1 mr-3">
           <View className="flex-row items-center gap-2 mb-0.5">
-            <Text className="text-xs font-medium text-gray-400">#{rank}</Text>
+            <Text className="text-xs font-medium text-gray-500">#{rank}</Text>
             {dish.tag && (
               <View className={`rounded-full px-2 py-0.5 ${colors.badge}`}>
                 <Text className={`text-xs font-semibold ${colors.badgeText}`}>

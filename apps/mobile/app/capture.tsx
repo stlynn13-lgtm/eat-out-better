@@ -542,12 +542,12 @@ export default function CaptureScreen() {
                     onPress={handleGalleryPick}
                     accessibilityLabel="Add photos from your library"
                   >
-                    <Text className="text-gray-400 text-2xl">+</Text>
+                    <Text className="text-gray-500 text-2xl">+</Text>
                   </TouchableOpacity>
                 )}
               </View>
             </ScrollView>
-            <Text className="text-xs text-gray-400 mt-2">
+            <Text className="text-xs text-gray-500 mt-2">
               {localPhotos.length >= MAX_PHOTOS
                 ? `Maximum of ${MAX_PHOTOS} photos reached`
                 : `Up to ${MAX_PHOTOS} photos per scan`}
@@ -602,7 +602,7 @@ export default function CaptureScreen() {
             focused on the task. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
-            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+            <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
         </View>
       </View>

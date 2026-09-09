@@ -99,7 +99,7 @@ export default function HowItWorksScreen() {
           body={`Trans fat has been banned in U.S. restaurants since 2018–2021, so "fried" no longer automatically means trans fat. And current guidelines no longer treat dietary cholesterol (eggs, shellfish) as a major risk for most people — those dishes are judged on their saturated fat instead, not docked just for being an egg dish.`}
         />
 
-        <Text className="text-xs text-gray-400 leading-relaxed mt-2 mb-8">
+        <Text className="text-sm text-gray-600 leading-relaxed mt-2 mb-8">
           These are informed estimates from a dish's name and description, not a
           lab measurement.
         </Text>
@@ -114,7 +114,7 @@ export default function HowItWorksScreen() {
           our servers, and the app works without an account.
         </Text>
 
-        <Text className="text-xs text-gray-400 leading-relaxed">
+        <Text className="text-sm text-gray-600 leading-relaxed">
           Eat Out Better offers general dietary information, not medical advice.
           Always consult your doctor about your specific health needs.
         </Text>
