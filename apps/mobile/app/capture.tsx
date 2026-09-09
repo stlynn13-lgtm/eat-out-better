@@ -365,10 +365,18 @@ export default function CaptureScreen() {
                   </View>
                 )}
 
+                {/* `StyleSheet.absoluteFillObject` was removed in React Native
+                    0.85 — from the runtime, not just the types. It evaluated to
+                    `undefined`, and a falsy entry in a style array is silently
+                    ignored, so this overlay lost its absolute positioning and
+                    collapsed to 0×0: the shutter flash has not been visible
+                    since the SDK bump. `absoluteFill` is the same object
+                    ({ position: "absolute", top/left/right/bottom: 0 }) and is
+                    the supported name. */}
                 <Animated.View
                   pointerEvents="none"
                   style={[
-                    StyleSheet.absoluteFillObject,
+                    StyleSheet.absoluteFill,
                     { backgroundColor: "#ffffff", opacity: flashOpacity },
                   ]}
                 />
