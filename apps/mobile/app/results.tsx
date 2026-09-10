@@ -325,7 +325,7 @@ function DishCard({ dish, rank }: { dish: RankedDish; rank: number }) {
       <View className="flex-row items-start justify-between mb-2">
         <View className="flex-1 mr-3">
           <View className="flex-row items-center gap-2 mb-0.5">
-            <Text className="text-xs font-medium text-gray-500">#{rank}</Text>
+            <Text className="text-xs font-medium text-gray-600">#{rank}</Text>
             {dish.tag && (
               <View className={`rounded-full px-2 py-0.5 ${colors.badge}`}>
                 <Text className={`text-xs font-semibold ${colors.badgeText}`}>
