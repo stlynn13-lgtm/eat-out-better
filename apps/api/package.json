@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.3",
     "next": "^15.5.19",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
