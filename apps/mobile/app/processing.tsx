@@ -165,9 +165,9 @@ export default function ProcessingScreen() {
         <View className="w-full flex-row items-end justify-between mb-2">
           <Text className="text-3xl font-bold text-brand-900 tabular-nums">
             {percent}
-            <Text className="text-xl font-semibold text-gray-400">%</Text>
+            <Text className="text-xl font-semibold text-gray-500">%</Text>
           </Text>
-          <Text className="text-xs text-gray-400 mb-1.5">
+          <Text className="text-xs text-gray-500 mb-1.5">
             Usually 15–20 seconds
           </Text>
         </View>
@@ -208,7 +208,7 @@ export default function ProcessingScreen() {
             welcome and results screens. */}
         <View className="flex-row items-center justify-center gap-2 mt-6">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
-            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+            <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -76,7 +76,7 @@ export default function WelcomeScreen() {
             <Text className="text-white font-semibold text-base">Get Started</Text>
           </TouchableOpacity>
 
-          <Text className="text-xs text-gray-400 text-center mt-4">
+          <Text className="text-sm text-gray-600 text-center mt-4">
             Not medical advice — always consult your doctor.
           </Text>
         </Reveal>

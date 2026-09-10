@@ -11,15 +11,25 @@ import * as Sentry from '@sentry/react-native';
 Sentry.init({
   dsn: 'https://74924b2ec6ad00460d3750eaa7fef985@o4511660296765440.ingest.us.sentry.io/4511672110022656',
 
-  // Adds more context data to events (IP address, cookies, user, etc.)
-  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
-  sendDefaultPii: true,
+  // Deliberately OFF. The default (true) attaches IP address and user context
+  // to every event, which contradicts both the privacy policy and the whole
+  // point of a stateless app that never asks who you are.
+  sendDefaultPii: false,
 
   // Enable Logs
   enableLogs: true,
 
-  // Configure Session Replay
-  replaysSessionSampleRate: 0.1,
+  // Session Replay: on error ONLY.
+  //
+  // `replaysSessionSampleRate` was 0.1 — one in ten sessions recorded whether
+  // or not anything went wrong. The privacy policy says replay happens "when an
+  // error occurs" (apps/api/src/app/privacy/page.tsx §3), so the sampled
+  // recording made a published document untrue. It also meant routinely filming
+  // a camera screen pointed at a restaurant menu for no diagnostic return.
+  //
+  // Keep this at 0. Error replays are the ones with debugging value, and
+  // replaysOnErrorSampleRate: 1 already captures every one of those.
+  replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1,
   integrations: [Sentry.mobileReplayIntegration()],
 

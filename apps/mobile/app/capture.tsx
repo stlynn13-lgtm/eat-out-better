@@ -365,10 +365,18 @@ export default function CaptureScreen() {
                   </View>
                 )}
 
+                {/* `StyleSheet.absoluteFillObject` was removed in React Native
+                    0.85 — from the runtime, not just the types. It evaluated to
+                    `undefined`, and a falsy entry in a style array is silently
+                    ignored, so this overlay lost its absolute positioning and
+                    collapsed to 0×0: the shutter flash has not been visible
+                    since the SDK bump. `absoluteFill` is the same object
+                    ({ position: "absolute", top/left/right/bottom: 0 }) and is
+                    the supported name. */}
                 <Animated.View
                   pointerEvents="none"
                   style={[
-                    StyleSheet.absoluteFillObject,
+                    StyleSheet.absoluteFill,
                     { backgroundColor: "#ffffff", opacity: flashOpacity },
                   ]}
                 />
@@ -534,12 +542,12 @@ export default function CaptureScreen() {
                     onPress={handleGalleryPick}
                     accessibilityLabel="Add photos from your library"
                   >
-                    <Text className="text-gray-400 text-2xl">+</Text>
+                    <Text className="text-gray-500 text-2xl">+</Text>
                   </TouchableOpacity>
                 )}
               </View>
             </ScrollView>
-            <Text className="text-xs text-gray-400 mt-2">
+            <Text className="text-xs text-gray-500 mt-2">
               {localPhotos.length >= MAX_PHOTOS
                 ? `Maximum of ${MAX_PHOTOS} photos reached`
                 : `Up to ${MAX_PHOTOS} photos per scan`}
@@ -594,7 +602,7 @@ export default function CaptureScreen() {
             focused on the task. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
-            <Text className="text-xs text-gray-400 underline">Feedback</Text>
+            <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
         </View>
       </View>
