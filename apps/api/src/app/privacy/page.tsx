@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: September 7, 2026</p>
+      <p style={styles.meta}>Last Updated: September 9, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -16,6 +16,12 @@ export default function PrivacyPage() {
           information when you use our mobile application. We built this app with a minimal
           data footprint by design — we don't create accounts, we don't store your photos,
           and we don't retain your health information after your session ends.
+        </p>
+        <p>
+          Your use of the app is also governed by our{" "}
+          <a href="/terms">Terms of Service</a>, which explain what the app does and does
+          not do — including that it does <strong>not</strong> detect food allergens and is
+          not a substitute for medical advice.
         </p>
       </Section>
 
@@ -168,6 +174,9 @@ export default function PrivacyPage() {
         <p>
           Questions or privacy requests:{" "}
           <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>
+        </p>
+        <p>
+          See also our <a href="/terms">Terms of Service</a>.
         </p>
       </Section>
     </main>

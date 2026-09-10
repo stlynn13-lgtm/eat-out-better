@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Linking } from "react-native";
+import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeedbackSheet from "../components/FeedbackSheet";
@@ -90,8 +91,22 @@ export default function WelcomeScreen() {
               <Text className="text-xs text-gray-500 underline">Feedback</Text>
             </TouchableOpacity>
             <Text className="text-xs text-gray-300">·</Text>
-            <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
-              <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(TERMS_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read the Terms of Service. Opens in your browser."
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
+              <Text className="text-xs text-gray-500 underline">Terms</Text>
+            </TouchableOpacity>
+            <Text className="text-xs text-gray-300">·</Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(PRIVACY_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read the Privacy Policy. Opens in your browser."
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
+              <Text className="text-xs text-gray-500 underline">Privacy</Text>
             </TouchableOpacity>
           </View>
         </Reveal>

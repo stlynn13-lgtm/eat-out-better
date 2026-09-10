@@ -6,6 +6,7 @@ import { PostHogProvider, usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 import { POSTHOG_API_KEY, POSTHOG_HOST, registerSuperProperties } from "../lib/analytics";
 import ScoringInfoButton from "../components/ScoringInfoButton";
+import TermsGate from "../components/TermsGate";
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
@@ -51,6 +52,10 @@ export default Sentry.wrap(function RootLayout() {
       <AnalyticsBootstrap />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar style="dark" />
+        {/* Wraps the whole navigator, so the gate covers every entry point —
+            including a deep link straight into /capture. Renders nothing once
+            the current Terms version is on record. */}
+        <TermsGate>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="capture" />
@@ -61,6 +66,7 @@ export default Sentry.wrap(function RootLayout() {
           <Stack.Screen name="results" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
         </Stack>
+        </TermsGate>
         <ScoringInfoButton />
       </GestureHandlerRootView>
     </PostHogProvider>
