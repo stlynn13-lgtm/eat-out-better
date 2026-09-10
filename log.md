@@ -6,6 +6,53 @@
 
 ---
 
+## 2026-09-09 / 09-10 — A liability review, the Terms we never had, and the first over-the-air update
+
+**What changed**
+
+Sean was warned about "getting sued with a vibe-coded app" and handed a 19-item checklist. The app was reviewed against it. Most of the list was a *website* checklist — cookies, embeds, refunds, form consent — and four items simply do not apply to a native iOS app whose entire web surface is three pages. But two real problems came out of it, and neither was on the list.
+
+**The first: the app had no Terms of Service.** It has been an open legal gate since June and nothing had ever picked it up. The one-line "not medical advice" in the UI is a disclaimer with no contract behind it — and the default was worse than nothing, because with no EULA of our own, Apple's standard EULA applies, and that one says nothing about medical guidance at all.
+
+There are Terms now, at `/terms`, written for a Colorado LLC running a health-adjacent AI app on Apple's platform. The parts that matter: claims lie against Dine Right LLC only and not against Sean or Ray personally; liability is capped; warranties are disclaimed; disputes go to individual arbitration with a 30-day opt-out; and Apple's required EULA terms are carried so Apple's own agreement does not govern instead.
+
+**The biggest gap it closed was not on the checklist either: allergens.** The worst realistic injury from a menu app is not a cholesterol score being a point off — it is someone with a nut allergy assuming that an app which reads ingredients knows about nuts. It does not. It estimates saturated fat. That now says so in three places, including its own red block on the first screen anyone sees.
+
+And Terms nobody agreed to are close to worthless, so the app now opens with a blocking "I Agree" screen with working links above the button. Acceptance is stored with the Terms *version*, so a future change re-prompts only the people who accepted the older text.
+
+**The second: Sentry was recording sessions nobody had agreed to.** It was set to film one in ten sessions whether or not anything went wrong, and to attach IP addresses — while the published privacy policy told users replay only happened on errors. A published document said one thing and the code did another. Two lines fixed it, and the fix was made in the code rather than the policy: cheaper, and it means holding less rather than merely disclosing more.
+
+**A real bug fell out of the review.** `StyleSheet.absoluteFillObject` was deleted from React Native 0.85 — from the runtime, not just the types — so the camera's shutter flash overlay collapsed to nothing and has been invisible since the SDK bump. The type error was the only thing saying so, and it had been sitting in a failing `tsc` that nobody was reading.
+
+**Everything legally significant was also unreadable.** Every disclaimer in the app was grey-on-grey at 12px — 2.43:1 contrast, the least readable text in the app. "The warning was there, in grey, below the fold" is a plaintiff's exhibit, not a defence. Now 7.23:1.
+
+**Why it mattered**
+
+Three of the four serious findings are now closed: tracking, business details, and the disclaimers. The Terms were the fourth and largest, and they exist. What is left is smaller and mostly administrative.
+
+**The LLC question is settled.** Dine Right LLC is registered in Colorado. The privacy policy has said so since June while `plan.md` and `log.md` both still listed it as undecided — the published legal document was the accurate one and five project files were stale. They agree now.
+
+**Shipping it turned into its own project**
+
+The changes were merged and then reached nobody for a day, because publishing an over-the-air update had never actually been done before. Four separate things blocked it, each real:
+
+1. **The API token could not be read.** `APP_TOKEN` was stored in EAS with `secret` visibility, which EAS only ever decrypts on its own build servers. An update publishes from a laptop, so it could never resolve the token — it would have shipped an update with *no* token, silently, stripping it from every device that installed it. Harmless today while the API gate is open; a field outage the day that gate is switched on.
+2. **The token needed rotating anyway** — the old value was burned months ago by being pasted into a chat transcript. It has been rotated and is now `sensitive`, which is what makes routine updates possible. `scripts/rotate-app-token.sh` does it without the value ever being shown; deliberately so, given how the last one leaked.
+3. **The update tried to build for the web**, because `app.config.ts` spreads `app.json`, which still carries a `web` key from the original Expo template. Platforms are now stated explicitly.
+4. **The local `ios/` folder disagrees with what actually ships.** It is untracked and gitignored, and claims the app uses JSC while the config's default — and what EAS really builds — is Hermes. It has to be moved aside for every publish until someone runs `npx expo prebuild --clean`.
+
+**The first over-the-air update in the project's history is live** on the `production` branch at runtime 1.1.4, which is what build 9 runs. Everything above reaches the phone in Sean's pocket on the next cold start, with no new build.
+
+**What this sets up**
+
+Build 10 has a version bump committed but was never actually built — new TestFlight installs still get a two-week-old binary that picks these changes up on first launch. The App Store package is ready and waiting: `/support` exists because App Store Connect requires a support URL that resolves and there wasn't one, and `legal/eula-app-store.txt` is generated from the same component the website renders, because App Store Connect takes pasted text rather than a URL and two hand-maintained copies of one contract is how they end up disagreeing.
+
+`app-store-legal-checklist.md` has the rest, including App Privacy answers derived from the code rather than from memory.
+
+**Still open, and worth doing before an App Store submission:** get the Terms reviewed by a Colorado attorney; add the apartment number to the address in Terms §24; fix the privacy policy paragraph that describes a health-condition input the app does not have; confirm the Apple Developer enrollment is an Organization rather than an Individual, because Guideline 5.1.1(ix) is about who *submits*; and decide whether a residential address should stay on a public page.
+
+---
+
 ## 2026-09-07 — Sign-in: planned it, checked it, and cut most of it
 
 **What changed**

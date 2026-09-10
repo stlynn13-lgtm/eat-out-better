@@ -2,30 +2,37 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-09-07
+**Last updated:** 2026-09-10
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-Build 8 (v1.1.3) is **merged, deployed and on TestFlight** — that's the build on Sean's phone.
+**Build 9 (v1.1.4) is on TestFlight** — submitted 26 August, and it is the build on Sean's phone.
 
-**Build 9 (v1.1.4 / iOS build 9) is on `feat/build9-ux-pass`, not yet merged.** It's a UX pass across every screen from Sean's own list, plus the single biggest change to how this project ships: **the app can now be updated without a new build.**
+**Everything since then has shipped over the air instead.** On 10 September the project published its **first ever over-the-air update**, which is the thing build 9 was built to make possible. It carries the Terms of Service gate, the results-screen disclaimer, readable contrast on every legal line, the Sentry privacy fix and the restored shutter flash. Anyone on build 9 picks it all up on the next cold start, with no new build and no App Store involvement.
 
-**The thing to understand about build 9:** it adds Expo's over-the-air updates. Until now every change, down to one word of copy, needed a full TestFlight build. From build 9 onward, anything that's purely app code — copy, layout, colours, animations — ships with one command and reaches testers the next time they open the app. Native changes still need a real build, and this does nothing for anyone still on build 8; **testers must install build 9 once before any over-the-air update can reach them.** Also worth being clear: none of this ever required an App Store release. TestFlight isn't one, and we're not publicly launched.
+**Build 10 has a version bump committed but has never actually been built.** That only matters for *new* testers: they would install a two-week-old binary and then pull the update on first launch. Worth cutting before any App Store submission, not urgent otherwise.
 
-Roughly half of Sean's UX list was built; the other half was deliberately left alone because doing it would have meant inventing a design. Full detail in the `log.md` 2026-08-10 entry.
+**The legal position changed substantially.** The app now has Terms of Service (`/terms`), a blocking first-run "I Agree" gate, a support page (`/support`), and an allergen disclaimer in three places — that last one being the largest real risk in a menu-reading app and the thing no checklist asked about. Dine Right LLC is confirmed registered in Colorado, so the entity question that five documents disagreed about is closed. Full detail in the `log.md` 2026-09-09/10 entry.
+
+**Two shipping gotchas worth keeping**, both discovered the hard way while publishing that first update:
+
+- **`eas update` needs `eas env:exec`.** `--environment production` alone does *not* reach the subprocess that evaluates `app.config.ts`, so the APP_TOKEN guard fires and the publish dies in ten seconds. The working command is in `log.md`.
+- **The local `ios/` folder disagrees with what ships.** It is untracked and claims JSC; the config default, and what EAS actually builds, is Hermes. It has to be moved aside for every publish until someone runs `npx expo prebuild --clean`.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.
 
-Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and has still never been validated against real menus.
+Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and **has still never been validated against real menus** — that remains the most important untested thing in the project.
 
 ---
 
-## NOW — build 9 is submitted; verify it on a device, then send the missing designs
+## NOW — verify the update on a device, then validate the scoring
 
-**Status:** `main` is at `2c40cc9` (build 9 UX pass + EAT-18/19/20 scoring work, merged and pushed 2026-08-26). iOS build `15d57da0-4f78-49df-96d3-00f9860b6290` — v1.1.4 / build 9 — is building on EAS with auto-submit to TestFlight scheduled.
+**Status:** `main` carries the Terms of Service, the first-run gate, the legal pages and the accessibility and privacy fixes. The first over-the-air update is **live** on the `production` branch at runtime 1.1.4 (update group `9658d607`), so it reaches build 9 on the next cold start.
+
+0. **Cold-start the app and check the update landed (Sean, two minutes).** The Terms gate should appear first, then the results-screen disclaimer, readable grey text, and — the one nobody has ever seen work — the camera shutter flash, which had been invisible since the SDK bump because React Native 0.85 deleted the API it used.
 
 
 1. **Run a real menu through the scoring (Sean, needs an API key)** — still the one that matters, outstanding since build 8. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing in this environment can test whether those assumptions are *good* ones. Check especially: bare dish names (no description) get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu. EAT-18 and EAT-19 are now merged, so unscored-looking dishes are no longer a confound.
@@ -57,8 +64,8 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 ## NEXT — before we go live to the public (P1)
 
 - **Fix the two known bugs**: the 2nd-submission crash (the "go back" button) and the double loading screen.
-- **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and the operating entity. **✅ The LLC question is closed.** **Dine Right LLC is registered in Colorado** (confirmed by Sean, 2026-09-09), so `apps/api/src/app/privacy/page.tsx:15` has been accurate all along and the entity question is closed. That also clears App Store Guideline 5.1.1(ix) (health apps "should be submitted by a legal entity... not by an individual developer") and unblocks EU DSA trader verification, which an app is *removed* from the EU App Store for lacking. **Three things it does not yet clear:** the Apple Developer enrollment may still be Individual rather than Organization (App Store Connect → Agreements → Entity Type) — check it, because 5.1.1(ix) is about who *submits*, not only who operates; the privacy policy names the LLC but gives no registered address or entity number, which DSA trader status and ordinary business-details practice both want; and **the Terms of Service is still unclaimed.** Nothing has ever picked it up, it is now the largest single legal gap in the project, and it becomes mandatory the moment a subscription ships. See `auth-plan.md` §8.
-- **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), support URL, age rating, App Privacy questionnaire.
+- **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and the operating entity. **✅ The LLC question is closed.** **Dine Right LLC is registered in Colorado** (confirmed by Sean, 2026-09-09), so `apps/api/src/app/privacy/page.tsx:15` has been accurate all along and the entity question is closed. That also clears App Store Guideline 5.1.1(ix) (health apps "should be submitted by a legal entity... not by an individual developer") and unblocks EU DSA trader verification, which an app is *removed* from the EU App Store for lacking. **Three things it does not yet clear:** the Apple Developer enrollment may still be Individual rather than Organization (App Store Connect → Agreements → Entity Type) — check it, because 5.1.1(ix) is about who *submits*, not only who operates; the privacy policy names the LLC but gives no registered address or entity number, which DSA trader status and ordinary business-details practice both want; and the registered address in Terms §24 is missing its apartment number. **✅ The Terms of Service now exist** (`/terms`, shipped 2026-09-09) with a medical disclaimer, an allergen disclaimer, an AI-accuracy disclaimer, a liability cap, an owner shield under CRS §7-80-705, Colorado governing law, arbitration with a 30-day opt-out, and Apple's required EULA terms — plus a blocking first-run acceptance gate, without which the rest is close to unenforceable. **They have not been reviewed by a lawyer, and should be before public launch.** See `app-store-legal-checklist.md`.
+- **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), age rating, App Privacy questionnaire. **✅ Support URL now exists** (`/support`). All the rest is worked out in `app-store-legal-checklist.md`, including the nutrition-label answers derived from the code and the fact that App Store Connect takes a *pasted* EULA rather than a URL — `legal/eula-app-store.txt` is generated from the same component the website renders so the two cannot drift.
 - **UI transparency**: a simple "how scores work" screen (✅ built + verified on `feat/scoring-explained-ui`, needs merge) + per-dish reasons ("High — fried + cream sauce. Try grilled.").
 - **Basic analytics**: wire Firebase and the core funnel events so we can see if people complete a scan.
 - **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime).
