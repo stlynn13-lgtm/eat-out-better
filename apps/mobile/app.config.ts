@@ -87,6 +87,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "eat-out-better",
   scheme: "eat-out-better",
   version: "1.1.4",
+  // Explicit, because `...config` above spreads app.json — which still carries a
+  // `web` key from the Expo template. Without this, `eas update` exports for web
+  // too and dies on a missing react-native-web that this app has never needed:
+  //
+  //   CommandError: It looks like you're trying to use web support but don't
+  //   have the required dependencies installed.
+  //
+  // There is no web target and never has been. Naming the platforms here is
+  // cheaper than deleting keys out of app.json, which app.config.ts overrides
+  // wholesale anyway.
+  platforms: ["ios", "android"],
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
