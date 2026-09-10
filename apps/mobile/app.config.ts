@@ -32,6 +32,28 @@ function resolveAppToken(environment: string): string | undefined {
   // secret to run `expo start` would be hostile.
   if (environment === "development") return undefined;
 
+  // `eas build` is NOT the dangerous case, and the first version of this guard
+  // wrongly blocked it.
+  //
+  // EAS applies a build profile's `env` block when it evaluates this config —
+  // including on your own machine, before the build is queued. But APP_TOKEN is
+  // a *secret*-visibility EAS variable, so it is deliberately absent locally.
+  // The config that actually ships is re-evaluated on the EAS builder, where
+  // the secret IS present. So a missing token during the local half of a build
+  // is expected, not a fault, and throwing there just prevents anyone from
+  // cutting a release.
+  //
+  // APP_TOKEN_FROM_EAS is set only in eas.json's build profiles, so it means
+  // exactly "a builder will supply the real value later". `eas update` does not
+  // read build profiles at all — that is the whole reason this guard exists —
+  // so it is unset during an update, which is the case we must still block.
+  //
+  // On the builder itself (EAS_BUILD=true) the token really should be there, so
+  // a missing one is a genuine failure and still throws.
+  const builderWillSupply = process.env.APP_TOKEN_FROM_EAS === "1";
+  const onBuilder = process.env.EAS_BUILD === "true";
+  if (builderWillSupply && !onBuilder) return undefined;
+
   // Deliberate escape hatch: a preview build for someone who shouldn't be
   // handed the token. Must be asked for explicitly.
   if (process.env.ALLOW_MISSING_APP_TOKEN === "1") {
@@ -45,6 +67,8 @@ function resolveAppToken(environment: string): string | undefined {
 
   throw new Error(
     `APP_TOKEN is not set, but APP_ENV="${environment}".\n\n` +
+      `  (If you are running 'eas build', this should not happen — check that\n` +
+      `  APP_TOKEN_FROM_EAS=1 is still in the profile's env block in eas.json.)\n\n` +
       `  'extra.appToken' ships in the update manifest. Publishing now would\n` +
       `  strip the API token from every device that takes this artifact.\n\n` +
       `  eas.json's env blocks and the EAS secret store only apply to\n` +
