@@ -84,3 +84,6 @@ GTM-strategy-phase1.md
 cost-and-golive-requirements.md
 monetization-brainstorm-prompt.md
 monetization-strategy.md
+
+# Claude Code harness worktrees (agent scratch space — not source)
+.claude/worktrees/
