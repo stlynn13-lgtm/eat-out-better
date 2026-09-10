@@ -8,8 +8,8 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "lint": "eslint . --ext .ts,.tsx",
-    "update:preview": "APP_ENV=preview eas update --branch preview",
-    "update:production": "APP_ENV=production eas update --branch production"
+    "update:preview": "APP_ENV=preview eas update --branch preview --environment preview",
+    "update:production": "APP_ENV=production eas update --branch production --environment production"
   },
   "dependencies": {
     "@eat-out-better/shared": "file:../../packages/shared",
