@@ -214,12 +214,15 @@ export default function ResultsScreen() {
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>
         </TouchableOpacity>
 
-        <View className="flex-row items-center justify-center gap-2 mt-3">
+        <View className="flex-row flex-wrap items-center justify-center gap-2 mt-3">
           <TouchableOpacity
             onPress={() => {
               setFeedbackVariant("general");
               setShowFeedback(true);
             }}
+            accessibilityRole="button"
+            accessibilityLabel="Send feedback"
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
           >
             <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
@@ -239,7 +242,7 @@ export default function ResultsScreen() {
             accessibilityLabel="Read the Privacy Policy. Opens in your browser."
             hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
           >
-            <Text className="text-xs text-gray-600 underline">Privacy</Text>
+            <Text className="text-xs text-gray-600 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>
       </View>

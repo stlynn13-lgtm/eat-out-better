@@ -86,8 +86,13 @@ export default function WelcomeScreen() {
             it now shares the single "?" in the top-right corner with the
             scoring explainer, which is the same question asked twice. */}
         <Reveal delay={320}>
-          <View className="flex-row items-center justify-center gap-3 mt-6">
-            <TouchableOpacity onPress={() => setShowFeedback(true)}>
+          <View className="flex-row flex-wrap items-center justify-center gap-3 mt-6">
+            <TouchableOpacity
+              onPress={() => setShowFeedback(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Send feedback"
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
               <Text className="text-xs text-gray-500 underline">Feedback</Text>
             </TouchableOpacity>
             <Text className="text-xs text-gray-300">·</Text>
@@ -106,7 +111,7 @@ export default function WelcomeScreen() {
               accessibilityLabel="Read the Privacy Policy. Opens in your browser."
               hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
             >
-              <Text className="text-xs text-gray-500 underline">Privacy</Text>
+              <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
             </TouchableOpacity>
           </View>
         </Reveal>
