@@ -9,7 +9,8 @@
       "environment": "development",
       "channel": "development",
       "env": {
-        "APP_ENV": "development"
+        "APP_ENV": "development",
+        "APP_TOKEN_FROM_EAS": "1"
       }
     },
     "preview": {
@@ -20,7 +21,8 @@
         "simulator": false
       },
       "env": {
-        "APP_ENV": "preview"
+        "APP_ENV": "preview",
+        "APP_TOKEN_FROM_EAS": "1"
       }
     },
     "production": {
@@ -30,7 +32,8 @@
         "buildConfiguration": "Release"
       },
       "env": {
-        "APP_ENV": "production"
+        "APP_ENV": "production",
+        "APP_TOKEN_FROM_EAS": "1"
       }
     }
   },
