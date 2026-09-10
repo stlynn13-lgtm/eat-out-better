@@ -26,6 +26,7 @@ import {
   trackFeedbackRatingSubmitted,
 } from "../lib/analytics";
 import FeedbackSheet from "../components/FeedbackSheet";
+import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 
 /**
  * Five faces so the inline row maps 1:1 onto the sheet's five stars — tapping
@@ -213,17 +214,34 @@ export default function ResultsScreen() {
           <Text className="text-gray-700 font-semibold">Analyze New Menu</Text>
         </TouchableOpacity>
 
-        <View className="flex-row items-center justify-center gap-2 mt-3">
+        <View className="flex-row flex-wrap items-center justify-center gap-2 mt-3">
           <TouchableOpacity
             onPress={() => {
               setFeedbackVariant("general");
               setShowFeedback(true);
             }}
+            accessibilityRole="button"
+            accessibilityLabel="Send feedback"
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
           >
             <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
           <Text className="text-xs text-gray-300">·</Text>
-          <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
+          <TouchableOpacity
+            onPress={() => Linking.openURL(TERMS_URL)}
+            accessibilityRole="link"
+            accessibilityLabel="Read the Terms of Service. Opens in your browser."
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+          >
+            <Text className="text-xs text-gray-600 underline">Terms</Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-300">·</Text>
+          <TouchableOpacity
+            onPress={() => Linking.openURL(PRIVACY_URL)}
+            accessibilityRole="link"
+            accessibilityLabel="Read the Privacy Policy. Opens in your browser."
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+          >
             <Text className="text-xs text-gray-600 underline">Privacy Policy</Text>
           </TouchableOpacity>
         </View>

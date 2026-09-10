@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Linking } from "react-native";
+import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeedbackSheet from "../components/FeedbackSheet";
@@ -85,12 +86,31 @@ export default function WelcomeScreen() {
             it now shares the single "?" in the top-right corner with the
             scoring explainer, which is the same question asked twice. */}
         <Reveal delay={320}>
-          <View className="flex-row items-center justify-center gap-3 mt-6">
-            <TouchableOpacity onPress={() => setShowFeedback(true)}>
+          <View className="flex-row flex-wrap items-center justify-center gap-3 mt-6">
+            <TouchableOpacity
+              onPress={() => setShowFeedback(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Send feedback"
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
               <Text className="text-xs text-gray-500 underline">Feedback</Text>
             </TouchableOpacity>
             <Text className="text-xs text-gray-300">·</Text>
-            <TouchableOpacity onPress={() => Linking.openURL("https://eat-out-better-api.vercel.app/privacy")}>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(TERMS_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read the Terms of Service. Opens in your browser."
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
+              <Text className="text-xs text-gray-500 underline">Terms</Text>
+            </TouchableOpacity>
+            <Text className="text-xs text-gray-300">·</Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(PRIVACY_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Read the Privacy Policy. Opens in your browser."
+              hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            >
               <Text className="text-xs text-gray-500 underline">Privacy Policy</Text>
             </TouchableOpacity>
           </View>
