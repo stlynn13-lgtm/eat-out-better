@@ -6,6 +6,48 @@
 
 ---
 
+## 2026-09-07 — Sign-in: planned it, checked it, and cut most of it
+
+**What changed**
+
+Three documents: `auth-plan.md` (rewritten), `privacy-policy-accounts-release.md` (new), and the live privacy policy (amended). No app code.
+
+The morning's version of the plan said: use Supabase, give every user a silent invisible account from first launch, then upgrade it when they sign up. That plan was then checked against live sources and against this repo, and **the checking changed the answer**.
+
+**Three things in the first draft were wrong.** The most serious: the method it recommended for upgrading a silent account into a real one *does not upgrade anything* — it quietly signs the person into a different, empty account and abandons everything they had saved. No error message. It looks like a successful sign-in. Had that shipped, the first person to sign in would have lost their history and we'd have had no idea why. The other two were a storage limit that no longer exists (so a workaround was planned for a problem that was fixed) and a merge routine, copied from the vendor's own documentation, that silently does nothing under the security rules this plan requires.
+
+**And one fact about our own app changed the whole risk picture:** nothing in the app has ever displayed scan history. The code that saves it runs on every scan; the code that reads it has no caller. So we have been carefully saving the last 10 scans for every user since launch, and no user has ever seen one. The first draft called protecting that data "the main risk" of the project.
+
+**So the plan is now much smaller.** Do two cheap things now: give each install a random id so returning users can be counted, and *ship the history screen that already has data waiting behind it*. Then stop. Don't create a database, don't create accounts, don't put anything on a server until there's a product reason. When that reason arrives, ship accounts as one complete release rather than dribbling the obligations out.
+
+**Two things worth knowing that we didn't before:**
+
+- **Apple decides the timing, not us.** Subscriptions must work on all of a user's devices. A subscription remembered only on one phone doesn't satisfy that. So real sign-in isn't a product preference we can schedule — it's a prerequisite of charging money.
+- **Google sign-in is being dropped from v1.** Offering Google is what forces us to also offer Sign in with Apple, plus a Google consent screen that needs a Terms of Service we don't have. Apple sign-in plus an emailed code removes that entire obligation instead of satisfying it. Google can be added later if signup numbers ask for it.
+
+**Why it mattered**
+
+The re-cut keeps the project at $0/month, removes every failure mode that fails *silently*, and stops us from taking on Apple's account-deletion, consent and privacy-label obligations months before any user benefits from them. Cheaper, safer and less work, in that order.
+
+**Two live problems this surfaced that have nothing to do with sign-in**
+
+1. ~~**The privacy policy says the app is operated by Dine Right LLC.**~~ **Resolved 2026-09-09.** **Dine Right LLC is registered in Colorado** (confirmed by Sean, 2026-09-09), so `apps/api/src/app/privacy/page.tsx:15` has been accurate all along and the entity question is closed. The policy was right and the to-do lists were stale. Still open underneath it: whether the Apple Developer enrollment is Individual or Organization, and the fact that the policy names the entity without a registered address or entity number.
+2. **The health condition may already be syncing to iCloud**, today, on build 9 — app storage is included in the device backup by default, and Apple's rules say health information may not be stored in iCloud. Worth checking regardless of anything in this plan.
+
+**What changed in the privacy policy**
+
+The live one was amended for what is true *today*: Vercel and Expo were added as service providers (both handle user data and neither was disclosed), and a section was added explaining how to delete your data, which Apple requires. Account language was deliberately **not** added — describing accounts we don't have would be inaccurate in the other direction. That version is drafted and waiting in `privacy-policy-accounts-release.md`, to deploy the same day accounts ship.
+
+**Verified / not verified**
+
+- The three corrections and the "no screen reads history" finding were each confirmed directly against the repo, not taken on trust.
+- Pricing, free-tier limits and App Store guideline text were checked against live sources; roughly 17 items could not be confirmed and are listed as such in `auth-plan.md` §10 rather than asserted.
+- **Nothing was built or tested.** No app code changed.
+- The privacy policy's CCPA section is drafted, not lawyer-reviewed, and the draft flags which clauses need that review.
+- Written on `feat/durable-rate-limit`, not `main`. Not committed.
+
+---
+
 ## 2026-08-26 — Build 9 merged and submitted to TestFlight
 
 **What changed**
@@ -457,7 +499,7 @@ Sean asked for a review of the tickets sitting in **In Review** (EAT-15, EAT-12,
 - Archived the deprecated docs to `archive/` (CHANGELOG, V0-launch-checklist, session-01..05) with a README; verified nothing in code/config reads them. Root folder now shows only canonical docs.
 
 **Still needs Sean**
-- Confirm app icon is final or replace it. Run the three AI validation tests. Set the Anthropic spend cap. Decide on LLC. Skim `backlog.md` and fold any still-live ideas into the GTM Launch Tracker.
+- Confirm app icon is final or replace it. Run the three AI validation tests. Set the Anthropic spend cap. ~~Decide on LLC.~~ (Closed 2026-09-09 — Dine Right LLC is registered in Colorado.) Skim `backlog.md` and fold any still-live ideas into the GTM Launch Tracker.
 
 ---
 

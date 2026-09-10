@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: July 7, 2026</p>
+      <p style={styles.meta}>Last Updated: September 7, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -95,6 +95,18 @@ export default function PrivacyPage() {
             Sheet operated by us. Privacy policy:{" "}
             <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.
           </li>
+          <li>
+            <strong>Vercel Inc.</strong> — hosts the service that receives your menu photos
+            and passes them to the analysis provider above. Photos are processed in memory and
+            are not written to storage. Standard server logs may include an IP address.
+            Privacy policy: <a href="https://vercel.com/legal/privacy-policy">vercel.com/legal/privacy-policy</a>.
+          </li>
+          <li>
+            <strong>Expo (650 Industries, Inc.)</strong> — delivers over-the-air app updates.
+            Your device contacts Expo to check for updates; no photos, health information, or
+            feedback are sent. Privacy policy:{" "}
+            <a href="https://expo.dev/privacy">expo.dev/privacy</a>.
+          </li>
         </ul>
         <p>
           We do not share your data with any other third parties, and we never sell your
@@ -109,6 +121,15 @@ export default function PrivacyPage() {
           you uninstall the app. Analytics events, crash reports, and submitted feedback are
           retained by the providers listed in Section 5 under their standard retention
           policies; none of it contains your photos or health information.
+        </p>
+        <h3 style={styles.subheading}>Deleting Your Data</h3>
+        <p>
+          Because your scan history lives only on your device, deleting the app removes it
+          permanently — there is no server-side copy for us to delete. To withdraw consent for
+          analytics and crash reporting, or to request deletion of any feedback you submitted,
+          email us at{" "}
+          <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a> and we will
+          action it within 30 days.
         </p>
       </Section>
 

@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-08-10
+**Last updated:** 2026-09-07
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -57,7 +57,7 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 ## NEXT — before we go live to the public (P1)
 
 - **Fix the two known bugs**: the 2nd-submission crash (the "go back" button) and the double loading screen.
-- **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and an LLC decision.
+- **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and the operating entity. **✅ The LLC question is closed.** **Dine Right LLC is registered in Colorado** (confirmed by Sean, 2026-09-09), so `apps/api/src/app/privacy/page.tsx:15` has been accurate all along and the entity question is closed. That also clears App Store Guideline 5.1.1(ix) (health apps "should be submitted by a legal entity... not by an individual developer") and unblocks EU DSA trader verification, which an app is *removed* from the EU App Store for lacking. **Three things it does not yet clear:** the Apple Developer enrollment may still be Individual rather than Organization (App Store Connect → Agreements → Entity Type) — check it, because 5.1.1(ix) is about who *submits*, not only who operates; the privacy policy names the LLC but gives no registered address or entity number, which DSA trader status and ordinary business-details practice both want; and **the Terms of Service is still unclaimed.** Nothing has ever picked it up, it is now the largest single legal gap in the project, and it becomes mandatory the moment a subscription ships. See `auth-plan.md` §8.
 - **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), support URL, age rating, App Privacy questionnaire.
 - **UI transparency**: a simple "how scores work" screen (✅ built + verified on `feat/scoring-explained-ui`, needs merge) + per-dish reasons ("High — fried + cream sauce. Try grilled.").
 - **Basic analytics**: wire Firebase and the core funnel events so we can see if people complete a scan.
@@ -72,9 +72,9 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 - **Expanded TestFlight** (10–20 testers — note: external testers trigger Apple's Beta App Review).
 - **Go-to-market sequence**: friends & family → ASO → LinkedIn → condition communities → Product Hunt (as a credibility spike, not the growth engine).
 - **Monetization prep**: decide the model (free at launch → freemium), set the free-tier ceiling from real cost-per-analysis, scaffold RevenueCat.
-- **The identity trigger point** — the decision to add lightweight identity before we spend on growth. This is what unlocks retention measurement, recurring revenue, and a sellable asset. Don't let it drift.
+- **The identity trigger point** — resolved, and re-cut after verification. `auth-plan.md` (rewritten 2026-09-07) now says: **do a small piece now, and hold the rest.** Now (~1 day, one build, $0): give each install a random id so returning users can actually be counted, and *ship the history screen* — the app has been silently saving your last 10 scans since launch and no screen has ever shown them. Held until a real trigger: accounts, sign-in, and anything that puts data on a server. **The first draft of that plan was wrong in three ways** and the rewrite explains each — most importantly, the Apple/Google upgrade call it recommended would have silently thrown away a user's history with no error. **The re-cut also drops Google sign-in from v1** (Apple + emailed code only), which removes an entire App Store obligation rather than satisfying one. The thing that decides the timing is not a product preference: Apple requires subscriptions to work on all of a user's devices, so real sign-in is a *prerequisite of the paywall*.
 - **More conditions**: add hypertension (sodium), then type 2 diabetes/prediabetes — same engine, new knowledge-base table.
-- **Backend / profiles / history** — gated on what retention data tells us, not a calendar.
+- **Backend / profiles / history** — gated on a product trigger (the paywall build starting, or cross-device history becoming the next feature), not a calendar and not retention data. The circularity is real — identity is *how* retention gets measured — which is why `auth-plan.md` splits the cheap measurement half out and ships it now.
 
 ➡️ GTM Launch Tracker, filter Priority = P2 / P3.
 
