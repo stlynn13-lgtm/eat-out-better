@@ -23,5 +23,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "//exclude": "generate-eula-text.tsx is a build tool run by tsx, not app code. Next typechecks scripts/ during `next build`, and this one imports react-dom/server, whose types are not a dependency of this app. Adding @types/react-dom means regenerating the root lockfile, which still carries stale apps/mobile React entries and is being cleaned up separately on the durable-rate-limit branch. Excluding one build script is cheaper than entangling a legal-docs change with that.",
+  "exclude": ["node_modules", "scripts/generate-eula-text.tsx"]
 }

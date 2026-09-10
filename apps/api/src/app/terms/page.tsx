@@ -591,8 +591,9 @@ export default function TermsPage() {
             third-party beneficiary.
           </li>
           <li>
-            <strong>Contact.</strong> Questions, complaints, and claims about the App should
-            be directed to the address in Section 24.
+            <strong>Developer name and address.</strong> The App is provided by Dine Right
+            LLC. Questions, complaints, and claims about the App should be directed to the
+            name, postal address, and email address in Section 24.
           </li>
         </ul>
       </Section>
@@ -661,7 +662,17 @@ export default function TermsPage() {
         <p>
           <strong>Dine Right LLC</strong>
           <br />
+          2811 Vallejo St Apt
+          <br />
+          Denver, CO 80211
+          <br />
+          United States
+          <br />
           Email: <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>
+        </p>
+        <p>
+          This is our address for legal notices under Section 23. It is also the
+          developer address required by Apple under Section 20.
         </p>
         <p>
           For privacy questions and requests, see our{" "}

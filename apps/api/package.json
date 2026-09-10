@@ -13,6 +13,7 @@
     "test:dishmatch": "npx --yes tsx scripts/dishmatch-test.ts",
     "test:categories": "npx --yes tsx scripts/categories-test.ts",
     "eval": "npx --yes tsx evals/run.ts",
+    "eula": "npx --yes tsx --tsconfig scripts/tsconfig.json scripts/generate-eula-text.tsx",
     "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts"
   },
   "dependencies": {
