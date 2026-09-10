@@ -1,0 +1,434 @@
+Terms of Service
+============================================================
+Effective Date: September 9, 2026
+Version 1.0
+Read Section 3 before you use this app. It explains what Eat Out Better does
+and — just as importantly — what it does not do. In particular, this app does
+not detect food allergens, and it is not a substitute for advice from your
+doctor. Sections 13 through 19 limit our liability and require most disputes
+to be resolved by individual arbitration rather than in court.
+
+1. Agreement to These Terms
+------------------------------------------------------------
+These Terms of Service (the "Terms") are a binding contract between you and
+Dine Right LLC, a Colorado limited liability company ("Dine Right," "we,"
+"us," or "our"), governing your use of the Eat Out Better mobile application
+and any related services we provide (together, the "App").
+You accept these Terms by tapping "I Agree" when the App first asks you to, or
+by using the App. If you do not agree, do not use the App — and delete it from
+your device.
+These Terms incorporate our Privacy Policy
+(https://eat-out-better-api.vercel.app/privacy), which explains what
+information the App handles and what it does not.
+
+2. Who May Use the App
+------------------------------------------------------------
+You must be 18 years of age or older to use the App. By using it you confirm
+that you are. We do not knowingly permit use by anyone under 18, and we will
+stop processing the information of any user we learn is under 18.
+You must also have the legal capacity to enter into a contract, and you must
+not be barred from using the App under the laws of the United States or your
+place of residence.
+
+3. What Eat Out Better Is — and What It Is Not
+------------------------------------------------------------
+Eat Out Better lets you photograph a restaurant menu. It reads the dish names
+and descriptions from your photographs using artificial intelligence,
+estimates how each dish is likely to affect blood cholesterol based mainly on
+its probable saturated fat content, and presents those estimates as scores,
+explanations, and suggested substitutions.
+
+It is general information, not medical advice
+Everything the App produces is general dietary information for educational
+purposes only. It is not medical advice, diagnosis, or treatment, and it is
+not a substitute for the judgment of a physician, registered dietitian, or
+other qualified health professional who knows your history.
+Using the App does not create a doctor-patient, dietitian-client, or any other
+professional relationship between you and Dine Right or anyone associated with
+it. Always consult your own healthcare provider before making decisions about
+your diet, and never disregard or delay professional medical advice because of
+something you read in the App.
+
+It does not detect allergens, and must never be used for that
+THE APP DOES NOT IDENTIFY, DETECT, OR WARN ABOUT FOOD ALLERGENS OR
+INTOLERANCES. It does not detect peanuts, tree nuts, shellfish, fish, eggs,
+milk, soy, wheat, sesame, gluten, or any other allergen or ingredient that may
+cause you harm. It does not identify whether a dish is safe for any medical
+diet, and it does not know how a dish is actually prepared or whether it has
+come into contact with other foods.
+IF YOU HAVE A FOOD ALLERGY, INTOLERANCE, OR ANY CONDITION THAT MAKES A
+PARTICULAR FOOD DANGEROUS TO YOU, DO NOT RELY ON THIS APP. ASK THE RESTAURANT
+DIRECTLY, EVERY TIME.
+
+It looks at one thing
+The App's scores currently address only the likely effect of a dish on blood
+cholesterol, driven mainly by estimated saturated fat. They do not address
+sodium, added sugar, total calories, carbohydrates, portion size, alcohol,
+caffeine, drug-food interactions, or any other nutritional or medical factor,
+and they are not tailored to any condition other than high cholesterol. A dish
+that scores well in the App may still be a poor choice for you for reasons the
+App never considered.
+
+The estimates are inferences, not measurements
+The App does not analyze food. It reads text from a photograph and makes an
+informed guess from a dish's name and description about ingredients and
+cooking methods that the menu usually does not state. It has no access to the
+restaurant's recipes, suppliers, portion sizes, or kitchen. Two dishes with
+the same name at two restaurants can differ enormously, and the App cannot
+tell.
+
+4. Artificial Intelligence, and What It Gets Wrong
+------------------------------------------------------------
+The App is powered by third-party artificial intelligence models. You
+acknowledge and accept the following, which are inherent to that technology
+and not defects we can promise to eliminate:
+- Output can be wrong. AI models produce plausible-sounding results that are
+sometimes inaccurate, incomplete, or fabricated, including confident
+statements about ingredients that are not in the dish.
+- Reading a photograph can fail. Lighting, angle, handwriting, unusual fonts,
+glare, and damage to a menu can all cause the App to misread a dish, attribute
+a description to the wrong item, or miss items entirely.
+- Results are not guaranteed to be consistent. The same menu photographed
+twice may not produce identical scores.
+- Scores are approximations. A numeric score, including one shown to a decimal
+place, expresses a relative estimate. It does not represent a laboratory
+measurement or any clinically validated value.
+You are responsible for using judgment. Treat every result as a starting point
+for a conversation with the restaurant and your healthcare provider — never as
+a final answer.
+
+5. Assumption of Risk
+------------------------------------------------------------
+Food choices are personal, and their consequences depend on facts we cannot
+see: your health, your medications, your other meals, how a kitchen actually
+prepares a dish. You use the App voluntarily, and you knowingly and freely
+assume all risk arising from your reliance on it, including the risk that a
+score, explanation, or substitution suggestion is wrong.
+You agree that you are solely responsible for what you choose to eat, and that
+you will verify anything that matters to your health with the restaurant and
+with your healthcare provider before you rely on it.
+
+6. Your Photographs and Other Content
+------------------------------------------------------------
+You keep ownership of the photographs you take and anything else you submit
+("Your Content"). To operate the App we need permission to use it, so you
+grant us a worldwide, non-exclusive, royalty-free licence to host, process,
+transmit, and analyze Your Content solely to provide the App to you and to
+maintain and improve it.
+As described in our Privacy Policy
+(https://eat-out-better-api.vercel.app/privacy), menu photographs are
+processed and then discarded; we do not retain them.
+You represent and warrant that:
+- you have the right to photograph and submit Your Content, and doing so does
+not infringe anyone's copyright, trademark, privacy, or other rights;
+- Your Content does not contain other people's personal information, and does
+not depict identifiable people who have not consented; and
+- Your Content is not unlawful, and you are not photographing anything you
+have been asked or instructed not to photograph.
+Menus and their descriptive text may be protected by copyright belonging to
+the restaurant or its designers. You are responsible for your own use of the
+App in relation to material owned by others, and Section 16 applies to any
+claim arising from Your Content.
+If you send us feedback or suggestions, you grant us an unrestricted,
+perpetual, royalty-free right to use them for any purpose without obligation
+to you. Please do not include personal or medical details in feedback.
+
+7. Licence to Use the App
+------------------------------------------------------------
+Subject to these Terms, we grant you a limited, personal, non-exclusive,
+non-transferable, non-sublicensable, revocable licence to install and use one
+copy of the App on an Apple-branded device that you own or control, for your
+own personal, non-commercial use, in accordance with the Usage Rules in
+Apple's Media Services Terms and Conditions.
+This licence does not permit you to, and you agree not to:
+- copy, modify, translate, or create derivative works of the App, except as
+applicable law expressly permits despite this restriction;
+- reverse engineer, decompile, or disassemble the App, or attempt to derive
+its source code, algorithms, prompts, or scoring logic;
+- rent, lease, lend, sell, sublicense, or otherwise transfer the App or your
+rights under these Terms;
+ - remove or obscure any proprietary notice; or
+- use the App to build a competing product, or to train any machine learning
+model.
+
+8. Acceptable Use
+------------------------------------------------------------
+You agree not to:
+- use the App for any unlawful purpose, or in violation of any applicable law
+or regulation;
+- access the App's servers or interfaces by any means other than the App
+itself, including scripted or automated access;
+- interfere with, overload, or attempt to disrupt the App or the
+infrastructure that supports it, or circumvent any rate limit, usage cap, or
+security measure;
+- extract, reuse, or attempt to extract credentials, tokens, keys, or prompts
+from the App;
+- misrepresent the App's output as medical advice, or as endorsed by any
+health professional or organization; or
+- use the App in any setting where a wrong result could contribute to injury,
+including in clinical or institutional food service.
+We may limit, suspend, or terminate your access at any time if we reasonably
+believe you have breached these Terms or are placing the service or other
+users at risk.
+
+9. Fees
+------------------------------------------------------------
+The App is currently provided free of charge. We may introduce paid features
+in future. If we do, the price, billing period, and renewal terms will be
+disclosed to you before you purchase, and any purchase will be processed by
+Apple under Apple's terms — not by us.
+We cannot issue refunds for App Store purchases. Refund requests for anything
+bought through the App Store are handled by Apple under its policies. You
+would manage and cancel any subscription through your Apple account settings.
+
+10. Privacy
+------------------------------------------------------------
+Our Privacy Policy (https://eat-out-better-api.vercel.app/privacy) describes
+how we handle information. In short: the App works without an account, menu
+photographs are not retained after analysis, and we do not sell personal
+information. Colorado residents have rights under the Colorado Privacy Act,
+and residents of other states may have comparable rights; the Privacy Policy
+explains how to exercise them.
+
+11. Third Parties, Restaurants, and Links
+------------------------------------------------------------
+The App relies on third-party service providers, including artificial
+intelligence providers, hosting providers, and analytics and crash-reporting
+providers. They are identified in our Privacy Policy
+(https://eat-out-better-api.vercel.app/privacy). We are not responsible for
+their acts or omissions beyond our own obligations to you.
+We have no relationship with the restaurants whose menus you photograph. We do
+not endorse them, we are not affiliated with them, they do not review or
+approve anything the App says, and we are not responsible for the food they
+serve, the accuracy of their menus, or how they prepare a dish.
+
+12. Our Intellectual Property
+------------------------------------------------------------
+The App, its design, its content, its scoring methodology, and the Eat Out
+Better name and logo are owned by Dine Right or its licensors and are
+protected by intellectual property law. Except for the licence in Section 7,
+nothing in these Terms transfers any right in them to you.
+
+13. Disclaimer of Warranties
+------------------------------------------------------------
+THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE," WITH ALL FAULTS AND WITHOUT
+WARRANTY OF ANY KIND. TO THE FULLEST EXTENT PERMITTED BY LAW, DINE RIGHT LLC
+DISCLAIMS ALL WARRANTIES, EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING
+ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+TITLE, AND NON-INFRINGEMENT.
+WITHOUT LIMITING THE FOREGOING, WE DO NOT WARRANT THAT THE APP'S SCORES,
+EXPLANATIONS, SUBSTITUTIONS, OR ANY OTHER OUTPUT WILL BE ACCURATE, COMPLETE,
+RELIABLE, CURRENT, CONSISTENT, OR SUITABLE FOR YOUR HEALTH NEEDS; THAT THE APP
+WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE; OR THAT ANY DEFECT WILL BE
+CORRECTED.
+NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM US OR THROUGH
+THE APP CREATES ANY WARRANTY NOT EXPRESSLY STATED HERE.
+Some jurisdictions do not allow the exclusion of certain warranties, so some
+of the above may not apply to you. In that case such warranties are limited to
+the minimum duration and scope permitted by law.
+
+14. Limitation of Liability
+------------------------------------------------------------
+TO THE FULLEST EXTENT PERMITTED BY LAW, DINE RIGHT LLC AND ITS MEMBERS,
+MANAGERS, OFFICERS, EMPLOYEES, CONTRACTORS, AGENTS, SUPPLIERS, AND LICENSORS
+(TOGETHER, THE "PROTECTED PARTIES") WILL NOT BE LIABLE FOR ANY INDIRECT,
+INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR ANY
+LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT
+OF OR RELATING TO THESE TERMS OR YOUR USE OF THE APP, WHETHER BASED ON
+CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, OR ANY OTHER THEORY,
+AND EVEN IF A PROTECTED PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGES.
+TO THE FULLEST EXTENT PERMITTED BY LAW, THE TOTAL AGGREGATE LIABILITY OF THE
+PROTECTED PARTIES FOR ALL CLAIMS ARISING OUT OF OR RELATING TO THESE TERMS OR
+THE APP WILL NOT EXCEED THE GREATER OF (A) THE TOTAL AMOUNT YOU PAID US FOR
+THE APP IN THE TWELVE MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM, OR (B)
+ONE HUNDRED U.S. DOLLARS ($100).
+THESE LIMITATIONS APPLY EVEN IF A LIMITED REMEDY FAILS OF ITS ESSENTIAL
+PURPOSE, AND THEY ARE A FUNDAMENTAL BASIS OF THE BARGAIN BETWEEN US. THE APP
+IS PROVIDED TO YOU AT NO CHARGE, AND WE WOULD NOT PROVIDE IT WITHOUT THESE
+LIMITATIONS.
+What these limits do not cover. Nothing in these Terms excludes or limits
+liability that cannot lawfully be excluded or limited, including liability for
+fraud, for fraudulent misrepresentation, for willful and wanton conduct, or
+for death or personal injury to the extent applicable law prohibits such a
+limitation. Nothing in these Terms waives or limits any right or remedy
+available to you under the Colorado Consumer Protection Act, Colo. Rev. Stat.
+§ 6-1-101 et seq., or any other consumer protection statute that may not be
+waived by contract. Some jurisdictions do not allow certain limitations, so
+parts of this section may not apply to you.
+
+15. No Personal Liability of Owners or Personnel
+------------------------------------------------------------
+Dine Right LLC is a Colorado limited liability company. Consistent with Colo.
+Rev. Stat. § 7-80-705, its members and managers are not personally liable for
+the debts, obligations, or liabilities of the company.
+You agree that any claim you may have arising out of or relating to the App or
+these Terms may be brought only against Dine Right LLC, and not against any of
+its members, managers, officers, employees, contractors, or agents personally.
+This section does not limit any liability that cannot lawfully be limited,
+including liability for a person's own fraud or willful and wanton conduct.
+
+16. Indemnification
+------------------------------------------------------------
+To the fullest extent permitted by law, you will indemnify, defend, and hold
+harmless the Protected Parties from and against any claim, demand, proceeding,
+loss, liability, damage, cost, or expense (including reasonable attorneys'
+fees) arising out of or relating to:
+ - your use or misuse of the App;
+- Your Content, including any claim that a photograph you submitted infringed
+someone's intellectual property or privacy rights;
+ - your breach of these Terms or of any applicable law; or
+- your reliance on the App's output in a manner these Terms tell you not to,
+including reliance for allergen or medical purposes.
+We may assume the exclusive defense and control of any matter subject to
+indemnification by you, at your expense, and you agree to cooperate with our
+defense.
+
+17. Time Limit for Bringing a Claim
+------------------------------------------------------------
+To the fullest extent permitted by law, any claim arising out of or relating
+to these Terms or the App must be filed within one (1) year after the claim
+arose. Otherwise it is permanently barred. Where applicable law does not
+permit a period this short, the shortest period that law does permit applies
+instead.
+
+18. Dispute Resolution, Arbitration, and Class Action Waiver
+------------------------------------------------------------
+PLEASE READ THIS SECTION CAREFULLY. IT AFFECTS YOUR LEGAL RIGHTS, INCLUDING
+YOUR RIGHT TO FILE A LAWSUIT IN COURT AND TO HAVE A JURY DECIDE YOUR CLAIMS.
+
+Talk to us first
+Most problems can be resolved quickly. Before starting an arbitration or a
+lawsuit, you agree to email us at support@eatoutbetter.com with a short
+description of the dispute and the relief you want, and to give us 60 days to
+try to resolve it. We agree to do the same before bringing a claim against
+you.
+
+Agreement to arbitrate
+If we cannot resolve it, you and Dine Right agree that any dispute arising out
+of or relating to these Terms or the App will be resolved by binding
+individual arbitration administered by the American Arbitration Association
+under its Consumer Arbitration Rules, rather than in court. The Federal
+Arbitration Act governs the interpretation and enforcement of this section.
+The arbitration will take place in Colorado, or by telephone or video
+conference, or — at your election — in the county where you live.
+
+Class action and jury waiver
+YOU AND DINE RIGHT AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN
+AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY
+PURPORTED CLASS, COLLECTIVE, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING. YOU
+AND DINE RIGHT WAIVE ANY RIGHT TO A JURY TRIAL. If a court decides that this
+class waiver is unenforceable as to a particular claim, that claim — and only
+that claim — will proceed in court, and the rest of this section will remain
+in force.
+
+Exceptions
+Either of us may bring an individual claim in small claims court, and either
+of us may seek injunctive relief in court to protect intellectual property
+rights.
+
+Your right to opt out
+You can decline this arbitration agreement. Email support@eatoutbetter.com
+with the subject line "Arbitration Opt-Out" within 30 days of first accepting
+these Terms, including the email address or device you use with the App.
+Opting out affects nothing else in these Terms, and it will not affect your
+use of the App in any way.
+
+19. Governing Law and Venue
+------------------------------------------------------------
+These Terms and any dispute arising out of them are governed by the laws of
+the State of Colorado, without regard to its conflict of laws rules, and by
+applicable federal law. For any dispute not subject to arbitration, you and
+Dine Right consent to the exclusive jurisdiction and venue of the state and
+federal courts located in Colorado.
+If you live somewhere whose law gives you consumer protections that cannot be
+overridden by a choice-of-law clause, those protections still apply to you.
+
+20. Apple-Specific Terms
+------------------------------------------------------------
+This section applies to the App obtained through Apple's App Store, and it
+controls over anything inconsistent elsewhere in these Terms.
+- These Terms are between you and Dine Right only, not Apple. Apple is not
+responsible for the App or its content.
+- Scope of licence. The licence in Section 7 is limited to a non-transferable
+licence to use the App on an Apple-branded product that you own or control, as
+permitted by the Usage Rules in Apple's Media Services Terms and Conditions.
+- Maintenance and support. Dine Right is solely responsible for providing any
+maintenance and support for the App. Apple has no obligation to furnish any
+maintenance or support.
+- Warranty. Dine Right is solely responsible for any product warranties,
+whether express or implied by law, to the extent not effectively disclaimed.
+If the App fails to conform to any applicable warranty, you may notify Apple,
+and Apple will refund the purchase price of the App to you (the App is
+currently free, so that amount is zero). To the maximum extent permitted by
+law, Apple has no other warranty obligation whatsoever with respect to the
+App.
+- Product claims. Dine Right, not Apple, is responsible for addressing any
+claim by you or a third party relating to the App or your possession and use
+of it, including product liability claims, any claim that the App fails to
+conform to a legal or regulatory requirement, and claims arising under
+consumer protection, privacy, or similar legislation.
+- Intellectual property claims. If a third party claims the App infringes its
+intellectual property rights, Dine Right — not Apple — is solely responsible
+for the investigation, defense, settlement, and discharge of that claim.
+- Legal compliance. You represent that you are not located in a country
+subject to a U.S. Government embargo or designated as a "terrorist supporting"
+country, and that you are not on any U.S. Government list of prohibited or
+restricted parties.
+- Third-party terms. You must comply with any applicable third-party terms
+when using the App.
+- Third-party beneficiary. Apple and its subsidiaries are third-party
+beneficiaries of these Terms, and upon your acceptance Apple has the right to
+enforce these Terms against you as a third-party beneficiary.
+- Developer name and address. The App is provided by Dine Right LLC.
+Questions, complaints, and claims about the App should be directed to the
+name, postal address, and email address in Section 24.
+
+21. Changes to These Terms
+------------------------------------------------------------
+We may update these Terms as the App changes. When we do, we will revise the
+Effective Date and version number above. If a change is material, we will ask
+you to accept the updated Terms in the App before you continue using it.
+Continuing to use the App after an update takes effect means you accept it. If
+you do not accept, stop using the App and delete it.
+
+22. Termination
+------------------------------------------------------------
+You may end this agreement at any time by deleting the App. We may suspend or
+terminate your access at any time, with or without notice, if we reasonably
+believe you have breached these Terms, or if we discontinue the App.
+Sections 3 through 6 and 11 through 19, and any other provision that by its
+nature should survive, will survive termination.
+
+23. General
+------------------------------------------------------------
+- Entire agreement. These Terms and the Privacy Policy are the entire
+agreement between you and Dine Right about the App, and replace any prior
+understanding.
+- Severability. If any provision is held unenforceable, it will be modified to
+the minimum extent necessary to make it enforceable, or severed if it cannot
+be, and the rest remains in full force.
+ - No waiver. Our failure to enforce a provision is not a waiver of it.
+- Assignment. You may not assign these Terms without our written consent. We
+may assign them in connection with a merger, acquisition, or sale of assets.
+- Notices. We may give you notice through the App or by email. You may give us
+notice at the address in Section 24.
+- Force majeure. Neither party is liable for a failure to perform caused by
+events beyond its reasonable control.
+- No third-party beneficiaries, except as stated in Section 20 for Apple and
+in Sections 14 through 16 for the Protected Parties.
+
+24. Contact Us
+------------------------------------------------------------
+Dine Right LLC
+2811 Vallejo St Apt
+Denver, CO 80211
+United States
+Email: support@eatoutbetter.com
+This is our address for legal notices under Section 23. It is also the
+developer address required by Apple under Section 20.
+For privacy questions and requests, see our Privacy Policy
+(https://eat-out-better-api.vercel.app/privacy).
+
+Eat Out Better is operated by Dine Right LLC, a Colorado limited liability
+company. Version 1.0, effective September 9, 2026.

@@ -1,0 +1,11 @@
+{
+  "//": "tsx runs these scripts outside Next, so it needs the automatic JSX runtime spelled out. The app's own tsconfig uses \"jsx\": \"preserve\" because Next does the transform itself — with that setting tsx falls back to the classic runtime and every component fails with \"React is not defined\". Overriding it here keeps app code free of imports that exist only to satisfy a build script.",
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "../src/**/*.tsx"]
+}
