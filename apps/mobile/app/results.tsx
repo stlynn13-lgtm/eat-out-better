@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Linking } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePostHog } from "posthog-react-native";
 import { useAnalysisStore } from "../store/useAnalysisStore";
@@ -44,6 +44,25 @@ const HELPFUL_FACES = [
 export default function ResultsScreen() {
   const router = useRouter();
   const posthog = usePostHog();
+  /**
+   * This screen renders two different things: the scan you just ran, and a
+   * saved scan reopened from history. They look identical and they are NOT
+   * analytically identical.
+   *
+   * `getCurrentScanSessionId()` is a module-level value set once per scan
+   * attempt. Reopened from history there is no current scan, so it holds
+   * whichever scan ran last — or nothing at all on a cold start. Reading it
+   * here attributed a rating of a three-day-old menu to this afternoon's scan,
+   * silently, in the one funnel the analytics work exists to measure.
+   *
+   * So: from history, the scan session id is genuinely UNKNOWN. Send nothing
+   * rather than something wrong, and mark the screen so the two cases stay
+   * separable in PostHog instead of being averaged together.
+   */
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const fromHistory = from === "history";
+  const feedbackScreen = fromHistory ? "results_history" : "results";
+  const scanSessionId = fromHistory ? undefined : (getCurrentScanSessionId() ?? undefined);
   const { results, session, status, error, reset, clearError } = useAnalysisStore();
   const [showFeedback, setShowFeedback] = useState(false);
   // "scan" = the per-menu prompt (stars required); "general" = the footer link.
@@ -104,7 +123,7 @@ export default function ResultsScreen() {
   // pre-filled for anyone willing to say more.
   const handleFaceTap = (value: number) => {
     setInlineRating(value);
-    if (posthog) trackFeedbackRatingSubmitted(posthog, "results", value);
+    if (posthog) trackFeedbackRatingSubmitted(posthog, feedbackScreen, value);
     setFeedbackVariant("scan");
     setShowFeedback(true);
   };
@@ -199,7 +218,10 @@ export default function ResultsScreen() {
         <TouchableOpacity
           className="w-full border-2 border-gray-300 rounded-xl py-4 items-center"
           onPress={() => {
-            const previousSessionId = getCurrentScanSessionId() ?? "";
+            // Empty from history: you did come from *a* scan, but its
+            // analytics id was never persisted with the session, so it is
+            // unknown rather than "the last one that ran".
+            const previousSessionId = fromHistory ? "" : (getCurrentScanSessionId() ?? "");
             const newSessionId = generateId();
             setCurrentScanSessionId(newSessionId);
             if (posthog) trackNewScanInitiated(posthog, previousSessionId, newSessionId);
@@ -250,10 +272,10 @@ export default function ResultsScreen() {
       <FeedbackSheet
         visible={showFeedback}
         onClose={() => setShowFeedback(false)}
-        screen="results"
+        screen={feedbackScreen}
         variant={feedbackVariant}
         initialRating={feedbackVariant === "scan" ? inlineRating : null}
-        scanSessionId={getCurrentScanSessionId() ?? undefined}
+        scanSessionId={scanSessionId}
         dishCount={dishes.length}
       />
     </SafeAreaView>
