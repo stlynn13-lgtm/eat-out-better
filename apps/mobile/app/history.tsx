@@ -75,7 +75,12 @@ export default function HistoryScreen() {
     // renderer that would drift from it. `setResults` populates exactly what
     // results.tsx reads (status "complete", dishes, session).
     setResults(session);
-    router.push("/results");
+    // `?from=history` is load-bearing, not cosmetic. results.tsx reads a
+    // module-level "current scan session id" for its analytics, and a session
+    // opened from here has no current scan — without this flag it would
+    // attribute feedback to whichever scan happened last, or to nothing at all
+    // on a cold start. Same pattern capture.tsx already uses for `entry`/`sid`.
+    router.push("/results?from=history");
   };
 
   const confirmClear = () => {
