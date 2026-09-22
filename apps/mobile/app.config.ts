@@ -86,7 +86,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Eat Out Better",
   slug: "eat-out-better",
   scheme: "eat-out-better",
-  version: "1.1.4",
+  // 1.1.4 -> 1.2.0 because expo-secure-store is a NEW NATIVE MODULE (see
+  // lib/identity/installId.ts). Under `runtimeVersion: { policy: "appVersion" }`
+  // below, bumping this is what stops an OTA payload that imports SecureStore
+  // from reaching a binary that has no SecureStore to import. Build 9 testers
+  // stop receiving OTA updates until they install this build.
+  version: "1.2.0",
   // Explicit, because `...config` above spreads app.json — which still carries a
   // `web` key from the Expo template. Without this, `eas update` exports for web
   // too and dies on a missing react-native-web that this app has never needed:
@@ -125,7 +130,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    buildNumber: "10",
+    // 11, not 10: buildNumber 10 was committed on 2026-09-10 and never built,
+    // and the docs already refer to that never-built binary as "build 10".
+    // Incrementing keeps one number from meaning two different things.
+    buildNumber: "11",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
