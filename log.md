@@ -79,6 +79,16 @@ cannot be forgotten.)
 
 **One verification worth copying.** A first check appeared to show the token resolving empty, which would have stripped it from every device that installed the update. It was a false alarm — `expo config` colourises its output, and the ANSI escape codes sat between `appToken:` and the value, so the pattern could not match. Strip colour codes before grepping config output, or a passing check and a failing one look identical.
 
+**A bug shipped, was caught, and was fixed the same day**
+
+The saved-scans screen reuses the results screen to show an old scan — the right call, since a second copy would drift from the first within a build. But the results screen reads a "current scan session id" that only exists during an actual scan. Reopened from history there isn't one, so it used whichever scan ran last, or nothing at all on a cold start.
+
+Nothing looked broken. A rating of a three-day-old menu was simply filed against this afternoon's scan, and the funnel gained a step between two scans nobody navigated between — quietly corrupting the one measurement the install-ID work exists to create. Shipped as update group `fff4ebfd`, runtime 1.1.4, so build 9 testers get it on the next cold start.
+
+**This produced a second release branch, which is worth knowing about.** `ota/1.1.4` now tracks what build 9 testers are actually running. It exists because `main` has moved on to 1.2.0, and an update published from a 1.2.0 tree cannot reach a 1.1.4 binary. Anything that needs to reach today's testers is published from `ota/1.1.4`; anything that needs the new binary waits for build 11.
+
+**And the new publish wrapper paid for itself immediately, twice.** The first attempt ran from `ota/1.1.4` before the wrapper existed there, so npm ran the old bare script — which died at config eval with no token, exactly the failure the wrapper was written to remove, and separately chopped the `--message` in half at the first space. Both were fixed by bringing the wrapper onto that branch.
+
 **What's next**
 
 Two lookups only Sean can do: whether the Apple Developer account is enrolled as an Individual or an Organization, and whether a domain is owned (email sign-in is impossible without one — about $10–15/yr). Then, on a phone: cold-start the app twice and confirm the install ID holds, delete and reinstall and confirm it *still* holds, and look at the saved-scans screen — none of which has been seen running. After that the plan's next step is schema work on the laptop, which ships nothing and creates no Supabase project.
