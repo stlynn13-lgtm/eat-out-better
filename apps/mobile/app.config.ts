@@ -160,9 +160,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    // 11, not 10: buildNumber 10 was committed on 2026-09-10 and never built,
-    // and the docs already refer to that never-built binary as "build 10".
-    // Incrementing keeps one number from meaning two different things.
+    // 11, not 10: build 10 exists. EAS build 7af8814d finished on 2026-09-10
+    // as v1.1.4 build 10, so reusing that number would have been a genuine
+    // collision. (An earlier version of this comment said build 10 was never
+    // built, repeating a claim from plan.md that `eas build:list` disproves.
+    // The choice of 11 was right; the stated reason was not.)
     buildNumber: "11",
     infoPlist: {
       NSCameraUsageDescription:

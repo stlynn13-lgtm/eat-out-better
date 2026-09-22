@@ -301,7 +301,8 @@ in `_layout.tsx`. `expo-secure-store` pinned at **56.0.4** via `npx expo install
 Verified absent from the evaluated config.
 
 `version` 1.1.4 → **1.2.0**, `buildNumber` → **11** (not 10: 10 was committed on 2026-09-10 and
-never built, and the docs already call that never-built binary "build 10").
+built on 2026-09-10 as EAS build 7af8814d — so 10 was taken and reusing it
+would have collided. The plan originally said it was never built; `eas build:list` disproves that.)
 
 **Still unverified, and it is the one thing that matters here:** nothing has been run on a
 device. The id has never been minted, persisted, or read back. §10 items 11-13 carry it.
