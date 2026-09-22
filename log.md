@@ -57,6 +57,23 @@ Worth recording, because both were on the list as work:
 
 **Verified:** typechecks clean, and the app config evaluates to 1.2.0 / build 11 with the new setting present. **Not verified: nothing has been run.** No simulator runtime on this machine, so the install ID has never actually been created or read back, and the saved-scans screen has never been looked at. The reinstall test — delete the app, reopen it, confirm the ID survived — is the whole point of putting it in the Keychain and is the one thing that most needs a real phone.
 
+**Shipped over the air the same day**
+
+The saved-scans half went out to build 9 testers as update group `c122b253`, runtime 1.1.4, published from commit `c2a379f`. Anyone on build 9 picks it up on the next cold start. The install-ID half did not go out and cannot — it needs the new binary.
+
+This is the first time the two-commit split earned its keep: the history commit was checked out on its own and published from there, because `eas update` bundles the *working tree*, not a commit. Publishing from the branch tip would have sent a 1.2.0 bundle importing a native module that build 9 does not have, to a runtime version nobody is running.
+
+**The publish command, finally written down.** `plan.md` claimed it was in this file and it wasn't:
+
+```
+cd apps/mobile
+npx eas-cli env:exec production 'npm run update:production -- --message "..."'
+```
+
+`env:exec` is what supplies `APP_TOKEN` to the subprocess that evaluates `app.config.ts`. It works because `APP_TOKEN` is a **sensitive** EAS variable, not a *secret* one — sensitive values can be read off the build servers, secrets cannot. The long comment at the top of `app.config.ts` still says it is a secret that "cannot be pulled down locally at all"; that was true once and is now stale. `SENTRY_AUTH_TOKEN` is the one that is genuinely secret.
+
+**One verification worth copying.** A first check appeared to show the token resolving empty, which would have stripped it from every device that installed the update. It was a false alarm — `expo config` colourises its output, and the ANSI escape codes sat between `appToken:` and the value, so the pattern could not match. Strip colour codes before grepping config output, or a passing check and a failing one look identical.
+
 **What's next**
 
 Two lookups only Sean can do: whether the Apple Developer account is enrolled as an Individual or an Organization, and whether a domain is owned (email sign-in is impossible without one — about $10–15/yr). Then, on a phone: cold-start the app twice and confirm the install ID holds, delete and reinstall and confirm it *still* holds, and look at the saved-scans screen — none of which has been seen running. After that the plan's next step is schema work on the laptop, which ships nothing and creates no Supabase project.
