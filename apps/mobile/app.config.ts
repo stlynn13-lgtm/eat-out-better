@@ -21,14 +21,16 @@ import { ExpoConfig, ConfigContext } from "expo/config";
  * `undefined` and strips the token without saying a word. The guard below
  * turns that into a loud failure instead.
  *
- * The working publish command (verified 2026-09-22, shipped update group
- * c122b253 with the token present):
+ * Publish with:
  *
- *   npx eas-cli env:exec production 'npm run update:production -- --message "..."'
+ *   npm run update:production -- --message "..."
  *
- * `env:exec` is what puts APP_TOKEN into the environment of the subprocess
- * that evaluates this file. `--environment production` on `eas update` alone
- * does NOT reach that subprocess, which is why the bare npm script fails.
+ * which routes through scripts/publish-update.sh. That wrapper runs the update
+ * inside `eas env:exec`, which is what puts APP_TOKEN into the environment of
+ * the subprocess that evaluates this file. `--environment production` on
+ * `eas update` alone does NOT reach that subprocess. Remembering to type
+ * `env:exec` by hand used to be the only protection, and forgetting it did not
+ * fail loudly — it shipped a tokenless update.
  *
  * CORRECTION (2026-09-22): this comment previously said APP_TOKEN is a
  * *secret*-visibility EAS variable that "cannot be pulled down locally at
@@ -56,10 +58,14 @@ function resolveAppToken(environment: string): string | undefined {
   // wrongly blocked it.
   //
   // EAS applies a build profile's `env` block when it evaluates this config —
-  // including on your own machine, before the build is queued. But APP_TOKEN is
-  // a *secret*-visibility EAS variable, so it is deliberately absent locally.
-  // The config that actually ships is re-evaluated on the EAS builder, where
-  // the secret IS present. So a missing token during the local half of a build
+  // including on your own machine, before the build is queued. That is how
+  // APP_TOKEN_FROM_EAS arrives. But APP_TOKEN itself is an EAS *environment
+  // variable*, and those are resolved on the builder rather than pulled down
+  // during local config evaluation, so it is absent here. (Not because it is
+  // secret-visibility — it is sensitive; see the header. `eas env:exec` can
+  // inject it locally, which is what the update path does. `eas build` simply
+  // does not need it to, because the builder re-evaluates this config with the
+  // real value.) So a missing token during the local half of a build
   // is expected, not a fault, and throwing there just prevents anyone from
   // cutting a release.
   //
@@ -91,10 +97,14 @@ function resolveAppToken(environment: string): string | undefined {
       `  APP_TOKEN_FROM_EAS=1 is still in the profile's env block in eas.json.)\n\n` +
       `  'extra.appToken' ships in the update manifest. Publishing now would\n` +
       `  strip the API token from every device that takes this artifact.\n\n` +
-      `  eas.json's env blocks and the EAS secret store only apply to\n` +
-      `  'eas build' — 'eas update' evaluates this config locally, and\n` +
-      `  APP_TOKEN is secret-visibility so it cannot be read off EAS.\n\n` +
-      `  Fix: APP_TOKEN='<token>' npm run update:${environment}\n` +
+      `  eas.json's env blocks only apply to 'eas build' — 'eas update'\n` +
+      `  evaluates this config on THIS machine, and nothing has injected\n` +
+      `  APP_TOKEN into it.\n\n` +
+      `  Fix: npm run update:${environment}\n` +
+      `  That routes through scripts/publish-update.sh, which wraps the\n` +
+      `  publish in 'eas env:exec ${environment}' and supplies the token.\n` +
+      `  Do NOT paste the token on a command line — that is how the build-5\n` +
+      `  token was burned. See scripts/rotate-app-token.sh.\n` +
       `  Or, to publish deliberately without one: ALLOW_MISSING_APP_TOKEN=1\n`
   );
 }

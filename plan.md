@@ -19,7 +19,7 @@
 
 **Two shipping gotchas worth keeping**, both discovered the hard way while publishing that first update:
 
-- **`eas update` needs `eas env:exec`.** `--environment production` alone does *not* reach the subprocess that evaluates `app.config.ts`, so the APP_TOKEN guard fires and the publish dies in ten seconds. The working command is now actually recorded (it wasn't, despite this line claiming otherwise): from `apps/mobile`, `npx eas-cli env:exec production 'npm run update:production -- --message "..."'`. See the 2026-09-22 `log.md` entry.
+- **`eas update` needs `eas env:exec`.** `--environment production` alone does *not* reach the subprocess that evaluates `app.config.ts`, so the APP_TOKEN guard fires and the publish dies in ten seconds. **Fixed 2026-09-22:** `env:exec` is now folded into `scripts/publish-update.sh`, so `npm run update:production -- --message "..."` from `apps/mobile` is correct on its own and the wrapper can no longer be forgotten.
 - **The local `ios/` folder disagrees with what ships.** It is untracked and claims JSC; the config default, and what EAS actually builds, is Hermes. It has to be moved aside for every publish until someone runs `npx expo prebuild --clean`.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.

@@ -67,8 +67,13 @@ This is the first time the two-commit split earned its keep: the history commit 
 
 ```
 cd apps/mobile
-npx eas-cli env:exec production 'npm run update:production -- --message "..."'
+npm run update:production -- --message "..."
 ```
+
+(That is the form as of the same day. The update that shipped was published with the longer
+`npx eas-cli env:exec production 'npm run update:production -- ...'`; `env:exec` has since been
+folded into `scripts/publish-update.sh` so the npm script is correct on its own and the wrapper
+cannot be forgotten.)
 
 `env:exec` is what supplies `APP_TOKEN` to the subprocess that evaluates `app.config.ts`. It works because `APP_TOKEN` is a **sensitive** EAS variable, not a *secret* one — sensitive values can be read off the build servers, secrets cannot. The long comment at the top of `app.config.ts` still says it is a secret that "cannot be pulled down locally at all"; that was true once and is now stale. `SENTRY_AUTH_TOKEN` is the one that is genuinely secret.
 
