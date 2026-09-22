@@ -15,14 +15,34 @@ import { ExpoConfig, ConfigContext } from "expo/config";
  *                "development", which quietly files TestFlight traffic under
  *                the wrong environment in PostHog.
  *
- * `eas.json`'s per-profile `env` blocks and EAS's secret store both apply to
- * `eas build`, which runs on EAS servers. They do NOT apply to `eas update`,
- * which evaluates this file on the machine you run it from — and APP_TOKEN is
- * a *secret*-visibility EAS variable, so it cannot be pulled down locally at
- * all. A bare `eas update` therefore strips the token without saying a word.
+ * `eas.json`'s per-profile `env` blocks apply to `eas build`, which runs on
+ * EAS servers. They do NOT apply to `eas update`, which evaluates this file on
+ * the machine you run it from. So a bare `eas update` resolves APP_TOKEN to
+ * `undefined` and strips the token without saying a word. The guard below
+ * turns that into a loud failure instead.
  *
- * This turns that into a loud failure. Use the `update:*` npm scripts, which
- * set APP_ENV for you; supply APP_TOKEN from your own environment.
+ * The working publish command (verified 2026-09-22, shipped update group
+ * c122b253 with the token present):
+ *
+ *   npx eas-cli env:exec production 'npm run update:production -- --message "..."'
+ *
+ * `env:exec` is what puts APP_TOKEN into the environment of the subprocess
+ * that evaluates this file. `--environment production` on `eas update` alone
+ * does NOT reach that subprocess, which is why the bare npm script fails.
+ *
+ * CORRECTION (2026-09-22): this comment previously said APP_TOKEN is a
+ * *secret*-visibility EAS variable that "cannot be pulled down locally at
+ * all". That is wrong, and it is wrong in the direction that makes the
+ * problem look unsolvable. APP_TOKEN is **sensitive**, not secret — sensitive
+ * values CAN be read off the build servers (`eas env:list production` prints
+ * "To access it, run command with --include-sensitive flag"), which is exactly
+ * what makes `env:exec` work. SENTRY_AUTH_TOKEN is the genuinely secret one,
+ * and it is readable only on an EAS builder.
+ *
+ * When checking a resolved config by hand, strip ANSI codes first —
+ * `expo config` colourises, so the escape sequence sits between `appToken:`
+ * and the value and a naive grep reports the token as EMPTY. That is
+ * indistinguishable from the real failure this guard exists to prevent.
  */
 function resolveAppToken(environment: string): string | undefined {
   const token = process.env.APP_TOKEN;
