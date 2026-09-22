@@ -29,6 +29,36 @@ export function registerSuperProperties(ph: PostHog): void {
   ph.register({ environment: APP_ENVIRONMENT });
 }
 
+/**
+ * Attach the install id to analytics. Call once at startup, after
+ * `getInstallId()` resolves (see lib/identity/installId.ts).
+ *
+ * ## Read this before changing it to `ph.identify(installId)`.
+ *
+ * That is the obvious call, and it is a ONE-WAY DOOR. PostHog documents that
+ * an alias "must not have been previously used as the `distinct_id` argument
+ * of an `identify()` or `alias()` call" — so identifying WITH the install id
+ * makes it permanently impossible to alias this person to their Supabase user
+ * id when accounts ship. The only escape hatch left would be
+ * `$merge_dangerously`, which PostHog itself warns is irreversible. Following
+ * the obvious path here severs the exact retention series this work exists to
+ * create.
+ *
+ * So the id is attached two ways, and neither is a distinct_id:
+ *
+ *  - `register()` makes it a SUPER property: present on every event, so any
+ *    funnel can be broken down by install without touching identity at all.
+ *  - `identify(undefined, ...)` sets it as a PERSON property. Passing
+ *    `undefined` is what keeps this safe — PostHog falls back to the current
+ *    distinct_id (`distinctId = distinctId || previousDistinctId`), so the
+ *    anonymous id PostHog generated for itself stays the distinct_id and the
+ *    future alias remains possible.
+ */
+export function attachInstallIdentity(ph: PostHog, installId: string): void {
+  ph.register({ install_id: installId });
+  ph.identify(undefined, { install_id: installId });
+}
+
 // uuid's crypto.getRandomValues() is not supported by Hermes. Math.random()
 // is sufficient for analytics session IDs — no cryptographic strength needed.
 export function generateId(): string {

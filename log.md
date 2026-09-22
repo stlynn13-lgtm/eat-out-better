@@ -6,6 +6,95 @@
 
 ---
 
+## 2026-09-22 — Sign-in decided, and the free half of it built
+
+**What changed**
+
+Nothing shipped and no code moved. What changed is that the three open questions in the sign-in plan are now *answered*, and four pieces of architecture the plan leaned on but never designed are now designed. All of it lives in `auth-plan.md` — §4 was rewritten and a new §12 was added.
+
+**The decisions, in plain words**
+
+- **Two ways to sign in: Apple, and a 6-digit code by email.** That is the whole list. Sign in with Apple means Apple's own login sheet; the code is the kind you get texted a version of everywhere else — you type six digits into the app and you are in.
+- **Google is a "link," not a login.** Once you are already signed in, Settings will let you attach your Google account. It does *not* appear on the sign-in screen and it cannot, yet, let anyone in. That sounds pointless until you see what it is for — see below.
+- **A typed code, not a "magic link" email.** The original plan assumed this and never said why, which is how a decision quietly becomes a habit. Written down now: a link makes you leave the app and come back, and corporate email scanners routinely click links before you do and burn the one-time token — producing a login failure nobody can reproduce. You are standing in a restaurant on bad wifi; the flow that never leaves the app is the one that finishes.
+- **iOS only for the next year**, which keeps Apple's setup on the simple path — no certificate to rotate every six months, which is exactly the chore a solo builder forgets.
+- **Still no Supabase project.** The hold stands. A Supabase *account* exists; nothing is inside it, and that is correct — creating the project starts clocks on free-tier pausing and privacy obligations for no user benefit.
+
+**Why Google-as-a-link is not decoration**
+
+Supabase quietly merges accounts that share the same confirmed email address. So if you sign up with your Gmail address and Google sign-in arrives later, you are merged automatically and none of this matters. **It matters for the people whose Google address is not their account address — which is everyone who used Apple's "Hide My Email."** Those users would otherwise wake up one day to a brand-new, empty account. A health app attracts exactly those privacy-minded users, so that group is not a rounding error.
+
+It also means the expensive, risky part gets built while the user base is small: attaching a second identity to an existing account is the one operation the last session proved everyone gets wrong.
+
+**One thing the old plan got wrong, caught here**
+
+The plan said health data never leaves the device. But the plan *also* said to upload each saved scan as-is — **and a saved scan carries the health condition inside it.** Those two instructions cannot both be followed. Left alone, the first sync would have put health data in the database and turned on the "Health" label in the App Store listing, which is the single flag that makes a reviewer scrutinise a health app. The fix is one small function that strips the condition before upload, and it has to exist *before* the first sync, because once those rows exist the privacy commitments are permanent.
+
+**Three more design gaps, now closed** (detail in `auth-plan.md` §12)
+
+- **The menu cache** — the biggest cost saver in the project — was going to be keyed per health condition, which would have split it into fragments and stopped saving money exactly as the app grew. It now caches the expensive part that is the *same* for everyone (reading the menu, working out ingredients) and scores per condition on the fly.
+- **Scans made while signed out** had nowhere defined to go. Left alone, the next person to sign in on that phone would inherit the previous person's scans — with their health condition attached. There is now a three-line rule for who may claim them.
+- **The app will write to the database directly**, which skips every protection the API has. Since a database cannot rate-limit, the answer is to make the worst case small: a size cap, a per-user row cap, and deliberately *not* granting permission to overwrite history.
+
+**Why this matters more than it looks:** on the free tier, going over a limit does not send you a bill — it switches the database to read-only. The failure mode is the app going down, not an invoice.
+
+**What then got built (same day)**
+
+The cheap tier of the sign-in plan — the part that needs no server, no account and no Supabase project. On branch `feat/local-identity-and-history`.
+
+- **The app now has an install ID.** A random, anonymous identifier stored in the iPhone Keychain. It answers a question the app currently cannot answer at all: *did anyone come back?* Every analytics event today is stateless, so there is no way to tell one person scanning ten menus from ten people scanning one. It is not an account, it has no name or email attached, and nothing is sent anywhere new.
+- **Saved scans are finally visible.** The app has quietly saved every scan since launch to the phone, and no screen has ever read them back. There is now a "Saved scans" button on the home screen, a list of past scans with the date and the top dish, and tapping one reopens the full results. There is also a "Clear" option, with a confirmation.
+- **A data-loss trap was closed first.** The old save code trimmed history to the last 10 on *every* save, with the limit set by a value that ships over the air. Had that limit been raised and then rolled back — which is exactly what happens on a bad day — the next scan would have silently deleted everything past the old limit. The storage cap is now a fixed number in the app's code that an over-the-air update cannot shrink; the over-the-air setting now controls only how many are *shown*. Config can no longer delete anything.
+
+**Two things turned out to be already done**
+
+Worth recording, because both were on the list as work:
+
+- **Health data was never reaching iCloud.** The plan flagged this as a live App Store problem. The storage library the app uses has excluded itself from iCloud backup by default all along — verified by reading its iOS source, and the app has never overridden that. No work needed, and the guideline was never breached.
+- **The results screen already carries the "check with your doctor" line.** It shipped in the first over-the-air update on 10 September. The plan was written on 7 September and said it was the one screen missing it; that was true for three days.
+
+**What this costs: one TestFlight build.** The Keychain feature is a new native module, so it can't go out over the air — the app version moves to 1.2.0 (build 11). The practical consequence: **testers on build 9 stop receiving over-the-air updates until they install this one.** The saved-scans screen would have shipped over the air on its own; the install ID is what forces a build. Both are on the branch, so they can still be split if that trade isn't worth it.
+
+**Verified:** typechecks clean, and the app config evaluates to 1.2.0 / build 11 with the new setting present. **Not verified: nothing has been run.** No simulator runtime on this machine, so the install ID has never actually been created or read back, and the saved-scans screen has never been looked at. The reinstall test — delete the app, reopen it, confirm the ID survived — is the whole point of putting it in the Keychain and is the one thing that most needs a real phone.
+
+**Shipped over the air the same day**
+
+The saved-scans half went out to build 9 testers as update group `c122b253`, runtime 1.1.4, published from commit `c2a379f`. Anyone on build 9 picks it up on the next cold start. The install-ID half did not go out and cannot — it needs the new binary.
+
+This is the first time the two-commit split earned its keep: the history commit was checked out on its own and published from there, because `eas update` bundles the *working tree*, not a commit. Publishing from the branch tip would have sent a 1.2.0 bundle importing a native module that build 9 does not have, to a runtime version nobody is running.
+
+**The publish command, finally written down.** `plan.md` claimed it was in this file and it wasn't:
+
+```
+cd apps/mobile
+npm run update:production -- --message "..."
+```
+
+(That is the form as of the same day. The update that shipped was published with the longer
+`npx eas-cli env:exec production 'npm run update:production -- ...'`; `env:exec` has since been
+folded into `scripts/publish-update.sh` so the npm script is correct on its own and the wrapper
+cannot be forgotten.)
+
+`env:exec` is what supplies `APP_TOKEN` to the subprocess that evaluates `app.config.ts`. It works because `APP_TOKEN` is a **sensitive** EAS variable, not a *secret* one — sensitive values can be read off the build servers, secrets cannot. The long comment at the top of `app.config.ts` still says it is a secret that "cannot be pulled down locally at all"; that was true once and is now stale. `SENTRY_AUTH_TOKEN` is the one that is genuinely secret.
+
+**One verification worth copying.** A first check appeared to show the token resolving empty, which would have stripped it from every device that installed the update. It was a false alarm — `expo config` colourises its output, and the ANSI escape codes sat between `appToken:` and the value, so the pattern could not match. Strip colour codes before grepping config output, or a passing check and a failing one look identical.
+
+**A bug shipped, was caught, and was fixed the same day**
+
+The saved-scans screen reuses the results screen to show an old scan — the right call, since a second copy would drift from the first within a build. But the results screen reads a "current scan session id" that only exists during an actual scan. Reopened from history there isn't one, so it used whichever scan ran last, or nothing at all on a cold start.
+
+Nothing looked broken. A rating of a three-day-old menu was simply filed against this afternoon's scan, and the funnel gained a step between two scans nobody navigated between — quietly corrupting the one measurement the install-ID work exists to create. Shipped as update group `fff4ebfd`, runtime 1.1.4, so build 9 testers get it on the next cold start.
+
+**This produced a second release branch, which is worth knowing about.** `ota/1.1.4` now tracks what build 9 testers are actually running. It exists because `main` has moved on to 1.2.0, and an update published from a 1.2.0 tree cannot reach a 1.1.4 binary. Anything that needs to reach today's testers is published from `ota/1.1.4`; anything that needs the new binary waits for build 11.
+
+**And the new publish wrapper paid for itself immediately, twice.** The first attempt ran from `ota/1.1.4` before the wrapper existed there, so npm ran the old bare script — which died at config eval with no token, exactly the failure the wrapper was written to remove, and separately chopped the `--message` in half at the first space. Both were fixed by bringing the wrapper onto that branch.
+
+**What's next**
+
+Two lookups only Sean can do: whether the Apple Developer account is enrolled as an Individual or an Organization, and whether a domain is owned (email sign-in is impossible without one — about $10–15/yr). Then, on a phone: cold-start the app twice and confirm the install ID holds, delete and reinstall and confirm it *still* holds, and look at the saved-scans screen — none of which has been seen running. After that the plan's next step is schema work on the laptop, which ships nothing and creates no Supabase project.
+
+---
+
 ## 2026-09-09 / 09-10 — A liability review, the Terms we never had, and the first over-the-air update
 
 **What changed**

@@ -15,14 +15,36 @@ import { ExpoConfig, ConfigContext } from "expo/config";
  *                "development", which quietly files TestFlight traffic under
  *                the wrong environment in PostHog.
  *
- * `eas.json`'s per-profile `env` blocks and EAS's secret store both apply to
- * `eas build`, which runs on EAS servers. They do NOT apply to `eas update`,
- * which evaluates this file on the machine you run it from — and APP_TOKEN is
- * a *secret*-visibility EAS variable, so it cannot be pulled down locally at
- * all. A bare `eas update` therefore strips the token without saying a word.
+ * `eas.json`'s per-profile `env` blocks apply to `eas build`, which runs on
+ * EAS servers. They do NOT apply to `eas update`, which evaluates this file on
+ * the machine you run it from. So a bare `eas update` resolves APP_TOKEN to
+ * `undefined` and strips the token without saying a word. The guard below
+ * turns that into a loud failure instead.
  *
- * This turns that into a loud failure. Use the `update:*` npm scripts, which
- * set APP_ENV for you; supply APP_TOKEN from your own environment.
+ * Publish with:
+ *
+ *   npm run update:production -- --message "..."
+ *
+ * which routes through scripts/publish-update.sh. That wrapper runs the update
+ * inside `eas env:exec`, which is what puts APP_TOKEN into the environment of
+ * the subprocess that evaluates this file. `--environment production` on
+ * `eas update` alone does NOT reach that subprocess. Remembering to type
+ * `env:exec` by hand used to be the only protection, and forgetting it did not
+ * fail loudly — it shipped a tokenless update.
+ *
+ * CORRECTION (2026-09-22): this comment previously said APP_TOKEN is a
+ * *secret*-visibility EAS variable that "cannot be pulled down locally at
+ * all". That is wrong, and it is wrong in the direction that makes the
+ * problem look unsolvable. APP_TOKEN is **sensitive**, not secret — sensitive
+ * values CAN be read off the build servers (`eas env:list production` prints
+ * "To access it, run command with --include-sensitive flag"), which is exactly
+ * what makes `env:exec` work. SENTRY_AUTH_TOKEN is the genuinely secret one,
+ * and it is readable only on an EAS builder.
+ *
+ * When checking a resolved config by hand, strip ANSI codes first —
+ * `expo config` colourises, so the escape sequence sits between `appToken:`
+ * and the value and a naive grep reports the token as EMPTY. That is
+ * indistinguishable from the real failure this guard exists to prevent.
  */
 function resolveAppToken(environment: string): string | undefined {
   const token = process.env.APP_TOKEN;
@@ -36,10 +58,14 @@ function resolveAppToken(environment: string): string | undefined {
   // wrongly blocked it.
   //
   // EAS applies a build profile's `env` block when it evaluates this config —
-  // including on your own machine, before the build is queued. But APP_TOKEN is
-  // a *secret*-visibility EAS variable, so it is deliberately absent locally.
-  // The config that actually ships is re-evaluated on the EAS builder, where
-  // the secret IS present. So a missing token during the local half of a build
+  // including on your own machine, before the build is queued. That is how
+  // APP_TOKEN_FROM_EAS arrives. But APP_TOKEN itself is an EAS *environment
+  // variable*, and those are resolved on the builder rather than pulled down
+  // during local config evaluation, so it is absent here. (Not because it is
+  // secret-visibility — it is sensitive; see the header. `eas env:exec` can
+  // inject it locally, which is what the update path does. `eas build` simply
+  // does not need it to, because the builder re-evaluates this config with the
+  // real value.) So a missing token during the local half of a build
   // is expected, not a fault, and throwing there just prevents anyone from
   // cutting a release.
   //
@@ -71,10 +97,14 @@ function resolveAppToken(environment: string): string | undefined {
       `  APP_TOKEN_FROM_EAS=1 is still in the profile's env block in eas.json.)\n\n` +
       `  'extra.appToken' ships in the update manifest. Publishing now would\n` +
       `  strip the API token from every device that takes this artifact.\n\n` +
-      `  eas.json's env blocks and the EAS secret store only apply to\n` +
-      `  'eas build' — 'eas update' evaluates this config locally, and\n` +
-      `  APP_TOKEN is secret-visibility so it cannot be read off EAS.\n\n` +
-      `  Fix: APP_TOKEN='<token>' npm run update:${environment}\n` +
+      `  eas.json's env blocks only apply to 'eas build' — 'eas update'\n` +
+      `  evaluates this config on THIS machine, and nothing has injected\n` +
+      `  APP_TOKEN into it.\n\n` +
+      `  Fix: npm run update:${environment}\n` +
+      `  That routes through scripts/publish-update.sh, which wraps the\n` +
+      `  publish in 'eas env:exec ${environment}' and supplies the token.\n` +
+      `  Do NOT paste the token on a command line — that is how the build-5\n` +
+      `  token was burned. See scripts/rotate-app-token.sh.\n` +
       `  Or, to publish deliberately without one: ALLOW_MISSING_APP_TOKEN=1\n`
   );
 }
@@ -86,7 +116,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Eat Out Better",
   slug: "eat-out-better",
   scheme: "eat-out-better",
-  version: "1.1.4",
+  // 1.1.4 -> 1.2.0 because expo-secure-store is a NEW NATIVE MODULE (see
+  // lib/identity/installId.ts). Under `runtimeVersion: { policy: "appVersion" }`
+  // below, bumping this is what stops an OTA payload that imports SecureStore
+  // from reaching a binary that has no SecureStore to import. Build 9 testers
+  // stop receiving OTA updates until they install this build.
+  version: "1.2.0",
   // Explicit, because `...config` above spreads app.json — which still carries a
   // `web` key from the Expo template. Without this, `eas update` exports for web
   // too and dies on a missing react-native-web that this app has never needed:
@@ -125,7 +160,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    buildNumber: "10",
+    // 11, not 10: buildNumber 10 was committed on 2026-09-10 and never built,
+    // and the docs already refer to that never-built binary as "build 10".
+    // Incrementing keeps one number from meaning two different things.
+    buildNumber: "11",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
@@ -169,6 +207,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // than as a constant so it can be retuned with `eas update` — `extra` ships
     // in the update manifest — instead of needing a new TestFlight build.
     dailyScanLimit: Number(process.env.DAILY_SCAN_LIMIT ?? 5),
+    // How many saved scans the history screen DISPLAYS. Display-only by
+    // design — lib/storage/session.ts caps what is STORED with a constant in
+    // code, so this can be retuned with `eas update` and can never delete a
+    // scan if it is rolled back. See that file's header for why that split
+    // exists; the naive single-cap version destroys history on rollback.
+    historyLimit: Number(process.env.HISTORY_LIMIT ?? 50),
     // Shared secret sent to the API as the `x-app-token` header. Supplied by
     // the APP_TOKEN env var so the real value never lives in committed source;
     // must match the API's APP_SHARED_TOKEN env var in Vercel. Guarded — see

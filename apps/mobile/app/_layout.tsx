@@ -4,7 +4,13 @@ import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PostHogProvider, usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
-import { POSTHOG_API_KEY, POSTHOG_HOST, registerSuperProperties } from "../lib/analytics";
+import {
+  POSTHOG_API_KEY,
+  POSTHOG_HOST,
+  registerSuperProperties,
+  attachInstallIdentity,
+} from "../lib/analytics";
+import { getInstallId } from "../lib/identity/installId";
 import ScoringInfoButton from "../components/ScoringInfoButton";
 import TermsGate from "../components/TermsGate";
 import * as Sentry from '@sentry/react-native';
@@ -41,7 +47,23 @@ Sentry.init({
 function AnalyticsBootstrap() {
   const posthog = usePostHog();
   useEffect(() => {
-    if (posthog) registerSuperProperties(posthog);
+    if (!posthog) return;
+    registerSuperProperties(posthog);
+
+    // Resolve the install id and attach it. This is a Keychain read, NOT a
+    // network call, and it is deliberately not awaited before first paint —
+    // nothing on screen depends on it, and an app that waits on identity to
+    // render is the exact failure `auth-plan.md` §5 step 14 warns about.
+    // `getInstallId()` is written never to throw; the catch is belt-and-braces.
+    let active = true;
+    getInstallId()
+      .then((id) => {
+        if (active) attachInstallIdentity(posthog, id);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
   }, [posthog]);
   return null;
 }
@@ -64,6 +86,7 @@ export default Sentry.wrap(function RootLayout() {
             options={{ gestureEnabled: false }}
           />
           <Stack.Screen name="results" />
+          <Stack.Screen name="history" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
         </Stack>
         </TermsGate>

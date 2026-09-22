@@ -2,6 +2,9 @@
 
 **Status:** draft / not started
 **Author:** drafted 2026-09-07 · substantially revised the same day after verification
+**Amended:** 2026-09-22 — §4 decisions 4 and 5 rewritten, decision 6 added, §12 added.
+Apple + email OTP are the only sign-in methods; **Google is a linkable identity that cannot
+yet authenticate**; iOS-only confirmed; the HOLD in §3 is unchanged.
 **Recommendation:** Supabase Auth stands as the vendor. **Anonymous-first is CUT from this round.**
 Ship a local identity now; ship real accounts later, as one release, on a product trigger.
 **Read with:** `ARCHITECTURE.md` (V1 schema — superseded in part by §6 here) ·
@@ -135,7 +138,7 @@ cleanup chore. **Doing less, sooner, is the right answer here.**
 
 ---
 
-## 4. The five decisions, resolved
+## 4. The six decisions, resolved
 
 **1 — Is now the trigger point?** *Yes for local identity, no for accounts.* Ship `install_id` +
 the history screen now (~1 day, one build, $0). Hold accounts for a product trigger. The genuinely
@@ -172,27 +175,96 @@ keeps the app out of that blast radius entirely.
 *(Correction to the first draft's reasoning: 5.1.3(i) is a weaker hook than it looks — its text
 carves out use "other than improving health management." The argument rests on 5.1.1 and 5.1.2.)*
 
-**4 — Facebook?** *Settled: skip. And drop Google from V1 too.* Ship **Sign in with Apple + email
-OTP only.** Guideline 4.8 is triggered by offering a third-party social login and exempts apps
-using "exclusively your company's own account setup and sign-in systems" — and Sign in with Apple
-independently satisfies it. So Apple + email OTP has **no 4.8 obligation at all**. Dropping Google
-removes: two Google Cloud OAuth client IDs and the ordering trap in Supabase's Client IDs field; a
-Google OAuth consent screen that itself requires live privacy *and terms-of-service* URLs (the ToS
-does not exist yet — see §8); Supabase's "Skip Nonce Check" toggle, a documented security
-downgrade; and `@react-native-google-signin`, which repackages an SDK on Apple's
-privacy-manifest-and-signature list where a stale pin fails at upload rather than in review. Add
-Google later only if signup drop-off data asks for it — the same test §4 of the first draft
-applied to Facebook. **Note the flip side: adding Google makes Sign in with Apple mandatory that
-same release.**
+**4 — Google, Facebook, and what actually ships?** ***Amended 2026-09-22 — supersedes the
+original decision 4, which dropped Google from V1 entirely.*** Ship **Sign in with Apple + email
+OTP as the only two authentication methods**, plus **Google as a linkable identity that cannot yet
+sign anyone in.** Facebook stays out, unchanged.
 
-**5 — Web app later?** *No change now. Configure Apple native-only.* Verified verbatim: "If you're
-building a native app only, you do not need to configure the OAuth settings," and native-only
-implementations "don't require secret key rotation" — so no Services ID, no `.p8`, and no
-six-month rotation chore a solo builder will not remember. The one rule to record for future-you:
-**if a web app is ever added, the Services ID must be listed FIRST in Supabase's Client IDs
-field** — "if a native App ID comes before the Services ID, native sign-in keeps working but web
-sign-in is rejected by Apple." That is a one-line dashboard edit, not a migration. Also: Supabase
-does not support Apple's server-to-server notification endpoint; leave that field blank.
+Four reasons were given for dropping Google. One has since expired; three stand, and the shape
+below is chosen to dodge two of them.
+
+| Original reason to drop Google | Status 2026-09-22 |
+|---|---|
+| Google's OAuth consent screen needs live privacy **and terms-of-service** URLs; the ToS did not exist | **Expired.** `/terms` shipped 2026-09-09 behind a blocking first-run gate. Both URLs are live. |
+| Two Google Cloud OAuth client IDs, plus the ordering trap in Supabase's Client IDs field | **Dodged.** The browser link flow below needs one Web client ID, not an iOS + Web pair. |
+| Supabase's "Skip Nonce Check" toggle — a documented security downgrade | **Dodged.** That toggle exists for the native `signInWithIdToken` path. The link flow never takes it. |
+| `@react-native-google-signin` sits on Apple's privacy-manifest-and-signature list, where a stale pin fails at **upload** rather than in review | **Dodged — and this is why the shape is what it is.** No native Google SDK ships at all. |
+
+**Use the browser flow, not the native SDK.** `linkIdentity({ provider: 'google' })` opens Google
+in the system browser and returns on the existing `eat-out-better://` scheme
+(`app.config.ts:88` — already present, so no associated domains and no universal links). Linking
+happens once, from Settings, on a warm network — the one place in this app where a browser hop is
+an acceptable cost. That trade buys away the most expensive failure mode in the original analysis:
+a native module that fails at *upload*, after a 20-minute build, with an ITMS error.
+
+*Verify before building the screen:* supabase-js documents `linkIdentity` against the web, where
+it redirects the page. Confirm it yields a URL React Native can open (the `skipBrowserRedirect`
+shape) rather than assuming a redirect that does not exist on native. And confirm **Manual Linking
+is enabled** in the Supabase dashboard — `linkIdentity` is off by default, and the failure reads
+like a code bug.
+
+**What "cannot yet sign anyone in" means, and why it is not decoration.** Google appears only in
+Settings, to a user who is already signed in. It is absent from the sign-in screen, creates no
+account and authenticates nobody. So there is no Sign in with Apple *placement* to get wrong — and
+placement, not absence, is what Guideline 4.8 rejections are actually about. (4.8 is satisfied
+either way, since Sign in with Apple independently satisfies it; this removes the surface on which
+that compliance gets accidentally broken.)
+
+The payoff is deferred but real, and **narrower than it first looks.** Step 10 already records
+that **Supabase auto-links identities sharing a confirmed email address.** So a user who signs up
+with email OTP at `sean@gmail.com` and later meets a Google button at that same address gets
+linked automatically, with or without this work. **The explicit link is load-bearing for exactly
+one population: users whose Google address differs from their account address — which is every
+Apple private-relay user, plus anyone who signed up on a work email.** A health app attracts the
+privacy-conscious; that set is not small. Those are precisely the users who would otherwise land
+on a duplicate, empty account the day Google sign-in ships.
+
+**The switch to flip later.** Turning Google into a sign-in method is a dashboard toggle plus a
+button — and the whole of the original decision comes back into scope the moment it happens: 4.8
+prominence, the consent screen's URLs, and, if the native SDK is chosen then, the privacy
+manifest. Do not file it as a one-line change.
+
+**Ship `unlinkIdentity` in the same screen as `linkIdentity`.** Supabase refuses to unlink a
+user's last remaining identity, so the control must be disabled rather than allowed to fail. A
+user who can link but not unlink is a support ticket, not a feature.
+
+**5 — Web app later?** *Unchanged, and now settled by decision.* **iOS only for the next ~12
+months (confirmed 2026-09-22).** Configure Apple **native-only**: no Services ID, no `.p8`, and no
+six-month secret-key rotation chore a solo builder will not remember. Verified verbatim: "If
+you're building a native app only, you do not need to configure the OAuth settings," and
+native-only implementations "don't require secret key rotation."
+
+The one rule to record for future-you, unchanged: **if a web app is ever added, the Services ID
+must be listed FIRST in Supabase's Client IDs field** — "if a native App ID comes before the
+Services ID, native sign-in keeps working but web sign-in is rejected by Apple." A one-line
+dashboard edit, not a migration, but it fails in the one direction nobody tests. Supabase does not
+support Apple's server-to-server notification endpoint; leave that field blank.
+
+**6 — Magic link or a 6-digit code?** ***New decision, 2026-09-22. The original plan assumed the
+code throughout and never wrote down why.*** **Ship the 6-digit code.**
+
+Both are the same `signInWithOtp()` call. The only differences are the email template
+(`{{ .Token }}` versus `{{ .ConfirmationURL }}`) and whether the client calls `verifyOtp()` with a
+typed code or waits on a deep link. **This is a template edit, not an architecture fork** — it can
+be revisited later without a migration, which is why it is safe to decide quickly.
+
+Three reasons the code wins on a native app:
+
+1. **A magic link leaves the app in order to come back.** The code never leaves. The user is
+   standing up in a restaurant on bad wifi; the flow that stays in one process is the one that
+   completes.
+2. **Corporate and consumer mail scanners pre-fetch links.** A single-use token consumed by a
+   security scanner produces a login failure the user cannot see and support cannot reproduce.
+   A typed code has no equivalent failure class.
+3. **The link needs redirect infrastructure the code does not** — the `eat-out-better://` scheme
+   in Supabase's Redirect URLs allow-list, plus correct handling of a cold-start open. Decision 4
+   already spends that work on Google linking; spending it again on the *hot* path buys nothing.
+
+**Unchanged and non-negotiable:** the code is *impossible* on a new Free project without custom
+SMTP, because since 3 June 2026 new Free projects on the default provider cannot edit auth email
+templates at all. §5 step 8 is a hard prerequisite of this decision, not an optimisation. And
+**never disable "Confirm email"** — with autoconfirm on, any user can claim any unregistered
+address with no proof of ownership, which on a health app is a pre-account-takeover hole.
 
 ---
 
@@ -219,7 +291,20 @@ the natural governing-law answer for the Terms of Service in §8.
 
 *It gates the accounts release (step 8 onward). It does not gate steps 1–6.*
 
-### Step 1 — `install_id` (migration B′). `New build. ~1 day.`
+### Step 1 — `install_id` (migration B′). ✅ **BUILT 2026-09-22.** `Needs a build to ship.`
+
+Shipped as `lib/identity/installId.ts` + `attachInstallIdentity()` in `lib/analytics.ts`, wired
+in `_layout.tsx`. `expo-secure-store` pinned at **56.0.4** via `npx expo install` run inside
+`apps/mobile`. **The config plugin was deliberately NOT added** — it exists to add
+`NSFaceIDUsageDescription` and Android backup rules, and this app never calls
+`requireAuthentication`, so adding it would declare a Face ID permission the app does not use.
+Verified absent from the evaluated config.
+
+`version` 1.1.4 → **1.2.0**, `buildNumber` → **11** (not 10: 10 was committed on 2026-09-10 and
+never built, and the docs already call that never-built binary "build 10").
+
+**Still unverified, and it is the one thing that matters here:** nothing has been run on a
+device. The id has never been minted, persisted, or read back. §10 items 11-13 carry it.
 
 `lib/identity/installId.ts`: read-or-generate a UUID in `expo-secure-store` under
 `eatoutbetter:install_id`, behind a module-level single-flight promise so concurrent callers await
@@ -255,6 +340,48 @@ slice from the write path entirely and prune only on an explicit user action. Al
 `clearSessions()` in try/catch before giving it a caller; it is the one function in the file
 without one.
 
+✅ **BUILT 2026-09-22, and the formula above was NOT what shipped — it still erodes.** With 40
+stored and the cap rolled back to 10, `slice(0, Math.max(10, 40))` holds at 40 while the array
+grows to 41 each save, so it drops the oldest entry on **every scan** instead of 31 at once. A
+slow leak is harder to notice than a cliff, not easier.
+
+What shipped instead takes config **off the write path entirely**: `MAX_STORED = 100` is a
+constant in code (so no OTA rollback can shrink it), and `extra.historyLimit` controls only how
+many rows the screen *displays*. Retuning the display limit is then free and reversible, because
+nothing that writes ever reads it. `clearSessions()` is wrapped and rethrows, so the screen can
+tell the user it failed rather than silently appearing to succeed.
+
+### Step 3 — iCloud hygiene (5.1.3(ii)). ✅ **ANSWERED 2026-09-22 — no work needed.**
+
+**Both halves of this step were already satisfied. Neither was known to be.**
+
+**The iCloud question: AsyncStorage is already excluded from the backup, by library default.**
+`@react-native-async-storage/async-storage@2.2.0` sets `NSURLIsExcludedFromBackupKey` on its
+storage directory at first setup unless the Info.plist key `RCTAsyncStorageExcludeFromBackup`
+says otherwise — and when that key is absent it defaults to **excluding**
+(`ios/RNCAsyncStorage.mm`, "by default, we want to exclude AsyncStorage data from backup").
+`app.config.ts` does not set that key, so the default applies. The exclusion is applied to
+`RCTStorageDirectory` (`RCTAsyncLocalStorage_V1`), which is the same constant
+`RCTGetStorageDirectory()` returns — so it targets the directory actually in use, not the
+legacy Expo path beside it, which is only ever a migration source.
+
+**So the health condition has never reached iCloud, and 5.1.3(ii) is not engaged.** Two things
+to keep true rather than assume: never add `RCTAsyncStorageExcludeFromBackup: false` to
+`infoPlist`, and re-check this on any async-storage major bump, since it is a library default
+rather than something this repo asserts.
+
+**Note the one thing that IS in the backup now:** `install_id` lives in the Keychain, which is
+included in an encrypted iCloud backup unless written `ThisDeviceOnly`. That is deliberate —
+surviving a restore is the property that makes it useful — and it is not health data. It is also
+part of why the privacy answers need the re-check in step 1.
+
+**The disclaimer half was already shipped.** `results.tsx:171-172` carries "Scores are estimates
+read from the menu text, not medical advice — check with your doctor about your own needs." It
+went out in the first OTA update on 2026-09-10. The plan's claim that `results.tsx` is "the one
+screen missing it" was written on 2026-09-07 and was stale within three days.
+
+<details><summary>Original step 3 text, kept for the reasoning</summary>
+
 ### Step 3 — iCloud hygiene (5.1.3(ii)). `OTA or build. Independent of auth.`
 
 Guideline 5.1.3(ii): apps "may not store personal health information in iCloud." AsyncStorage
@@ -268,6 +395,8 @@ While in there: add the "check with your doctor" line to `results.tsx`, which is
 missing it (`index.tsx:80` and `how-it-works.tsx:118` already have it). Guideline 1.4.1, and it is
 part of what keeps a reviewer classifying this as a nutrition tool rather than a medical app —
 which is what keeps 5.1.1(ix) from firing.
+
+</details>
 
 ### Step 4 — Schema, on the laptop. `Nothing ships. ~half a day.`
 
@@ -299,7 +428,8 @@ RLS: four policies (select/insert/update/delete), all `using (auth.uid() = user_
   amendment makes the column `NOT NULL`. Those are mutually exclusive — `delete from auth.users`
   would *raise* rather than delete, and that is the exact code path behind the mandatory Delete
   Account button App Review will press.
-- **Menu caching and `restaurants` are NOT own-rows tables.** `cost-and-golive-requirements.md`
+- **Menu caching and `restaurants` are NOT own-rows tables. → Designed in §12.1; read it before
+  writing this migration file.** `cost-and-golive-requirements.md`
   §3 makes menu caching the #1 cost lever, and the whole point is that user B benefits from user
   A's scan. That needs its own RLS design — readable by any authenticated user, writable by
   service-role only, no `user_id` column, no personal data — and it should be designed *before*
@@ -366,6 +496,10 @@ confirms it — do not add a native module on the strength of a stale comment).
 
 ### Step 10 — The accounts release. `One build.` (migration C)
 
+**Read §12.4 first** — the sign-out namespacing below is necessary but incomplete as written; it
+says nothing about scans made while signed out, which is not an edge case in an app designed to
+work signed out.
+
 Sign in with Apple (native `ASAuthorizationAppleIDButton`, no nonce needed on the native path) and
 email OTP. Two clearly separated functions in `lib/auth/link.ts` so they cannot be confused;
 there is no `upgradeAnonymous()` because there are no anonymous users.
@@ -431,6 +565,10 @@ and is actually the risk — nothing in the release process forces it, so they q
 Give it a named checklist line, not a follow-up.
 
 ### Step 13 — Backfill (migration A). `OTA, flag-gated.`
+
+**Blocked on §12.3.** `MenuSession` carries `healthCondition`, so upserting the session verbatim
+puts health data in Postgres and turns Health on the nutrition label. Ship `toServerPayload()`
+first; it is one function and a one-way door.
 
 Now trivial, because `MenuSession.id` is already a server-generated v4 UUID
 (`apps/api/src/app/api/analyze/route.ts:234`) persisted verbatim into AsyncStorage.
@@ -547,7 +685,8 @@ read-and-incremented inside the existing circuit breaker in `lib/utils/rateLimit
 3. **One jsonb payload table, not the normalised pair** — see §5 step 4 for why.
 4. **No `gen_random_uuid()` default on `id`.** The client's UUID is the primary key; that is what
    makes every write idempotent.
-5. **Menu-cache and `restaurants` tables need their own non-own-rows RLS design.**
+5. **Menu-cache and `restaurants` tables need their own non-own-rows RLS design.** **Resolved in
+   §12.1 — service-role only, zero policies, and cache the condition-independent half.**
 6. RLS can read `auth.jwt() ->> 'is_anonymous'` — retained for reference only; unused under this
    re-cut.
 
@@ -626,7 +765,7 @@ Ordered by when it must exist. Every item is a rejection or a pulled app if miss
 | 13 | **Never send the health condition to PostHog or Sentry.** `identify(user.id)` is compatible with the published policy; a condition-derived person property is not. | 5.1.3, 5.1.1(i) | Permanent |
 | 14 | **Cross-device subscriptions + Restore Purchases.** The reason accounts are mandatory before the paywall. | 3.1.2(a), 3.1.1 | Step 16 |
 | 15 | **Privacy manifest** required-reason API declarations. Builds 5–9 uploaded fine so this is probably satisfied by Expo's per-package files, but `app.config.ts` declares no `ios.privacyManifests`. Verify at the next upload rather than assuming. | ITMS-91053 | Step 9 |
-| 16 | **Sign in with Apple prominence** — only if Google is ever added. Use the native `ASAuthorizationAppleIDButton`; Expo warns that customizing `backgroundColor`/`borderRadius` via `style` "will not work and is against the App Store Guidelines." The rejection here is usually placement, not absence. | 4.8 | Only if Google ships |
+| 16 | **Sign in with Apple prominence** — **not engaged by the linking-only Google in §4 decision 4**, which never appears on the sign-in screen. Binds the day Google becomes a sign-in method. Use the native `ASAuthorizationAppleIDButton`; Expo warns that customizing `backgroundColor`/`borderRadius` via `style` "will not work and is against the App Store Guidelines." The rejection here is usually placement, not absence. | 4.8 | Only if Google becomes a *sign-in* method |
 
 ---
 
@@ -644,6 +783,12 @@ Ordered by when it must exist. Every item is a rejection or a pulled app if miss
 | **Deletion route errors instead of deleting** (`SET NULL` + `NOT NULL`) | `ON DELETE CASCADE` + pgTAP test (d). §5 steps 4–5. |
 | **Email OTP silently fails for real users** | Custom SMTP + private-relay domain registration *before* any sign-in code. §5 step 8. |
 | **`apps/mobile` is not an npm workspace** | `npx expo install` run inside it, pinned to 56.x. §5 step 9. |
+| **Health condition reaches Postgres via an unredacted `payload`** — turns Health on the nutrition label and engages 5.1.1(ix); irreversible once rows exist | `toServerPayload()` strips it, with a unit test, shipped *before* the backfill. §12.3. |
+| **A signed-out user's scans inherited by the next account on the device** — a health-data leak one layer below the namespacing fix | `lastSignedOutUserId` claim/discard rule; clear `:anon` either way. §12.4. |
+| **Menu cache keyed per-condition** — hit rate collapses exactly when multi-condition ships and the user base grows | Cache the condition-independent half only; score per request. §12.1. |
+| **`linkIdentity` assumed to behave on native as documented for web**, and Manual Linking is off by default — reads like a code bug | Smoke-test the call before designing the Settings screen; check the dashboard toggle first. §4 decision 4. |
+| **Client reads the menu cache directly**, putting the #1 cost lever outside `x-app-token`, the rate limiter and the circuit breaker | RLS enabled with **zero** policies; service-role access only, via `/api/analyze`. §12.1. |
+| **`UPDATE` granted to `authenticated`** where `ON CONFLICT DO NOTHING` needs only `INSERT` — leaves a history-rewrite surface for no benefit | Withhold the grant; assert an `UPDATE` raises. §12.2. |
 
 ---
 
@@ -668,6 +813,20 @@ I could not confirm these. Each is cheap to check and at least one is load-beari
    days). **Plan for 90.**
 8. Whether Supabase counts anonymous users toward billable MAU is undocumented — immaterial at
    500× headroom, moot under this re-cut.
+9. **Does `linkIdentity` return an openable URL on React Native, or try to redirect?** Its docs are
+   written for the web. Ten minutes with the SDK, and it decides whether §4 decision 4 is buildable
+   as specified. **Check the Manual Linking toggle in the dashboard first — it is off by default.**
+11. **Does `install_id` actually persist?** Cold-start twice with a force-quit between and assert
+   the same id; then delete and reinstall the app and assert it is *still* the same. That second
+   assertion is the entire reason it lives in the Keychain, and nothing has tested it.
+12. **Does `SecureStore` throw on a simulator or a locked keychain?** The fallback path
+   (`_ephemeral`) has never executed.
+13. **Does `identify(undefined, { install_id })` set a person property without touching the
+   distinct_id?** Verified in `@posthog/core`'s source (`distinctId = distinctId || previousDistinctId`), never against the live PostHog project. Check one real event before
+   trusting a retention series built on it.
+10. **Does the `eat-out-better://` scheme survive a cold-start open from Safari?** The scheme exists
+   (`app.config.ts:88`) but nothing in the app has ever used it. This is the one piece of
+   infrastructure Google linking needs and email OTP deliberately avoids.
 
 ---
 
@@ -685,3 +844,140 @@ I could not confirm these. Each is cheap to check and at least one is load-beari
 - **It does not make history safe on its own.** Postgres is durable; a bug in the backfill or a
   policy is not. Backups are part of this plan, not an optional extra — and on Free they are
   something you build, not something you buy.
+
+
+---
+
+## 12. The four unreviewed architecture gaps — resolved
+
+**Added 2026-09-22.** Four things the runbook depends on but never designed. Each is cheap to
+decide now and expensive to retrofit, and two of them are load-bearing for whether this scales
+past a few thousand users. Read with §6 (schema) and §7 (the free-tier ceiling).
+
+### 12.1 The menu cache is service-role-only — and it caches the wrong half
+
+`cost-and-golive-requirements.md` §3 makes menu caching the **#1 cost lever**, and the whole point
+is that user B benefits from user A's scan. §5 step 4 sketched the RLS as "readable by any
+authenticated user, writable by service-role only" and deferred the design.
+
+**That sketch contradicts compliance checklist item 12** — scanning stays usable without a login,
+permanently. An authenticated-read policy misses the cache for every signed-out user, who are most
+users, which is most of the savings.
+
+**Design: the client never touches this table.** Read and write it from `/api/analyze` with the
+secret key.
+
+- RLS **enabled with zero policies** — deny-all to `anon` and `authenticated`. The service role
+  bypasses RLS by design, so the API keeps full access and the client gets none.
+- The cache therefore stays behind `x-app-token`, the IP rate limiter and the circuit breaker —
+  which is exactly the protection §7 warns is lost on the direct-write path.
+- **No `user_id` column, no photos, nothing personal.** It is not an own-rows table and must never
+  acquire a `user_id`, or it inherits every obligation the rest of this plan works to avoid.
+
+**And cache the condition-independent half.** A dish scored for high cholesterol is not a dish
+scored for diabetes — so keying the cache on `(menu, condition)` fragments it N ways the moment
+backlog #4/#7/#8 ship. The hit rate collapses precisely when the user base grows, which is the
+worst possible time for a cost lever to stop working.
+
+Split the pipeline at the seam that already exists in the domain:
+
+| Half | Cost | Condition-specific? | Cache it? |
+|---|---|---|---|
+| OCR → dish extraction → ingredient and preparation inference | Expensive | **No** | **Yes** |
+| Scoring those ingredients against a condition's weights | Cheap | Yes | No — per request |
+
+One cached menu then serves every condition, and adding a condition costs nothing in cache. This
+is the difference between a cache that still pays for itself at 10,000 users and one that quietly
+stops.
+
+*Open, and decide before the migration is written:* the cache key. A hash of normalised OCR text
+needs no location permission and carries no PII, but it varies with photo quality. A
+`google_place_id` is stabler and costs a location permission plus a privacy-label line.
+**Recommend starting with the text hash**, adding `restaurant_id` as a second dimension later.
+Menus change — give the row an `expires_at` and treat it as a cache, not a record.
+
+### 12.2 The direct-write path — bound it structurally, because you cannot rate-limit it
+
+§7 states this risk and stops: the client upserts to Postgres with the user's JWT, so
+`x-app-token`, the IP limiter and the circuit breaker do not apply, and App Attest never will.
+**Postgres cannot rate-limit, so do not try to make it.** Make the damage bounded instead, in four
+layers:
+
+1. **`octet_length(payload::text) < 262144`** — already in §5 step 4. Keep it.
+2. **Grant `SELECT`, `INSERT` and `DELETE` to `authenticated`. Never `UPDATE`.** Both the backfill
+   (step 13) and the write-through (step 14) use `upsert(..., { ignoreDuplicates: true })`, which
+   PostgREST compiles to `ON CONFLICT DO NOTHING` — needing only `INSERT`. Withholding `UPDATE`
+   deletes the entire surface for *rewriting* history, including the row-mutation half of any
+   stolen-token scenario. `DELETE` stays, because "clear my history" and account deletion both
+   need it. *Verify with a grant test before relying on it: assert an `UPDATE` as `authenticated`
+   raises.*
+3. **A per-user row cap, enforced in the database.** A `BEFORE INSERT` trigger counting that
+   user's rows against a cap — start at 500, which is 50× today's local cap of 10. At these
+   volumes a counting trigger on an indexed `user_id` is free. A cap enforced in the client is not
+   a cap.
+4. **A statement timeout on the `authenticated` role**, so one pathological query cannot hold a
+   connection on a free-tier pooler. *Confirm Supabase's default rather than assuming it is unset.*
+
+Layers 1 and 3 are what stand between one authenticated user and an org-wide read-only outage —
+and the publishable key ships inside the binary, decompilable by anyone who wants it. Worth
+restating because it inverts the usual intuition: **a free-tier breach is an outage, not a bill.**
+
+### 12.3 Multi-condition profiles — and a contradiction in the plan as written
+
+Decision 3 says nothing health-related leaves the device. **But `MenuSession` carries
+`healthCondition`, and step 13 upserts the whole session object as `payload`.** As written, the
+first backfill puts health data into Postgres and turns Health on the nutrition label — the exact
+outcome decision 3 exists to prevent, and the flag that makes a reviewer look at 5.1.1(ix).
+
+**The fix is small, and it must land before step 13 rather than after.** `payload` is a *redacted
+projection*, not the object: one `toServerPayload(session)` function, one unit test asserting
+`healthCondition` is absent from its output, called on the single write path. Once health-adjacent
+rows exist, the privacy answers and the deletion obligation are permanent — this is the one-way
+door, and it is one function wide.
+
+**Where conditions live: on the device, for now.** `public.profiles` (§6) holds the key and
+app-level fields; it does **not** get conditions until a server-side feature actually needs them.
+When multi-condition ships (backlog #4/#7/#8) it is a device-local array plus a picker — no
+schema, no server, no privacy-label change.
+
+**Name the door this leaves closed, rather than discovering it:** cross-device *profile* sync then
+requires moving the condition server-side. That is the moment Health gets declared and 5.1.1(ix)
+engages, so it should be its own decision taken after the Apple enrollment question is answered —
+not absorbed silently into a history-sync release. **Cross-device *history* is unaffected,**
+because the payload no longer carries a condition.
+
+Also true today, and worth stating plainly: **there is no condition picker in any screen.**
+`useAnalysis.ts:185` passes a hardcoded `DEFAULT_CONDITION`, so "the user's health condition" is
+currently a constant identical for every user — and the live privacy policy describes an input the
+app does not have.
+
+### 12.4 Sign-out isolation — the case step 10 misses
+
+Step 10's fix is right as far as it goes: namespace the key per user
+(`eat-out-better:sessions:<user_id>`), switch namespace on sign-out without deleting, remove only
+that namespace on delete-account. **What it does not say is what happens to scans made while
+signed out** — and this app is designed to work signed out, permanently, so that is not an edge
+case.
+
+Those scans land in an `:anon` namespace. Claim it naively on the next sign-in and the leak is
+rebuilt one layer down: A signs out, scans three menus, B signs in, **B inherits A's scans** — and
+until 12.3 lands, those carry a health condition.
+
+**The rule, small enough to hold in your head.** Keep `lastSignedOutUserId`. On sign-in as U, with
+a non-empty `:anon` namespace:
+
+| Condition | Action |
+|---|---|
+| No sign-out has ever happened on this device | **Claim** into U — this is the one-time migration of the pre-accounts blob |
+| `lastSignedOutUserId === U` | **Claim** into U — the same person came back |
+| Otherwise | **Discard** — those scans are not U's |
+
+Then clear `:anon` either way, so there is never stale data left to inherit.
+
+**Structurally:** exactly one function resolves "which namespace am I reading right now," and
+`getSessions()`, `saveSession()` and `clearSessions()` all call it. This bug class exists because
+three call sites can disagree about identity; one resolver means they cannot.
+
+*Test it as a sequence, not a unit:* sign in as A, save, sign out, scan twice, sign in as B,
+assert B sees zero rows; sign out, sign in as A, assert A sees the original save and **not** the
+two anonymous scans. **No amount of pgTAP catches this** — it never touches the database.

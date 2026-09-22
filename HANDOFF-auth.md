@@ -47,7 +47,7 @@ Two of them are what the obvious search result tells you to do.
 - **HOLD** — do not create a hosted Supabase project until a product trigger.
 - **TRIGGER** (paywall build starts, or cross-device history) — accounts as **one** release: Supabase + RLS + Sign in with Apple + email OTP + in-app deletion + consent + privacy rewrite + App Store Connect answers.
 
-**Anonymous-first is cut.** **Google sign-in is dropped from v1** (Apple + email OTP has no Guideline 4.8 obligation at all). **The timing isn't a preference:** Guideline 3.1.2(a) requires subscriptions to work on all a user's devices, so sign-in is a prerequisite of the paywall.
+**Anonymous-first is cut.** **Google sign-in is dropped from v1** — but **amended 2026-09-22**: Google returns as a *linkable identity* offered only in Settings to an already-signed-in user, via the browser `linkIdentity` flow rather than the native SDK. It never appears on the sign-in screen and cannot authenticate anyone, so Sign in with Apple + email OTP remain the only two ways in and the 4.8 prominence surface stays closed. **The magic-link-vs-code question is now decided too: the 6-digit code.** See `auth-plan.md` §4 decisions 4-6, and §12 for the four architecture gaps this handoff's "where to look" map does not cover. **The timing isn't a preference:** Guideline 3.1.2(a) requires subscriptions to work on all a user's devices, so sign-in is a prerequisite of the paywall.
 
 ---
 
