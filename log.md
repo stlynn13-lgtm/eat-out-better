@@ -6,7 +6,7 @@
 
 ---
 
-## 2026-09-22 — Sign-in decided, and the free half of it built
+## 2026-09-22 — Sign-in decided, the free half built, and build 11 cut
 
 **What changed**
 
@@ -88,6 +88,14 @@ Nothing looked broken. A rating of a three-day-old menu was simply filed against
 **This produced a second release branch, which is worth knowing about.** `ota/1.1.4` now tracks what build 9 testers are actually running. It exists because `main` has moved on to 1.2.0, and an update published from a 1.2.0 tree cannot reach a 1.1.4 binary. Anything that needs to reach today's testers is published from `ota/1.1.4`; anything that needs the new binary waits for build 11.
 
 **And the new publish wrapper paid for itself immediately, twice.** The first attempt ran from `ota/1.1.4` before the wrapper existed there, so npm ran the old bare script — which died at config eval with no token, exactly the failure the wrapper was written to remove, and separately chopped the `--message` in half at the first space. Both were fixed by bringing the wrapper onto that branch.
+
+**Merged, and build 11 is cut**
+
+All of it merged to `main` (PR #18, eight commits kept rather than squashed, plus PR #19 correcting a claim about build 10). **EAS build `46feb5ce` finished** — v1.2.0, build 11, production profile — and was submitted to TestFlight. *At the time of writing the submission was still uploading; Apple's own processing runs after that, so it does not appear for testers immediately. Confirm it arrived before treating it as delivered.*
+
+**It turned out build 10 had been built after all.** `plan.md` said it never was, and that claim had been copied into a source comment and a commit message before anyone ran `eas build:list` — which shows build `7af8814d` finished on 10 September as v1.1.4 build 10. Choosing build number 11 was right either way, and is better justified now: 10 was genuinely taken, so reusing it would have collided. Corrected in all three places. Still unverified, and a separate question the old note conflated: whether build 10 was ever *submitted*. **The general rule: EAS is the record of what was built. The docs are a secondary source and were wrong here.**
+
+**Nothing about build 11 has been run.** No simulator runtime on this machine, so the install ID has never been minted or read back and the saved-scans screen has never been looked at on a device.
 
 **What's next**
 
