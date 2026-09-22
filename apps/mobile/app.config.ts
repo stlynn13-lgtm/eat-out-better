@@ -169,6 +169,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // than as a constant so it can be retuned with `eas update` — `extra` ships
     // in the update manifest — instead of needing a new TestFlight build.
     dailyScanLimit: Number(process.env.DAILY_SCAN_LIMIT ?? 5),
+    // How many saved scans the history screen DISPLAYS. Display-only by
+    // design — lib/storage/session.ts caps what is STORED with a constant in
+    // code, so this can be retuned with `eas update` and can never delete a
+    // scan if it is rolled back. See that file's header for why that split
+    // exists; the naive single-cap version destroys history on rollback.
+    historyLimit: Number(process.env.HISTORY_LIMIT ?? 50),
     // Shared secret sent to the API as the `x-app-token` header. Supplied by
     // the APP_TOKEN env var so the real value never lives in committed source;
     // must match the API's APP_SHARED_TOKEN env var in Vercel. Guarded — see

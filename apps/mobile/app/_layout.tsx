@@ -64,6 +64,7 @@ export default Sentry.wrap(function RootLayout() {
             options={{ gestureEnabled: false }}
           />
           <Stack.Screen name="results" />
+          <Stack.Screen name="history" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
         </Stack>
         </TermsGate>

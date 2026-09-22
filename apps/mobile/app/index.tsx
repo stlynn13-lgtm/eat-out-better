@@ -77,6 +77,19 @@ export default function WelcomeScreen() {
             <Text className="text-white font-semibold text-base">Get Started</Text>
           </TouchableOpacity>
 
+          {/* Saved scans have existed since launch with no way to reach them.
+              Secondary weight on purpose: scanning is still the primary job,
+              and this is where you go when you have been here before. */}
+          <TouchableOpacity
+            className="border border-gray-300 bg-white rounded-xl py-4 items-center mt-3"
+            onPress={() => router.push("/history")}
+            activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="View your saved scans"
+          >
+            <Text className="text-brand-900 font-semibold text-base">Saved scans</Text>
+          </TouchableOpacity>
+
           <Text className="text-sm text-gray-600 text-center mt-4">
             Not medical advice — always consult your doctor.
           </Text>
