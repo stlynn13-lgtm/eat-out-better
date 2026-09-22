@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-09-10
+**Last updated:** 2026-09-22
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -23,6 +23,8 @@
 - **The local `ios/` folder disagrees with what ships.** It is untracked and claims JSC; the config default, and what EAS actually builds, is Hermes. It has to be moved aside for every publish until someone runs `npx expo prebuild --clean`.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.
+
+**Sign-in is decided, and its free half is built** (branch `feat/local-identity-and-history`, not merged, never run). Two ways in: **Sign in with Apple**, and a **6-digit code by email**. **Google is a "link," not a login** — once you're signed in, Settings will let you attach your Google account, but it never appears on the sign-in screen and can't let anyone in yet. That sounds pointless and isn't: it's what stops everyone who used Apple's "Hide My Email" from waking up to a duplicate empty account the day Google sign-in does arrive. **No Supabase project has been created and none should be yet** — the account exists and is empty, which is correct. Full reasoning in `auth-plan.md` §4; the four architecture gaps it depended on are now designed in §12. The 2026-09-22 `log.md` entry is the plain-language version.
 
 Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and **has still never been validated against real menus** — that remains the most important untested thing in the project.
 
@@ -52,6 +54,12 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 8. **Before any decision on the scoring KB, run the decomposition test** — can the model reliably turn a dish name into ingredients + cooking method? ~10 cents against the existing corpus. And add per-scan dish logging regardless: it's the same work as the cost ceiling's logging, and unrecorded scans are gone permanently.
 
 9. **EAT-14 (vertical/horizontal swap)** — still waiting on a design, and note it's the one item here that can *never* ship over the air: the app is locked to portrait in native config.
+
+10. **Try build 11 on a phone (Sean).** The branch adds an anonymous install ID in the Keychain and the **saved-scans screen** — the app has been saving every scan since launch with no way to see them. Three things to check, none of which any machine here can: the saved-scans list looks right and tapping one reopens the results; the install ID survives a force-quit; and — the one that matters — **delete the app, reinstall, and confirm history is gone but the install ID is the same.** That reinstall survival is the entire reason it lives in the Keychain and it has never been tested. **Note this is a build, not an over-the-air update** — it adds a native module, so build 9 testers stop getting OTA updates until they install it.
+
+11. **Check the Apple Developer entity type (Sean, under a minute).** App Store Connect → Agreements → Entity Type: Individual or Organization? App Store Guideline 5.1.1(ix) says health apps should be submitted by a legal entity rather than an individual developer — and it's about who *submits*, so an Individual enrollment still trips it even though Dine Right LLC is real. This gates the whole accounts release and nothing else on this list.
+
+12. **Do we own a domain? (Sean, one minute.)** The API runs on `eat-out-better-api.vercel.app`, which suggests not. **Email sign-in is impossible without one** — Supabase's built-in sender caps at 2 emails/hour and flatly refuses any address that isn't on the project team, so it fails 100% for real testers, and since June new free projects can't edit the email templates at all. About $10–15/yr, and it's the only new recurring cost in the entire sign-in plan.
 
 **Don't undo:** scoring runs at `temperature: 0`. At 0.2 roughly a quarter of a real menu had coin-flip tier colours. Don't raise it without re-running `npm run test:repeatability`.
 
