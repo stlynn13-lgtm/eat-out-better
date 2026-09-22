@@ -13,7 +13,7 @@
 
 **Everything since then has shipped over the air instead.** On 10 September the project published its **first ever over-the-air update**, which is the thing build 9 was built to make possible. It carries the Terms of Service gate, the results-screen disclaimer, readable contrast on every legal line, the Sentry privacy fix and the restored shutter flash. Anyone on build 9 picks it all up on the next cold start, with no new build and no App Store involvement.
 
-**Build 10 has a version bump committed but has never actually been built.** That only matters for *new* testers: they would install a two-week-old binary and then pull the update on first launch. Worth cutting before any App Store submission, not urgent otherwise.
+**Correction (2026-09-22): build 10 was built.** This line previously said it never was. `eas build:list` shows build `7af8814d` finished on 2026-09-10 as v1.1.4 build 10 — whether it was ever *submitted* to TestFlight is a separate question and still unverified. The claim was repeated into a source comment and a commit message before `eas build:list` was checked; the lesson is that EAS is the record of what was built, not the docs.
 
 **The legal position changed substantially.** The app now has Terms of Service (`/terms`), a blocking first-run "I Agree" gate, a support page (`/support`), and an allergen disclaimer in three places — that last one being the largest real risk in a menu-reading app and the thing no checklist asked about. Dine Right LLC is confirmed registered in Colorado, so the entity question that five documents disagreed about is closed. Full detail in the `log.md` 2026-09-09/10 entry.
 
