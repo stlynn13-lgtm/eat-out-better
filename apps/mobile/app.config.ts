@@ -165,7 +165,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // collision. (An earlier version of this comment said build 10 was never
     // built, repeating a claim from plan.md that `eas build:list` disproves.
     // The choice of 11 was right; the stated reason was not.)
-    buildNumber: "11",
+    buildNumber: "12",
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",

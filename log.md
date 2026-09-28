@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-09-28 — Fixed the overlapping header on the first-run Terms screen
+
+**What changed**
+
+On the "Before you start" screen (the one you must accept before using the app), the title was rendering underneath the phone's status bar area instead of sitting below it, so it looked like it overlapped other text. The screen now gets its own safe-area handling and a bit more space above the title and between the title and subtitle. Build number bumped to 12 so this ships in the next build.
+
+**Why it happened**
+
+That screen is a pop-up layer, and pop-ups on iPhone don't reliably inherit the "keep clear of the notch" measurements from the rest of the app on first paint. It measured zero and drew the title too high.
+
+**Still to do:** confirm on a real device or simulator after build 12 — this was fixed from the code, not eyeballed.
+
+---
+
 ## 2026-09-22 — Sign-in decided, the free half built, and build 11 cut
 
 **What changed**
