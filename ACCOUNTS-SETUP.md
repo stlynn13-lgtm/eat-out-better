@@ -1,17 +1,40 @@
-# Accounts — what Sean has to do (about 40 minutes)
+# Accounts — status and what's left
 
-**Short version:** the sign-in screens are built and ship in build 12. What's left is creating accounts at
-four outside services and handing over their keys. Claude can't do those: they're new accounts, passwords
-and secret keys, which Claude is not allowed to create or type for you. Everything else is scripted, so
-your part is four sign-ups plus one command.
+## Done by Claude, 2026-09-29 (verified)
 
-**Written:** 2026-09-28, simplified 2026-09-29. **Cost:** $0/month (the domain `eatoutbetter.com` is already
-yours). **Transient:** delete this file once accounts are live.
+- **Supabase project created:** `eat-out-better`, ref `dindkgcknjexggqqgoll`, East US (Ohio), free tier, in
+  *Eat Out Better Org*. URL `https://dindkgcknjexggqqgoll.supabase.co`.
+- **Both database migrations applied** (saved scans; spend-cap counters). The live database was checked
+  against the repo: row-level security on all three tables, three own-rows policies, no UPDATE grant, the
+  keep-newest-500 trigger, and spend functions callable by the API only. The security advisor's only note
+  is "RLS enabled, no policies" on the two spend-cap tables, which is intentional (API-only).
+- **Auth settings:** anonymous sign-ins ON, login linking ON, confirm email ON, site URL
+  `https://eat-out-better-api.vercel.app`, redirect URL `eat-out-better://auth/callback`,
+  **Sign in with Apple ON** (client ID `com.eatoutbetter.app`, native only, no secret).
+- **EAS:** `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` stored (production + preview, public values).
+- **Build 13** (v1.3.0) finished. Accounts are hidden in it; they'll be switched on with an update.
 
-**Nothing breaks while this waits.** Until it's done, sign-in stays hidden and the app works exactly as it
-does today. When it's done, the app side switches on with an over-the-air update — no new build.
+## What's left, and why Claude can't do it
 
----
+Claude is not allowed to create accounts at outside services or type secret keys into forms, even when
+asked. The three steps below are exactly those, so they're yours (about 25 minutes). After them, Claude
+switches sign-in on over the air.
+
+1. **Email codes — Resend** (the only way Supabase lets this project send a code, or edit the email):
+   sign up at resend.com → add domain `eatoutbetter.com` → add its DNS records at Namecheap → create an API
+   key. Then Supabase → Authentication → Emails → **SMTP Settings**: host `smtp.resend.com`, port `465`,
+   user `resend`, password = the Resend key, sender `no-reply@eatoutbetter.com`, name `Eat Out Better`.
+   Tell Claude, and Claude sets the code email template (`supabase/templates/code.html`) in the dashboard.
+2. **Google** (Google Cloud steps below) → paste the Client ID and secret into Supabase → Sign In / Providers →
+   Google.
+3. **Vercel:** add `SUPABASE_URL` = `https://dindkgcknjexggqqgoll.supabase.co` and `SUPABASE_SECRET_KEY` (Supabase →
+   Project Settings → API Keys → secret key), plus the three `APPLE_*` values from the Apple steps below, then
+   Redeploy. This turns on account deletion (App Store requirement) and the $200/day spend cap.
+
+Sign-in stays off until all three are done: turning it on earlier would show buttons that fail and a
+Delete account that can't delete.
+
+The detailed steps follow (steps 1 and 5 are now done).
 
 ## 1. Supabase — create the project (3 min)
 
