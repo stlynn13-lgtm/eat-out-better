@@ -10,6 +10,7 @@ import {
   clearSessions,
   HISTORY_DISPLAY_LIMIT,
 } from "../lib/storage/session";
+import { useAuth } from "../lib/auth/account";
 
 /**
  * Saved scans.
@@ -55,6 +56,7 @@ export default function HistoryScreen() {
   const router = useRouter();
   const setResults = useAnalysisStore((s) => s.setResults);
   const [sessions, setSessions] = useState<MenuSession[] | null>(null);
+  const accountsOn = useAuth((s) => s.status !== "unavailable");
 
   // Reload on focus rather than on mount: coming back from a scan should show
   // it, and this screen is cheap enough that re-reading is free.
@@ -86,7 +88,9 @@ export default function HistoryScreen() {
   const confirmClear = () => {
     Alert.alert(
       "Clear scan history?",
-      "This removes every saved scan from this phone. It can't be undone.",
+      accountsOn
+        ? "This removes every saved scan from this phone and from your account. It can't be undone."
+        : "This removes every saved scan from this phone. It can't be undone.",
       [
         { text: "Cancel", style: "cancel" },
         {

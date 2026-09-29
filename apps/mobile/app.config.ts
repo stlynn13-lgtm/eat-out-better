@@ -116,12 +116,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Eat Out Better",
   slug: "eat-out-better",
   scheme: "eat-out-better",
-  // 1.1.4 -> 1.2.0 because expo-secure-store is a NEW NATIVE MODULE (see
-  // lib/identity/installId.ts). Under `runtimeVersion: { policy: "appVersion" }`
-  // below, bumping this is what stops an OTA payload that imports SecureStore
-  // from reaching a binary that has no SecureStore to import. Build 9 testers
-  // stop receiving OTA updates until they install this build.
-  version: "1.2.0",
+  // 1.2.0 -> 1.3.0 because accounts add THREE new native modules
+  // (expo-apple-authentication, expo-web-browser, expo-crypto) and the Sign in
+  // with Apple entitlement. Under `runtimeVersion: { policy: "appVersion" }`
+  // below, bumping this is what stops an OTA payload that imports them from
+  // reaching build 11, which doesn't have them. Build 11 testers keep getting
+  // JS-only updates published from a 1.2.0 tree (the `ota/1.2.0` branch) until
+  // they install build 12.
+  // (1.1.4 -> 1.2.0 was the same story for expo-secure-store / install_id.)
+  version: "1.3.0",
   // Explicit, because `...config` above spreads app.json — which still carries a
   // `web` key from the Expo template. Without this, `eas update` exports for web
   // too and dies on a missing react-native-web that this app has never needed:
@@ -166,6 +169,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // built, repeating a claim from plan.md that `eas build:list` disproves.
     // The choice of 11 was right; the stated reason was not.)
     buildNumber: "12",
+    // Sign in with Apple entitlement. EAS enables the capability on the App ID
+    // automatically at build time when this is set.
+    usesAppleSignIn: true,
     infoPlist: {
       NSCameraUsageDescription:
         "Eat Out Better needs camera access to photograph restaurant menus for analysis.",
@@ -200,6 +206,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     "./plugins/with-mlkit-simulator-patch",
+    "expo-apple-authentication",
+    "expo-web-browser",
   ],
   extra: {
     ...config.extra,
@@ -221,5 +229,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // resolveAppToken() above for why a missing value is a publish-blocker
     // rather than a silent `undefined`.
     appToken: resolveAppToken(APP_ENVIRONMENT),
+    // Accounts (lib/auth/). Both values are PUBLIC by design — the publishable
+    // key only ever acts as the signed-in user, under row-level security — so
+    // they are plain EAS env vars, not secrets. Absent, `supabase` is null and
+    // the app behaves exactly as it did before accounts: no account screens,
+    // no network calls, history stays on the phone.
+    supabaseUrl: process.env.SUPABASE_URL ?? "",
+    supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY ?? "",
+    // Over-the-air kill switch: publish an update with ACCOUNTS_ENABLED=false
+    // to hide every account surface and stop creating accounts, no new build.
+    accountsEnabled: process.env.ACCOUNTS_ENABLED !== "false",
   },
 });

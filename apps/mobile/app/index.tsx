@@ -5,10 +5,13 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeedbackSheet from "../components/FeedbackSheet";
 import Reveal from "../components/Reveal";
+import { useAuth } from "../lib/auth/account";
 
 export default function WelcomeScreen() {
   const router = useRouter();
   const [showFeedback, setShowFeedback] = useState(false);
+  const accountsOn = useAuth((s) => s.status !== "unavailable");
+  const signedIn = useAuth((s) => s.userId !== null && !s.isAnonymous);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -89,6 +92,21 @@ export default function WelcomeScreen() {
           >
             <Text className="text-brand-900 font-semibold text-base">Saved scans</Text>
           </TouchableOpacity>
+
+          {/* Deliberately a quiet link, not a third button: scanning never
+              needs an account, and the screen shouldn't imply it does. */}
+          {accountsOn ? (
+            <TouchableOpacity
+              className="items-center mt-4"
+              onPress={() => router.push("/account")}
+              accessibilityRole="button"
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Text className="text-sm font-medium text-brand-900">
+                {signedIn ? "Account" : "Sign in to back up your scans"}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
 
           <Text className="text-sm text-gray-600 text-center mt-4">
             Not medical advice — always consult your doctor.
