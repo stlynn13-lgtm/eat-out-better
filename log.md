@@ -6,6 +6,66 @@
 
 ---
 
+## 2026-09-28 — Accounts built, a real $200/day cap, a better photo preview, and a lot of decisions closed
+
+**What changed**
+
+Sean worked through the open-decisions list in one pass. Most of it was deciding; the rest became five pull requests, none merged yet (#22–#25 plus this docs PR).
+
+**Sign-in is built.** Sean's call, reversing the earlier plan to hold accounts back: every install silently gets an anonymous account the first time it opens, and saved scans back up to it from that moment. Signing in — **Sign in with Apple, Google, or a 6-digit code by email** — attaches a login to that same account, so nothing moves and nothing is lost when someone decides to sign in. Scanning never asks for it. People stay signed in until they tap Sign out. There's an Account screen with Sign out and **Delete account**, which Apple requires. (PR #25.)
+
+The email option is a **code, not a link** — Sean left that choice open ("whichever is easier for the user"). A code wins on a phone: iOS offers it from Mail above the keyboard, you never leave the app, and work email scanners can't "click" it first and use it up.
+
+**Nothing visible changes until the setup is done.** Without the Supabase settings the app behaves exactly like build 11. `ACCOUNTS-SETUP.md` lists every click outside the code — about an hour, $0 a month. The domain email needs (`eatoutbetter.com`) turned out to be owned already, registered on 25 June.
+
+**The daily spend cap now counts dollars.** It used to count requests (2,000 a day), which treated a one-page scan and a ten-page scan as the same. It now adds up what each Claude call actually cost and stops accepting scans for the day at **$200** — about 3,100 scans. It needs a free Upstash Redis store connected in Vercel; until then it's inert, as the old one was. (PR #24.)
+
+**The photo preview got the three fixes Sean asked for.** The close button is 64pt instead of 36 and sits away from the screen's rounded corner; swiping down closes the preview and keeps the photo in the scan; pinch (or double-tap) zooms in to check the small print. It's pure app code, so it can go out over the air to builds 9 and 11 with no new build. (PR #23.)
+
+**Legal fixes, now.** The Terms address gets its apartment number (B213). The privacy policy stops saying "you may input a health condition" — no screen ever took one — and now discloses the install ID from build 11, including that it can survive deleting the app. (PR #22.)
+
+**Decisions recorded**
+
+- **No lawyer review.** Sean's decision; the docs use the best current guidance and say where judgment was used.
+- **Home address stays only where it's legally required.** It's on the Terms (Apple's EULA rules require a developer address — *and a phone number*, which the Terms don't have yet; Sean is choosing which number). The support page already leaves it off, and nothing inside the app shows it.
+- **Apple Developer stays Individual for TestFlight.** Before the public App Store launch, converting to an Organization is recommended — see `plan.md` NEXT for the three reasons.
+- **Anthropic account spend limit is set** (confirmed by Sean). The global cap in PR #24 sits on top of it.
+
+**Things that turned out to be done already**
+
+- **Both P1 bugs** — the "go back" stall on the second analysis, and the double loading screen with a results flash — were fixed in June and July. `plan.md` still listed them because the tracker they came from was last edited on 22 June. Re-checked in today's code.
+- **The duplicate-React lockfile risk** closed when PR #7 merged on 21 September.
+- **The stray `ios/` folder** went away when the repo moved to a fresh clone at `~/Developer/eat-out-better`.
+- **Dine Right LLC is in Good Standing** on Colorado's public register, looked up directly (formed 24 June 2026). Sean asked why it might not be: an LLC that's never touched after formation is exactly how it lapses, because Colorado wants a short yearly Periodic Report around the formation anniversary. The first is due around June 2027.
+
+**How the accounts work, in more detail**
+
+Worth recording, because each item is a way this goes wrong silently:
+
+- **Linking, not signing in.** Signing into Apple or Google the "obvious" way creates a *new*, empty account and quietly abandons the anonymous one — no error, looks like success. The code links the login to the existing account instead.
+- **If the login already has an account** (a reinstall, a second phone), the app signs into that account and re-uploads this phone's scans under it, then deletes the throwaway anonymous account. The database is keyed per account, so those re-uploaded scans can't collide with the anonymous copies.
+- **The offline trap.** When a signed-in person opens the app offline with an expired login, the sign-in library reports "nobody signed in". Acting on that would create a new anonymous account over a real one. The app only ever creates an anonymous account when the phone has no saved login at all.
+- **Shared phones.** Each account's saved scans live on their own shelf on the phone. After Sign out, the next person starts empty. Existing testers' history moves onto their first account automatically. `npm run test:history` checks all of this (14 scenarios, all passing).
+- **Health data never reaches the server.** The health setting is removed from each scan before upload, and the database rejects any scan that still has it. That's what lets the App Store privacy label say Health is not collected.
+- **The database protects itself**, because the app talks to it directly: nobody can rewrite past scans, rows are size-capped, each account keeps its newest 500, and deleting the account deletes the scans. 15 database tests check this. They need Docker, so they're meant to run in GitHub Actions — but GitHub refused the workflow file, because the saved GitHub login lacks the `workflow` permission. It's in the repo folder, uncommitted, waiting for `gh auth refresh -s workflow`.
+
+**The feedback sheet**
+
+The script that writes feedback into the Google Sheet lives inside the sheet, owned by eatoutbetter@gmail.com, which no tool here can reach. Two attempts to do it for Sean were blocked by the permission system (it wouldn't allow driving his Chrome to edit and redeploy it). So the full script now lives in the repo (`scripts/feedback-sheet/`) with a five-minute paste-and-redeploy guide. The script matches columns by name, so the six fields the app has sent since build 9 will finally land.
+
+**Verified / not verified**
+
+- ✅ Typecheck clean in both apps; the app bundles for iOS with accounts switched on; `npm run test:spend` 6/6; `npm run test:history` 14/14; the photo viewer's gesture code compiles to UI-thread worklets.
+- ❌ **Nothing ran on a phone** — the simulator can't start until the Xcode licence is accepted on this Mac.
+- ❌ **No real Supabase project yet**, so sign-in has never actually signed anyone in.
+- ❌ **The 15 database tests haven't run** (see above).
+
+**What's next**
+
+Merge the PRs (create `ota/1.2.0` from `main` before #25). Then Sean's hour in `ACCOUNTS-SETUP.md`, the Upstash click, the feedback script, and the reminders `plan.md` now keeps for build 12: the welcome screen design, the landscape-capture decision (it can't ship over the air), the Google logo asset, and the Terms phone number.
+
+---
+
 ## 2026-09-28 — Fixed the overlapping header on the first-run Terms screen
 
 **What changed**
