@@ -662,7 +662,7 @@ export default function TermsPage() {
         <p>
           <strong>Dine Right LLC</strong>
           <br />
-          2811 Vallejo St Apt
+          2811 Vallejo St Apt B213
           <br />
           Denver, CO 80211
           <br />

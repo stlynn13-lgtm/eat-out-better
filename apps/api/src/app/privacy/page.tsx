@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: September 9, 2026</p>
+      <p style={styles.meta}>Last Updated: September 28, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -43,9 +43,11 @@ export default function PrivacyPage() {
         </p>
         <h3 style={styles.subheading}>Health Context</h3>
         <p>
-          You may input a health condition (such as high cholesterol) to personalize your
-          results. This information is used only to generate your in-session analysis and is
-          not stored, shared, or linked to you in any way.
+          You do not enter a health condition, diagnosis, or any other health information into
+          the app. Eat Out Better scores every menu for one purpose — eating to manage
+          cholesterol — and that setting is the same for every user. It is sent with each
+          scan so the analysis knows what to score for; because everyone sends the same
+          value, it is not information about you.
         </p>
         <h3 style={styles.subheading}>Device &amp; Usage Data</h3>
         <p>
@@ -55,6 +57,13 @@ export default function PrivacyPage() {
           address and, when an error occurs, a visual replay of the app screens leading up to
           it. This data is not linked to your health information, and menu photos are not
           included in analytics or crash reports.
+        </p>
+        <p>
+          To tell a returning user from a new one, the app creates a random install
+          identifier and keeps it in your device&apos;s secure keychain. It is attached to
+          those anonymous analytics. It contains no name, email, or health information, and
+          because the keychain outlives the app, it can persist if you delete and reinstall
+          Eat Out Better.
         </p>
         <h3 style={styles.subheading}>Feedback</h3>
         <p>
@@ -122,9 +131,10 @@ export default function PrivacyPage() {
 
       <Section title="6. Data Retention">
         <p>
-          We do not retain your photos or health information after your session. Device-level
-          session data is stored locally on your device via AsyncStorage and is cleared when
-          you uninstall the app. Analytics events, crash reports, and submitted feedback are
+          We do not retain your photos or health information after your session. Your saved
+          scans are stored locally on your device and are cleared when you uninstall the app;
+          the install identifier described in Section 3 may remain in your device&apos;s
+          keychain. Analytics events, crash reports, and submitted feedback are
           retained by the providers listed in Section 5 under their standard retention
           policies; none of it contains your photos or health information.
         </p>
