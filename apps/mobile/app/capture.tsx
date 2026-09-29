@@ -11,7 +11,8 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { CameraView } from "expo-camera";
+import { CameraView, type CameraOrientation } from "expo-camera";
+import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
@@ -55,6 +56,15 @@ export default function CaptureScreen() {
   const [showFeedback, setShowFeedback] = useState(false);
   // Index of the photo open in the full-screen viewer; null = closed (EAT-13).
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+  // Landscape capture (EAT-14). The app stays locked to portrait — its screens
+  // were never laid out for landscape and the camera controls would jump
+  // around — but the CAMERA follows the phone: hold it sideways and the photo
+  // comes out landscape, which is what a wide menu or a two-page spread needs.
+  // expo-camera does this natively (responsiveOrientationWhenOrientationLocked),
+  // so it's plain JS and needs no new build.
+  const [cameraOrientation, setCameraOrientation] = useState<CameraOrientation>("portrait");
+  const isLandscape =
+    cameraOrientation === "landscapeLeft" || cameraOrientation === "landscapeRight";
   const scanSessionIdRef = useRef<string>("");
   // null until the first read resolves — the Analyze button must not flash
   // "limit reached" for a frame before we actually know.
@@ -331,7 +341,7 @@ export default function CaptureScreen() {
           Photograph the menu
         </Text>
         <Text className="text-base text-gray-500 mb-4">
-          One photo per page — we'll do the rest.
+          One photo per page. Wide menu? Turn your phone sideways.
         </Text>
 
         {/* Camera viewfinder */}
@@ -348,7 +358,23 @@ export default function CaptureScreen() {
                 style={{ flex: 1 }}
                 facing={facing}
                 zoom={zoom}
+                responsiveOrientationWhenOrientationLocked
+                onResponsiveOrientationChanged={({ orientation }) =>
+                  setCameraOrientation(orientation)
+                }
               >
+                {/* Confirms the sideways hold took: this photo will be wide. */}
+                {isLandscape && (
+                  <View
+                    className="absolute top-2 left-2 flex-row items-center rounded-full px-2.5 py-1"
+                    style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+                    accessibilityLiveRegion="polite"
+                    accessibilityLabel="Landscape photo"
+                  >
+                    <Ionicons name="phone-landscape-outline" size={14} color="#FFFFFF" />
+                    <Text className="text-white text-xs font-semibold ml-1">Landscape</Text>
+                  </View>
+                )}
                 {/* Zoom readout. Shown for preset taps as well as pinch (it
                     used to appear only for pinch), so the viewfinder always
                     says whether it is zoomed — and so the presets above can be
@@ -391,7 +417,7 @@ export default function CaptureScreen() {
                 </Text>
               ) : (
                 <>
-                  <Text className="text-white text-4xl mb-3">📷</Text>
+                  <Ionicons name="camera-outline" size={40} color="#FFFFFF" style={{ marginBottom: 12 }} />
                   <Text className="text-white text-sm">
                     Tap to enable camera
                   </Text>

@@ -1,164 +1,91 @@
-# Accounts — setup checklist (Sean)
+# Accounts — what Sean has to do (about 40 minutes)
 
-**What this is:** every click that has to happen outside the code before sign-in works. The code is on
-branch `feat/accounts-anonymous-first` (see its PR). **Transient:** once accounts are live, fold what's still
-true into `plan.md` and delete this file.
+**Short version:** the sign-in screens are built and ship in build 12. What's left is creating accounts at
+four outside services and handing over their keys. Claude can't do those: they're new accounts, passwords
+and secret keys, which Claude is not allowed to create or type for you. Everything else is scripted, so
+your part is four sign-ups plus one command.
 
-**Written:** 2026-09-28. **Cost:** $0/month. The domain (`eatoutbetter.com`, Namecheap, registered 25 June
-2026) is already owned, so there is no new spend anywhere on this list.
+**Written:** 2026-09-28, simplified 2026-09-29. **Cost:** $0/month (the domain `eatoutbetter.com` is already
+yours). **Transient:** delete this file once accounts are live.
 
-**Until you do this, nothing changes for testers.** A build without the Supabase settings behaves exactly like
-build 11: no account screens, no network calls, history on the phone. That's deliberate — the code can merge
-and even ship before the setup is finished.
-
----
-
-## What was decided (2026-09-28)
-
-- **Everyone gets a silent anonymous account on first launch.** No screen, no prompt. Saved scans are tied to it
-  from the start and backed up.
-- **Signing in attaches a login to that same account** — Sign in with Apple, Google, or a 6-digit code by email.
-  Same account id, so nothing moves and nothing is lost.
-- **Signing in is optional, forever.** Scanning never asks for it (App Store 5.1.1(v)).
-- **Code, not a link, for email.** You type 6 digits; iOS offers the code from Mail above the keyboard. A link
-  makes you leave the app, and corporate mail scanners "click" links first and burn them.
-- **People stay signed in until they tap Sign out** (or delete their account).
+**Nothing breaks while this waits.** Until it's done, sign-in stays hidden and the app works exactly as it
+does today. When it's done, the app side switches on with an over-the-air update — no new build.
 
 ---
 
-## 1. Supabase — create the project (≈15 min)
+## 1. Supabase — create the project (3 min)
 
-1. supabase.com → your existing account → **New project**.
-   - Name: `eat-out-better`
-   - **Region: pick once, it can never change.** Recommend **East US (Ohio)** or **West US (N. California)** —
-     either is fine for Denver.
-   - Database password: generate it and save it in your password manager. You won't need it day to day.
-2. **SQL Editor → New query** → paste all of `supabase/migrations/20260928000000_menu_sessions.sql` → **Run**.
-   That creates the saved-scans table and its security rules. Then a second new query with
-   `supabase/migrations/20260929000000_api_limits.sql` → **Run** — that's the $200/day spend cap and the
-   per-IP limits. Run them in that order (oldest date first).
-3. **Authentication → Sign In / Providers**
-   - **Allow anonymous sign-ins: ON**
-   - **Allow manual linking: ON** — linking a login to the anonymous account fails without this, and the error
-     looks like a code bug.
-   - **Email: ON. Confirm email: ON. Never turn Confirm email off** — with it off, anyone can claim any address.
-   - **Apple: ON.** Client IDs: `com.eatoutbetter.app`. Leave Secret Key / Services ID **blank** (iOS-only, so no
-     key to rotate every six months).
-   - **Google: ON.** Client ID + Client Secret from step 4 below. Leave "Skip nonce check" **OFF**.
-4. **Authentication → URL Configuration**
-   - Site URL: `https://eat-out-better-api.vercel.app`
-   - Redirect URLs → **Add** `eat-out-better://auth/callback`
-5. **Authentication → Emails → SMTP Settings** → enable custom SMTP (step 2 gives you the values):
-   - Host `smtp.resend.com` · Port `465` · Username `resend` · Password = your Resend API key
-   - Sender email `no-reply@eatoutbetter.com` · Sender name `Eat Out Better`
-6. **Authentication → Emails → Templates.** Three templates must show the code. Replace the body of **Magic
-   Link**, **Confirm signup** and **Change Email Address** with:
+supabase.com → **New project**
+- Name `eat-out-better`
+- **Region: East US (Ohio)** — pick carefully, it can never change
+- **Generate a password** and save it in your password manager. The setup script asks for it once.
 
-   > **Subject:** Your Eat Out Better code
-   >
-   > Your sign-in code is **{{ .Token }}**
-   >
-   > Type it into the app to finish signing in. It expires in an hour.
-   > If you didn't ask for this, you can ignore this email.
+When it's ready, keep this tab open. You'll need two values from **Project Settings → API Keys**: the
+**Project URL** (the 20 letters in it are the "project ref") and the **publishable key** (`sb_publishable_…`).
 
-   (Change Email Address is the one used when someone adds an email to their anonymous account — it's the
-   template most people forget.)
-7. **Authentication → Rate Limits:** raise "Emails sent per hour" to `100`. Leave anonymous sign-ins at `30`
-   per hour per IP.
-8. **Project Settings → API Keys** — copy three values for steps 5 and 6: the **Project URL**, the
-   **publishable** key (`sb_publishable_…`) and the **secret** key (`sb_secret_…`). The secret key never goes in
-   the app.
+## 2. Resend — sends the 6-digit code emails (10 min + DNS wait)
 
-## 2. Resend + Namecheap — email that actually arrives (≈15 min + DNS wait)
+1. resend.com → sign up (free).
+2. **Domains → Add domain** → `eatoutbetter.com`. Resend shows 3–4 DNS records.
+3. Namecheap → Domain List → `eatoutbetter.com` → **Advanced DNS** → add each record exactly as Resend shows
+   it. (These don't touch your existing email forwarding.) Back in Resend → **Verify** — up to an hour.
+4. **API Keys → Create API key** (Sending access). Keep it for the script.
 
-Supabase's built-in email refuses every address that isn't on your Supabase team, so without this the code
-never reaches a tester.
+## 3. Apple Developer (10 min)
 
-1. resend.com → sign up (free: 3,000 emails/month).
-2. **Domains → Add domain** → `eatoutbetter.com`. Resend shows 3–4 DNS records (DKIM, plus SPF and MX on a
-   `send.` subdomain).
-3. Namecheap → Domain List → `eatoutbetter.com` → **Advanced DNS** → add each record exactly as Resend shows it.
-   These don't touch your existing email forwarding. Back in Resend, **Verify** (can take up to an hour).
-4. **API Keys → Create** (sending access) → paste it into Supabase step 1.5.
-
-## 3. Apple Developer (≈10 min)
-
-1. **Certificates, Identifiers & Profiles → Identifiers → `com.eatoutbetter.app`** → tick **Sign in with Apple**
-   → Save. (EAS usually does this for you at build time; doing it by hand is harmless.)
+developer.apple.com → Certificates, Identifiers & Profiles:
+1. **Identifiers → `com.eatoutbetter.app`** → tick **Sign in with Apple** → Save.
 2. **Services → Sign in with Apple for Email Communication → Configure** → add domain `eatoutbetter.com` and
-   email `no-reply@eatoutbetter.com`. Without this, anyone who picked "Hide My Email" never gets their code —
-   and those are exactly the privacy-minded people a health app attracts.
-3. **Keys → +** → name it "Sign in with Apple" → tick **Sign in with Apple** → Configure → primary App ID
-   `com.eatoutbetter.app` → Register → **Download the .p8 (you only get one download)**. Note the **Key ID** and
-   your **Team ID** (top right of the portal). These let the app revoke Apple's access when someone deletes their
-   account, which Apple requires.
+   address `no-reply@eatoutbetter.com`. Without this, anyone who picks "Hide My Email" never gets their code.
+3. **Keys → +** → name "Sign in with Apple" → tick **Sign in with Apple** → Configure → `com.eatoutbetter.app`
+   → Register → **Download the .p8** (one download only). Note the **Key ID**, and your **Team ID** (top right).
+   These let account deletion disconnect Apple, which Apple requires.
 
-## 4. Google Cloud (≈15 min)
+## 4. Google Cloud (10 min)
 
-1. console.cloud.google.com → new project `Eat Out Better`.
-2. **Google Auth Platform → Branding:** app name `Eat Out Better`, support email, and links —
-   privacy `https://eat-out-better-api.vercel.app/privacy`, terms `https://eat-out-better-api.vercel.app/terms`.
-   Authorized domains: `supabase.co` and `vercel.app`.
-3. **Audience:** External → Publish app (basic sign-in scopes need no further review).
-4. **Clients → Create client → Web application** (yes, web — the app signs in through the system browser, so
-   no Google SDK ships in the app). Authorized redirect URI:
-   `https://<your-project-ref>.supabase.co/auth/v1/callback` → Create → paste the Client ID and Secret into
-   Supabase step 1.3.
+console.cloud.google.com → new project **Eat Out Better**
+1. **Google Auth Platform → Branding:** app name `Eat Out Better`, your support email, privacy link
+   `https://eat-out-better-api.vercel.app/privacy`, terms link `https://eat-out-better-api.vercel.app/terms`,
+   authorized domains `supabase.co` and `vercel.app`.
+2. **Audience:** External → **Publish app**.
+3. **Clients → Create client → Web application.** Authorized redirect URI:
+   `https://<your-project-ref>.supabase.co/auth/v1/callback`. Keep the **Client ID** and **Client secret**.
 
-## 5. Vercel — API env vars (≈5 min)
+## 5. Run the setup script (5 min)
 
-Project `eat-out-better-api` → Settings → Environment Variables (Production):
+In Terminal, from the repo:
 
-| Name | Value |
-|---|---|
-| `SUPABASE_URL` | Project URL from 1.8 |
-| `SUPABASE_SECRET_KEY` | `sb_secret_…` from 1.8 |
-| `APPLE_TEAM_ID` | from 3.3 |
-| `APPLE_SIGN_IN_KEY_ID` | from 3.3 |
-| `APPLE_SIGN_IN_PRIVATE_KEY` | the whole .p8 file contents, including the BEGIN/END lines |
+```bash
+cd ~/Developer/eat-out-better && ./scripts/setup-supabase.sh
+```
 
-**These two Supabase values also switch on the $200/day spend cap** and the per-IP limits — they run on the
-same database (step 1.2), so there's no separate Redis to set up. Until they're set, the API logs "spend cap
-INACTIVE" and the Anthropic account's own limit is the only ceiling.
+It asks for six values: project ref, database password, publishable key, Resend key, Google client ID and
+Google client secret. Secret ones are hidden as you type. It then creates the database tables, turns on
+anonymous accounts and login linking, sets up the code emails through Resend, switches on Apple and Google,
+and stores the app's public values in EAS. Safe to run again if anything goes wrong.
 
-Then **Deployments → the latest → ⋯ → Redeploy**, so the API picks the new values up.
+## 6. Vercel (3 min)
 
-## 6. EAS — app build env vars (≈2 min)
-
-expo.dev → project → Environment variables → **production** (and **preview**), visibility **Plain text** (both
-are public by design):
+vercel.com → `eat-out-better-api` → Settings → Environment Variables (Production):
 
 | Name | Value |
 |---|---|
-| `SUPABASE_URL` | Project URL |
-| `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_…` |
+| `SUPABASE_URL` | the Project URL from step 1 |
+| `SUPABASE_SECRET_KEY` | Supabase → Project Settings → API Keys → **secret** key (`sb_secret_…`) |
+| `APPLE_TEAM_ID` | from step 3.3 |
+| `APPLE_SIGN_IN_KEY_ID` | from step 3.3 |
+| `APPLE_SIGN_IN_PRIVATE_KEY` | the whole .p8 file, including the BEGIN/END lines |
 
----
+Then **Deployments → latest → ⋯ → Redeploy**. This also switches on the $200/day spend cap.
 
-## 7. Shipping it (build 12)
+## 7. Tell Claude
 
-Accounts need a new binary (three new native modules + the Sign in with Apple entitlement), so version goes
-**1.2.0 → 1.3.0**, build **12**.
+Claude publishes the over-the-air update that turns sign-in on for build 12, then you check it on your phone:
+scan a menu → "Keep this scan safe" appears → Create free account → email code arrives → "You're all set" →
+delete and reinstall the app → still signed in, scans still there.
 
-1. **Before merging the accounts PR:** create `ota/1.2.0` from `main`. It's what build 11 testers run; any
-   over-the-air fix for them (like the photo viewer, PR #23) gets published from there.
-2. Merge, then build and submit build 12 (the usual `EAS_SKIP_AUTO_FINGERPRINT=1` build with `--auto-submit`).
-3. **The same day build 12 reaches testers:**
-   - Deploy the accounts privacy policy (`privacy-policy-accounts-release.md` has the exact text).
-   - Update the App Store Connect privacy answers (table in that file). They don't need an app update, which
-     is exactly why they get forgotten.
-4. App Review notes, when it's time for the App Store: *"Sign-in is optional. To test it, use Sign in with
-   Apple. Account deletion: Account → Delete account."*
+**Same day it goes live:** the accounts privacy policy (`privacy-policy-accounts-release.md`) gets deployed and
+the App Store Connect privacy answers get updated — both drafted, Claude can walk you through them.
 
-## 8. Check it on a phone (≈10 min)
-
-1. Fresh install → scan a menu → it appears in Saved scans. (You now have an anonymous account.)
-2. Account → **Continue with email** → the code arrives within a minute → enter it → "Signed in".
-3. Delete the app, reinstall → you're **still signed in** and your scans are back.
-4. On a second phone (or after Sign out → sign back in with the same email): scans appear.
-5. **Sign out** → Saved scans is empty (the next person on the phone can't see yours) → sign back in → they're back.
-6. Continue with Apple, then with Google on another test account.
-7. **Delete account** → confirm → it's gone; Supabase → Authentication → Users no longer shows it.
-
-If anything goes wrong in testers' hands: publish an update with `ACCOUNTS_ENABLED=false` and every account
-screen disappears, no new build needed.
+If anything misbehaves for testers: an update with `ACCOUNTS_ENABLED=false` hides every account screen, no
+build needed.

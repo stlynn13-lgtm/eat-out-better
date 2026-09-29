@@ -101,7 +101,9 @@ export default Sentry.wrap(function RootLayout() {
           />
           <Stack.Screen name="results" />
           <Stack.Screen name="history" />
-          <Stack.Screen name="account" />
+          {/* A sheet, not a push: signing in is a detour from whatever you
+              were doing, and swiping it away returns you there. */}
+          <Stack.Screen name="account" options={{ presentation: "modal" }} />
           <Stack.Screen name="auth/callback" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
         </Stack>

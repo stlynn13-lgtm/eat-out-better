@@ -246,6 +246,23 @@ export class SignInCancelled extends Error {
   }
 }
 
+/**
+ * What a completed sign-in amounted to, from the person's point of view:
+ * `created` — this phone's account now has a login (the usual case, or a
+ * brand-new account made while offline); `welcomeBack` — they signed into an
+ * account they already had, and this phone's scans were merged into it.
+ * Drives the "You're all set" vs "Welcome back" screen.
+ */
+export type SignInOutcome = "created" | "welcomeBack";
+
+/** An account made in the last couple of minutes is new, whatever the path. */
+function outcomeForExisting(user: User): SignInOutcome {
+  const created = Date.parse(user.created_at ?? "");
+  return Number.isFinite(created) && Date.now() - created < 120_000
+    ? "created"
+    : "welcomeBack";
+}
+
 const TAKEN_CODES = new Set([
   "identity_already_exists",
   "email_exists",
@@ -288,7 +305,7 @@ export function friendlyAuthError(error: unknown): string {
 
 async function switchToExistingAccount(
   signIn: () => Promise<{ error: AuthError | Error | null }>
-): Promise<void> {
+): Promise<SignInOutcome> {
   if (!supabase) throw new Error("Accounts are not available in this build.");
   const previous = await currentSession();
   switching = true;
@@ -313,6 +330,7 @@ async function switchToExistingAccount(
       if (previous.user.is_anonymous) void deleteWithToken(previous.access_token);
     }
     await onUserReady(user);
+    return outcomeForExisting(user);
   } finally {
     switching = false;
   }
@@ -359,7 +377,7 @@ async function appleCredential(
   }
 }
 
-export async function continueWithApple(): Promise<void> {
+export async function continueWithApple(): Promise<SignInOutcome> {
   if (!supabase) throw new Error("Accounts are not available in this build.");
   const client = supabase;
   const { credential, rawNonce } = await appleCredential([
@@ -380,8 +398,9 @@ export async function continueWithApple(): Promise<void> {
     if (!error) linked = true;
     else if (!isTaken(error) || !current.user.is_anonymous) throw error;
   }
+  let outcome: SignInOutcome = "created";
   if (linked) await afterLink();
-  else await switchToExistingAccount(() => client.auth.signInWithIdToken(idToken));
+  else outcome = await switchToExistingAccount(() => client.auth.signInWithIdToken(idToken));
 
   // Apple sends the name on the FIRST authorization only, ever. Save it now or
   // never have it.
@@ -389,8 +408,12 @@ export async function continueWithApple(): Promise<void> {
     .filter(Boolean)
     .join(" ");
   if (name) {
-    await client.auth.updateUser({ data: { full_name: name } }).catch(() => {});
+    const { data } = await client.auth.updateUser({ data: { full_name: name } }).catch(() => ({
+      data: { user: null },
+    }));
+    if (data.user) applyUser(data.user);
   }
+  return outcome;
 }
 
 // ---------------------------------------------------------------------------
@@ -427,7 +450,7 @@ function browserError(r: BrowserResult): AuthError | Error {
   return error;
 }
 
-export async function continueWithGoogle(): Promise<void> {
+export async function continueWithGoogle(): Promise<SignInOutcome> {
   if (!supabase) throw new Error("Accounts are not available in this build.");
   const client = supabase;
   const options = { redirectTo: AUTH_REDIRECT, skipBrowserRedirect: true };
@@ -443,13 +466,13 @@ export async function continueWithGoogle(): Promise<void> {
       });
       if (exchanged.error) throw exchanged.error;
       await afterLink();
-      return;
+      return "created";
     }
     const failure = browserError(r);
     if (!isTaken(failure) || !current.user.is_anonymous) throw failure;
   }
 
-  await switchToExistingAccount(async () => {
+  return switchToExistingAccount(async () => {
     const { data, error } = await client.auth.signInWithOAuth({ provider: "google", options });
     if (error) return { error };
     const r = await runBrowserFlow(data.url);
@@ -492,7 +515,7 @@ export async function verifyEmailCode(
   email: string,
   code: string,
   mode: EmailCodeMode
-): Promise<void> {
+): Promise<SignInOutcome> {
   if (!supabase) throw new Error("Accounts are not available in this build.");
   const client = supabase;
   const address = email.trim().toLowerCase();
@@ -502,9 +525,9 @@ export async function verifyEmailCode(
     const { error } = await client.auth.verifyOtp({ email: address, token, type: "email_change" });
     if (error) throw error;
     await afterLink();
-    return;
+    return "created";
   }
-  await switchToExistingAccount(() =>
+  return switchToExistingAccount(() =>
     client.auth.verifyOtp({ email: address, token, type: "email" })
   );
 }

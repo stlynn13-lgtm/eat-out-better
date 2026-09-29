@@ -163,12 +163,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
-    // 11, not 10: build 10 exists. EAS build 7af8814d finished on 2026-09-10
-    // as v1.1.4 build 10, so reusing that number would have been a genuine
-    // collision. (An earlier version of this comment said build 10 was never
-    // built, repeating a claim from plan.md that `eas build:list` disproves.
-    // The choice of 11 was right; the stated reason was not.)
-    buildNumber: "12",
+    // 13, not 12: EAS build 5840b746 already used 12 (v1.2.0, the Terms header
+    // fix, 2026-09-28). Apple would accept 12 again under a new version, but one
+    // number meaning two builds is how the build-10 confusion happened.
+    // Always check `eas build:list` before picking the next number.
+    buildNumber: "13",
     // Sign in with Apple entitlement. EAS enables the capability on the App ID
     // automatically at build time when this is set.
     usesAppleSignIn: true,

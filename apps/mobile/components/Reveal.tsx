@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Animated, Easing, type ViewStyle } from "react-native";
+import { AccessibilityInfo, Animated, Easing, type ViewStyle } from "react-native";
 
 /**
  * Fade-and-rise entrance for a block of content.
@@ -30,6 +30,9 @@ export default function Reveal({
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Reduce Motion: arrive in place, no rise. Checked per mount so turning the
+    // setting on takes effect without a relaunch.
+    let cancelled = false;
     const animation = Animated.timing(progress, {
       toValue: 1,
       duration,
@@ -38,7 +41,18 @@ export default function Reveal({
       useNativeDriver: true,
     });
     animation.start();
-    return () => animation.stop();
+    AccessibilityInfo.isReduceMotionEnabled()
+      .then((reduce) => {
+        if (reduce && !cancelled) {
+          animation.stop();
+          progress.setValue(1);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+      animation.stop();
+    };
   }, [progress, delay, duration]);
 
   return (
