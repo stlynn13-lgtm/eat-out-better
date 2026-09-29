@@ -11,6 +11,7 @@
  */
 
 import { getAnthropicClient, MODELS } from "./client";
+import { recordSpend } from "@/lib/utils/rateLimit";
 import { OCR_SYSTEM_PROMPT } from "./prompts";
 import { normalizeDishName } from "./dishName";
 import type { ExtractedDish, UnreadableItem } from "@/lib/types";
@@ -145,6 +146,10 @@ async function extractFromSingleImage(
       },
       { timeout: OCR_TIMEOUT_MS }
     );
+
+    // Counted before the response is inspected: a malformed answer still
+    // cost money, and the daily cap has to see it.
+    await recordSpend(MODELS.HAIKU, message.usage);
 
     const content = message.content[0];
     if (content.type !== "text") {

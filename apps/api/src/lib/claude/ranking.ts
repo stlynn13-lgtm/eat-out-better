@@ -7,6 +7,7 @@
 
 import { v4 as uuidv4 } from "uuid";
 import { getAnthropicClient, MODELS } from "./client";
+import { recordSpend } from "@/lib/utils/rateLimit";
 import { getRankingSystemPrompt, getRankingUserPrompt } from "./prompts";
 import {
   normalizeDishName,
@@ -199,6 +200,10 @@ async function callRankingAPI(
       },
       { timeout: RANKING_TIMEOUT_MS }
     );
+
+    // Counted before the response is inspected: a malformed answer still
+    // cost money, and the daily cap has to see it.
+    await recordSpend(MODELS.HAIKU, message.usage);
 
     const content = message.content[0];
     if (content.type !== "text") {

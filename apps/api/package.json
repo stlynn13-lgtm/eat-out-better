@@ -12,6 +12,7 @@
     "test:dedupe": "npx --yes tsx scripts/dedupe-test.ts",
     "test:dishmatch": "npx --yes tsx scripts/dishmatch-test.ts",
     "test:categories": "npx --yes tsx scripts/categories-test.ts",
+    "test:spend": "npx --yes tsx scripts/spend-test.ts",
     "eval": "npx --yes tsx evals/run.ts",
     "eula": "npx --yes tsx --tsconfig scripts/tsconfig.json scripts/generate-eula-text.tsx",
     "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts"

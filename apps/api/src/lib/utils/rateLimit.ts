@@ -9,10 +9,19 @@
  *   1. Per-IP burst  — stops one client hammering the endpoint in a tight loop.
  *   2. Per-IP daily  — stops one client grinding away slowly all day, which a
  *                      burst window alone never catches.
- *   3. Global daily  — the actual spend ceiling. Layers 1 and 2 are per-key, so
- *                      they do nothing against a caller rotating IPs; only a
- *                      global counter bounds a day's bill. This is the circuit
- *                      breaker: when it trips, the endpoint stops spending.
+ *   3. Global daily  — the actual spend ceiling, in dollars. Layers 1 and 2 are
+ *                      per-key, so they do nothing against a caller rotating
+ *                      IPs; only a global counter bounds a day's bill. Every
+ *                      Claude call reports what it actually cost (recordSpend,
+ *                      priced from the token counts Anthropic returns), and
+ *                      once today's total reaches SPEND_GLOBAL_DAILY_USD
+ *                      (default $200) the endpoint stops accepting scans until
+ *                      UTC midnight. A request-count ceiling sits behind it as
+ *                      a backstop in case spend recording ever breaks.
+ *
+ *                      It is a ceiling, not an exact figure: scans already in
+ *                      flight when the cap is reached still finish, so a day
+ *                      can close a few dollars over.
  *
  * Storage: Upstash Redis over HTTP (REST), so it works from serverless with no
  * connection pooling. Counters are shared across every instance and survive
@@ -33,6 +42,8 @@
 
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import type Anthropic from "@anthropic-ai/sdk";
+import { MODEL_PRICING_PER_MTOK, type ModelName } from "@/lib/claude/client";
 
 // -----------------------------------------------------------
 // Configuration
@@ -41,13 +52,28 @@ import { Redis } from "@upstash/redis";
 const BURST_WINDOW = "10 m" as const;
 const BURST_MAX = envInt("RATE_LIMIT_BURST_MAX", 20);
 const IP_DAILY_MAX = envInt("RATE_LIMIT_IP_DAILY_MAX", 50);
-const GLOBAL_DAILY_MAX = envInt("RATE_LIMIT_GLOBAL_DAILY_MAX", 2000);
+/**
+ * The spend ceiling, in dollars per UTC day. Set by Sean 2026-09-28. The
+ * Anthropic account's own monthly spend limit sits underneath this.
+ */
+const GLOBAL_DAILY_BUDGET_USD = envNumber("SPEND_GLOBAL_DAILY_USD", 200);
+/**
+ * Backstop only. The dollar cap above is what should trip; this exists so a
+ * bug in spend recording can't leave the day unbounded. Set well above what
+ * $200 buys at the ~$0.05 planning cost per scan (~4,000 scans).
+ */
+const GLOBAL_DAILY_MAX = envInt("RATE_LIMIT_GLOBAL_DAILY_MAX", 10000);
 
 function envInt(name: string, fallback: number): number {
+  const parsed = envNumber(name, fallback);
+  return Math.floor(parsed);
+}
+
+function envNumber(name: string, fallback: number): number {
   const raw = process.env[name];
   if (!raw) return fallback;
   const parsed = Number(raw);
-  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 /**
@@ -70,8 +96,9 @@ const redis = redisFromEnv();
 if (!redis) {
   console.warn(
     "[rateLimit] No Upstash/KV env vars found — falling back to the in-memory " +
-      "limiter. Per-IP bursts are still capped per instance, but the daily and " +
-      "global spend ceilings are INACTIVE. Provision a store and set " +
+      "limiter. Per-IP bursts are still capped per instance, but the per-IP " +
+      "daily limit and the $" + GLOBAL_DAILY_BUDGET_USD + "/day spend cap are " +
+      "INACTIVE. Provision a store and set " +
       "UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN in Vercel."
   );
 }
@@ -160,6 +187,86 @@ async function incrementDaily(
 }
 
 // -----------------------------------------------------------
+// Daily spend (dollars)
+// -----------------------------------------------------------
+
+/**
+ * Spend is kept in whole micro-dollars so Redis can add it atomically with
+ * INCRBY — no float drift across thousands of calls. A price in dollars per
+ * million tokens is exactly micro-dollars per token, which is why the maths
+ * below is a plain multiply.
+ */
+const MICRO_USD_PER_USD = 1_000_000;
+
+function spendKey(day: string): string {
+  return `eob:spend:global:${day}`;
+}
+
+/** Most expensive row in the table — the fallback for an unpriced model. */
+function worstCasePricing(): { input: number; output: number } {
+  return Object.values(MODEL_PRICING_PER_MTOK).reduce((worst, p) =>
+    p.input + p.output > worst.input + worst.output ? p : worst
+  );
+}
+
+/**
+ * Micro-dollars one response cost, from the usage block Anthropic returns.
+ * Cache writes are priced at 2× input (the 1-hour rate) and cache reads at
+ * 0.1× input: the app doesn't use prompt caching today, and pricing a write at
+ * the higher of the two rates keeps the cap on the safe side if it starts.
+ * Rounded up for the same reason.
+ */
+export function costMicroUsd(model: string, usage: Anthropic.Usage): number {
+  const pricing =
+    MODEL_PRICING_PER_MTOK[model as ModelName] ?? worstCasePricing();
+  const micro =
+    usage.input_tokens * pricing.input +
+    usage.output_tokens * pricing.output +
+    (usage.cache_creation_input_tokens ?? 0) * pricing.input * 2 +
+    (usage.cache_read_input_tokens ?? 0) * pricing.input * 0.1;
+  return Math.ceil(micro);
+}
+
+/**
+ * Adds one Claude call's cost to today's global total. Call it right after
+ * every `messages.create` that returns.
+ *
+ * Never throws and never blocks a scan on failure: a Redis hiccup here should
+ * cost us accuracy on the cap, not a user's result. The request-count
+ * backstop and the Anthropic account limit still bound the day if this fails.
+ */
+export async function recordSpend(
+  model: string,
+  usage: Anthropic.Usage | null | undefined
+): Promise<void> {
+  if (!redis || !usage) return;
+
+  const micro = costMicroUsd(model, usage);
+  if (micro <= 0) return;
+
+  const key = spendKey(utcDayKey());
+  try {
+    await redis
+      .pipeline()
+      .incrby(key, micro)
+      // Refreshed on every write; the key is day-scoped anyway, so it just
+      // needs to outlive the day it counts.
+      .expire(key, 60 * 60 * 25)
+      .exec();
+  } catch (error) {
+    console.error("[rateLimit] Could not record spend — cap is under-counting:", error);
+  }
+}
+
+/** Today's recorded spend in dollars, or null when there is no durable store. */
+async function spentTodayUsd(day: string): Promise<number | null> {
+  if (!redis) return null;
+  const micro = await redis.get<number | string>(spendKey(day));
+  const value = typeof micro === "string" ? Number(micro) : micro ?? 0;
+  return Number.isFinite(value) ? value / MICRO_USD_PER_USD : 0;
+}
+
+// -----------------------------------------------------------
 // Public API
 // -----------------------------------------------------------
 
@@ -220,15 +327,32 @@ export async function checkRateLimit(key: string): Promise<RateLimitResult> {
       };
     }
 
-    // ---- Layer 3: global daily circuit breaker ----
+    // ---- Layer 3: global daily spend ceiling (dollars) ----
+    const spent = await spentTodayUsd(day);
+    if (spent !== null && spent >= GLOBAL_DAILY_BUDGET_USD) {
+      console.error(
+        `[rateLimit] DAILY SPEND CAP REACHED — $${spent.toFixed(2)} spent today ` +
+          `(SPEND_GLOBAL_DAILY_USD=${GLOBAL_DAILY_BUDGET_USD}). /api/analyze is ` +
+          `refusing scans until UTC midnight. Raise the cap in Vercel if this is ` +
+          `legitimate traffic.`
+      );
+      return {
+        allowed: false,
+        reason: "global_daily",
+        retryAfterSeconds: secondsUntilUtcMidnight(),
+      };
+    }
+
+    // ---- Layer 3b: request-count backstop ----
     const globalDaily = await incrementDaily(
       `eob:daily:global:${day}`,
       GLOBAL_DAILY_MAX
     );
     if (globalDaily.over) {
       console.error(
-        `[rateLimit] GLOBAL DAILY CAP TRIPPED — ${globalDaily.count} requests ` +
-          `today exceeds RATE_LIMIT_GLOBAL_DAILY_MAX=${GLOBAL_DAILY_MAX}. ` +
+        `[rateLimit] REQUEST BACKSTOP TRIPPED — ${globalDaily.count} requests ` +
+          `today exceeds RATE_LIMIT_GLOBAL_DAILY_MAX=${GLOBAL_DAILY_MAX} before the ` +
+          `$${GLOBAL_DAILY_BUDGET_USD} spend cap did. Check that recordSpend is working. ` +
           `/api/analyze is refusing requests until UTC midnight. Raise the cap ` +
           `in Vercel if this is legitimate traffic.`
       );
