@@ -11,6 +11,7 @@ import {
   attachInstallIdentity,
 } from "../lib/analytics";
 import { getInstallId } from "../lib/identity/installId";
+import { startAuth } from "../lib/auth/account";
 import ScoringInfoButton from "../components/ScoringInfoButton";
 import TermsGate from "../components/TermsGate";
 import * as Sentry from '@sentry/react-native';
@@ -68,10 +69,23 @@ function AnalyticsBootstrap() {
   return null;
 }
 
+/**
+ * Restores the signed-in user, or creates the silent anonymous account on a
+ * first launch (lib/auth/account.ts). Fire-and-forget on purpose: nothing on
+ * screen waits for it, and scanning works with no network and no account.
+ */
+function AuthBootstrap() {
+  useEffect(() => {
+    startAuth();
+  }, []);
+  return null;
+}
+
 export default Sentry.wrap(function RootLayout() {
   return (
     <PostHogProvider apiKey={POSTHOG_API_KEY} options={{ host: POSTHOG_HOST }}>
       <AnalyticsBootstrap />
+      <AuthBootstrap />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar style="dark" />
         {/* Wraps the whole navigator, so the gate covers every entry point —
@@ -87,6 +101,8 @@ export default Sentry.wrap(function RootLayout() {
           />
           <Stack.Screen name="results" />
           <Stack.Screen name="history" />
+          <Stack.Screen name="account" />
+          <Stack.Screen name="auth/callback" />
           <Stack.Screen name="how-it-works" options={{ presentation: "modal" }} />
         </Stack>
         </TermsGate>

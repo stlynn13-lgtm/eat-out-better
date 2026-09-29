@@ -1,6 +1,33 @@
 # Authentication & accounts — plan
 
-**Status:** draft / not started
+> ## ⚠ 2026-09-28 — Sean overruled two decisions, and accounts are now BUILT
+>
+> **Read this box first; where it disagrees with anything below, this box wins.**
+>
+> 1. **Anonymous-first is back** (reverses §3 "Why anonymous-first is cut" and §4 decision 1's HOLD).
+>    Every install silently gets a Supabase anonymous user on first launch; saved scans back up to it
+>    from day one; signing in *links* a login to that same user. Sean's reasoning: zero data lost at
+>    conversion, and scanning stays usable with no sign-in, so 5.1.1(v) is satisfied.
+> 2. **Google is a full sign-in method** (reverses §4 decision 4's "link only"). Apple, Google and a
+>    6-digit email code, all three on the sign-in screen, Apple first. Google still uses the browser
+>    flow — no native Google SDK — so decision 4's reasons for avoiding the SDK still hold.
+> 3. **Unchanged and still load-bearing:** the code-not-link decision (6), native-only Apple (5), the
+>    health condition never leaving the phone (3, now enforced by a DB constraint too), §12.2's bounded
+>    direct-write path, §12.4's sign-out isolation, and every "do not re-introduce" in §0.
+>
+> **Where it lives:** branch `feat/accounts-anonymous-first` — `supabase/` (schema + pgTAP, run in CI),
+> `apps/mobile/lib/auth/`, `lib/sync/`, `app/account.tsx`, `apps/api/src/app/api/account/delete/`.
+> **What Sean has to click:** `ACCOUNTS-SETUP.md`. **Policy text:** `privacy-policy-accounts-release.md`.
+>
+> The costs §3 listed for anonymous-first were real, and here is how each was handled rather than
+> avoided: the guest-account deletion obligation → in-app Delete account + an API route that also
+> deletes the abandoned anonymous account after a switch; the merge problem → re-upload the phone's
+> scans under the account (PK is `(user_id, id)` so they can't collide with the anonymous copies),
+> never server-side reassignment; the RLS surface → pgTAP tests in CI; the offline trap (an expired
+> session read as "no user" would mint a new anonymous user over a real one) → an anonymous user is
+> only created when the keychain holds no session at all.
+
+**Status:** built 2026-09-28 (see box above) — originally draft / not started
 **Author:** drafted 2026-09-07 · substantially revised the same day after verification
 **Amended:** 2026-09-22 — §4 decisions 4 and 5 rewritten, decision 6 added, §12 added.
 Apple + email OTP are the only sign-in methods; **Google is a linkable identity that cannot
