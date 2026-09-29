@@ -11,6 +11,7 @@ import {
   HISTORY_DISPLAY_LIMIT,
 } from "../lib/storage/session";
 import { useAuth } from "../lib/auth/account";
+import { Ionicons } from "@expo/vector-icons";
 
 /**
  * Saved scans.
@@ -57,6 +58,7 @@ export default function HistoryScreen() {
   const setResults = useAnalysisStore((s) => s.setResults);
   const [sessions, setSessions] = useState<MenuSession[] | null>(null);
   const accountsOn = useAuth((s) => s.status !== "unavailable");
+  const signedIn = useAuth((s) => s.userId !== null && !s.isAnonymous);
 
   // Reload on focus rather than on mount: coming back from a scan should show
   // it, and this screen is cheap enough that re-reading is free.
@@ -149,7 +151,7 @@ export default function HistoryScreen() {
       ) : visible.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
           <View className="w-16 h-16 rounded-full bg-green-50 items-center justify-center mb-4">
-            <Text className="text-3xl">📖</Text>
+            <Ionicons name="time-outline" size={32} color="#1B4332" />
           </View>
           <Text className="text-xl font-bold text-gray-900 mb-2 text-center">
             No saved scans yet
@@ -172,6 +174,30 @@ export default function HistoryScreen() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            accountsOn && !signedIn ? (
+              // The quiet, permanent way in once the one-time post-scan card
+              // has been answered. Everything on this screen is what an
+              // account would back up, so this is where the offer makes sense.
+              <TouchableOpacity
+                className="flex-row items-center bg-green-50 border border-green-200 rounded-2xl px-4 py-3 mb-4"
+                style={{ minHeight: 56 }}
+                onPress={() => router.push("/account?from=history")}
+                activeOpacity={0.85}
+                accessibilityRole="button"
+                accessibilityLabel="Back up your saved scans with a free account"
+              >
+                <Ionicons name="cloud-upload-outline" size={22} color="#1B4332" />
+                <View className="flex-1 ml-3">
+                  <Text className="text-base font-semibold text-brand-900">
+                    Back up your saved scans
+                  </Text>
+                  <Text className="text-sm text-gray-700">Free account · no password</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#1B4332" />
+              </TouchableOpacity>
+            ) : null
+          }
           renderItem={({ item }) => {
             const best = topDish(item);
             return (

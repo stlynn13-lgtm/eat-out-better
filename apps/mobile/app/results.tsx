@@ -26,6 +26,7 @@ import {
   trackFeedbackRatingSubmitted,
 } from "../lib/analytics";
 import FeedbackSheet from "../components/FeedbackSheet";
+import SaveScansPrompt from "../components/SaveScansPrompt";
 import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 
 /**
@@ -68,6 +69,9 @@ export default function ResultsScreen() {
   // "scan" = the per-menu prompt (stars required); "general" = the footer link.
   const [feedbackVariant, setFeedbackVariant] = useState<"general" | "scan">("general");
   const [inlineRating, setInlineRating] = useState<number | null>(null);
+  // The one-time "keep this scan safe" card grows the action bar; the list
+  // grows its bottom padding to match so nothing hides behind it.
+  const [savePromptVisible, setSavePromptVisible] = useState(false);
 
   useEffect(() => {
     if (!results && status !== "complete") {
@@ -138,7 +142,7 @@ export default function ResultsScreen() {
           paddingTop: 32,
           // Clears the absolutely-positioned action bar plus the helpful-rating
           // card now sitting at the end of the list.
-          paddingBottom: 130,
+          paddingBottom: savePromptVisible ? 290 : 130,
         }}
         ListHeaderComponent={
           <View className="mb-6">
@@ -215,6 +219,10 @@ export default function ResultsScreen() {
         className="absolute bottom-0 left-0 right-0 px-5 pb-8 pt-3"
         style={{ backgroundColor: "rgba(249,250,251,0.97)" }}
       >
+        <SaveScansPrompt
+          eligible={!fromHistory && dishes.length > 0}
+          onVisibleChange={setSavePromptVisible}
+        />
         <TouchableOpacity
           className="w-full border-2 border-gray-300 rounded-xl py-4 items-center"
           onPress={() => {

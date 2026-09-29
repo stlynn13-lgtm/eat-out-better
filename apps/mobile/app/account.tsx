@@ -2,48 +2,54 @@ import { useEffect, useState } from "react";
 import {
   View,
   Text,
-  TextInput,
+  Image,
   TouchableOpacity,
   ScrollView,
   Alert,
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform,
   Linking,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as AppleAuthentication from "expo-apple-authentication";
+import { Ionicons } from "@expo/vector-icons";
 import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
+import { getSessions } from "../lib/storage/session";
 import {
   useAuth,
   continueWithApple,
   continueWithGoogle,
-  sendEmailCode,
-  verifyEmailCode,
   signOut,
   deleteAccount,
   isAppleSignInAvailable,
   friendlyAuthError,
   SignInCancelled,
-  type EmailCodeMode,
   type LoginProvider,
+  type SignInOutcome,
 } from "../lib/auth/account";
+import LoginButtons from "../components/auth/LoginButtons";
+import EmailCodeFlow from "../components/auth/EmailCodeFlow";
+import AccountCreated from "../components/auth/AccountCreated";
 
 /**
- * Account: sign in (Apple, Google, or a 6-digit email code), sign out, delete.
+ * Account — presented as a sheet over whatever you were doing.
  *
- * Everyone already HAS an account — a silent anonymous one from first launch —
- * so "signing in" here means attaching a login to it, which is what lets saved
- * scans follow the person to a new phone. Nothing on this screen is required
- * to scan a menu (App Store 5.1.1(v)).
+ * Everyone already HAS an account: a silent anonymous one from first launch.
+ * So this screen never says "sign up" — it offers to attach a login (Apple,
+ * Google, or a 6-digit code by email) so saved scans survive a new phone, then
+ * confirms it worked. Nothing here is ever required to scan a menu
+ * (App Store 5.1.1(v)), and "Not now" is always one tap away.
  *
- * Sign in with Apple is listed first and at full size: when an app offers a
- * third-party login like Google, Guideline 4.8 wants Apple offered as an
- * equivalent option.
+ * States: sign in → (email steps) → account created → manage.
  */
 
-type Busy = null | LoginProvider | "verify" | "signout" | "delete";
+type Busy = null | LoginProvider | "other";
+/** `added` = a backup login attached to an account that already had one. */
+type Success = {
+  outcome: SignInOutcome | "added";
+  provider: LoginProvider;
+  email: string | null;
+};
 
 const PROVIDER_LABEL: Record<LoginProvider, string> = {
   apple: "Apple",
@@ -53,65 +59,314 @@ const PROVIDER_LABEL: Record<LoginProvider, string> = {
 
 export default function AccountScreen() {
   const router = useRouter();
+  const { from } = useLocalSearchParams<{ from?: string }>();
   const auth = useAuth();
   const [appleAvailable, setAppleAvailable] = useState(false);
   const [busy, setBusy] = useState<Busy>(null);
-  const [emailStep, setEmailStep] = useState<"closed" | "address" | "code">("closed");
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
-  const [codeMode, setCodeMode] = useState<EmailCodeMode>("link");
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [success, setSuccess] = useState<Success | null>(null);
 
   useEffect(() => {
     isAppleSignInAvailable().then(setAppleAvailable);
   }, []);
 
+  const close = () => (router.canGoBack() ? router.back() : router.replace("/"));
   const signedIn = auth.userId !== null && !auth.isAnonymous;
 
-  async function run(key: Busy, action: () => Promise<void>, failTitle = "Couldn't sign in") {
+  const runProvider = async (provider: "apple" | "google") => {
     if (busy) return;
-    setBusy(key);
+    setBusy(provider);
     try {
-      await action();
+      const outcome =
+        provider === "apple" ? await continueWithApple() : await continueWithGoogle();
+      setSuccess({
+        outcome: signedIn ? "added" : outcome,
+        provider,
+        email: useAuth.getState().email,
+      });
     } catch (error) {
       if (!(error instanceof SignInCancelled)) {
-        Alert.alert(failTitle, error instanceof Error && key === "delete" ? error.message : friendlyAuthError(error));
+        Alert.alert("Couldn't sign in", friendlyAuthError(error));
       }
     } finally {
       setBusy(null);
     }
+  };
+
+  const available: LoginProvider[] = appleAvailable
+    ? ["apple", "google", "email"]
+    : ["google", "email"];
+  // Email is only worth adding when the account has no usable address yet —
+  // an Apple "Hide My Email" relay, or none at all. Anyone whose account
+  // already has a real address can sign in by code at it today: Supabase links
+  // identities that share a confirmed email.
+  const hasRealEmail = !!auth.email && !auth.email.endsWith("@privaterelay.appleid.com");
+  const unlinked = available.filter(
+    (p) => !auth.providers.includes(p) && !(p === "email" && hasRealEmail)
+  );
+
+  let body: React.ReactNode;
+  if (auth.status === "unavailable") {
+    body = (
+      <Text className="text-base text-gray-600 text-center mt-16 px-4">
+        Accounts aren't switched on in this version of the app yet. Your saved
+        scans are safe on this phone.
+      </Text>
+    );
+  } else if (success) {
+    body = (
+      <AccountCreated
+        outcome={success.outcome}
+        provider={success.provider}
+        email={success.email}
+        doneLabel={from === "first-scan" ? "Back to my results" : "Done"}
+        onDone={close}
+      />
+    );
+  } else if (emailOpen) {
+    body = (
+      <EmailCodeFlow
+        onCancel={() => setEmailOpen(false)}
+        onDone={(outcome, email) => {
+          setEmailOpen(false);
+          setSuccess({ outcome: signedIn ? "added" : outcome, provider: "email", email });
+        }}
+      />
+    );
+  } else if (signedIn) {
+    body = (
+      <SignedInView
+        unlinked={unlinked}
+        busy={busy}
+        onApple={() => runProvider("apple")}
+        onGoogle={() => runProvider("google")}
+        onEmail={() => setEmailOpen(true)}
+        onClosed={close}
+      />
+    );
+  } else {
+    body = (
+      <SignInView
+        providers={available}
+        busy={busy}
+        onApple={() => runProvider("apple")}
+        onGoogle={() => runProvider("google")}
+        onEmail={() => setEmailOpen(true)}
+        onNotNow={close}
+      />
+    );
   }
 
-  const onSendCode = () =>
-    run("email", async () => {
-      const address = email.trim();
-      if (!/^\S+@\S+\.\S+$/.test(address)) {
-        Alert.alert("Check your email", "That email address doesn't look right.");
-        return;
-      }
-      const mode = await sendEmailCode(address);
-      setCodeMode(mode);
-      setCode("");
-      setEmailStep("code");
-    });
+  return (
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
+      {/* Sheet header: title on the left only when managing an account; the
+          close control is always in the same place, top right. */}
+      <View className="flex-row items-center justify-between px-5 pt-4 pb-2">
+        <Text className="text-lg font-bold text-gray-900" accessibilityRole="header">
+          {signedIn && !success && !emailOpen ? "Account" : ""}
+        </Text>
+        <TouchableOpacity
+          onPress={close}
+          className="rounded-full bg-gray-200 items-center justify-center"
+          style={{ width: 36, height: 36 }}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          accessibilityRole="button"
+          accessibilityLabel="Close"
+        >
+          <Ionicons name="close" size={20} color="#374151" />
+        </TouchableOpacity>
+      </View>
 
-  const onVerify = () =>
-    run("verify", async () => {
-      if (code.replace(/\D/g, "").length !== 6) {
-        Alert.alert("Enter the code", "The code in the email is 6 digits.");
-        return;
-      }
-      await verifyEmailCode(email, code, codeMode);
-      setEmailStep("closed");
-      setCode("");
-    });
+      <KeyboardAvoidingView className="flex-1" behavior="padding">
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {body}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Not signed in yet
+// ---------------------------------------------------------------------------
+
+function SignInView({
+  providers,
+  busy,
+  onApple,
+  onGoogle,
+  onEmail,
+  onNotNow,
+}: {
+  providers: LoginProvider[];
+  busy: Busy;
+  onApple: () => void;
+  onGoogle: () => void;
+  onEmail: () => void;
+  onNotNow: () => void;
+}) {
+  return (
+    <View>
+      <View className="items-center mt-2 mb-6">
+        <Image
+          source={require("../assets/brand/mark.png")}
+          style={{ width: 64, height: 64 }}
+          accessibilityIgnoresInvertColors
+          accessible={false}
+        />
+        <Text
+          className="text-2xl font-bold text-gray-900 text-center mt-5 mb-2"
+          accessibilityRole="header"
+        >
+          Keep your scans on every phone
+        </Text>
+        <Text className="text-base text-gray-600 text-center leading-relaxed px-2">
+          Create a free account in seconds. You never need one to scan a menu.
+        </Text>
+      </View>
+
+      <View className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6">
+        <Benefit
+          icon="cloud-done-outline"
+          title="Backed up automatically"
+          body="Every menu you scan is saved to your account."
+        />
+        <Benefit
+          icon="phone-portrait-outline"
+          title="Back on a new phone"
+          body="Sign in and your saved scans are right there."
+        />
+        <Benefit
+          icon="key-outline"
+          title="No password, ever"
+          body="Use Apple, Google, or a code we email you."
+          last
+        />
+      </View>
+
+      <LoginButtons
+        providers={providers}
+        busy={busy}
+        onApple={onApple}
+        onGoogle={onGoogle}
+        onEmail={onEmail}
+      />
+
+      <TouchableOpacity
+        onPress={onNotNow}
+        disabled={busy !== null}
+        className="items-center justify-center mt-3"
+        style={{ minHeight: 48 }}
+        accessibilityRole="button"
+      >
+        <Text className="text-base font-semibold text-brand-900">Not now</Text>
+      </TouchableOpacity>
+
+      <Text className="text-xs text-gray-600 text-center mt-3 leading-relaxed">
+        By continuing you agree to our{" "}
+        <Text
+          className="underline"
+          accessibilityRole="link"
+          onPress={() => Linking.openURL(TERMS_URL)}
+        >
+          Terms
+        </Text>{" "}
+        and{" "}
+        <Text
+          className="underline"
+          accessibilityRole="link"
+          onPress={() => Linking.openURL(PRIVACY_URL)}
+        >
+          Privacy Policy
+        </Text>
+        . Your health settings never leave your phone.
+      </Text>
+    </View>
+  );
+}
+
+function Benefit({
+  icon,
+  title,
+  body,
+  last = false,
+}: {
+  icon: React.ComponentProps<typeof Ionicons>["name"];
+  title: string;
+  body: string;
+  last?: boolean;
+}) {
+  return (
+    <View className={`flex-row items-start ${last ? "" : "mb-4"}`}>
+      <View
+        className="rounded-full bg-green-50 items-center justify-center"
+        style={{ width: 40, height: 40 }}
+      >
+        <Ionicons name={icon} size={20} color="#1B4332" />
+      </View>
+      <View className="flex-1 ml-3">
+        <Text className="text-base font-semibold text-gray-900">{title}</Text>
+        <Text className="text-sm text-gray-600 leading-snug mt-0.5">{body}</Text>
+      </View>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Signed in
+// ---------------------------------------------------------------------------
+
+function SignedInView({
+  unlinked,
+  busy,
+  onApple,
+  onGoogle,
+  onEmail,
+  onClosed,
+}: {
+  unlinked: LoginProvider[];
+  busy: Busy;
+  onApple: () => void;
+  onGoogle: () => void;
+  onEmail: () => void;
+  onClosed: () => void;
+}) {
+  const auth = useAuth();
+  const [working, setWorking] = useState<null | "signout" | "delete">(null);
+  const [scanCount, setScanCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    getSessions().then((s) => setScanCount(s.length));
+  }, []);
+
+  const name = auth.displayName ?? auth.email ?? "Your account";
+  const initial = (auth.displayName ?? auth.email ?? "?").trim().charAt(0).toUpperCase();
 
   const confirmSignOut = () =>
     Alert.alert(
       "Sign out?",
-      "Your saved scans stay in your account. This phone will start a fresh, empty history until you sign back in.",
+      "Your saved scans stay in your account. This phone starts a fresh, empty history until you sign back in.",
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Sign out", onPress: () => run("signout", signOut, "Couldn't sign out") },
+        {
+          text: "Sign out",
+          onPress: async () => {
+            setWorking("signout");
+            try {
+              await signOut();
+              onClosed();
+            } catch (error) {
+              Alert.alert("Couldn't sign out", friendlyAuthError(error));
+            } finally {
+              setWorking(null);
+            }
+          },
+        },
       ]
     );
 
@@ -127,320 +382,134 @@ export default function AccountScreen() {
         {
           text: "Delete account",
           style: "destructive",
-          onPress: () =>
-            run(
-              "delete",
-              async () => {
-                await deleteAccount();
-                Alert.alert("Account deleted", "Your account and saved scans have been deleted.", [
-                  { text: "OK", onPress: () => router.back() },
-                ]);
-              },
-              "Couldn't delete your account"
-            ),
+          onPress: async () => {
+            setWorking("delete");
+            try {
+              await deleteAccount();
+              Alert.alert("Account deleted", "Your account and saved scans have been deleted.", [
+                { text: "OK", onPress: onClosed },
+              ]);
+            } catch (error) {
+              Alert.alert(
+                "Couldn't delete your account",
+                error instanceof Error ? error.message : "Please try again."
+              );
+            } finally {
+              setWorking(null);
+            }
+          },
         },
       ]
     );
 
-  // Logins not yet attached — offered to signed-in users as a backup way in.
-  // Matters most for "Hide My Email" users, whose Apple address won't match
-  // anything else they own.
-  const unlinked = (["apple", "google", "email"] as LoginProvider[]).filter(
-    (p) => !auth.providers.includes(p) && (p !== "apple" || appleAvailable)
-  );
-
-  return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="flex-row items-center justify-between px-5 pt-2 pb-4">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-        >
-          <Text className="text-base text-brand-900">‹ Back</Text>
-        </TouchableOpacity>
-        <Text className="text-lg font-bold text-gray-900">Account</Text>
-        <View className="w-14" />
-      </View>
-
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <ScrollView
-          className="flex-1 px-5"
-          contentContainerStyle={{ paddingBottom: 40 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          {auth.status === "unavailable" ? (
-            <Text className="text-base text-gray-600 text-center mt-8">
-              Accounts aren't available in this version of the app.
-            </Text>
-          ) : signedIn ? (
-            <>
-              <View className="bg-white rounded-2xl p-5 mb-4 shadow-sm border border-gray-100">
-                <Text className="text-sm text-gray-500 mb-1">Signed in</Text>
-                <Text className="text-lg font-semibold text-gray-900">
-                  {auth.displayName ?? auth.email ?? "Your account"}
-                </Text>
-                {auth.displayName && auth.email ? (
-                  <Text className="text-base text-gray-600 mt-0.5">{auth.email}</Text>
-                ) : null}
-                {auth.providers.length > 0 ? (
-                  <Text className="text-sm text-gray-500 mt-2">
-                    Signs in with {auth.providers.map((p) => PROVIDER_LABEL[p]).join(" · ")}
-                  </Text>
-                ) : null}
-                <Text className="text-base text-gray-600 mt-3 leading-relaxed">
-                  Your saved scans are backed up to this account and will be here
-                  on any phone you sign in on.
-                </Text>
-              </View>
-
-              {unlinked.length > 0 && emailStep === "closed" ? (
-                <View className="mb-6">
-                  <Text className="text-sm font-semibold text-gray-700 mb-2">
-                    Add another way to sign in
-                  </Text>
-                  <LoginButtons
-                    providers={unlinked}
-                    busy={busy}
-                    onApple={() => run("apple", continueWithApple)}
-                    onGoogle={() => run("google", continueWithGoogle)}
-                    onEmail={() => setEmailStep("address")}
-                  />
-                </View>
-              ) : null}
-            </>
-          ) : (
-            <>
-              <View className="bg-white rounded-2xl p-5 mb-5 shadow-sm border border-gray-100">
-                <Text className="text-lg font-semibold text-gray-900 mb-2">
-                  Keep your scans on every phone
-                </Text>
-                <Text className="text-base text-gray-600 leading-relaxed">
-                  Sign in to back up your saved scans and get them back if you
-                  change or lose your phone. You don't need an account to scan
-                  menus.
-                </Text>
-              </View>
-
-              {emailStep === "closed" ? (
-                <LoginButtons
-                  providers={appleAvailable ? ["apple", "google", "email"] : ["google", "email"]}
-                  busy={busy}
-                  onApple={() => run("apple", continueWithApple)}
-                  onGoogle={() => run("google", continueWithGoogle)}
-                  onEmail={() => setEmailStep("address")}
-                />
-              ) : null}
-            </>
-          )}
-
-          {emailStep !== "closed" ? (
-            <View className="bg-white rounded-2xl p-5 mb-4 shadow-sm border border-gray-100">
-              {emailStep === "address" ? (
-                <>
-                  <Text className="text-base font-semibold text-gray-900 mb-1">
-                    Your email
-                  </Text>
-                  <Text className="text-sm text-gray-600 mb-3">
-                    We'll email you a 6-digit code. No password.
-                  </Text>
-                  <TextInput
-                    className="border border-gray-300 rounded-xl px-4 py-3 text-base text-gray-900 mb-3"
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder="you@example.com"
-                    placeholderTextColor="#6B7280"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoComplete="email"
-                    textContentType="emailAddress"
-                    returnKeyType="send"
-                    onSubmitEditing={onSendCode}
-                    accessibilityLabel="Email address"
-                  />
-                  <PrimaryButton label="Send code" busy={busy === "email"} onPress={onSendCode} />
-                </>
-              ) : (
-                <>
-                  <Text className="text-base font-semibold text-gray-900 mb-1">
-                    Enter the code
-                  </Text>
-                  <Text className="text-sm text-gray-600 mb-3">
-                    We sent a 6-digit code to {email.trim()}. It can take a minute
-                    to arrive — check spam if you don't see it.
-                  </Text>
-                  <TextInput
-                    className="border border-gray-300 rounded-xl px-4 py-3 text-2xl tracking-widest text-gray-900 mb-3 text-center"
-                    value={code}
-                    onChangeText={(t) => setCode(t.replace(/\D/g, "").slice(0, 6))}
-                    placeholder="000000"
-                    placeholderTextColor="#9CA3AF"
-                    keyboardType="number-pad"
-                    // Lets iOS offer the code from Mail above the keyboard.
-                    textContentType="oneTimeCode"
-                    autoComplete="one-time-code"
-                    maxLength={6}
-                    autoFocus
-                    returnKeyType="done"
-                    onSubmitEditing={onVerify}
-                    accessibilityLabel="6-digit code"
-                  />
-                  <PrimaryButton label="Continue" busy={busy === "verify"} onPress={onVerify} />
-                  <View className="flex-row justify-between mt-4">
-                    <TouchableOpacity onPress={onSendCode} disabled={busy !== null}>
-                      <Text className="text-sm text-brand-900 font-medium">Send a new code</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setEmailStep("address")} disabled={busy !== null}>
-                      <Text className="text-sm text-gray-600">Use a different email</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
-              <TouchableOpacity
-                className="items-center mt-4"
-                onPress={() => setEmailStep("closed")}
-                disabled={busy !== null}
-              >
-                <Text className="text-sm text-gray-500">Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          ) : null}
-
-          {signedIn ? (
-            <>
-              <TouchableOpacity
-                className="border border-gray-300 bg-white rounded-xl py-4 items-center mt-2"
-                onPress={confirmSignOut}
-                disabled={busy !== null}
-                accessibilityRole="button"
-              >
-                {busy === "signout" ? (
-                  <ActivityIndicator color="#1B4332" />
-                ) : (
-                  <Text className="text-brand-900 font-semibold text-base">Sign out</Text>
-                )}
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                className="items-center py-4 mt-6"
-                onPress={confirmDelete}
-                disabled={busy !== null}
-                accessibilityRole="button"
-                accessibilityLabel="Delete account permanently"
-              >
-                {busy === "delete" ? (
-                  <ActivityIndicator color="#B91C1C" />
-                ) : (
-                  <Text className="text-red-700 font-semibold text-base">Delete account</Text>
-                )}
-              </TouchableOpacity>
-            </>
-          ) : auth.status !== "unavailable" ? (
-            <Text className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
-              By continuing you agree to our{" "}
-              <Text className="underline" onPress={() => Linking.openURL(TERMS_URL)}>
-                Terms
-              </Text>{" "}
-              and{" "}
-              <Text className="underline" onPress={() => Linking.openURL(PRIVACY_URL)}>
-                Privacy Policy
-              </Text>
-              .
-            </Text>
-          ) : null}
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
-}
-
-function LoginButtons({
-  providers,
-  busy,
-  onApple,
-  onGoogle,
-  onEmail,
-}: {
-  providers: LoginProvider[];
-  busy: Busy;
-  onApple: () => void;
-  onGoogle: () => void;
-  onEmail: () => void;
-}) {
   return (
     <View>
-      {providers.includes("apple") ? (
-        <View className="mb-3" pointerEvents={busy ? "none" : "auto"}>
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
-            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-            cornerRadius={12}
-            style={{ width: "100%", height: 52, opacity: busy === "apple" ? 0.6 : 1 }}
-            onPress={onApple}
+      <View className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mt-2 mb-4">
+        <View className="flex-row items-center">
+          <View
+            className="rounded-full bg-brand-900 items-center justify-center"
+            style={{ width: 52, height: 52 }}
+            accessible={false}
+          >
+            <Text className="text-white text-xl font-bold">{initial}</Text>
+          </View>
+          <View className="flex-1 ml-4">
+            <Text className="text-lg font-semibold text-gray-900" numberOfLines={1}>
+              {name}
+            </Text>
+            {auth.displayName && auth.email ? (
+              <Text className="text-sm text-gray-600" numberOfLines={1}>
+                {auth.email}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+
+        {auth.providers.length > 0 ? (
+          <View className="flex-row flex-wrap gap-2 mt-4">
+            {auth.providers.map((p) => (
+              <View key={p} className="rounded-full bg-gray-100 px-3 py-1">
+                <Text className="text-xs font-semibold text-gray-700">
+                  Signs in with {PROVIDER_LABEL[p]}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
+      </View>
+
+      <View className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6 flex-row items-center">
+        <View
+          className="rounded-full bg-green-50 items-center justify-center"
+          style={{ width: 40, height: 40 }}
+        >
+          <Ionicons name="cloud-done-outline" size={20} color="#1B4332" />
+        </View>
+        <View className="flex-1 ml-3">
+          <Text className="text-base font-semibold text-gray-900">Backup is on</Text>
+          <Text className="text-sm text-gray-600">
+            {scanCount === null
+              ? "Your saved scans are backed up."
+              : `${scanCount} saved ${scanCount === 1 ? "scan" : "scans"} on this phone, all backed up.`}
+          </Text>
+        </View>
+      </View>
+
+      {unlinked.length > 0 ? (
+        <View className="mb-6">
+          <Text className="text-sm font-semibold text-gray-700 mb-1">
+            Add another way to sign in
+          </Text>
+          <Text className="text-sm text-gray-600 mb-3 leading-snug">
+            A backup login, in case you ever can't use this one.
+          </Text>
+          <LoginButtons
+            providers={unlinked}
+            busy={busy}
+            onApple={onApple}
+            onGoogle={onGoogle}
+            onEmail={onEmail}
           />
         </View>
       ) : null}
 
-      {providers.includes("google") ? (
+      <TouchableOpacity
+        className="border border-gray-300 bg-white rounded-xl items-center justify-center flex-row"
+        style={{ height: 52 }}
+        onPress={confirmSignOut}
+        disabled={working !== null}
+        accessibilityRole="button"
+      >
+        {working === "signout" ? (
+          <ActivityIndicator color="#1B4332" />
+        ) : (
+          <>
+            <Ionicons name="log-out-outline" size={20} color="#1B4332" />
+            <Text className="text-brand-900 font-semibold text-base ml-2">Sign out</Text>
+          </>
+        )}
+      </TouchableOpacity>
+
+      {/* Destructive action kept well away from the everyday ones. */}
+      <View className="mt-12 pt-6 border-t border-gray-200">
         <TouchableOpacity
-          className="border border-gray-300 bg-white rounded-xl items-center justify-center mb-3"
-          style={{ height: 52 }}
-          onPress={onGoogle}
-          disabled={busy !== null}
+          className="items-center justify-center"
+          style={{ minHeight: 48 }}
+          onPress={confirmDelete}
+          disabled={working !== null}
           accessibilityRole="button"
-          accessibilityLabel="Continue with Google"
+          accessibilityLabel="Delete account permanently"
         >
-          {busy === "google" ? (
-            <ActivityIndicator color="#1B4332" />
+          {working === "delete" ? (
+            <ActivityIndicator color="#B91C1C" />
           ) : (
-            <Text className="text-gray-900 font-semibold text-base">Continue with Google</Text>
+            <Text className="text-red-700 font-semibold text-base">Delete account</Text>
           )}
         </TouchableOpacity>
-      ) : null}
-
-      {providers.includes("email") ? (
-        <TouchableOpacity
-          className="border border-gray-300 bg-white rounded-xl items-center justify-center"
-          style={{ height: 52 }}
-          onPress={onEmail}
-          disabled={busy !== null}
-          accessibilityRole="button"
-          accessibilityLabel="Continue with email"
-        >
-          <Text className="text-gray-900 font-semibold text-base">Continue with email</Text>
-        </TouchableOpacity>
-      ) : null}
+        <Text className="text-xs text-gray-600 text-center mt-1">
+          Permanently removes your account and every saved scan.
+        </Text>
+      </View>
     </View>
-  );
-}
-
-function PrimaryButton({
-  label,
-  busy,
-  onPress,
-}: {
-  label: string;
-  busy: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <TouchableOpacity
-      className="bg-brand-900 rounded-xl py-4 items-center"
-      onPress={onPress}
-      disabled={busy}
-      activeOpacity={0.85}
-      accessibilityRole="button"
-    >
-      {busy ? (
-        <ActivityIndicator color="#FFFFFF" />
-      ) : (
-        <Text className="text-white font-semibold text-base">{label}</Text>
-      )}
-    </TouchableOpacity>
   );
 }

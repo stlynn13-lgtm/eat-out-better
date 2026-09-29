@@ -10,6 +10,7 @@ import {
   type NativeSyntheticEvent,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Gesture,
   GestureDetector,
@@ -287,7 +288,7 @@ export default function PhotoViewer({
                 accessibilityRole="button"
                 accessibilityLabel="Delete this photo"
               >
-                <Text className="text-white text-base leading-none">🗑</Text>
+                <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
           </SafeAreaView>
@@ -310,7 +311,7 @@ export default function PhotoViewer({
                 accessibilityRole="button"
                 accessibilityLabel="Retake this photo"
               >
-                <Text className="text-white text-base mr-2">📷</Text>
+                <Ionicons name="camera-outline" size={20} color="#FFFFFF" style={{ marginRight: 8 }} />
                 <Text className="text-white text-base font-semibold">Retake</Text>
               </TouchableOpacity>
 
