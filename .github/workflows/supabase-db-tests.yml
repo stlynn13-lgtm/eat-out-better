@@ -1,0 +1,32 @@
+# Proves the database rules for saved scans on a real Postgres: row-level
+# security (two-user isolation), no UPDATE, no health data, the per-user cap,
+# and cascade on account deletion. See supabase/tests/menu_sessions_test.sql.
+#
+# Runs here rather than on a laptop because it needs Docker, and because a
+# check that only runs when someone remembers to run it isn't a check.
+name: Supabase DB tests
+
+on:
+  pull_request:
+    paths:
+      - "supabase/**"
+      - ".github/workflows/supabase-db-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start Postgres with the migrations applied
+        run: supabase db start
+      - name: Run pgTAP tests
+        run: supabase test db
