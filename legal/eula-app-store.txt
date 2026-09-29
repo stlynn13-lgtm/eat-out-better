@@ -424,9 +424,11 @@ Dine Right LLC
 2811 Vallejo St Apt B213
 Denver, CO 80211
 United States
+Phone: (720) 837-1482
 Email: support@eatoutbetter.com
 This is our address for legal notices under Section 23. It is also the
-developer address required by Apple under Section 20.
+developer name, address and contact information required by Apple under
+Section 20.
 For privacy questions and requests, see our Privacy Policy
 (https://eat-out-better-api.vercel.app/privacy).
 
