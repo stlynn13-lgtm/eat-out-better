@@ -18,7 +18,9 @@ The email option is a **code, not a link** — Sean left that choice open ("whic
 
 **Nothing visible changes until the setup is done.** Without the Supabase settings the app behaves exactly like build 11. `ACCOUNTS-SETUP.md` lists every click outside the code — about an hour, $0 a month. The domain email needs (`eatoutbetter.com`) turned out to be owned already, registered on 25 June.
 
-**The daily spend cap now counts dollars.** It used to count requests (2,000 a day), which treated a one-page scan and a ten-page scan as the same. It now adds up what each Claude call actually cost and stops accepting scans for the day at **$200** — about 3,100 scans. It needs a free Upstash Redis store connected in Vercel; until then it's inert, as the old one was. (PR #24.)
+**The daily spend cap now counts dollars.** It used to count requests (2,000 a day), which treated a one-page scan and a ten-page scan as the same. It now adds up what each Claude call actually cost and stops accepting scans for the day at **$200** — about 3,100 scans. (PR #24.)
+
+It was first written against Upstash Redis, which is what the older limiter from PR #7 used. Sean pointed out the plan was always Supabase, so before merging it was moved onto the Supabase database: two small database functions the API calls with its secret key, IPs stored only as a salted hash, and the two Upstash packages removed. One vendor instead of two, and the cap switches on with the same Supabase setup as accounts — no separate Redis step. A scan takes 10+ seconds, so one extra database round trip per scan is invisible; if the database is slow or down, the limiter gives up after 3 seconds and lets the scan through rather than blocking users.
 
 **The photo preview got the three fixes Sean asked for.** The close button is 64pt instead of 36 and sits away from the screen's rounded corner; swiping down closes the preview and keeps the photo in the scan; pinch (or double-tap) zooms in to check the small print. It's pure app code, so it can go out over the air to builds 9 and 11 with no new build. (PR #23.)
 
@@ -62,7 +64,7 @@ The script that writes feedback into the Google Sheet lives inside the sheet, ow
 
 **What's next**
 
-Merge the PRs (create `ota/1.2.0` from `main` before #25). Then Sean's hour in `ACCOUNTS-SETUP.md`, the Upstash click, the feedback script, and the reminders `plan.md` now keeps for build 12: the welcome screen design, the landscape-capture decision (it can't ship over the air), the Google logo asset, and the Terms phone number.
+All five PRs merged the same evening, with `ota/1.2.0` cut from `main` just before accounts moved it to 1.3.0. The Terms also got their phone number: (720) 837-1482, a Google Voice number. What's left is Sean's hour in `ACCOUNTS-SETUP.md` (it switches on accounts and the spend cap), the feedback script, the workflow permission, and the reminders `plan.md` keeps for build 12: the welcome screen design, the landscape-capture decision (it can't ship over the air), and the Google logo asset.
 
 ---
 

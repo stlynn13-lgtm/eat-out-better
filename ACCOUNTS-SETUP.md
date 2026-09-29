@@ -34,7 +34,9 @@ and even ship before the setup is finished.
      either is fine for Denver.
    - Database password: generate it and save it in your password manager. You won't need it day to day.
 2. **SQL Editor → New query** → paste all of `supabase/migrations/20260928000000_menu_sessions.sql` → **Run**.
-   That creates the one table (saved scans) and its security rules.
+   That creates the saved-scans table and its security rules. Then a second new query with
+   `supabase/migrations/20260929000000_api_limits.sql` → **Run** — that's the $200/day spend cap and the
+   per-IP limits. Run them in that order (oldest date first).
 3. **Authentication → Sign In / Providers**
    - **Allow anonymous sign-ins: ON**
    - **Allow manual linking: ON** — linking a login to the anonymous account fails without this, and the error
@@ -115,8 +117,11 @@ Project `eat-out-better-api` → Settings → Environment Variables (Production)
 | `APPLE_SIGN_IN_KEY_ID` | from 3.3 |
 | `APPLE_SIGN_IN_PRIVATE_KEY` | the whole .p8 file contents, including the BEGIN/END lines |
 
-While you're there: **Storage / Marketplace → Upstash for Redis → connect to `eat-out-better-api`.** That's what
-switches on the $200/day spend cap (PR #24) — it does nothing without it.
+**These two Supabase values also switch on the $200/day spend cap** and the per-IP limits — they run on the
+same database (step 1.2), so there's no separate Redis to set up. Until they're set, the API logs "spend cap
+INACTIVE" and the Anthropic account's own limit is the only ceiling.
+
+Then **Deployments → the latest → ⋯ → Redeploy**, so the API picks the new values up.
 
 ## 6. EAS — app build env vars (≈2 min)
 
