@@ -662,17 +662,20 @@ export default function TermsPage() {
         <p>
           <strong>Dine Right LLC</strong>
           <br />
-          2811 Vallejo St Apt
+          2811 Vallejo St Apt B213
           <br />
           Denver, CO 80211
           <br />
           United States
           <br />
+          Phone: <a href="tel:+17208371482">(720) 837-1482</a>
+          <br />
           Email: <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>
         </p>
         <p>
           This is our address for legal notices under Section 23. It is also the
-          developer address required by Apple under Section 20.
+          developer name, address and contact information required by Apple under
+          Section 20.
         </p>
         <p>
           For privacy questions and requests, see our{" "}

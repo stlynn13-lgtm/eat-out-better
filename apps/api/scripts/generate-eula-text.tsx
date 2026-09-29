@@ -42,7 +42,7 @@ function htmlToText(html: string): string {
     /<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi,
     (_m, href: string, label: string) => {
       const url = href.startsWith("/") ? SITE + href : href;
-      if (url.startsWith("mailto:")) return label;
+      if (url.startsWith("mailto:") || url.startsWith("tel:")) return label;
       return `${label} (${url})`;
     }
   );
