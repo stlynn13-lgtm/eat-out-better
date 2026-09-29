@@ -64,7 +64,7 @@ The script that writes feedback into the Google Sheet lives inside the sheet, ow
 
 **What's next**
 
-All five PRs merged the same evening, with `ota/1.2.0` cut from `main` just before accounts moved it to 1.3.0. The Terms also got their phone number: (720) 837-1482, a Google Voice number. What's left is Sean's hour in `ACCOUNTS-SETUP.md` (it switches on accounts and the spend cap), the feedback script, the workflow permission, and the reminders `plan.md` keeps for build 12: the welcome screen design, the landscape-capture decision (it can't ship over the air), and the Google logo asset.
+All five PRs merged the same evening, with `ota/1.2.0` cut from `main` just before accounts moved it to 1.3.0. The Terms also got their phone number: (720) 837-1482, a Google Voice number. The feedback script and the workflow permission were both done the next day: Sean pasted the script into the sheet and redeployed the existing web app (same URL), and feedback rows now carry all the new columns; the database tests then ran for the first time and passed. What's left is Sean's hour in `ACCOUNTS-SETUP.md` (it switches on accounts and the spend cap) and the reminders `plan.md` keeps for build 12: the welcome screen design, the landscape-capture decision (it can't ship over the air), and the Google logo asset.
 
 ---
 
