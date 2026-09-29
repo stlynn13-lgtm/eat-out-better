@@ -2,86 +2,81 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-09-22
+**Last updated:** 2026-09-28
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-**Build 9 (v1.1.4) is on TestFlight** — submitted 26 August, and it is the build on Sean's phone.
+**Build 11 (v1.2.0) is on TestFlight** (arrived 22 September) and carries the install ID and the saved-scans screen. Build 9 (v1.1.4) testers still get over-the-air updates from the `ota/1.1.4` branch.
 
-**Everything since then has shipped over the air instead.** On 10 September the project published its **first ever over-the-air update**, which is the thing build 9 was built to make possible. It carries the Terms of Service gate, the results-screen disclaimer, readable contrast on every legal line, the Sentry privacy fix and the restored shutter flash. Anyone on build 9 picks it all up on the next cold start, with no new build and no App Store involvement.
+**Five pull requests are open from 2026-09-28, all waiting on Sean to merge:**
 
-**Correction (2026-09-22): build 10 was built.** This line previously said it never was. `eas build:list` shows build `7af8814d` finished on 2026-09-10 as v1.1.4 build 10 — whether it was ever *submitted* to TestFlight is a separate question and still unverified. The claim was repeated into a source comment and a commit message before `eas build:list` was checked; the lesson is that EAS is the record of what was built, not the docs.
+| PR | What | Ships how |
+|---|---|---|
+| #22 | Terms address gets **Apt B213**; privacy policy stops describing a health-condition input the app doesn't have, and discloses the install ID | Merge = live on the website |
+| #23 | Photo preview: **64pt close button** moved in from the corner, **swipe down to close**, **pinch-to-zoom** | Over the air to builds 9 and 11 — no new build |
+| #24 | The **$200/day spend cap**, counted in real dollars | Merge + **provision Upstash Redis in Vercel**, or it does nothing |
+| #25 | **Accounts**: silent anonymous account on first launch, sign in with Apple, Google, or a 6-digit email code | Needs **build 12** (v1.3.0) and the setup in `ACCOUNTS-SETUP.md` |
+| docs | This file, the log, and the feedback sheet script | — |
 
-**The legal position changed substantially.** The app now has Terms of Service (`/terms`), a blocking first-run "I Agree" gate, a support page (`/support`), and an allergen disclaimer in three places — that last one being the largest real risk in a menu-reading app and the thing no checklist asked about. Dine Right LLC is confirmed registered in Colorado, so the entity question that five documents disagreed about is closed. Full detail in the `log.md` 2026-09-09/10 entry.
+**Sign-in is built, not switched on.** Everyone will get an invisible account on first launch; signing in attaches a login to it so saved scans follow you to a new phone; scanning never requires it. It stays invisible until Sean does the setup in `ACCOUNTS-SETUP.md` (about an hour of clicking, $0/month — the domain `eatoutbetter.com` is already owned). Full reasoning in the `log.md` 2026-09-28 entry.
 
-**Two shipping gotchas worth keeping**, both discovered the hard way while publishing that first update:
+**Two release lines, soon three.** Each build only accepts over-the-air updates published from its own version:
+- `ota/1.1.4` → build 9
+- **`ota/1.2.0` → build 11 — create it from `main` BEFORE merging PR #25**, which moves `main` to 1.3.0
+- `main` → build 12 once it exists
 
-- **`eas update` needs `eas env:exec`.** `--environment production` alone does *not* reach the subprocess that evaluates `app.config.ts`, so the APP_TOKEN guard fires and the publish dies in ten seconds. **Fixed 2026-09-22:** `env:exec` is now folded into `scripts/publish-update.sh`, so `npm run update:production -- --message "..."` from `apps/mobile` is correct on its own and the wrapper can no longer be forgotten.
-- **The local `ios/` folder disagrees with what ships.** It is untracked and claims JSC; the config default, and what EAS actually builds, is Hermes. It has to be moved aside for every publish until someone runs `npx expo prebuild --clean`.
-
-**Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Conflating them is what caused both bugs — keep them apart when either is touched again.
-
-**Sign-in is decided, its free half is built, and build 11 is cut.** Everything merged to `main` (PR #18, plus PR #19). **EAS build `46feb5ce` — v1.2.0, build 11 — finished and was submitted to TestFlight on 2026-09-22**; Apple's processing runs after EAS reports success, so confirm it actually arrived before assuming testers can install it. **None of it has been run on a device.** **The saved-scans screen is already live on build 9** — shipped over the air 2026-09-22 (groups `c122b253`, then `fff4ebfd` fixing an analytics attribution bug in it), so it's on testers' phones on the next cold start without a new binary. **Note there are now two lines of work:** `ota/1.1.4` is what build 9 testers actually run and is where any update for them must be published from; `main` has moved to 1.2.0 and reaches nobody until build 11 is built. The install-ID half is waiting on build 11. Two ways in: **Sign in with Apple**, and a **6-digit code by email**. **Google is a "link," not a login** — once you're signed in, Settings will let you attach your Google account, but it never appears on the sign-in screen and can't let anyone in yet. That sounds pointless and isn't: it's what stops everyone who used Apple's "Hide My Email" from waking up to a duplicate empty account the day Google sign-in does arrive. **No Supabase project has been created and none should be yet** — the account exists and is empty, which is correct. Full reasoning in `auth-plan.md` §4; the four architecture gaps it depended on are now designed in §12. The 2026-09-22 `log.md` entry is the plain-language version.
-
-Still true from before: the root `package-lock.json` will recreate the duplicate-React launch crash on the next root `npm install`, and fixing it touches how Vercel installs the API. The rubric rewrite is live in production and **has still never been validated against real menus** — that remains the most important untested thing in the project.
+**Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 
 ---
 
-## NOW — verify the update on a device, then validate the scoring
+## ⏰ Before cutting the next build (build 12) — Sean asked to be reminded
 
-**Status:** `main` carries the Terms of Service, the first-run gate, the legal pages and the accessibility and privacy fixes. The first over-the-air update is **live** on the `production` branch at runtime 1.1.4 (update group `9658d607`), so it reaches build 9 on the next cold start.
+Build 12 is the next chance to ship anything native. Decide these first:
 
-0. **Cold-start the app and check the update landed (Sean, two minutes).** The Terms gate should appear first, then the results-screen disclaimer, readable grey text, and — the one nobody has ever seen work — the camera shutter flash, which had been invisible since the SDK bump because React Native 0.85 deleted the API it used.
+1. **Welcome screen design** — feature chips → numbered steps, the "have high cholesterol?" headline, and whether the background reads too dark (couldn't be reproduced — it's near-white). Pure app code, so it can also go out over the air later, but the design is still owed.
+2. **Landscape photo capture (EAT-14)** — **this one can only ship in a build.** The app is locked to portrait in native config, so if landscape is wanted in build 12, the design has to exist before the build is cut. Otherwise it waits for build 13.
+3. **The Google button's logo.** "Continue with Google" is text-only today. Google's branding guidelines want their "G" mark on it; it needs an image asset (a design decision, and a download).
+4. **A phone number for the Terms.** Apple's EULA rules require the Terms to list a phone number as well as the address. Sean chose "home address + phone" and still needs to say which number (a free Google Voice number keeps the cell private).
 
+---
 
-1. **Run a real menu through the scoring (Sean, needs an API key)** — still the one that matters, outstanding since build 8. EAT-17 makes the analyzer assume a dish's typical restaurant preparation instead of hedging, and nothing in this environment can test whether those assumptions are *good* ones. Check especially: bare dish names (no description) get a real score with a hedged explanation ("typically made with…"), and no dish picks up ingredients from a different item on the same menu. EAT-18 and EAT-19 are now merged, so unscored-looking dishes are no longer a confound.
+## NOW
 
-2. **Run the eval and lock in a baseline (Sean or Ray, needs an API key).** `cd apps/api && npm run eval` — scores the BCD Tofu House menu and reports which dishes land in which tier. First job is to confirm the transcribed dish names are right and to fill in *expected* tiers (a human call — an AI-written answer key makes the eval worthless). Then `npm run eval -- --update-baseline`, so the next prompt change is measurable instead of guesswork. Detail in `apps/api/evals/README.md`.
-
-3. **On-device verification pass (Sean)** — nothing in build 9 has been seen running; this machine still has no iOS simulator runtime. Worth looking at: the bigger photos/buttons, the "×" no longer clipped, the new progress bar counting every number, the rebuilt star feedback prompt, the merged "?" info screen, the welcome animation, the daily cap alert on the 6th scan, and — new in this merge — the EAT-20 category groups plus the unranked (alcohol/sauce) section on results.
-
-4. **Calibrate the zoom buttons (Sean, 30 seconds, needs a real phone).** The 2×/3× buttons don't do what they say and can't be fixed in code — the camera library only accepts "a percentage of the device's max zoom" and won't say what that maximum is. Open the camera, pinch until the framing looks like a true 2×, read the percentage badge on the viewfinder, divide by 100. Same for 3×. **Those two numbers then ship over the air — no build.**
-
-5. **Add the new columns to the feedback Google Apps Script.** The app now sends `feedback_type`, `tags`, `scan_session_id`, `dish_count`, `app_version`, `environment`. The script lives outside this repo, so until it's updated those fields arrive and go nowhere.
-
-6. **Send the designs that are blocking the rest of the UX list** — the welcome screen (feature chips → numbered steps, the "have high cholesterol?" headline) and the camera filling most of the screen. Plus a screenshot of the welcome screen: "background too dark" couldn't be reproduced, since that background is already near-white. **All three are pure app code, so once designed they ship over the air rather than as build 10.**
-
-7. **Verify the Vercel deploy** of `main` picked up the API changes (`/api/health` exposes a commit SHA, so this is checkable). This merge redeploys the API.
-
-8. **Before any decision on the scoring KB, run the decomposition test** — can the model reliably turn a dish name into ingredients + cooking method? ~10 cents against the existing corpus. And add per-scan dish logging regardless: it's the same work as the cost ceiling's logging, and unrecorded scans are gone permanently.
-
-9. **EAT-14 (vertical/horizontal swap)** — still waiting on a design, and note it's the one item here that can *never* ship over the air: the app is locked to portrait in native config.
-
-10. **Install build 11 and check four things (Sean).** It is submitted to TestFlight; confirm it arrived, then, in order:
-    1. Force-quit and reopen — the install ID is unchanged.
-    2. **Delete the app, reinstall — history is gone but the install ID is the same.** This is the one that matters. Surviving a reinstall is the entire reason the ID lives in the Keychain, and nothing has ever tested it.
-    3. Saved scans — the list renders, tapping one reopens the full results, "Clear" confirms and works.
-    4. Send feedback from a scan opened *out of history* — it should report `screen: "results_history"` and no scan ID, rather than borrowing whichever scan ran last.
-
-    **From here the testers split.** Anyone who installs 1.2.0 moves to that runtime; anyone still on build 9 keeps getting updates from the `ota/1.1.4` branch. Nothing breaks, but there are now two populations to think about when publishing.
-
-11. **Check the Apple Developer entity type (Sean, under a minute).** App Store Connect → Agreements → Entity Type: Individual or Organization? App Store Guideline 5.1.1(ix) says health apps should be submitted by a legal entity rather than an individual developer — and it's about who *submits*, so an Individual enrollment still trips it even though Dine Right LLC is real. This gates the whole accounts release and nothing else on this list.
-
-12. **Do we own a domain? (Sean, one minute.)** The API runs on `eat-out-better-api.vercel.app`, which suggests not. **Email sign-in is impossible without one** — Supabase's built-in sender caps at 2 emails/hour and flatly refuses any address that isn't on the project team, so it fails 100% for real testers, and since June new free projects can't edit the email templates at all. About $10–15/yr, and it's the only new recurring cost in the entire sign-in plan.
+1. **Merge the five PRs** (above). For #25, create `ota/1.2.0` first.
+2. **Accounts setup** — `ACCOUNTS-SETUP.md`, in order. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers.
+3. **Provision Upstash Redis in Vercel** (Storage / Marketplace → Upstash for Redis → connect `eat-out-better-api`). It switches on the $200/day cap and the per-IP daily limit. Until then the Anthropic account limit is the only global backstop (confirmed set, 2026-09-28).
+4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. Until then the six extra feedback fields keep arriving and going nowhere.
+5. **Publish the photo-viewer update** over the air to build 11 (from `ota/1.2.0`) and build 9 (from `ota/1.1.4`), once #23 is merged and Sean has tried it.
+6. **Push the database-test workflow.** `.github/workflows/supabase-db-tests.yml` exists locally but GitHub refused it: the saved GitHub login lacks the `workflow` permission. `gh auth refresh -s workflow`, then commit and push it — after that the 15 database security tests run on every PR.
+7. **Real-menu scoring** — Sean and Ray are testing it themselves and will report what looks wrong. The open question from the rubric rewrite still stands: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in (1–2 tsp brings it to ~6–8g, which is honestly yellow). Worth watching on real brunch menus.
+8. **Calibrate the zoom buttons** (30 seconds, real phone). Pinch until the framing looks like a true 2×, read the percentage badge, divide by 100; same for 3×. Those two numbers ship over the air.
 
 **Don't undo:** scoring runs at `temperature: 0`. At 0.2 roughly a quarter of a real menu had coin-flip tier colours. Don't raise it without re-running `npm run test:repeatability`.
 
-**Carried-over P0s to confirm (status unknown, cheap to check):** **Anthropic spend cap + budget alert set?** — this got more important, not less: build 9's daily cap is per-device only, so the account spend cap is now the *only* global limit on a runaway day. A true global cap needs durable shared storage (Upstash/Vercel KV) and was deliberately deferred. Also: the three AI validation tests (OCR / scoring / speed) run on real menus? Scoring knowledge base (`Scoring_KB_Generation_Prompt.md`) still pending — that's the root fix for score consistency.
+---
 
-➡️ Full detail + owners + status: GTM Launch Tracker, filter Priority = P0.
+## Closed this week (so nobody chases them again)
+
+- **Shutter flash** — confirmed working by Sean.
+- **The two P1 bugs** ("go back" stalling the second analysis; two loading screens + results flash) — both fixed back in June/July (`8e59003`, `f0bffd4`, `0e1f312`, `b385f09`) and re-checked in today's code: "Analyze New Menu" replaces the results screen before resetting, and only the processing screen navigates to results. If either is ever seen again, it's a new bug.
+- **The root lockfile duplicate-React risk** — closed when PR #7 merged on 21 September: the root lockfile now covers only the API and shared package, with no React Native packages in it. PR #25 added one API dependency and kept it that way.
+- **The local `ios/` folder that disagreed with what ships** — gone. The repo now lives at `~/Developer/eat-out-better`, a fresh clone with no `ios/` folder, so `eas update` no longer needs anything moved aside. If `expo prebuild` ever recreates it, it's generated from the config and matches.
+- **Dine Right LLC** — in **Good Standing** on the Colorado register (formed 24 June 2026; Sean is the registered agent). The first yearly Periodic Report comes due around June 2027; filing it is the one thing that keeps it that way.
+- **Domain** — `eatoutbetter.com` is owned (Namecheap, registered 25 June 2026, email forwarding on).
+- **Lawyer review** — Sean's decision: no outside review; the Terms and policy rely on the best current guidance in the docs.
+- **Apple Developer enrollment** — stays **Individual** for TestFlight (Sean's decision). See the note in NEXT before the public App Store launch.
 
 ---
 
 ## NEXT — before we go live to the public (P1)
 
-- **Fix the two known bugs**: the 2nd-submission crash (the "go back" button) and the double loading screen.
-- **Legal gates**: hosted privacy policy, Terms of Service with a medical disclaimer + liability waiver, an explicit in-app "this is an estimate, not medical advice" acknowledgment, and the operating entity. **✅ The LLC question is closed.** **Dine Right LLC is registered in Colorado** (confirmed by Sean, 2026-09-09), so `apps/api/src/app/privacy/page.tsx:15` has been accurate all along and the entity question is closed. That also clears App Store Guideline 5.1.1(ix) (health apps "should be submitted by a legal entity... not by an individual developer") and unblocks EU DSA trader verification, which an app is *removed* from the EU App Store for lacking. **Three things it does not yet clear:** the Apple Developer enrollment may still be Individual rather than Organization (App Store Connect → Agreements → Entity Type) — check it, because 5.1.1(ix) is about who *submits*, not only who operates; the privacy policy names the LLC but gives no registered address or entity number, which DSA trader status and ordinary business-details practice both want; and the registered address in Terms §24 is missing its apartment number. **✅ The Terms of Service now exist** (`/terms`, shipped 2026-09-09) with a medical disclaimer, an allergen disclaimer, an AI-accuracy disclaimer, a liability cap, an owner shield under CRS §7-80-705, Colorado governing law, arbitration with a 30-day opt-out, and Apple's required EULA terms — plus a blocking first-run acceptance gate, without which the rest is close to unenforceable. **They have not been reviewed by a lawyer, and should be before public launch.** See `app-store-legal-checklist.md`.
-- **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), age rating, App Privacy questionnaire. **✅ Support URL now exists** (`/support`). All the rest is worked out in `app-store-legal-checklist.md`, including the nutrition-label answers derived from the code and the fact that App Store Connect takes a *pasted* EULA rather than a URL — `legal/eula-app-store.txt` is generated from the same component the website renders so the two cannot drift.
-- **UI transparency**: a simple "how scores work" screen (✅ built + verified on `feat/scoring-explained-ui`, needs merge) + per-dish reasons ("High — fried + cream sauce. Try grilled.").
-- **Basic analytics**: wire Firebase and the core funnel events so we can see if people complete a scan.
+- **Apple Developer: switch to Organization before the public launch.** Individual is fine for TestFlight. Before the App Store, three things argue for converting (Apple support does it; needs a free D-U-N-S number for Dine Right LLC; existing apps and TestFlight carry over): Guideline 5.1.1(ix) asks health-adjacent apps to be submitted by a legal entity; the App Store lists the *seller* — today that would be Sean personally, not the LLC the Terms are written for; and EU trader rules publish the seller's address and phone on the EU App Store, which for an Individual means the home address.
+- **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), age rating, App Privacy questionnaire (answers drafted in `privacy-policy-accounts-release.md`). ✅ Support URL exists (`/support`). `legal/eula-app-store.txt` is the text to paste as the custom EULA.
+- **UI transparency**: per-dish reasons ("High — fried + cream sauce. Try grilled.").
+- **Basic analytics**: the core funnel events, so we can see whether people complete a scan.
 - **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime).
 
 ➡️ GTM Launch Tracker, filter Priority = P1.
@@ -92,10 +87,9 @@ Still true from before: the root `package-lock.json` will recreate the duplicate
 
 - **Expanded TestFlight** (10–20 testers — note: external testers trigger Apple's Beta App Review).
 - **Go-to-market sequence**: friends & family → ASO → LinkedIn → condition communities → Product Hunt (as a credibility spike, not the growth engine).
-- **Monetization prep**: decide the model (free at launch → freemium), set the free-tier ceiling from real cost-per-analysis, scaffold RevenueCat.
-- **The identity trigger point** — resolved, and re-cut after verification. `auth-plan.md` (rewritten 2026-09-07) now says: **do a small piece now, and hold the rest.** Now (~1 day, one build, $0): give each install a random id so returning users can actually be counted, and *ship the history screen* — the app has been silently saving your last 10 scans since launch and no screen has ever shown them. Held until a real trigger: accounts, sign-in, and anything that puts data on a server. **The first draft of that plan was wrong in three ways** and the rewrite explains each — most importantly, the Apple/Google upgrade call it recommended would have silently thrown away a user's history with no error. **The re-cut also drops Google sign-in from v1** (Apple + emailed code only), which removes an entire App Store obligation rather than satisfying one. The thing that decides the timing is not a product preference: Apple requires subscriptions to work on all of a user's devices, so real sign-in is a *prerequisite of the paywall*.
-- **More conditions**: add hypertension (sodium), then type 2 diabetes/prediabetes — same engine, new knowledge-base table.
-- **Backend / profiles / history** — gated on a product trigger (the paywall build starting, or cross-device history becoming the next feature), not a calendar and not retention data. The circularity is real — identity is *how* retention gets measured — which is why `auth-plan.md` splits the cheap measurement half out and ships it now.
+- **Monetization prep**: decide the model (free at launch → freemium), set the free-tier ceiling from real cost-per-analysis, scaffold RevenueCat with its user ID set to the Supabase account id (accounts now exist, which is what cross-device subscriptions require).
+- **More conditions**: add hypertension (sodium), then type 2 diabetes/prediabetes — same engine, new knowledge-base table. **The day a condition picker stores a per-user choice, revisit the privacy label** — today the "Health: not collected" answer rests on every user sharing one constant condition.
+- **Scoring knowledge base** — run the ~10-cent decomposition test first (can the model reliably turn a dish into ingredients + cooking method?), and add per-scan dish logging.
 
 ➡️ GTM Launch Tracker, filter Priority = P2 / P3.
 
