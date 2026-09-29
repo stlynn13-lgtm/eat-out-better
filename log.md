@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-09-29 — Sign-in screens, welcome redesign, landscape photos, and build 13 blocked on Apple
+
+**What changed** (PR #29, merged)
+
+- **The sign-in experience** is designed and built: a sheet with the benefits, Apple / Google / email buttons, a two-step 6-digit code flow, then "You're all set" (or "Welcome back" / "Sign-in added"), and an account page with Sign out and Delete account.
+- **Where it appears on first use:** once, right after the first scan ("Keep this scan safe"), in the results action bar rather than over the dishes. Before a first scan there's nothing to keep, so asking earlier would just be a hurdle. There's also a quiet banner on Saved scans and a link on the welcome screen.
+- **Google button** uses Google's official "G", cut from their own asset pack (downloaded with Sean's OK), per their branding rules.
+- **Welcome screen redesigned:** "Have high cholesterol?", three numbered steps, the app icon instead of an emoji, and one primary "Scan a menu" button.
+- **Landscape photos (EAT-14), decided:** the app stays portrait, but the camera follows the phone, so holding it sideways takes a wide photo, with a "Landscape" badge. It turned out to be one camera setting, not a redesign.
+- **Photo preview:** not published over the air to build 11. It ships in build 13 instead, because it has never been seen running and a TestFlight build is opt-in, while an update reaches everyone.
+- **Setup cut down:** `scripts/setup-supabase.sh` does the whole Supabase side in one command; `ACCOUNTS-SETUP.md` now lists only what Sean has to do (four sign-ups at outside services).
+- **Database tests ran for the first time** in CI: 26/26 pass (PR #27, plus again on #29).
+
+**Build 13 (v1.3.0) failed at signing:** Apple's provisioning profile doesn't include Sign in with Apple. Fixing it needs Sean's Apple login, so he runs the build once interactively and EAS regenerates the profile. Build number 12 had already been used by 5840b746 (v1.2.0, the Terms header fix), and there's no TestFlight email for it, so it probably was never submitted.
+
 ## 2026-09-28 — Accounts built, a real $200/day cap, a better photo preview, and a lot of decisions closed
 
 **What changed**

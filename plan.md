@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-09-28
+**Last updated:** 2026-09-29
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -32,21 +32,15 @@
 
 ---
 
-## ⏰ Before cutting the next build (build 12) — Sean asked to be reminded
+## Build 13 (v1.3.0) — blocked on one Apple step
 
-Build 12 is the next chance to ship anything native. Decide these first:
-
-1. **Welcome screen design** — feature chips → numbered steps, the "have high cholesterol?" headline, and whether the background reads too dark (couldn't be reproduced — it's near-white). Pure app code, so it can also go out over the air later, but the design is still owed.
-2. **Landscape photo capture (EAT-14)** — **this one can only ship in a build.** The app is locked to portrait in native config, so if landscape is wanted in build 12, the design has to exist before the build is cut. Otherwise it waits for build 13.
-3. **The Google button's logo.** "Continue with Google" is text-only today. Google's branding guidelines want their "G" mark on it; it needs an image asset (a design decision, and a download).
-
-(The Terms phone number, the fourth item here, is done — (720) 837-1482, a Google Voice number.)
+Welcome redesign, sign-in screens, landscape photos, the Google logo and the photo preview are all merged (PR #29). The design reminders are done. Build 13 failed at signing because Apple's provisioning profile lacks Sign in with Apple. Sean runs `cd ~/Developer/eat-out-better/apps/mobile && EAS_SKIP_AUTO_FINGERPRINT=1 eas build --platform ios --profile production --auto-submit` once, interactively, and logs into Apple when asked. EAS then adds the capability and regenerates the profile.
 
 ---
 
 ## NOW
 
-1. **Accounts + spend-cap setup** — `ACCOUNTS-SETUP.md`, in order. It switches on both. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers. Until the setup is done, the Anthropic account limit is the only global spend ceiling (confirmed set, 2026-09-28).
+1. **Accounts + spend-cap setup** — `ACCOUNTS-SETUP.md`: four sign-ups, then `./scripts/setup-supabase.sh`, then Vercel env vars. After that, an update turns sign-in on for build 13. It switches on both. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers. Until the setup is done, the Anthropic account limit is the only global spend ceiling (confirmed set, 2026-09-28).
 2. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. Until then the six extra feedback fields keep arriving and going nowhere.
 3. **Publish the photo-viewer update** over the air to build 11 (from `ota/1.2.0`, which already has it) and, if wanted, build 9 (copy `PhotoViewer.tsx` onto `ota/1.1.4` first). Try it on a phone first.
 4. **Push the database-test workflow.** `.github/workflows/supabase-db-tests.yml` exists locally but GitHub refused it: the saved GitHub login lacks the `workflow` permission. After `gh auth refresh -h github.com -s workflow`, commit and push it — then the database security tests (saved scans + spend cap) run on every PR.
