@@ -47,3 +47,16 @@ export const MODELS = {
 } as const;
 
 export type ModelName = (typeof MODELS)[keyof typeof MODELS];
+
+/**
+ * List price in USD per million tokens, first-party API (checked 2026-09-28).
+ *
+ * The daily spend cap (rateLimit.ts → recordSpend) prices every call from this
+ * table, so a model added to MODELS without a row here is priced at the most
+ * expensive row instead — the cap overshoots rather than undershoots. Update
+ * both together.
+ */
+export const MODEL_PRICING_PER_MTOK: Record<ModelName, { input: number; output: number }> = {
+  [MODELS.HAIKU]: { input: 1, output: 5 },
+  [MODELS.SONNET]: { input: 3, output: 15 },
+};

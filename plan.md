@@ -11,22 +11,22 @@
 
 **Build 11 (v1.2.0) is on TestFlight** (arrived 22 September) and carries the install ID and the saved-scans screen. Build 9 (v1.1.4) testers still get over-the-air updates from the `ota/1.1.4` branch.
 
-**Five pull requests are open from 2026-09-28, all waiting on Sean to merge:**
+**Merged 2026-09-28** (all live on `main`; the website parts are deployed):
 
 | PR | What | Ships how |
 |---|---|---|
-| #22 | Terms address gets **Apt B213**; privacy policy stops describing a health-condition input the app doesn't have, and discloses the install ID | Merge = live on the website |
-| #23 | Photo preview: **64pt close button** moved in from the corner, **swipe down to close**, **pinch-to-zoom** | Over the air to builds 9 and 11 — no new build |
-| #24 | The **$200/day spend cap**, counted in real dollars | Merge + **provision Upstash Redis in Vercel**, or it does nothing |
+| #22 | Terms address gets **Apt B213** and the **phone number (720) 837-1482**; privacy policy stops describing a health-condition input the app doesn't have, and discloses the install ID | Live on the website |
+| #23 | Photo preview: **64pt close button** moved in from the corner, **swipe down to close**, **pinch-to-zoom** | Over the air to builds 9 and 11 — not published yet |
+| #24 | The **$200/day spend cap**, counted in real dollars, on **Supabase** (no Redis) | Switches on with the Supabase setup |
 | #25 | **Accounts**: silent anonymous account on first launch, sign in with Apple, Google, or a 6-digit email code | Needs **build 12** (v1.3.0) and the setup in `ACCOUNTS-SETUP.md` |
-| docs | This file, the log, and the feedback sheet script | — |
+| #26 | This file, the log, and the feedback sheet script | — |
 
-**Sign-in is built, not switched on.** Everyone will get an invisible account on first launch; signing in attaches a login to it so saved scans follow you to a new phone; scanning never requires it. It stays invisible until Sean does the setup in `ACCOUNTS-SETUP.md` (about an hour of clicking, $0/month — the domain `eatoutbetter.com` is already owned). Full reasoning in the `log.md` 2026-09-28 entry.
+**Sign-in and the spend cap are built, not switched on.** Everyone will get an invisible account on first launch; signing in attaches a login to it so saved scans follow you to a new phone; scanning never requires it. Both stay dormant until Sean does the setup in `ACCOUNTS-SETUP.md` (about an hour of clicking, $0/month — the domain `eatoutbetter.com` is already owned, and the spend cap runs on the same Supabase database, so there's no Redis to add). Full reasoning in the `log.md` 2026-09-28 entry.
 
-**Two release lines, soon three.** Each build only accepts over-the-air updates published from its own version:
+**Three release lines.** Each build only accepts over-the-air updates published from its own version:
 - `ota/1.1.4` → build 9
-- **`ota/1.2.0` → build 11 — create it from `main` BEFORE merging PR #25**, which moves `main` to 1.3.0
-- `main` → build 12 once it exists
+- `ota/1.2.0` → build 11 (cut from `main` on 2026-09-28 just before accounts merged; already contains the photo viewer)
+- `main` (1.3.0) → build 12, once it's built
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 
@@ -39,20 +39,19 @@ Build 12 is the next chance to ship anything native. Decide these first:
 1. **Welcome screen design** — feature chips → numbered steps, the "have high cholesterol?" headline, and whether the background reads too dark (couldn't be reproduced — it's near-white). Pure app code, so it can also go out over the air later, but the design is still owed.
 2. **Landscape photo capture (EAT-14)** — **this one can only ship in a build.** The app is locked to portrait in native config, so if landscape is wanted in build 12, the design has to exist before the build is cut. Otherwise it waits for build 13.
 3. **The Google button's logo.** "Continue with Google" is text-only today. Google's branding guidelines want their "G" mark on it; it needs an image asset (a design decision, and a download).
-4. **A phone number for the Terms.** Apple's EULA rules require the Terms to list a phone number as well as the address. Sean chose "home address + phone" and still needs to say which number (a free Google Voice number keeps the cell private).
+
+(The Terms phone number, the fourth item here, is done — (720) 837-1482, a Google Voice number.)
 
 ---
 
 ## NOW
 
-1. **Merge the five PRs** (above). For #25, create `ota/1.2.0` first.
-2. **Accounts setup** — `ACCOUNTS-SETUP.md`, in order. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers.
-3. **Provision Upstash Redis in Vercel** (Storage / Marketplace → Upstash for Redis → connect `eat-out-better-api`). It switches on the $200/day cap and the per-IP daily limit. Until then the Anthropic account limit is the only global backstop (confirmed set, 2026-09-28).
-4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. Until then the six extra feedback fields keep arriving and going nowhere.
-5. **Publish the photo-viewer update** over the air to build 11 (from `ota/1.2.0`) and build 9 (from `ota/1.1.4`), once #23 is merged and Sean has tried it.
-6. **Push the database-test workflow.** `.github/workflows/supabase-db-tests.yml` exists locally but GitHub refused it: the saved GitHub login lacks the `workflow` permission. `gh auth refresh -s workflow`, then commit and push it — after that the 15 database security tests run on every PR.
-7. **Real-menu scoring** — Sean and Ray are testing it themselves and will report what looks wrong. The open question from the rubric rewrite still stands: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in (1–2 tsp brings it to ~6–8g, which is honestly yellow). Worth watching on real brunch menus.
-8. **Calibrate the zoom buttons** (30 seconds, real phone). Pinch until the framing looks like a true 2×, read the percentage badge, divide by 100; same for 3×. Those two numbers ship over the air.
+1. **Accounts + spend-cap setup** — `ACCOUNTS-SETUP.md`, in order. It switches on both. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers. Until the setup is done, the Anthropic account limit is the only global spend ceiling (confirmed set, 2026-09-28).
+2. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. Until then the six extra feedback fields keep arriving and going nowhere.
+3. **Publish the photo-viewer update** over the air to build 11 (from `ota/1.2.0`, which already has it) and, if wanted, build 9 (copy `PhotoViewer.tsx` onto `ota/1.1.4` first). Try it on a phone first.
+4. **Push the database-test workflow.** `.github/workflows/supabase-db-tests.yml` exists locally but GitHub refused it: the saved GitHub login lacks the `workflow` permission. After `gh auth refresh -h github.com -s workflow`, commit and push it — then the database security tests (saved scans + spend cap) run on every PR.
+5. **Real-menu scoring** — Sean and Ray are testing it themselves and will report what looks wrong. The open question from the rubric rewrite still stands: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in (1–2 tsp brings it to ~6–8g, which is honestly yellow). Worth watching on real brunch menus.
+6. **Calibrate the zoom buttons** (30 seconds, real phone). Pinch until the framing looks like a true 2×, read the percentage badge, divide by 100; same for 3×. Those two numbers ship over the air.
 
 **Don't undo:** scoring runs at `temperature: 0`. At 0.2 roughly a quarter of a real menu had coin-flip tier colours. Don't raise it without re-running `npm run test:repeatability`.
 

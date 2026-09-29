@@ -30,8 +30,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { createPrivateKey, sign } from "node:crypto";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 
@@ -42,9 +42,8 @@ function json(status: number, body: Record<string, unknown>) {
 }
 
 export async function POST(req: NextRequest) {
-  const url = process.env.SUPABASE_URL;
-  const secretKey = process.env.SUPABASE_SECRET_KEY;
-  if (!url || !secretKey) {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
     console.error("[account/delete] SUPABASE_URL / SUPABASE_SECRET_KEY not set");
     return json(503, {
       success: false,
@@ -57,10 +56,6 @@ export async function POST(req: NextRequest) {
   if (!token) {
     return json(401, { success: false, error: { code: "UNAUTHORIZED", message: "Sign in first." } });
   }
-
-  const admin = createClient(url, secretKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
 
   const { data: userData, error: userError } = await admin.auth.getUser(token);
   if (userError || !userData?.user) {
