@@ -60,7 +60,7 @@ The script that writes feedback into the Google Sheet lives inside the sheet, ow
 - ✅ Typecheck clean in both apps; the app bundles for iOS with accounts switched on; `npm run test:spend` 6/6; `npm run test:history` 14/14; the photo viewer's gesture code compiles to UI-thread worklets.
 - ❌ **Nothing ran on a phone** — the simulator can't start until the Xcode licence is accepted on this Mac.
 - ❌ **No real Supabase project yet**, so sign-in has never actually signed anyone in.
-- ❌ **The 15 database tests haven't run** (see above).
+- ✅ **All 26 database tests passed in CI on 2026-09-29** (15 for saved scans, 11 for the spend cap), after Sean granted the GitHub login the `workflow` permission. They now run on every PR that touches `supabase/` (PR #27).
 
 **What's next**
 
