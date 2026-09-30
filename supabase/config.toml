@@ -227,8 +227,8 @@ enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
-# Matches the app's "Send a new code in 30s" countdown.
-max_frequency = "30s"
+# Matches the app's "Send a new code in 60s" countdown and the live project.
+max_frequency = "60s"
 # Number of characters used in the email OTP.
 otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
