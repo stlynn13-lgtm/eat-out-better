@@ -14,25 +14,27 @@
 - **EAS:** `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` stored (production + preview, public values).
 - **Build 13** (v1.3.0) finished. Accounts are hidden in it; they'll be switched on with an update.
 
+## Email codes — LIVE, 2026-09-30 (tested end to end)
+
+Sean set up Resend (domain verified; Claude added the four DNS records at Namecheap) and saved the SMTP in
+Supabase. Claude then set the branded code email on all three templates (magic link, confirm signup, change
+email), and changed the **email code length from Supabase's default 8 to 6** to match the app's six boxes.
+A real test: the code email arrived in Gmail's inbox from `no-reply@eatoutbetter.com`, the 6-digit code signed
+in and created a confirmed account, and the test account was deleted. (A first test showed an 8-digit code,
+which is why the length setting matters: if it ever reverts, the app can't accept codes.)
+
 ## What's left, and why Claude can't do it
 
-Claude is not allowed to create accounts at outside services or type secret keys into forms, even when
-asked. The three steps below are exactly those, so they're yours (about 25 minutes). After them, Claude
-switches sign-in on over the air.
+Claude can't create accounts at outside services or type secret keys, even when asked. Two steps remain:
 
-1. **Email codes — Resend** (the only way Supabase lets this project send a code, or edit the email):
-   sign up at resend.com → add domain `eatoutbetter.com` → add its DNS records at Namecheap → create an API
-   key. Then Supabase → Authentication → Emails → **SMTP Settings**: host `smtp.resend.com`, port `465`,
-   user `resend`, password = the Resend key, sender `no-reply@eatoutbetter.com`, name `Eat Out Better`.
-   Tell Claude, and Claude sets the code email template (`supabase/templates/code.html`) in the dashboard.
-2. **Google** (Google Cloud steps below) → paste the Client ID and secret into Supabase → Sign In / Providers →
-   Google.
-3. **Vercel:** add `SUPABASE_URL` = `https://dindkgcknjexggqqgoll.supabase.co` and `SUPABASE_SECRET_KEY` (Supabase →
+1. **Google:** create the OAuth client in Google Cloud (steps below), paste the Client ID and secret into
+   Supabase → Sign In / Providers → Google. Until then, leave Google off in the app.
+2. **Vercel:** add `SUPABASE_URL` = `https://dindkgcknjexggqqgoll.supabase.co` and `SUPABASE_SECRET_KEY` (Supabase →
    Project Settings → API Keys → secret key), plus the three `APPLE_*` values from the Apple steps below, then
-   Redeploy. This turns on account deletion (App Store requirement) and the $200/day spend cap.
+   Redeploy. This turns on account deletion (an App Store requirement) and the $200/day spend cap.
 
-Sign-in stays off until all three are done: turning it on earlier would show buttons that fail and a
-Delete account that can't delete.
+Email and Apple sign-in are ready now. Sign-in stays off in the app until Vercel is done: turning it on earlier
+would show a Delete account that can't delete.
 
 The detailed steps follow (steps 1 and 5 are now done).
 
