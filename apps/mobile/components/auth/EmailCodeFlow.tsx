@@ -19,7 +19,9 @@ import {
  * autofilled code from Mail signs you in with no extra tap.
  */
 
-const RESEND_AFTER_SECONDS = 30;
+// Matches Supabase's "minimum interval per user" for emails (60s on the live
+// project). Offering "Send a new code" sooner only earns a rate-limit error.
+const RESEND_AFTER_SECONDS = 60;
 
 export default function EmailCodeFlow({
   onDone,
