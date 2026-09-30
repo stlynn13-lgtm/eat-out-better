@@ -7,15 +7,21 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: September 28, 2026</p>
+      <p style={styles.meta}>Last Updated: September 30, 2026</p>
 
       <Section title="1. Overview">
         <p>
           <strong>Eat Out Better</strong> ("we," "us," or "our") is operated by{" "}
           <strong>Dine Right LLC</strong>. This Privacy Policy explains how we handle
-          information when you use our mobile application. We built this app with a minimal
-          data footprint by design — we don't create accounts, we don't store your photos,
-          and we don't retain your health information after your session ends.
+          information when you use our mobile application.
+        </p>
+        <p>
+          You never need to sign in to scan a menu. When you first open the app we create an
+          anonymous account for you — a random identifier with no name, email or password — so
+          your saved scans can be backed up. If you choose to sign in with Apple, Google or your
+          email, that login is attached to the same account so your scans follow you to a new
+          phone. You can delete your account, and everything in it, from inside the app at any
+          time. We never store your menu photos, and we never sell your information.
         </p>
         <p>
           Your use of the app is also governed by our{" "}
@@ -47,8 +53,36 @@ export default function PrivacyPage() {
           the app. Eat Out Better scores every menu for one purpose — eating to manage
           cholesterol — and that setting is the same for every user. It is sent with each
           scan so the analysis knows what to score for; because everyone sends the same
-          value, it is not information about you.
+          value, it is not information about you. When your saved scans are backed up to your
+          account, this setting is removed first; it is never stored on our servers.
         </p>
+        <h3 style={styles.subheading}>Your Account</h3>
+        <p>
+          When you first open the app we create an anonymous account: a random account
+          identifier stored on your device and on our servers. It has no name, email or password.
+        </p>
+        <p>
+          <strong>Saved scans.</strong> Each menu you scan is saved on your device and backed up
+          to your account: the dishes read from the menu, their scores and the explanations. Your
+          menu photos are not included, and neither is the health setting described above.
+        </p>
+        <p>
+          <strong>If you sign in</strong>, we also store how you signed in and:
+        </p>
+        <ul>
+          <li>
+            <strong>Sign in with Apple</strong> — the email address Apple gives us (which can be a
+            private relay address if you chose &quot;Hide My Email&quot;) and, only the first time
+            and only if you share it, your name.
+          </li>
+          <li>
+            <strong>Google</strong> — your email address and name from your Google account.
+          </li>
+          <li>
+            <strong>Email</strong> — the address you enter. We send a 6-digit code to it each time
+            you sign in; there is no password.
+          </li>
+        </ul>
         <h3 style={styles.subheading}>Device &amp; Usage Data</h3>
         <p>
           We collect basic technical information (device type, OS version, crash reports) and
@@ -63,7 +97,7 @@ export default function PrivacyPage() {
           identifier and keeps it in your device&apos;s secure keychain. It is attached to
           those anonymous analytics. It contains no name, email, or health information, and
           because the keychain outlives the app, it can persist if you delete and reinstall
-          Eat Out Better.
+          Eat Out Better. Analytics and crash reports are not linked to your account.
         </p>
         <h3 style={styles.subheading}>Feedback</h3>
         <p>
@@ -76,6 +110,11 @@ export default function PrivacyPage() {
       <Section title="4. How We Use Your Information">
         <ul>
           <li>To analyze menu photos and return personalized dish recommendations</li>
+          <li>
+            To create and keep your account, and to back up your saved scans and restore them on
+            your devices
+          </li>
+          <li>To send you sign-in codes by email, when you choose email sign-in</li>
           <li>To maintain and improve app performance</li>
           <li>We do not use your information for advertising</li>
           <li>We do not sell your personal information to anyone, ever</li>
@@ -122,6 +161,21 @@ export default function PrivacyPage() {
             feedback are sent. Privacy policy:{" "}
             <a href="https://expo.dev/privacy">expo.dev/privacy</a>.
           </li>
+          <li>
+            <strong>Supabase, Inc.</strong> — stores your account and your saved scans, in the
+            United States. Each account can read only its own records, enforced by the database
+            itself. Privacy policy:{" "}
+            <a href="https://supabase.com/privacy">supabase.com/privacy</a>.
+          </li>
+          <li>
+            <strong>Resend</strong> — delivers sign-in code emails. It receives your email address
+            and the code, nothing else. Privacy policy:{" "}
+            <a href="https://resend.com/legal/privacy-policy">resend.com/legal/privacy-policy</a>.
+          </li>
+          <li>
+            <strong>Apple</strong> and <strong>Google</strong> — only if you choose to sign in with
+            them, under their own privacy policies.
+          </li>
         </ul>
         <p>
           We do not share your data with any other third parties, and we never sell your
@@ -131,21 +185,33 @@ export default function PrivacyPage() {
 
       <Section title="6. Data Retention">
         <p>
-          We do not retain your photos or health information after your session. Your saved
-          scans are stored locally on your device and are cleared when you uninstall the app;
-          the install identifier described in Section 3 may remain in your device&apos;s
-          keychain. Analytics events, crash reports, and submitted feedback are
-          retained by the providers listed in Section 5 under their standard retention
-          policies; none of it contains your photos or health information.
+          Menu photos are never retained. Your saved scans are kept on your device and in your
+          account until you clear them (Saved scans → Clear, which removes them from both) or
+          delete your account. Your account holds at most your 500 most recent scans; older ones
+          are removed automatically.
+        </p>
+        <p>
+          Signing out removes your scans from view on that phone but keeps them in your account.
+          Deleting your account permanently removes your account and every scan saved to it, and,
+          if you used Sign in with Apple, disconnects Eat Out Better from your Apple ID.
+        </p>
+        <p>
+          Analytics events, crash reports and submitted feedback are kept by the providers in
+          Section 5 under their standard retention policies; none of them contain your photos,
+          your health setting or your account. The install identifier described in Section 3 may
+          remain in your device&apos;s keychain after you delete the app.
         </p>
         <h3 style={styles.subheading}>Deleting Your Data</h3>
         <p>
-          Because your scan history lives only on your device, deleting the app removes it
-          permanently — there is no server-side copy for us to delete. To withdraw consent for
-          analytics and crash reporting, or to request deletion of any feedback you submitted,
-          email us at{" "}
-          <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a> and we will
-          action it within 30 days.
+          <strong>In the app:</strong> Account → Delete account. This is immediate and permanent.
+          Deleting the app alone does <strong>not</strong> delete your account: your scans stay
+          backed up, which is what lets you get them back on a new phone.
+        </p>
+        <p>
+          For anything else — a copy of your data, a correction, withdrawing consent for
+          analytics, or deleting feedback you sent — email{" "}
+          <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>. We respond
+          within 45 days.
         </p>
       </Section>
 
@@ -167,9 +233,11 @@ export default function PrivacyPage() {
 
       <Section title="8. Security">
         <p>
-          We use industry-standard practices to protect data in transit. Given our stateless
-          architecture — no server-side storage of photos or health data — your exposure is
-          minimized by design.
+          We protect data in transit and at rest using industry-standard practices. Sign-in
+          tokens are kept in your device&apos;s secure keychain. Saved scans are held in a
+          database where each account can reach only its own records, enforced by the database
+          itself rather than only by our app. Menu photos are never stored. No system is
+          perfectly secure, and we don&apos;t claim otherwise.
         </p>
       </Section>
 
