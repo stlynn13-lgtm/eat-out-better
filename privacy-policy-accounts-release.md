@@ -1,6 +1,6 @@
 # Privacy policy — the version for the accounts release (build 12)
 
-**Status:** ready, NOT deployed. **Deploy it the same day build 12 reaches testers — not before, not after.**
+**Status:** DEPLOYED 2026-09-30 with the over-the-air update that switched accounts on in build 13. Supabase region written as "the United States" (East US, Ohio).
 **Rewritten:** 2026-09-28, for what was actually built (the 2026-09-07 draft assumed Apple + email only, no
 anonymous accounts, and a health condition that syncs — none of which is true now).
 **Target file:** `apps/api/src/app/privacy/page.tsx`
