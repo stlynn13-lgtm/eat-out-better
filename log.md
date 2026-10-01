@@ -6,6 +6,26 @@
 
 ---
 
+## 2026-10-01 (evening) — Photos picked from the library now show a loading tile straight away
+
+**What changed**
+
+- **"Add your photos" no longer looks like it did nothing** (PR #43). Sean picked two photos from his library and the tray stayed empty; picking the same two again showed all four. The likely cause, worked out from the photo picker's own code rather than reproduced on a phone: the iPhone picker closes the moment you tap Add, but the app only receives the photos afterwards, one at a time, and a photo kept in iCloud is downloaded first. The screen showed nothing during that wait.
+- **What the app does now:** as soon as the picker closes, the tray shows a spinner tile labelled "Adding…" and the main button reads "Adding your photos…". Taps on "Add your photos" are ignored while a pick is still loading, so the same photos can't be added twice. If the photos can't be loaded (for example an iCloud photo with no connection), an alert says so instead of nothing happening.
+- **Published to both builds** by Sean: build 14 from `main` and build 13 from `ota/1.3.0`. Claude checked both by downloading the live update each build receives and finding the new wording in it.
+- **Build 13 also picked up the account-screen label fix** (PR #41), which had been sitting unpublished on `ota/1.3.0`.
+
+**Worth knowing**
+
+- The photos themselves still can't appear instantly when the phone has to fetch them from iCloud; the app has no access to them until that finishes. The change is that the screen reacts immediately.
+- **`npm run update:production` stops and asks for a message** unless one is passed. A first attempt sat at that question and published nothing. Use `npm run update:production -- --message "what changed"`.
+
+**Not done**
+
+- **Not yet tried on a phone.** It was type-checked and the live updates were inspected; nobody has picked photos with the update installed. If the tile shows but the photos still take very long, or the photos were never in iCloud to begin with, the cause is something else and needs another look.
+
+---
+
 ## 2026-10-01 (later) — Build 14 on TestFlight, native Google sign-in confirmed on a phone
 
 **What changed**
