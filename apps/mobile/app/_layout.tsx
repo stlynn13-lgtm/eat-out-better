@@ -94,6 +94,12 @@ export default Sentry.wrap(function RootLayout() {
         <TermsGate>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
+          {/* First-launch account offer. Fades in over home rather than sliding,
+              and can't be swiped away — it's answered with a button, once. */}
+          <Stack.Screen
+            name="welcome"
+            options={{ animation: "fade", gestureEnabled: false }}
+          />
           <Stack.Screen name="capture" />
           <Stack.Screen
             name="processing"

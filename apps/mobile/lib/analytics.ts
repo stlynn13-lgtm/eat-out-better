@@ -216,6 +216,11 @@ export function trackScoringInfoOpened(ph: PostHog, screen: string): void {
   ph.capture("scoring_info_opened", { screen });
 }
 
+/** First-launch account offer (app/welcome.tsx): which way it was answered. */
+export function trackWelcomeAccountChoice(ph: PostHog, choice: "created" | "skipped"): void {
+  ph.capture("welcome_account_choice", { choice });
+}
+
 export function trackNewScanInitiated(
   ph: PostHog,
   previousScanSessionId: string,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView, Linking } from "react-native";
 import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 import { useRouter } from "expo-router";
@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import FeedbackSheet from "../components/FeedbackSheet";
 import Reveal from "../components/Reveal";
 import { useAuth } from "../lib/auth/account";
+import { hasAnsweredWelcome } from "../lib/welcome";
 
 /**
  * Welcome — the first screen after the Terms, and home every time after.
@@ -27,6 +28,28 @@ export default function WelcomeScreen() {
   const [showFeedback, setShowFeedback] = useState(false);
   const accountsOn = useAuth((s) => s.status !== "unavailable");
   const signedIn = useAuth((s) => s.userId !== null && !s.isAnonymous);
+  const authReady = useAuth((s) => s.status === "ready");
+
+  // The first-launch account offer, once per install. Waits for auth to be
+  // ready so someone whose sign-in survived a reinstall (the keychain does)
+  // is never asked, and so the sheet it opens can actually sign in. Offline at
+  // launch just means it's offered next time. On a brand-new install this
+  // resolves while the Terms gate is still up, so the offer is what's waiting
+  // underneath it.
+  const offered = useRef(false);
+  useEffect(() => {
+    if (!authReady || signedIn || offered.current) return;
+    let cancelled = false;
+    hasAnsweredWelcome().then((answered) => {
+      if (answered || cancelled || offered.current) return;
+      // At most once per launch, whatever auth does while the sheet is open.
+      offered.current = true;
+      router.push("/welcome");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [authReady, signedIn, router]);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">

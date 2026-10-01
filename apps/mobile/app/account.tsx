@@ -119,7 +119,13 @@ export default function AccountScreen() {
         outcome={success.outcome}
         provider={success.provider}
         email={success.email}
-        doneLabel={from === "first-scan" ? "Back to my results" : "Done"}
+        doneLabel={
+          from === "first-scan"
+            ? "Back to my results"
+            : from === "welcome"
+              ? "Start scanning"
+              : "Done"
+        }
         onDone={close}
       />
     );
@@ -153,6 +159,7 @@ export default function AccountScreen() {
         onGoogle={() => runProvider("google")}
         onEmail={() => setEmailOpen(true)}
         onNotNow={close}
+        compact={from === "welcome"}
       />
     );
   }
@@ -202,6 +209,7 @@ function SignInView({
   onGoogle,
   onEmail,
   onNotNow,
+  compact = false,
 }: {
   providers: LoginProvider[];
   busy: Busy;
@@ -209,6 +217,8 @@ function SignInView({
   onGoogle: () => void;
   onEmail: () => void;
   onNotNow: () => void;
+  /** From the first-launch offer, which already made the case: skip the pitch. */
+  compact?: boolean;
 }) {
   return (
     <View>
@@ -223,13 +233,16 @@ function SignInView({
           className="text-2xl font-bold text-gray-900 text-center mt-5 mb-2"
           accessibilityRole="header"
         >
-          Keep your scans on every phone
+          {compact ? "Create your free account" : "Keep your scans on every phone"}
         </Text>
         <Text className="text-base text-gray-600 text-center leading-relaxed px-2">
-          Create a free account in seconds. You never need one to scan a menu.
+          {compact
+            ? "Pick how you'd like to sign in. Already have an account? The same buttons sign you back in."
+            : "Create a free account in seconds. You never need one to scan a menu."}
         </Text>
       </View>
 
+      {compact ? null : (
       <View className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6">
         <Benefit
           icon="cloud-done-outline"
@@ -248,6 +261,7 @@ function SignInView({
           last
         />
       </View>
+      )}
 
       <LoginButtons
         providers={providers}
