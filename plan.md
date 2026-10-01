@@ -28,7 +28,7 @@
 
 ## NOW
 
-0. **1.5.0 design round — look at it on a phone before merging.** Before the merge: push `ota/1.4.0`; run `npm run test:repeatability` in `apps/api` (the menu-reading instructions changed). After the merge: cut build 1.5.0 (1). The App Store privacy label needs no change (a restaurant name is part of "saved scan results"), but the policy wording did change and goes live with the merge.
+0. **1.5.0 design round — look at it on a phone before merging.** `ota/1.4.0` is pushed and the menu-reading change has been checked against the real AI (see `log.md`). After the merge: cut build 1.5.0 (1). The App Store privacy label needs no change (a restaurant name is part of "saved scan results"), but the policy wording did change and goes live with the merge.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
 3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.

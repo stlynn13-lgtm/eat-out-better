@@ -32,7 +32,8 @@
 **Not done / not proven**
 
 - **Nobody has seen these screens on a phone.** They were type-checked, the app bundle was built, and the automatic tests pass (58 category checks, 23 saved-scan checks including renaming). Layout, spacing and the feel of the animations are untested.
-- **The menu-reading instructions changed** (one new field for the name). The scoring repeatability test and the menu evaluations were not re-run, because they spend real money on the AI account. Worth running before this is merged: `npm run test:repeatability` in `apps/api`.
+- **The menu-reading change was checked against the real AI (same day).** Two test menu pages were read with the old instructions and the new ones: the same 17 dishes came back, with identical names, descriptions and section headings. The new version also returned the restaurant's name from the page that printed it, returned no name for the page that didn't, and put the three "Starters" dishes under Appetizers. The test pages were computer-drawn, clean and easy to read; a real photo in dim light has not been tried.
+- **The scoring evaluation shows three flags, and they are not from this work**: the same three appear on the unchanged 1.4.0 code. Galbi scores yellow (5.5) where the answer key says red, and two brunch dishes (Korean Fried Chicken Bao, Chicken & Pandan Waffle) have moved from red to yellow, sitting right at the 4.0 line. Worth a look as part of the real-menu scoring work.
 - **Scans saved before 1.5.0 have no name** until one is typed, and show as "Unnamed menu".
 - **A rename made on one phone does not change a copy already sitting on a second phone.**
 
