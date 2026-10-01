@@ -71,8 +71,8 @@
 ## LATER — after launch, to grow and scale (P2 / P3)
 
 - **Expanded TestFlight** (10–20 testers — note: external testers trigger Apple's Beta App Review).
-- **Go-to-market sequence**: friends & family → ASO → LinkedIn → condition communities → Product Hunt (as a credibility spike, not the growth engine).
-- **Monetization prep**: decide the model (free at launch → freemium), set the free-tier ceiling from real cost-per-analysis, scaffold RevenueCat with its user ID set to the Supabase account id (accounts now exist, which is what cross-device subscriptions require).
+- **Go-to-market sequence**: drafted in `launch-plan.md` (2026-10-01): search pages per restaurant chain, heart-health dietitians, cholesterol communities, short screen recordings, one $300 ad test. Launch is aimed at high cholesterol only. Product Hunt stays a credibility spike, not the growth engine.
+- **Monetization: the paywall ships with the public launch** (Sean's decision, 2026-10-01; the "wait for 20% day-30 retention" rule is dropped). Founding prices and the trial are in `pricing-strategy.md`. To build: RevenueCat with its user ID set to the Supabase account id, the free-scan counter, and the paywall screen. This is now launch work, not later work.
 - **More conditions**: add hypertension (sodium), then type 2 diabetes/prediabetes — same engine, new knowledge-base table. **The day a condition picker stores a per-user choice, revisit the privacy label** — today the "Health: not collected" answer rests on every user sharing one constant condition.
 - **Scoring knowledge base** — run the ~10-cent decomposition test first (can the model reliably turn a dish into ingredients + cooking method?), and add per-scan dish logging.
 
