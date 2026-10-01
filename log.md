@@ -8,7 +8,7 @@
 
 ## 2026-10-01 (night) — Version 1.5.0 started: restaurant names, a livelier Saved scans, category tabs, a new account look
 
-**Status: written and checked on a computer, on the branch `feat/1.5.0-design-feedback`. Not merged, not built, not yet seen on a phone.**
+**Status: merged (PR #46) and built. Version 1.5.0 (1) finished building on 2026-10-01 and was handed to Expo's automatic TestFlight submission. Not yet seen on a phone.** The menu-reading change, the appetizer group and the privacy wording went live on the API at the merge. Build 14's updates now come from the `ota/1.4.0` branch, not `main`.
 
 **What changed**
 
