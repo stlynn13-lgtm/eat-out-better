@@ -24,6 +24,7 @@
 **Not done**
 
 - Sean has not decided on any of this. Nothing is built: no paywall, no RevenueCat, no trial.
+
 ---
 
 ## 2026-10-01 (night) — Version 1.5.0 started: restaurant names, a livelier Saved scans, category tabs, a new account look
