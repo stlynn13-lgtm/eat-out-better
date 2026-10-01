@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   Animated,
+  ActivityIndicator,
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
@@ -205,25 +206,50 @@ export default function CaptureScreen() {
     }
   }, [capturePhoto, localPhotos.length, posthog, triggerCaptureFlash]);
 
+  // The iOS picker closes the moment you tap Add, but the photos arrive later:
+  // the files are loaded one at a time after it closes, and a photo that lives
+  // in iCloud ("Optimize iPhone Storage") is downloaded first. That gap had no
+  // feedback at all, so the pick looked like it failed; picking again then
+  // delivered both batches at once. The ref (not the state) is the re-entry
+  // guard, because a second tap can land before the state has re-rendered.
+  const isPickingRef = useRef(false);
+  const [isPicking, setIsPicking] = useState(false);
+
   const handleGalleryPick = useCallback(async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"], // MediaTypeOptions is deprecated in SDK 52+
-      allowsMultipleSelection: true,
-      // Guard against 0: iOS treats selectionLimit 0 as "unlimited".
-      selectionLimit: Math.max(MAX_PHOTOS - localPhotos.length, 1),
-      quality: 1,
-    });
-    if (!result.canceled) {
-      const uris = result.assets.map((a) => a.uri);
-      setLocalPhotos((prev) => {
-        const next = [...prev, ...uris].slice(0, MAX_PHOTOS);
-        // Fire one event per photo added from the gallery
-        const added = next.slice(prev.length);
-        added.forEach((_, i) => {
-          if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, prev.length + i + 1);
-        });
-        return next;
+    if (isPickingRef.current) return;
+    isPickingRef.current = true;
+    setIsPicking(true);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"], // MediaTypeOptions is deprecated in SDK 52+
+        allowsMultipleSelection: true,
+        // Guard against 0: iOS treats selectionLimit 0 as "unlimited".
+        selectionLimit: Math.max(MAX_PHOTOS - localPhotos.length, 1),
+        quality: 1,
       });
+      if (!result.canceled) {
+        const uris = result.assets.map((a) => a.uri);
+        setLocalPhotos((prev) => {
+          const next = [...prev, ...uris].slice(0, MAX_PHOTOS);
+          // Fire one event per photo added from the gallery
+          const added = next.slice(prev.length);
+          added.forEach((_, i) => {
+            if (posthog) trackMenuPhotoCaptured(posthog, scanSessionIdRef.current, prev.length + i + 1);
+          });
+          return next;
+        });
+      }
+    } catch (error) {
+      // A failed load (e.g. an iCloud photo with no connection) used to reject
+      // silently, leaving the tray unchanged with no explanation.
+      console.error("Gallery pick failed:", error);
+      Alert.alert(
+        "Those photos didn't load",
+        "We couldn't get the photos from your library. Check your connection and try again."
+      );
+    } finally {
+      isPickingRef.current = false;
+      setIsPicking(false);
     }
   }, [localPhotos.length, posthog]);
 
@@ -489,7 +515,7 @@ export default function CaptureScreen() {
           </TouchableOpacity>
         )}
 
-        {localPhotos.length > 0 && (
+        {(localPhotos.length > 0 || isPicking) && (
           <View className="mt-4">
             <View className="flex-row items-center justify-between mb-2">
               <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -561,7 +587,20 @@ export default function CaptureScreen() {
                     </TouchableOpacity>
                   </View>
                 ))}
-                {localPhotos.length < MAX_PHOTOS && (
+                {/* Stands in for the photos being fetched, so the tray reacts
+                    as soon as the picker closes. */}
+                {isPicking && (
+                  <View
+                    className="rounded-xl bg-gray-200 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
+                    accessibilityLiveRegion="polite"
+                    accessibilityLabel="Adding your photos"
+                  >
+                    <ActivityIndicator color="#4B5563" />
+                    <Text className="text-xs text-gray-600 mt-1.5">Adding…</Text>
+                  </View>
+                )}
+                {localPhotos.length < MAX_PHOTOS && !isPicking && (
                   <TouchableOpacity
                     className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
                     style={{ width: thumbSize, height: thumbSize }}
@@ -613,6 +652,8 @@ export default function CaptureScreen() {
           >
             {isProcessing
               ? "Processing…"
+              : isPicking && localPhotos.length === 0
+              ? "Adding your photos…"
               : quota?.exhausted
               ? "Daily scan limit reached"
               : localPhotos.length === 0
