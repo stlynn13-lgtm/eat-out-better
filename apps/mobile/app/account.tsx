@@ -408,15 +408,13 @@ function SignedInView({ onClosed }: { onClosed: () => void }) {
           </View>
         </View>
 
-        {auth.providers.length > 0 ? (
-          <View className="flex-row flex-wrap gap-2 mt-4">
-            {auth.providers.map((p) => (
-              <View key={p} className="rounded-full bg-gray-100 px-3 py-1">
-                <Text className="text-xs font-semibold text-gray-700">
-                  Signs in with {PROVIDER_LABEL[p]}
-                </Text>
-              </View>
-            ))}
+        {auth.currentProvider ? (
+          <View className="flex-row mt-4">
+            <View className="rounded-full bg-gray-100 px-3 py-1">
+              <Text className="text-xs font-semibold text-gray-700">
+                Signed in with {PROVIDER_LABEL[auth.currentProvider]}
+              </Text>
+            </View>
           </View>
         ) : null}
       </View>

@@ -70,6 +70,12 @@ export interface AuthState {
   email: string | null;
   displayName: string | null;
   providers: LoginProvider[];
+  /**
+   * The login used most recently. An account can hold more than one — Supabase
+   * joins logins that share a verified email, so Apple and Google with the
+   * same address are ONE account — and the screen names the one in use.
+   */
+  currentProvider: LoginProvider | null;
 }
 
 export const useAuth = create<AuthState>(() => ({
@@ -79,6 +85,7 @@ export const useAuth = create<AuthState>(() => ({
   email: null,
   displayName: null,
   providers: [],
+  currentProvider: null,
 }));
 
 function applyUser(user: User | null): void {
@@ -89,12 +96,18 @@ function applyUser(user: User | null): void {
       email: null,
       displayName: null,
       providers: [],
+      currentProvider: null,
     });
     return;
   }
-  const providers = (user.identities ?? [])
-    .map((i) => i.provider)
-    .filter((p): p is LoginProvider => p === "apple" || p === "google" || p === "email");
+  const isLogin = (p: string): p is LoginProvider =>
+    p === "apple" || p === "google" || p === "email";
+  const identities = (user.identities ?? []).filter((i) => isLogin(i.provider));
+  const providers = identities.map((i) => i.provider as LoginProvider);
+  // Newest `last_sign_in_at` wins; ISO timestamps sort as text.
+  const latest = [...identities].sort((a, b) =>
+    (b.last_sign_in_at ?? "").localeCompare(a.last_sign_in_at ?? "")
+  )[0];
   useAuth.setState({
     status: "ready",
     userId: user.id,
@@ -103,6 +116,7 @@ function applyUser(user: User | null): void {
     email: user.email || null,
     displayName: (user.user_metadata?.full_name as string | undefined) ?? null,
     providers: Array.from(new Set(providers)),
+    currentProvider: (latest?.provider as LoginProvider | undefined) ?? null,
   });
 }
 
