@@ -26,11 +26,17 @@ export const OCR_SYSTEM_PROMPT = `You are a precise menu transcriber. Your job i
 Return ONLY valid JSON. No explanation, no markdown, no preamble. Use this exact shape:
 {
   "isMenu": true,
+  "restaurantName": "Name of the restaurant exactly as printed, or null",
   "dishes": [{"name": "Dish Name", "description": "Optional description exactly as printed", "section": "The section heading this dish is printed under"}],
   "unreadable": [{"text": "your best guess at the text", "reason": "why you could not read it"}]
 }
 
 First decide "isMenu": true if the image is a restaurant menu (or a page of one), false if it is something else (a receipt, a landscape, a person, a random object, a sign that is not a menu, etc.). If "isMenu" is false, return empty "dishes" and "unreadable" arrays.
+
+Rules for "restaurantName":
+- Set it ONLY if the restaurant's own name is clearly printed on this image — a logo, a title at the top of the menu, a footer, a web address
+- Copy it as printed. Do not add a city, a slogan, or words like "Menu"
+- Most inner pages of a menu do not show the name. If it is not printed, or you are not sure the text is the restaurant's name rather than a section heading or a dish, use null. NEVER guess a name from the cuisine or the dishes
 
 Rules for "dishes" (these WILL be ranked):
 - Include a dish ONLY if its name is clearly and legibly printed on this image

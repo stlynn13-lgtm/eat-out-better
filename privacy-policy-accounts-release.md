@@ -58,7 +58,8 @@ build 12 testers are uploading scans under a policy that says nothing leaves the
 > device and on our servers. It has no name, email or password.
 >
 > **Saved scans.** Each menu you scan is saved on your device and backed up to your account: the dishes read
-> from the menu, their scores and the explanations. Your menu photos are not included, and neither is the
+> from the menu, their scores and the explanations, and the restaurant's name when it is printed on the menu
+> or you type one in. Your menu photos are not included, and neither is the
 > health setting described above.
 >
 > **If you sign in**, we also store how you signed in and:

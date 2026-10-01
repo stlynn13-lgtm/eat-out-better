@@ -59,6 +59,7 @@ export interface UnreadableItem {
 /** Fully scored and ranked dish — the main output unit */
 export type DishCategory =
   | "main"
+  | "appetizer"
   | "side"
   | "dessert"
   | "drink_non_alcoholic"
@@ -91,6 +92,10 @@ export interface RankedDish {
 
 export interface MenuSession {
   id: string;
+  /** Read off the menu by the API, when printed. The suggested name. */
+  restaurantName?: string;
+  /** The name the user typed for this scan. Wins over `restaurantName`. */
+  customName?: string;
   healthCondition: HealthConditionId;
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];

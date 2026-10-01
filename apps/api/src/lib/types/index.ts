@@ -52,6 +52,7 @@ export interface MenuImage {
  */
 export type DishCategory =
   | "main"
+  | "appetizer"
   | "side"
   | "dessert"
   | "drink_non_alcoholic"
@@ -173,6 +174,11 @@ export interface AnalyzeRequest {
 export interface AnalyzeResponseData {
   /** Session UUID — matches MenuSession.id in shared types */
   id: string;
+  /**
+   * The restaurant's name as printed on the menu, when one was. Absent when the
+   * photos don't show it — most inside pages don't — and never guessed.
+   */
+  restaurantName?: string;
   dishes: RankedDish[];
   /** Pre-ranking extract — returned for V0.5 correction UI */
   rawDishes: ExtractedDish[];
@@ -199,6 +205,10 @@ export interface AnalyzeResponse {
 
 export interface MenuSession {
   id: string;
+  /** Read off the menu by the API, when printed. The suggested name. */
+  restaurantName?: string;
+  /** The name the user typed for this scan. Wins over `restaurantName`. */
+  customName?: string;
   healthCondition: HealthConditionId;
   dishes: RankedDish[];
   rawDishes: ExtractedDish[];

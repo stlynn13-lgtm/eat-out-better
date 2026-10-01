@@ -38,6 +38,11 @@ const OCR_MAX_TOKENS = 8_192;
  */
 export interface OcrResult {
   isMenu: boolean;
+  /**
+   * The restaurant's name as printed on the menu, if any page showed it. Only a
+   * suggested label for the saved scan — it never reaches the ranking step.
+   */
+  restaurantName?: string;
   dishes: ExtractedDish[];
   unreadable: UnreadableItem[];
 }
@@ -79,10 +84,12 @@ export async function extractDishesFromImages(
   // Aggregate across pages: treat the upload as a menu if ANY page looked like
   // one. A multi-page menu with a blank/odd page shouldn't be rejected.
   let anyMenu = false;
+  const names: string[] = [];
 
   for (const result of perImageResults) {
     if (result.status === "fulfilled") {
       if (result.value.isMenu) anyMenu = true;
+      if (result.value.restaurantName) names.push(result.value.restaurantName);
       allDishes.push(...result.value.dishes);
       allUnreadable.push(...result.value.unreadable);
     } else {
@@ -100,6 +107,7 @@ export async function extractDishesFromImages(
 
   return {
     isMenu: anyMenu,
+    restaurantName: pickRestaurantName(names),
     dishes: deduplicateDishes(allDishes),
     unreadable: deduplicateUnreadable(allUnreadable),
   };
@@ -220,6 +228,7 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
   if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
     const obj = parsed as {
       isMenu?: unknown;
+      restaurantName?: unknown;
       dishes?: unknown;
       unreadable?: unknown;
     };
@@ -233,7 +242,12 @@ function parseOcrResponse(rawText: string, imageIndex: number): OcrResult {
     // treat it as a menu rather than rejecting a real one.
     const isMenu =
       typeof obj.isMenu === "boolean" ? obj.isMenu : dishes.length > 0;
-    return { isMenu, dishes, unreadable };
+    return {
+      isMenu,
+      restaurantName: isMenu ? sanitizeRestaurantName(obj.restaurantName) : undefined,
+      dishes,
+      unreadable,
+    };
   }
 
   // Legacy shape: bare array. Assume it's a menu for backward compatibility.
@@ -278,6 +292,43 @@ function salvageDishesFromTruncatedJson(text: string): ExtractedDish[] {
     }
   }
   return dishes;
+}
+
+const RESTAURANT_NAME_MAX = 60;
+
+/**
+ * The name is read off a photo, so it is untrusted text that ends up as a
+ * title in the app: one line, bounded length, and nothing that is obviously the
+ * model declining to answer.
+ */
+export function sanitizeRestaurantName(raw: unknown): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const name = raw.replace(/\s+/g, " ").trim();
+  if (name.length < 2 || name.length > RESTAURANT_NAME_MAX) return undefined;
+  if (/^(null|none|n\/a|unknown|not (shown|printed|visible)|menu)$/i.test(name)) {
+    return undefined;
+  }
+  return name;
+}
+
+/**
+ * One name for the whole scan. Pages are photographed in any order and most
+ * don't carry the name, so take the one the most pages agree on; a tie goes to
+ * the earliest page. Compared case-insensitively, returned as first printed.
+ */
+export function pickRestaurantName(names: string[]): string | undefined {
+  const counts = new Map<string, { name: string; count: number }>();
+  for (const name of names) {
+    const key = name.toLowerCase();
+    const entry = counts.get(key);
+    if (entry) entry.count += 1;
+    else counts.set(key, { name, count: 1 });
+  }
+  let best: { name: string; count: number } | undefined;
+  for (const entry of counts.values()) {
+    if (!best || entry.count > best.count) best = entry;
+  }
+  return best?.name;
 }
 
 /** Coerces a raw parsed array into validated ExtractedDish records. */

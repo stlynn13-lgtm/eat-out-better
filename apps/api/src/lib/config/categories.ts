@@ -21,6 +21,7 @@ import type { DishCategory } from "@/lib/types";
 /** Categories we score and rank. */
 export const RANKED_CATEGORIES: readonly DishCategory[] = [
   "main",
+  "appetizer",
   "side",
   "dessert",
   "drink_non_alcoholic",
@@ -50,6 +51,7 @@ export function isRanked(category: DishCategory): boolean {
 /** User-facing group heading. */
 export const CATEGORY_LABEL: Record<DishCategory, string> = {
   main: "Mains",
+  appetizer: "Appetizers",
   side: "Sides",
   dessert: "Desserts",
   drink_non_alcoholic: "Drinks",
@@ -64,6 +66,7 @@ export const CATEGORY_LABEL: Record<DishCategory, string> = {
  */
 export const BEST_IN_CATEGORY_LABEL: Partial<Record<DishCategory, string>> = {
   main: "Best main",
+  appetizer: "Best appetizer",
   side: "Best side",
   dessert: "Best dessert",
   drink_non_alcoholic: "Best drink",
@@ -107,6 +110,7 @@ type SectionKind =
   | "drink_alcoholic"
   | "drink_non_alcoholic"
   | "drink_generic"
+  | "appetizer"
   | "side"
   | "dessert"
   | "condiment"
@@ -121,6 +125,22 @@ type SectionKind =
  * cocktail or wrongly suppresses a soft drink.
  */
 const SECTION_PATTERNS: readonly { kind: SectionKind; words: readonly string[] }[] = [
+  // Only from a section header, never from a dish's name: "is this a starter?"
+  // is a fact about where the restaurant printed it, and the same plate of wings
+  // is an appetizer on one menu and a main on the next. With no such header the
+  // dish stays a main, exactly as before this category existed.
+  //
+  // Listed FIRST so "Bar Bites" and "Happy Hour Snacks" read as food. Below the
+  // alcohol patterns, the word "bar" claimed the whole section and every plate
+  // in it left the ranked list as a drink — losing food is the worst outcome
+  // here. A real drink under such a header is still caught by its own name.
+  {
+    kind: "appetizer",
+    words: ["appetizers", "appetizer", "apps", "starters", "starter", "small plates",
+            "small plate", "shareables", "shareable", "sharables", "to share",
+            "for the table", "snacks", "bites", "nibbles", "antipasti", "antipasto",
+            "tapas", "mezze", "meze", "hors d oeuvres", "to start", "first course"],
+  },
   {
     kind: "drink_non_alcoholic",
     words: ["soft drinks", "mocktails", "mocktail", "non alcoholic", "zero proof",
@@ -238,7 +258,13 @@ export function categorizeDish(dish: { name: string; section?: string }): DishCa
   }
 
   // Food sections. A beverage listed among the sides is still a beverage.
-  if (kind === "side" || kind === "dessert" || kind === "condiment" || kind === "food") {
+  if (
+    kind === "appetizer" ||
+    kind === "side" ||
+    kind === "dessert" ||
+    kind === "condiment" ||
+    kind === "food"
+  ) {
     if (looksAlcoholic(dish.name)) return "drink_alcoholic";
     if (looksBeverage(dish.name)) return "drink_non_alcoholic";
     if (kind === "food") return "main";

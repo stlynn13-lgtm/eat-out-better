@@ -34,6 +34,9 @@
  *
  * ## Contract (do not change these signatures)
  *
+ * `renameSession` (1.5.0) is the one way a stored scan is ever edited, and the
+ * only field it touches is `customName`.
+ *
  * `saveSession`, `getSessions` and `clearSessions` keep the signatures
  * hooks/useAnalysis.ts and app/history.tsx already call. `getSessions()` is
  * local-only FOREVER — it must never touch the network, because this app is
@@ -215,6 +218,7 @@ function migrateLegacyOnce(): Promise<void> {
 
 export type HistoryChange =
   | { type: "saved"; shelf: string; session: MenuSession }
+  | { type: "renamed"; shelf: string; session: MenuSession }
   | { type: "cleared"; shelf: string };
 
 const listeners = new Set<(change: HistoryChange) => void>();
@@ -238,7 +242,28 @@ function notify(change: HistoryChange): void {
 // The public contract
 // ---------------------------------------------------------------------------
 
-export async function saveSession(session: MenuSession): Promise<void> {
+/**
+ * Saves and renames are read-modify-write on one AsyncStorage key, so two of
+ * them overlapping would have the second write back a list that never saw the
+ * first. That became possible with renaming: the results screen offers it the
+ * moment a scan lands, while that scan's own save may still be in flight. One
+ * queue, strictly in order, is the whole fix.
+ */
+let writeQueue: Promise<unknown> = Promise.resolve();
+function enqueueWrite<T>(task: () => Promise<T>): Promise<T> {
+  const run = writeQueue.then(task, task);
+  writeQueue = run.catch(() => {});
+  return run;
+}
+
+/** Longest name kept. Long enough for "The Cheesecake Factory — Cherry Creek". */
+export const SCAN_NAME_MAX = 60;
+
+export function saveSession(session: MenuSession): Promise<void> {
+  return enqueueWrite(() => saveSessionNow(session));
+}
+
+async function saveSessionNow(session: MenuSession): Promise<void> {
   try {
     const shelf = await activeShelf();
     const existing = await readShelf(shelf);
@@ -257,6 +282,33 @@ export async function saveSession(session: MenuSession): Promise<void> {
     // failing to archive them must not surface as a scan failure.
     console.warn("Failed to save session:", error);
   }
+}
+
+/**
+ * Give a saved scan the name the user typed. An empty name removes it, which
+ * puts the scan back on the name read off the menu (or none).
+ *
+ * Returns the updated scan, or `null` if it isn't on this phone's shelf.
+ * Throws on a storage failure so the caller can say the name didn't stick.
+ */
+export function renameSession(id: string, name: string): Promise<MenuSession | null> {
+  return enqueueWrite(async () => {
+    const shelf = await activeShelf();
+    const existing = await readShelf(shelf);
+    const index = existing.findIndex((s) => s.id === id);
+    if (index === -1) return null;
+
+    const customName = name.replace(/\s+/g, " ").trim().slice(0, SCAN_NAME_MAX);
+    const updated: MenuSession = { ...existing[index] };
+    if (customName) updated.customName = customName;
+    else delete updated.customName;
+
+    const next = [...existing];
+    next[index] = updated;
+    await AsyncStorage.setItem(keyFor(shelf), JSON.stringify(next));
+    notify({ type: "renamed", shelf, session: updated });
+    return updated;
+  });
 }
 
 /**

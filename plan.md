@@ -11,11 +11,14 @@
 
 **Build 14 (v1.4.0) is on TestFlight, with sign-in live.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. A first-launch screen offers "Create free account" or "Continue without an account". Google and Apple sign-in are both confirmed on Sean's phone; Google now uses its own sheet and names "Eat Out Better". The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Library photo picks now show a loading tile the moment the picker closes (published to builds 13 and 14, not yet tried on a phone). Details: `log.md`, the 2026-10-01 entries.
 
+**Version 1.5.0 is in progress on the branch `feat/1.5.0-design-feedback`** (not merged, not built): restaurant names on saved scans with renaming, a redesigned Saved scans screen, category tabs on results, a redesigned account entry and account screen, a slower logo animation, and the "Analyze New Menu keeps the old photos" fix. Details: `log.md`, 2026-10-01 (night).
+
 **Four release lines.** Each build only accepts over-the-air updates published from its own version:
 - `ota/1.1.4` → build 9
 - `ota/1.2.0` → build 11
 - `ota/1.3.0` → build 13 (accounts, Google through the browser). Up to date: the account-screen label and photo-pick fixes were published 2026-10-01.
 - `main` (1.4.0) → build 14 (native Google sign-in). **This is the build testers should be on.**
+- **When 1.5.0 is merged, `main` becomes 1.5.0 and stops reaching build 14.** Push the `ota/1.4.0` branch first (it exists locally, cut from `main`); from then on build 14's updates are published from it.
 
 **Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
 
@@ -25,6 +28,7 @@
 
 ## NOW
 
+0. **1.5.0 design round — look at it on a phone before merging.** Before the merge: push `ota/1.4.0`; run `npm run test:repeatability` in `apps/api` (the menu-reading instructions changed). After the merge: cut build 1.5.0 (1). The App Store privacy label needs no change (a restaurant name is part of "saved scan results"), but the policy wording did change and goes live with the merge.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
 3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
