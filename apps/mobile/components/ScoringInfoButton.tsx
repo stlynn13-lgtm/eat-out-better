@@ -6,7 +6,7 @@ import { trackScoringInfoOpened } from "../lib/analytics";
 
 // Rendered once, globally, above the Stack — not per-screen. Hidden on
 // processing (avoid distracting mid-scan) and on the info screen itself.
-const HIDDEN_ROUTES = ["/processing", "/how-it-works"];
+const HIDDEN_ROUTES = ["/processing", "/how-it-works", "/welcome"];
 
 export default function ScoringInfoButton() {
   const router = useRouter();
