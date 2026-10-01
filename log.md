@@ -6,6 +6,26 @@
 
 ---
 
+## 2026-10-01 (late night) — Paywall at launch; draft launch plan
+
+**What changed**
+
+- **Decision: the paywall is on from the first public day.** The rule "no paywall until day-30 retention passes 20%" is dropped. Why: that bar is very high for an app people use about once a week, each free scan costs about $0.04, and whether people pay is a faster and clearer signal than whether they come back.
+- **New doc: `launch-plan.md` (draft).** Launch is aimed at one group, adults with high cholesterol. Installs are meant to come from unpaid channels: a page per restaurant chain on eatoutbetter.com, dietitians who see heart patients, cholesterol communities, and short screen recordings. One $300 ad test, as a measurement only.
+- **`pricing-strategy.md` and `plan.md` updated to match.** Building the paywall moved from "later" to launch work.
+- Nothing in the app changed.
+
+**Worth knowing**
+
+- **The install and revenue figures in the launch plan are estimates.** It expects 200–800 installs a month in year one, which the pricing model turns into roughly $300–1,300 a month.
+- **Day-90 rule:** under 300 installs a month and under 3% of installs paying means stop adding features and keep the app running as is.
+
+**Not done**
+
+- No paywall, RevenueCat or free-scan counter is built. The launch plan is a draft Sean has not reviewed.
+
+---
+
 ## 2026-10-01 (night) — Pricing strategy rethought; new doc `pricing-strategy.md`
 
 **What changed**

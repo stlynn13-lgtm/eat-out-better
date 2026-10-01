@@ -125,7 +125,7 @@ Baseline conversion is what generous freemium gets. Assumed multipliers: hard pa
 
 ## 7. Launch vs. scale
 
-- **Precondition unchanged:** no paywall until D30 > 20%.
+- **Precondition dropped (2026-10-01, Sean's decision):** the paywall is on from the first public day. The old rule was "no paywall until D30 > 20%"; that bar is very high for a roughly weekly-use app, and paying behaviour is the faster signal. See `launch-plan.md`.
 - **Launch (90 days):** founding annual $29.99, lifetime $59.99, because early payers are data. A/B the paywall position (after scan 3 vs. scan 6) first: it is the biggest lever.
 - **Grandfathering:** founding price holds while the subscription is continuous.
 - **Raise prices when:** install→paid > 6% for 2 months → annual $49.99; lifetime share > 25% of purchases → lifetime $99.99; trial→paid > 45% → test monthly $8.99.
