@@ -1,13 +1,15 @@
-import { useRef, useState } from "react";
-import { View, Text, TextInput, Pressable } from "react-native";
+import { useState } from "react";
+import { TextInput } from "react-native";
 
 /**
- * Six boxes for the emailed code, backed by ONE real TextInput laid over them.
+ * The emailed code, in ONE ordinary, visible text field.
  *
- * One input rather than six is what keeps the platform features working:
- * `textContentType="oneTimeCode"` lets iOS offer the code from Mail above the
- * keyboard, paste lands the whole code at once, and backspace behaves. The
- * boxes are only a picture of what's in that input.
+ * This used to be six drawn boxes over a nearly invisible input. It looked
+ * tidy and broke the thing people actually do: copy the code in their mail app
+ * and paste it. An input you can't see doesn't reliably offer the system Paste
+ * menu. A plain field does — tap it and Paste is there — and it still gets the
+ * code suggested above the keyboard (`textContentType="oneTimeCode"`). Wide
+ * letter-spacing keeps the digits reading as six separate characters.
  */
 
 export const CODE_LENGTH = 6;
@@ -26,10 +28,10 @@ export default function CodeInput({
   hasError: boolean;
   editable?: boolean;
 }) {
-  const inputRef = useRef<TextInput>(null);
   const [focused, setFocused] = useState(true);
 
   const handleChange = (text: string) => {
+    // Pasted text may carry spaces or a sentence around the code; keep digits.
     const digits = text.replace(/\D/g, "").slice(0, CODE_LENGTH);
     onChange(digits);
     if (digits.length === CODE_LENGTH && value.length !== CODE_LENGTH) {
@@ -37,64 +39,34 @@ export default function CodeInput({
     }
   };
 
-  const activeIndex = Math.min(value.length, CODE_LENGTH - 1);
-
   return (
-    <Pressable
-      onPress={() => inputRef.current?.focus()}
-      accessible={false}
-      className="flex-row justify-between"
-    >
-      {Array.from({ length: CODE_LENGTH }).map((_, i) => {
-        const digit = value[i] ?? "";
-        const isActive = focused && editable && i === activeIndex;
-        const borderColor = hasError ? "#dc2626" : isActive ? "#1B4332" : "#D1D5DB";
-        return (
-          <View
-            key={i}
-            className="items-center justify-center rounded-xl bg-white"
-            style={{
-              width: 48,
-              height: 56,
-              borderWidth: isActive || hasError ? 2 : 1,
-              borderColor,
-            }}
-          >
-            <Text className="text-2xl font-semibold text-gray-900" maxFontSizeMultiplier={1.3}>
-              {digit}
-            </Text>
-          </View>
-        );
-      })}
-
-      <TextInput
-        ref={inputRef}
-        value={value}
-        onChangeText={handleChange}
-        editable={editable}
-        autoFocus
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        autoComplete="one-time-code"
-        maxLength={CODE_LENGTH}
-        caretHidden
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        accessibilityLabel={`${CODE_LENGTH}-digit code`}
-        accessibilityHint="The code is in the email we just sent you."
-        // Laid over the boxes so a tap anywhere focuses it. Nearly invisible
-        // rather than fully transparent: iOS won't raise the keyboard for an
-        // input with opacity 0.
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.02,
-          color: "transparent",
-        }}
-      />
-    </Pressable>
+    <TextInput
+      value={value}
+      onChangeText={handleChange}
+      editable={editable}
+      autoFocus
+      keyboardType="number-pad"
+      textContentType="oneTimeCode"
+      autoComplete="one-time-code"
+      placeholder="000000"
+      placeholderTextColor="#D1D5DB"
+      selectionColor="#1B4332"
+      maxFontSizeMultiplier={1.3}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      accessibilityLabel={`${CODE_LENGTH}-digit code`}
+      accessibilityHint="The code is in the email we just sent you. You can paste it."
+      className="bg-white rounded-xl text-gray-900 font-semibold"
+      style={{
+        height: 60,
+        fontSize: 28,
+        letterSpacing: 10,
+        textAlign: "center",
+        // No maxLength: iOS applies it BEFORE onChangeText, which would cut a
+        // pasted "Your code is 123456" down to its first six characters.
+        borderWidth: hasError || focused ? 2 : 1,
+        borderColor: hasError ? "#dc2626" : focused ? "#1B4332" : "#D1D5DB",
+      }}
+    />
   );
 }
