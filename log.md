@@ -6,6 +6,27 @@
 
 ---
 
+## 2026-10-01 (night) — Pricing strategy rethought; new doc `pricing-strategy.md`
+
+**What changed**
+
+- **New doc: `pricing-strategy.md`.** A from-scratch look at every realistic way to make money from the app, with a model of revenue, cost and profit at different install, conversion and retention levels. It is a decision input, not a committed plan. Nothing in the app changed.
+- **The recommendation moved.** `monetization-strategy.md` (July) kept a generous free tier. The new doc recommends 3 free scans at full quality, then a paywall with a 14-day free trial of Plus ($6.99/mo or $39.99/yr), a small free tier of 2 scans a month forever, a $3.99 week pass and a $79.99 lifetime option. The risk rating stays free.
+- **Why:** in the model, how early the paywall appears matters far more than the price. At 2,000 installs a month (base case) the generous free tier earns about $400 a month; the recommended plan about $3,400.
+- **Ruled out:** ads (they earn less than a scan costs), sponsored restaurant placement, selling data, weekly subscriptions.
+
+**Worth knowing**
+
+- **The model rests on assumptions.** The conversion multipliers (hard paywall 4×, recommended 2.5× a 2.1% baseline) are estimates built on RevenueCat's 2026 report, and every cost comes from `cost-and-golive-requirements.md`, not from measured scans.
+- **The July doc's free-scan cost ($0.015) disagrees with the cost doc ($0.04).** The new doc uses $0.04.
+- **Unchanged:** no paywall until day-30 retention passes 20%.
+
+**Not done**
+
+- Sean has not decided on any of this. Nothing is built: no paywall, no RevenueCat, no trial.
+
+---
+
 ## 2026-10-01 (night) — Version 1.5.0 started: restaurant names, a livelier Saved scans, category tabs, a new account look
 
 **Status: merged (PR #46) and built. Version 1.5.0 (1) finished building on 2026-10-01 and was handed to Expo's automatic TestFlight submission. Not yet seen on a phone.** The menu-reading change, the appetizer group and the privacy wording went live on the API at the merge. Build 14's updates now come from the `ota/1.4.0` branch, not `main`.
