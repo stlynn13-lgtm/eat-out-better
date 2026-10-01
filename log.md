@@ -38,7 +38,7 @@
 
 **Not done**
 
-- **Build 13 does not have the account-label fix.** It is on the `ota/1.3.0` branch but not published; simplest is for testers to move to build 14.
+- ~~**Build 13 does not have the account-label fix.** It is on the `ota/1.3.0` branch but not published; simplest is for testers to move to build 14.~~ Published to build 13 later the same day; see the evening entry above.
 - **Delete account after an Apple sign-in** has still never been run. It is the only thing that proves the Apple key in Vercel belongs to the right team.
 - **Restore after reinstall with a real scan** has not been tried on a phone: scan, sign in, delete the app, reinstall, sign in, scan is back.
 - The fixes from PRs #35, #36 and #41 were type-checked and bundled, then tried by Sean on his phone. There are no automated tests for these screens.
