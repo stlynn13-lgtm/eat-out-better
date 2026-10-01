@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: September 30, 2026</p>
+      <p style={styles.meta}>Last Updated: October 1, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -86,23 +86,27 @@ export default function PrivacyPage() {
         <h3 style={styles.subheading}>Device &amp; Usage Data</h3>
         <p>
           We collect basic technical information (device type, OS version, crash reports) and
-          anonymous usage analytics (which screens you visit, whether an analysis succeeded,
-          how long it took) to maintain and improve the app. Crash reports may include an IP
-          address and, when an error occurs, a visual replay of the app screens leading up to
-          it. This data is not linked to your health information, and menu photos are not
-          included in analytics or crash reports.
+          usage analytics (which screens you visit, whether an analysis succeeded, how long it
+          took) to maintain and improve the app. Analytics are tied to a random identifier, not
+          to your name or email. Our analytics provider also works out an approximate location
+          (country and city) from your device&apos;s IP address; we never ask for your precise
+          location. Crash reports may include an IP address and, when an error occurs, a
+          visual replay of the app screens leading up to it. This data is not linked to your
+          health information, and menu photos are not included in analytics or crash reports.
         </p>
         <p>
           To tell a returning user from a new one, the app creates a random install
           identifier and keeps it in your device&apos;s secure keychain. It is attached to
-          those anonymous analytics. It contains no name, email, or health information, and
+          those analytics events. It contains no name, email, or health information, and
           because the keychain outlives the app, it can persist if you delete and reinstall
-          Eat Out Better. Analytics and crash reports are not linked to your account.
+          Eat Out Better. Analytics and crash reports are not linked to your account, but they
+          do carry random identifiers for your device, which is why the App Store privacy label
+          lists them as linked to you.
         </p>
         <h3 style={styles.subheading}>Feedback</h3>
         <p>
           If you choose to send feedback through the in-app feedback form, we collect the text
-          and rating you submit, along with an anonymous app identifier so we can spot repeat
+          and rating you submit, along with a random app identifier so we can spot repeat
           issues. Feedback is optional and never required to use the app.
         </p>
       </Section>
@@ -130,18 +134,20 @@ export default function PrivacyPage() {
           <li>
             <strong>Anthropic, PBC (Claude API)</strong> — processes your menu photos and
             health context to generate the analysis. Photos are not retained after
-            processing. Privacy policy:{" "}
+            processing, except that Anthropic may keep content flagged by its automated safety
+            systems for up to two years. Privacy policy:{" "}
             <a href="https://anthropic.com/privacy">anthropic.com/privacy</a>.
           </li>
           <li>
-            <strong>PostHog, Inc.</strong> — anonymous product analytics (screen views,
-            scan funnel events, error types). No photos or health details are sent.
+            <strong>PostHog, Inc.</strong> — product analytics tied to a random identifier
+            (screen views, scan funnel events, error types), including an approximate location
+            derived from your IP address. No photos or health details are sent.
             Privacy policy: <a href="https://posthog.com/privacy">posthog.com/privacy</a>.
           </li>
           <li>
             <strong>Sentry (Functional Software, Inc.)</strong> — crash reporting and
-            error diagnostics, including session replays of app screens when an error
-            occurs. Privacy policy:{" "}
+            error diagnostics, tied to a random device identifier, including session replays
+            of app screens when an error occurs. Privacy policy:{" "}
             <a href="https://sentry.io/privacy/">sentry.io/privacy</a>.
           </li>
           <li>

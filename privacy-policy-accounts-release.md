@@ -121,18 +121,35 @@ build 12 testers are uploading scans under a policy that says nothing leaves the
 
 ---
 
-## App Store Connect → App Privacy, same day
+## App Store Connect → App Privacy (filled in 2026-10-01 — not yet published at time of writing)
 
-| Data type | Answer | Linked to user | Tracking |
-|---|---|---|---|
-| Identifiers → **User ID** | Collected — App Functionality | **Yes** | No |
-| Contact Info → **Email Address** | Collected — App Functionality | **Yes** | No |
-| Contact Info → **Name** | Collected — App Functionality (Apple/Google, optional) | **Yes** | No |
-| User Content → **Other User Content** (saved scan results) | Collected — App Functionality | **Yes** | No |
-| Health & Fitness → **Health** | **Not collected** — the condition never leaves the phone | — | — |
-| User Content → **Photos or Videos** | Re-check today's answer: photos are sent for analysis and discarded. Apple counts data "collected" only if kept longer than needed to serve the request, so "not collected" is defensible — decide and record why | — | — |
-| Identifiers → **Device ID** | Collected — Analytics (the install identifier) | No | No |
-| Usage Data, Diagnostics | Unchanged | No | No |
+Everything is declared **Linked to the user's identity** and **not used for tracking**. Apple treats data as
+linked when it ties back to a person through an account **or a device identifier** — and analytics, feedback and
+Sentry events all carry a random device-level ID (PostHog distinct id, the keychain install id) — so "not linked"
+would have been inaccurate. Over-declaring linkage is the safe direction; under-declaring is what draws rejection.
+
+| Data type | Used for | Linked | Tracking | Why it is declared |
+|---|---|---|---|---|
+| Contact Info → **Name** | App Functionality | Yes | No | Apple/Google sign-in, optional |
+| Contact Info → **Email Address** | App Functionality | Yes | No | Account + sign-in codes |
+| Location → **Coarse Location** | Analytics | Yes | No | PostHog derives city from IP (GeoIP is on by default; no `disableGeoip`) |
+| User Content → **Customer Support** | App Functionality | Yes | No | In-app feedback (text, rating, PostHog id) |
+| User Content → **Other User Content** | App Functionality | Yes | No | Saved scan results |
+| Identifiers → **User ID** | App Functionality | Yes | No | Supabase account id |
+| Identifiers → **Device ID** | Analytics | Yes | No | install id + PostHog distinct id |
+| Usage Data → **Product Interaction** | Analytics | Yes | No | PostHog scan-funnel events |
+| Diagnostics → **Crash Data** | App Functionality | Yes | No | Sentry |
+| Diagnostics → **Performance Data** | App Functionality | Yes | No | Sentry |
+| Diagnostics → **Other Diagnostic Data** | App Functionality | Yes | No | Sentry logs + error-time session replay |
+
+**Deliberately not declared:** Health (the condition is constant and never leaves the phone — see below),
+Photos or Videos (sent to Anthropic for analysis and not retained; Anthropic keeps content its safety systems flag
+for up to two years, which is why the policy says so), Phone, Physical Address, Precise Location, Contacts,
+Browsing/Search History, Advertising Data, Other Usage Data, Other User Contact Info.
+
+**Keep the label and the app in step.** Before shipping any build that collects something new (location prompt,
+more analytics, a new SDK), edit the label first. If `disableGeoip` is ever turned on in PostHog, Coarse Location
+can come off.
 
 ## Where judgment was used (no outside review)
 
