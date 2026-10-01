@@ -6,6 +6,39 @@
 
 ---
 
+## 2026-10-01 (night) — Version 1.5.0 started: restaurant names, a livelier Saved scans, category tabs, a new account look
+
+**Status: written and checked on a computer, on the branch `feat/1.5.0-design-feedback`. Not merged, not built, not yet seen on a phone.**
+
+**What changed**
+
+- **Version is now 1.5.0 (1)** — Sean's call, to mark a new round of design changes. Nothing in it needs new phone-level parts, but a version number is also what decides which installed app an update can reach, so this work arrives only in a new 1.5.0 build. Build 14 keeps getting small updates from a new `ota/1.4.0` line.
+- **Saved scans are named after the restaurant.** When a menu prints the restaurant's name, the app reads it and uses it as the scan's name. It is told never to guess: no printed name, no suggestion.
+- **Any scan can be renamed.** Tap the pencil on a saved scan, or the title on the results screen. If the menu printed a name, the rename box offers it back as a one-tap suggestion. The name is backed up with the scan when you have an account.
+- **Saved scans looks different.** Each scan has a coloured letter tile, the restaurant name, a green/yellow/red bar showing how the whole menu scored (with the counts in words under it), and its top pick. Three totals sit at the top: menus, dishes scored, green picks. "Clear" moved to the bottom of the list; it used to sit underneath the "?" button.
+- **Results has tabs: All, Entrées, Appetizers, Desserts, Drinks** (and Sides when a menu has them). "All" is still the first thing you see and still shows everything, now with a heading over each group. An empty tab says so.
+- **Appetizers are a real group now.** A dish printed under "Appetizers", "Starters", "Small Plates" and similar headings is ranked among appetizers and can win "Best Appetizer". With no such heading it stays an entrée, as before.
+- **The account entry on the home screen is a card, not a text link**, and it uses the person's own number ("Back up your 7 saved scans"). The account screen opens on a dark-green panel: the pitch when signed out, a profile with your totals when signed in. The sign-in buttons, "Not now", Sign out and Delete account are unchanged.
+- **The logo's tap animation is about a third slower**, same design.
+- **Bug fixed: "Analyze New Menu" left the old photos behind.** After a scan, tapping "Analyze New Menu" and then Back showed the previous menu's photos. The app was opening a second scan screen on top of the first one, which still held them. It now returns to the one scan screen and empties it.
+- **Privacy policy wording** now says a saved scan includes the restaurant's name. It goes live when this branch is merged.
+
+**Decisions and why**
+
+- **The restaurant name is read by the same step that reads the dishes**, so it adds no extra AI call and no extra cost per scan.
+- **A rename reaches the account as "delete the old copy, upload the new one"**, because the database deliberately does not allow saved scans to be edited in place. If the phone is offline it retries on the next sync.
+- **Nothing new was installed** (no new packages), so there is nothing new that can fail in the build.
+
+**Not done / not proven**
+
+- **Nobody has seen these screens on a phone.** They were type-checked, the app bundle was built, and the automatic tests pass (58 category checks, 23 saved-scan checks including renaming). Layout, spacing and the feel of the animations are untested.
+- **The menu-reading change was checked against the real AI (same day).** Two test menu pages were read with the old instructions and the new ones: the same 17 dishes came back, with identical names, descriptions and section headings. The new version also returned the restaurant's name from the page that printed it, returned no name for the page that didn't, and put the three "Starters" dishes under Appetizers. The test pages were computer-drawn, clean and easy to read; a real photo in dim light has not been tried.
+- **The scoring evaluation shows three flags, and they are not from this work**: the same three appear on the unchanged 1.4.0 code. Galbi scores yellow (5.5) where the answer key says red, and two brunch dishes (Korean Fried Chicken Bao, Chicken & Pandan Waffle) have moved from red to yellow, sitting right at the 4.0 line. Worth a look as part of the real-menu scoring work.
+- **Scans saved before 1.5.0 have no name** until one is typed, and show as "Unnamed menu".
+- **A rename made on one phone does not change a copy already sitting on a second phone.**
+
+---
+
 ## 2026-10-01 (evening) — Photos picked from the library now show a loading tile straight away
 
 **What changed**

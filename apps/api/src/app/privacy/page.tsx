@@ -63,7 +63,8 @@ export default function PrivacyPage() {
         </p>
         <p>
           <strong>Saved scans.</strong> Each menu you scan is saved on your device and backed up
-          to your account: the dishes read from the menu, their scores and the explanations. Your
+          to your account: the dishes read from the menu, their scores and the explanations, and the
+          restaurant&apos;s name when it is printed on the menu or you type one in. Your
           menu photos are not included, and neither is the health setting described above.
         </p>
         <p>

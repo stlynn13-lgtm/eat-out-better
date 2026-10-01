@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Linking } from "react-native";
 import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import FeedbackSheet from "../components/FeedbackSheet";
@@ -9,6 +9,8 @@ import Reveal from "../components/Reveal";
 import BrandMark from "../components/BrandMark";
 import { useAuth } from "../lib/auth/account";
 import { hasAnsweredWelcome } from "../lib/welcome";
+import AccountEntryCard from "../components/AccountEntryCard";
+import { getSessions } from "../lib/storage/session";
 
 /**
  * Welcome — the first screen after the Terms, and home every time after.
@@ -19,10 +21,12 @@ import { hasAnsweredWelcome } from "../lib/welcome";
  * steps describe what you'll actually do. The brand mark is the app icon
  * itself rather than an emoji, so it matches what's on the home screen.
  *
- * One primary action. Saved scans is secondary, and the account link is a
- * quiet text link: scanning never needs an account, so the screen shouldn't
- * suggest otherwise. Sized so the primary button sits above the fold on the
- * smallest supported phone (iPhone SE, 667pt).
+ * One primary action. Saved scans is secondary. The account entry was a quiet
+ * text link until 1.5.0; Sean found it bland and easy to miss, so it is now a
+ * card (components/AccountEntryCard.tsx) — still BELOW the two scan buttons,
+ * because scanning never needs an account and the screen shouldn't suggest
+ * otherwise. Sized so the primary button sits above the fold on the smallest
+ * supported phone (iPhone SE, 667pt).
  */
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -30,6 +34,23 @@ export default function WelcomeScreen() {
   const accountsOn = useAuth((s) => s.status !== "unavailable");
   const signedIn = useAuth((s) => s.userId !== null && !s.isAnonymous);
   const authReady = useAuth((s) => s.status === "ready");
+  const displayName = useAuth((s) => s.displayName);
+  const email = useAuth((s) => s.email);
+
+  // For the account card ("Back up your 7 scans"). Local read, refreshed each
+  // time home comes back into view so a scan just made is counted.
+  const [scanCount, setScanCount] = useState(0);
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
+      getSessions().then((s) => {
+        if (active) setScanCount(s.length);
+      });
+      return () => {
+        active = false;
+      };
+    }, [])
+  );
 
   // The first-launch account offer, once per install. Waits for auth to be
   // ready so someone whose sign-in survived a reinstall (the keychain does)
@@ -132,19 +153,15 @@ export default function WelcomeScreen() {
           </TouchableOpacity>
 
           {accountsOn ? (
-            <TouchableOpacity
-              className="items-center justify-center mt-2"
-              style={{ minHeight: 44 }}
+            <AccountEntryCard
+              signedIn={signedIn}
+              name={displayName ?? email}
+              scanCount={scanCount}
               onPress={() => router.push("/account?from=home")}
-              accessibilityRole="button"
-            >
-              <Text className="text-sm font-semibold text-brand-900">
-                {signedIn ? "Account" : "Create a free account or sign in"}
-              </Text>
-            </TouchableOpacity>
+            />
           ) : null}
 
-          <Text className="text-sm text-gray-600 text-center mt-2">
+          <Text className="text-sm text-gray-600 text-center mt-3">
             Not medical advice — always consult your doctor.
           </Text>
         </Reveal>

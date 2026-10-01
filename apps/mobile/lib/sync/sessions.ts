@@ -11,6 +11,7 @@
  *               anonymous) users only: it's what makes history follow you to a
  *               new phone.
  *   deleteRemoteHistory — the server half of "Clear history".
+ *   markRenamed — a renamed scan is queued to be replaced on the server.
  *
  * Nothing here throws to a caller, and nothing here is awaited by a scan or by
  * the history screen. A failed sync costs a retry, never a result.
@@ -88,6 +89,78 @@ export async function forgetSynced(userId: string): Promise<void> {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Renamed scans
+//
+// The table has no UPDATE grant on purpose (see the migration: history can be
+// added to or deleted, never rewritten in place). So a rename reaches the
+// account as a delete followed by the ordinary upload. The ids waiting for
+// that are kept here until the delete succeeds, which makes it survive a bad
+// connection: every syncUp tries again.
+// ---------------------------------------------------------------------------
+
+function renamedKey(userId: string): string {
+  return `eat-out-better:renamed:${userId}`;
+}
+
+async function readRenamed(userId: string): Promise<string[]> {
+  try {
+    const raw = await AsyncStorage.getItem(renamedKey(userId));
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function writeRenamed(userId: string, ids: string[]): Promise<void> {
+  try {
+    if (ids.length === 0) await AsyncStorage.removeItem(renamedKey(userId));
+    else await AsyncStorage.setItem(renamedKey(userId), JSON.stringify(ids.slice(-200)));
+  } catch {
+    // Worst case the account keeps the old name; the phone still has the new one.
+  }
+}
+
+async function unmarkSynced(userId: string, ids: string[]): Promise<void> {
+  const synced = await readSynced(userId);
+  ids.forEach((id) => synced.delete(id));
+  try {
+    await AsyncStorage.setItem(syncedKey(userId), JSON.stringify(Array.from(synced)));
+  } catch {
+    // See markSynced.
+  }
+}
+
+export async function markRenamed(userId: string, id: string): Promise<void> {
+  const ids = await readRenamed(userId);
+  if (!ids.includes(id)) await writeRenamed(userId, [...ids, id]);
+}
+
+/**
+ * Remove the account's old copy of each renamed scan so the upload that
+ * follows carries the new name. Only called from inside syncUp.
+ */
+async function replaceRenamed(userId: string): Promise<void> {
+  if (!supabase) return;
+  const ids = await readRenamed(userId);
+  if (ids.length === 0) return;
+  const { error } = await supabase
+    .from("menu_sessions")
+    .delete()
+    .eq("user_id", userId)
+    .in("id", ids);
+  if (error) {
+    console.warn("[sync] Rename sync failed, will retry later:", error.message);
+    return;
+  }
+  // Unmark first: if the app dies between these two writes, the worst case is
+  // an upload the server already has, which the upsert ignores.
+  await unmarkSynced(userId, ids);
+  const remaining = (await readRenamed(userId)).filter((id) => !ids.includes(id));
+  await writeRenamed(userId, remaining);
+}
+
 /** True only while the client's session really belongs to `userId`. */
 async function sessionIs(userId: string): Promise<boolean> {
   if (!supabase) return false;
@@ -102,6 +175,7 @@ export function syncUp(userId: string): Promise<void> {
   if (existing) return existing;
   const run = (async () => {
     if (!supabase || !(await sessionIs(userId))) return;
+    await replaceRenamed(userId);
     const synced = await readSynced(userId);
     const pending = (await readShelf(userId)).filter((s) => !synced.has(s.id));
 
@@ -159,7 +233,10 @@ export async function deleteRemoteHistory(userId: string): Promise<void> {
     if (!supabase || !(await sessionIs(userId))) return;
     const { error } = await supabase.from("menu_sessions").delete().eq("user_id", userId);
     if (error) console.warn("[sync] Remote clear failed:", error.message);
-    else await forgetSynced(userId);
+    else {
+      await forgetSynced(userId);
+      await writeRenamed(userId, []);
+    }
   } catch (error) {
     console.warn("[sync] Remote clear error:", error);
   }
@@ -177,7 +254,10 @@ export function wireHistorySync(): void {
   onHistoryChange((change) => {
     // `device` is the no-account shelf; nothing to sync it to.
     if (change.shelf === "device") return;
-    if (change.type === "saved") void syncUp(change.shelf);
-    else void deleteRemoteHistory(change.shelf);
+    const userId = change.shelf;
+    if (change.type === "saved") void syncUp(userId);
+    else if (change.type === "renamed") {
+      void markRenamed(userId, change.session.id).then(() => syncUp(userId));
+    } else void deleteRemoteHistory(userId);
   });
 }

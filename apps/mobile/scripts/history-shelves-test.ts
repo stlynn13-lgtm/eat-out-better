@@ -81,6 +81,27 @@ function check(name: string, cond: boolean, detail?: unknown) {
   check("Y sees only the post-sign-out scan", (await s.getSessions()).map((x: any) => x.id).join() === "d1");
   check("X's shelf still intact on the phone", JSON.parse(store.get("eat-out-better:sessions:X")!).length === 3);
 
+  // Rename: only the active shelf's copy, only the name, and it is announced.
+  const events: any[] = [];
+  const off = s.onHistoryChange((c: any) => events.push(c));
+  const renamed = await s.renameSession("d1", "  Luigi's \n Trattoria  ");
+  check("rename: returns the updated scan", renamed?.customName === "Luigi's Trattoria", renamed);
+  check("rename: stored", (await s.getSessions())[0].customName === "Luigi's Trattoria");
+  check("rename: announces 'renamed' for sync", events.length === 1 && events[0].type === "renamed" && events[0].shelf === "Y", events);
+  check("rename: unknown id is a no-op", (await s.renameSession("nope", "x")) === null && events.length === 1);
+  check("rename: over-long name is cut to the cap", (await s.renameSession("d1", "x".repeat(200)))?.customName.length === s.SCAN_NAME_MAX);
+  const cleared = await s.renameSession("d1", "   ");
+  check("rename: empty name removes it", cleared !== null && !("customName" in cleared), cleared);
+  check("rename: X's shelf never touched", JSON.parse(store.get("eat-out-better:sessions:X")!).every((x: any) => !x.customName));
+  // A rename fired while that scan's own save is still in flight must not lose
+  // either write (the results screen allows exactly this).
+  const racing = s.saveSession(scan("d2", 5) as any);
+  const racedName = s.renameSession("d2", "Raced");
+  await racing;
+  check("rename: queued behind an in-flight save", (await racedName)?.customName === "Raced");
+  check("rename: both writes survive", (await s.getSessions()).map((x: any) => `${x.id}:${x.customName ?? ""}`).join() === "d2:Raced,d1:");
+  off();
+
   // Clear only clears the active shelf.
   await s.clearSessions();
   check("clear: Y empty", (await s.getSessions()).length === 0);
