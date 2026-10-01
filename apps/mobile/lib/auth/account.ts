@@ -41,6 +41,8 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import * as ExpoCrypto from "expo-crypto";
+import Constants from "expo-constants";
+import { GoogleSignin, isErrorWithCode, statusCodes } from "@react-native-google-signin/google-signin";
 import { AppState } from "react-native";
 import type { AuthError, Session, User } from "@supabase/supabase-js";
 import { supabase, hasStoredSession, API_URL } from "./supabase";
@@ -417,8 +419,85 @@ export async function continueWithApple(): Promise<SignInOutcome> {
 }
 
 // ---------------------------------------------------------------------------
-// Google (system browser, PKCE; no native Google SDK in the binary)
+// Google
+//
+// Native (Google's own sign-in sheet) from 1.4.0. The system-browser flow that
+// 1.3.0 shipped with worked, but Google's account chooser named the page it
+// was returning to — "continue to <project>.supabase.co" — which reads like a
+// phishing page. The native sheet says "Eat Out Better". The browser flow is
+// kept below as the fallback for a build with no iOS client ID configured.
 // ---------------------------------------------------------------------------
+
+const GOOGLE_IOS_CLIENT_ID: string | undefined =
+  Constants.expoConfig?.extra?.googleIosClientId || undefined;
+const GOOGLE_WEB_CLIENT_ID: string | undefined =
+  Constants.expoConfig?.extra?.googleWebClientId || undefined;
+
+let googleConfigured = false;
+function configureGoogle(): void {
+  if (googleConfigured) return;
+  GoogleSignin.configure({
+    iosClientId: GOOGLE_IOS_CLIENT_ID,
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+    scopes: ["email", "profile"],
+  });
+  googleConfigured = true;
+}
+
+async function googleIdToken(): Promise<string> {
+  configureGoogle();
+  try {
+    const result = await GoogleSignin.signIn();
+    if (result.type !== "success") throw new SignInCancelled();
+    if (!result.data.idToken) throw new Error("Google did not return a token.");
+    return result.data.idToken;
+  } catch (error) {
+    if (isErrorWithCode(error) && error.code === statusCodes.SIGN_IN_CANCELLED) {
+      throw new SignInCancelled();
+    }
+    throw error;
+  }
+}
+
+/**
+ * Same three shapes as Apple: link the Google identity to the current user,
+ * or — when Google says that login already has an account — switch to it.
+ * No nonce: Google's iOS SDK doesn't expose the one it puts in the token, so
+ * the Supabase Google provider has "Skip nonce checks" on (its documented
+ * setting for native iOS sign-in).
+ */
+async function continueWithGoogleNative(): Promise<SignInOutcome> {
+  if (!supabase) throw new Error("Accounts are not available in this build.");
+  const client = supabase;
+  const idToken = { provider: "google" as const, token: await googleIdToken() };
+
+  const current = await currentSession();
+  if (current) {
+    const { error } = await client.auth.linkIdentity(idToken);
+    if (!error) {
+      await afterLink();
+      return "created";
+    }
+    if (!isTaken(error) || !current.user.is_anonymous) throw error;
+  }
+  return switchToExistingAccount(() => client.auth.signInWithIdToken(idToken));
+}
+
+/**
+ * Forget which Google account this phone last used, so the next sign-in shows
+ * the account chooser instead of silently reusing it. Best-effort.
+ */
+async function forgetGoogleAccount(): Promise<void> {
+  if (!GOOGLE_IOS_CLIENT_ID) return;
+  try {
+    configureGoogle();
+    await GoogleSignin.signOut();
+  } catch {
+    // Nothing was signed in, or the SDK is unavailable — either way, fine.
+  }
+}
+
+// --- Fallback: system browser, PKCE -----------------------------------------
 
 /** eat-out-better://auth/callback — must be in Supabase's Redirect URLs. */
 const AUTH_REDIRECT = Linking.createURL("auth/callback");
@@ -451,6 +530,7 @@ function browserError(r: BrowserResult): AuthError | Error {
 }
 
 export async function continueWithGoogle(): Promise<SignInOutcome> {
+  if (GOOGLE_IOS_CLIENT_ID) return continueWithGoogleNative();
   if (!supabase) throw new Error("Accounts are not available in this build.");
   const client = supabase;
   const options = { redirectTo: AUTH_REDIRECT, skipBrowserRedirect: true };
@@ -553,6 +633,7 @@ export async function signOut(): Promise<void> {
   } finally {
     switching = false;
   }
+  void forgetGoogleAccount();
   await ensureSession();
 }
 

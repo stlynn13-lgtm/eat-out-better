@@ -55,6 +55,13 @@ if [[ "$SUPABASE_PUBLISHABLE_KEY" != sb_publishable_* ]]; then
   exit 1
 fi
 
+# The provider must also accept ID tokens from the iOS client (native Google
+# sign-in, app 1.4.0+). Public identifier; same value as apps/mobile/app.config.ts.
+GOOGLE_IOS_CLIENT_ID="529086941465-t3p7kftlb0kcm1qikus5g9rmp3iqs6c7.apps.googleusercontent.com"
+case "$GOOGLE_CLIENT_ID" in
+  *"$GOOGLE_IOS_CLIENT_ID"*) ;;
+  *) GOOGLE_CLIENT_ID="$GOOGLE_CLIENT_ID,$GOOGLE_IOS_CLIENT_ID" ;;
+esac
 export SUPABASE_DB_PASSWORD RESEND_API_KEY GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET
 
 say "Linking this repo to project $PROJECT_REF"
