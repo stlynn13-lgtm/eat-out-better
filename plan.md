@@ -25,10 +25,9 @@
 
 1. **Sean's phone test of accounts** (build 13): scan → "Keep this scan safe" → create an account by email → delete and reinstall → sign in → the scan is back. Then **Sign in with Apple followed by Delete account**, the only way to prove the Apple key.
 2. **Build 14** (v1.4.0): native Google sign-in. Sean runs the build; first real test is on a phone.
-3. **Hide My Email:** register `eatoutbetter.com` and `no-reply@eatoutbetter.com` under Apple Developer → Services → Sign in with Apple for Email Communication. Nothing is registered today.
-4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
-5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
-6. **Calibrate the zoom buttons** (30 seconds, real phone).
+3. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
+4. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
+5. **Calibrate the zoom buttons** (30 seconds, real phone).
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 
@@ -38,6 +37,7 @@
 
 ## Closed this week (so nobody chases them again)
 
+- **Hide My Email** — `eatoutbetter.com`, `send.eatoutbetter.com` and `no-reply@eatoutbetter.com` are registered as Sign in with Apple email sources (2026-10-01); Apple shows all three passing SPF. Delivery through Apple's relay has not been tested with a real Hide My Email account.
 - **Shutter flash** — confirmed working by Sean.
 - **The two P1 bugs** ("go back" stalling the second analysis; two loading screens + results flash) — both fixed back in June/July (`8e59003`, `f0bffd4`, `0e1f312`, `b385f09`) and re-checked in today's code: "Analyze New Menu" replaces the results screen before resetting, and only the processing screen navigates to results. If either is ever seen again, it's a new bug.
 - **The root lockfile duplicate-React risk** — closed when PR #7 merged on 21 September: the root lockfile now covers only the API and shared package, with no React Native packages in it. PR #25 added one API dependency and kept it that way.

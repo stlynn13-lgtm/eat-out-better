@@ -36,7 +36,7 @@
 
 - **Sign in with Apple** needs a real iPhone and Apple ID.
 - **The app's own screens** (the prompt after a scan, restore after reinstall on a phone). The server side of each is proven above; the taps are Sean's to try. No scan has been made on a phone since accounts went on, so no real scan has been backed up yet.
-- **Hide My Email:** Apple's developer portal shows **no email sources registered**. Low impact today (the app only emails addresses people type in for a code), but it must be done before the app ever emails Apple-relay addresses.
+- **Hide My Email:** was not set up when checked; Claude registered `eatoutbetter.com`, `send.eatoutbetter.com` (the subdomain Resend sends from) and `no-reply@eatoutbetter.com` the same day, and Apple shows all three passing SPF. Delivery through Apple's relay is untested: it needs an Apple account using Hide My Email.
 
 **Judgment calls on the label (no outside review):** Health and Photos are not declared — nobody enters health data and the condition is the same for everyone; photos are analysed and not kept. Both change the day a condition picker or photo storage ships. Rule going forward: edit the label before shipping any build that collects something new.
 
