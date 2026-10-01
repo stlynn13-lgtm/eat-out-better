@@ -6,6 +6,42 @@
 
 ---
 
+## 2026-10-01 — Accounts live for build 13, the App Store privacy label, and what was actually tested
+
+**What changed**
+
+- **Sign-in is on for build 13.** Sean finished the outside setup (Google client secret in Supabase; Supabase and Apple keys in Vercel; redeploy) and published the over-the-air update himself, because Claude isn't permitted to run the publish command. The update carries the Supabase address and public key, and the accounts switch.
+- **First run on a phone, and the fixes from it** (PRs #35, #36): a first-launch "Create free account" screen; the code field became one visible box so Paste works (the six drawn boxes couldn't be pasted into, and the logs show the phone asked for a code twice and never submitted one); account page and home layout tidied; code email reworded. Published to build 13.
+- **Native Google sign-in** (PR #37) so Google's sheet says "Eat Out Better" instead of the Supabase address. It needs a new build: **main is now v1.4.0 / build 14**, and build 13 gets updates from `ota/1.3.0`.
+- **App Store privacy label filled in and published** (it had never been started). Eleven data types, all "linked to you", none used for tracking. "Linked" is deliberate: analytics, feedback and crash reports carry a random device ID, and Apple counts that as linked. The privacy policy was corrected to match (PR #38): analytics are no longer called "anonymous", the IP-derived approximate location is disclosed, and so is Anthropic keeping safety-flagged content for up to two years.
+- **Unused Redis connection removed** from Vercel. PR #28 (old docs) closed; this entry replaces it.
+
+**Tested against the live services (by Claude, 2026-10-01)**
+
+| What | Result |
+|---|---|
+| Silent anonymous account | Created |
+| Scan upload, in the same request shape the app sends | Saved |
+| A scan carrying a health condition | Refused by the database, as designed |
+| Email code attached to the anonymous account | Email arrived, code accepted, same account kept |
+| Sign out, new code, sign back in (the reinstall path) | Same account, scan restored |
+| Reading another account's scans | Nothing returned |
+| Delete account through the live website | Account and scan gone |
+| Google sign-in | Worked on Sean's phone (Google login attached at 15:36 UTC) |
+| $200/day spend cap | Counting: one scan recorded at $0.015 |
+| Apple key in Vercel | Well-formed: it signed a request and Apple answered. A fake code can't prove the key belongs to the right team — only a real Apple sign-in then Delete account can |
+| Sentry error replays | Text, images and vectors are masked by default; never seen with a real error |
+
+**Not tested, and why**
+
+- **Sign in with Apple** needs a real iPhone and Apple ID.
+- **The app's own screens** (the prompt after a scan, restore after reinstall on a phone). The server side of each is proven above; the taps are Sean's to try. No scan has been made on a phone since accounts went on, so no real scan has been backed up yet.
+- **Hide My Email:** Apple's developer portal shows **no email sources registered**. Low impact today (the app only emails addresses people type in for a code), but it must be done before the app ever emails Apple-relay addresses.
+
+**Judgment calls on the label (no outside review):** Health and Photos are not declared — nobody enters health data and the condition is the same for everyone; photos are analysed and not kept. Both change the day a condition picker or photo storage ships. Rule going forward: edit the label before shipping any build that collects something new.
+
+---
+
 ## 2026-09-29 — Sign-in screens, welcome redesign, landscape photos, and build 13 blocked on Apple
 
 **What changed** (PR #29, merged)

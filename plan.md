@@ -2,52 +2,37 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-01
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
 
 ## Where we are right now
 
-**Build 11 (v1.2.0) is on TestFlight** (arrived 22 September) and carries the install ID and the saved-scans screen. Build 9 (v1.1.4) testers still get over-the-air updates from the `ota/1.1.4` branch.
+**Sign-in is live for build 13 (v1.3.0) on TestFlight.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Details and test results: `log.md`, 2026-10-01.
 
-**Merged 2026-09-28** (all live on `main`; the website parts are deployed):
-
-| PR | What | Ships how |
-|---|---|---|
-| #22 | Terms address gets **Apt B213** and the **phone number (720) 837-1482**; privacy policy stops describing a health-condition input the app doesn't have, and discloses the install ID | Live on the website |
-| #23 | Photo preview: **64pt close button** moved in from the corner, **swipe down to close**, **pinch-to-zoom** | Over the air to builds 9 and 11 — not published yet |
-| #24 | The **$200/day spend cap**, counted in real dollars, on **Supabase** (no Redis) | Switches on with the Supabase setup |
-| #25 | **Accounts**: silent anonymous account on first launch, sign in with Apple, Google, or a 6-digit email code | Needs **build 12** (v1.3.0) and the setup in `ACCOUNTS-SETUP.md` |
-| #26 | This file, the log, and the feedback sheet script | — |
-
-**Sign-in and the spend cap are built, not switched on.** Everyone will get an invisible account on first launch; signing in attaches a login to it so saved scans follow you to a new phone; scanning never requires it. Both stay dormant until Sean does the setup in `ACCOUNTS-SETUP.md` (about an hour of clicking, $0/month — the domain `eatoutbetter.com` is already owned, and the spend cap runs on the same Supabase database, so there's no Redis to add). Full reasoning in the `log.md` 2026-09-28 entry.
-
-**Three release lines.** Each build only accepts over-the-air updates published from its own version:
+**Four release lines.** Each build only accepts over-the-air updates published from its own version:
 - `ota/1.1.4` → build 9
-- `ota/1.2.0` → build 11 (cut from `main` on 2026-09-28 just before accounts merged; already contains the photo viewer)
-- `main` (1.3.0) → build 12, once it's built
+- `ota/1.2.0` → build 11
+- `ota/1.3.0` → build 13 (accounts)
+- `main` (1.4.0) → build 14, not built yet (native Google sign-in)
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 
 ---
 
-## Build 13 (v1.3.0) — blocked on one Apple step
-
-Welcome redesign, sign-in screens, landscape photos, the Google logo and the photo preview are all merged (PR #29). The design reminders are done. Build 13 failed at signing because Apple's provisioning profile lacks Sign in with Apple. Sean runs `cd ~/Developer/eat-out-better/apps/mobile && EAS_SKIP_AUTO_FINGERPRINT=1 eas build --platform ios --profile production --auto-submit` once, interactively, and logs into Apple when asked. EAS then adds the capability and regenerates the profile.
-
----
-
 ## NOW
 
-1. **Accounts + spend-cap setup** — `ACCOUNTS-SETUP.md`: four sign-ups, then `./scripts/setup-supabase.sh`, then Vercel env vars. After that, an update turns sign-in on for build 13. It switches on both. Then build 12, and on the day it reaches testers: deploy the accounts privacy policy (`privacy-policy-accounts-release.md`) and change the App Store privacy answers. Until the setup is done, the Anthropic account limit is the only global spend ceiling (confirmed set, 2026-09-28).
-2. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. Until then the six extra feedback fields keep arriving and going nowhere.
-3. **Publish the photo-viewer update** over the air to build 11 (from `ota/1.2.0`, which already has it) and, if wanted, build 9 (copy `PhotoViewer.tsx` onto `ota/1.1.4` first). Try it on a phone first.
-4. **Push the database-test workflow.** `.github/workflows/supabase-db-tests.yml` exists locally but GitHub refused it: the saved GitHub login lacks the `workflow` permission. After `gh auth refresh -h github.com -s workflow`, commit and push it — then the database security tests (saved scans + spend cap) run on every PR.
-5. **Real-menu scoring** — Sean and Ray are testing it themselves and will report what looks wrong. The open question from the rubric rewrite still stands: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in (1–2 tsp brings it to ~6–8g, which is honestly yellow). Worth watching on real brunch menus.
-6. **Calibrate the zoom buttons** (30 seconds, real phone). Pinch until the framing looks like a true 2×, read the percentage badge, divide by 100; same for 3×. Those two numbers ship over the air.
+1. **Sean's phone test of accounts** (build 13): scan → "Keep this scan safe" → create an account by email → delete and reinstall → sign in → the scan is back. Then **Sign in with Apple followed by Delete account**, the only way to prove the Apple key.
+2. **Build 14** (v1.4.0): native Google sign-in. Sean runs the build; first real test is on a phone.
+3. **Hide My Email:** register `eatoutbetter.com` and `no-reply@eatoutbetter.com` under Apple Developer → Services → Sign in with Apple for Email Communication. Nothing is registered today.
+4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
+5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
+6. **Calibrate the zoom buttons** (30 seconds, real phone).
 
-**Don't undo:** scoring runs at `temperature: 0`. At 0.2 roughly a quarter of a real menu had coin-flip tier colours. Don't raise it without re-running `npm run test:repeatability`.
+**Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
+
+**Privacy label rule:** before shipping any build that collects something new (a location prompt, more analytics, a new SDK, a condition picker), update the App Store label and the policy first. Current answers: `privacy-policy-accounts-release.md`.
 
 ---
 
