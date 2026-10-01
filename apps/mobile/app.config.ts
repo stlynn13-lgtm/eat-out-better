@@ -111,6 +111,14 @@ function resolveAppToken(environment: string): string | undefined {
 
 const APP_ENVIRONMENT = process.env.APP_ENV ?? "development";
 
+// Google Cloud project "Eat Out Better" (eat-out-better-510222). The iOS client
+// is tied to bundle id com.eatoutbetter.app; the web client is the one the
+// Supabase Google provider uses. Both are listed in Supabase's "Client IDs".
+const GOOGLE_IOS_CLIENT_ID =
+  "529086941465-t3p7kftlb0kcm1qikus5g9rmp3iqs6c7.apps.googleusercontent.com";
+const GOOGLE_WEB_CLIENT_ID =
+  "529086941465-7sdgnqqra63oclvn74r691dolbnfgkce.apps.googleusercontent.com";
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Eat Out Better",
@@ -124,7 +132,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // JS-only updates published from a 1.2.0 tree (the `ota/1.2.0` branch) until
   // they install build 12.
   // (1.1.4 -> 1.2.0 was the same story for expo-secure-store / install_id.)
-  version: "1.3.0",
+  // 1.3.0 -> 1.4.0: native Google sign-in adds a native module
+  // (@react-native-google-signin/google-signin) and a URL scheme. Build 13
+  // testers keep getting JS-only updates from the `ota/1.3.0` branch.
+  version: "1.4.0",
   // Explicit, because `...config` above spreads app.json — which still carries a
   // `web` key from the Expo template. Without this, `eas update` exports for web
   // too and dies on a missing react-native-web that this app has never needed:
@@ -163,11 +174,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "com.eatoutbetter.app",
+    // 14 for v1.4.0 (native Google sign-in). History of this number —
     // 13, not 12: EAS build 5840b746 already used 12 (v1.2.0, the Terms header
     // fix, 2026-09-28). Apple would accept 12 again under a new version, but one
     // number meaning two builds is how the build-10 confusion happened.
     // Always check `eas build:list` before picking the next number.
-    buildNumber: "13",
+    buildNumber: "14",
     // Sign in with Apple entitlement. EAS enables the capability on the App ID
     // automatically at build time when this is set.
     usesAppleSignIn: true,
@@ -207,6 +219,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "./plugins/with-mlkit-simulator-patch",
     "expo-apple-authentication",
     "expo-web-browser",
+    [
+      "@react-native-google-signin/google-signin",
+      // The iOS client ID, reversed: the URL Google's sheet returns to.
+      { iosUrlScheme: `com.googleusercontent.apps.${GOOGLE_IOS_CLIENT_ID.split(".")[0]}` },
+    ],
   ],
   extra: {
     ...config.extra,
@@ -238,5 +255,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Over-the-air kill switch: publish an update with ACCOUNTS_ENABLED=false
     // to hide every account surface and stop creating accounts, no new build.
     accountsEnabled: process.env.ACCOUNTS_ENABLED !== "false",
+    // Native Google sign-in (lib/auth/account.ts). Client IDs are public
+    // identifiers, not secrets — the iOS one is also baked into the binary's
+    // URL scheme above, so it lives in source rather than in EAS env.
+    googleIosClientId: GOOGLE_IOS_CLIENT_ID,
+    googleWebClientId: GOOGLE_WEB_CLIENT_ID,
   },
 });
