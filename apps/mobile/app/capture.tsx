@@ -103,6 +103,25 @@ export default function CaptureScreen() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // "Analyze New Menu" on the results screen lands back here (this screen is
+  // still underneath it) and asks for a clean slate. Without this the tray
+  // still held the previous menu's photos. A new scan means a new analytics
+  // session too, exactly as a fresh mount would have started one.
+  const newScanRequest = useAnalysisStore((s) => s.newScanRequest);
+  const consumeNewScanRequest = useAnalysisStore((s) => s.consumeNewScanRequest);
+  useEffect(() => {
+    if (!newScanRequest) return;
+    consumeNewScanRequest();
+    setLocalPhotos([]);
+    setViewerIndex(null);
+    scanSessionIdRef.current = newScanRequest;
+    setCurrentScanSessionId(newScanRequest);
+    if (posthog) trackMenuScanStarted(posthog, newScanRequest, "loop_back");
+    // The scan that just finished spent one of today's allowance.
+    getScanQuota().then(setQuota);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newScanRequest]);
+
   // Native camera zoom (expo-camera `zoom` is 0..1). Two ways in, like the iOS
   // camera: tappable level pills and a pinch gesture. Pinch runs on the JS
   // thread (runOnJS) so it needs no Reanimated worklet/babel plugin.

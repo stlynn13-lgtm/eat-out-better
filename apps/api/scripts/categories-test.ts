@@ -84,6 +84,27 @@ expect("DOUBLE SMASH BURGER", "MAINS", "main");
 expect("FARRO CAESAR", "MAINS", "main");
 
 // ---------------------------------------------------------------
+console.log("\nAppetizers — only ever from the section header:");
+
+expect("Crispy Calamari", "APPETIZERS", "appetizer");
+expect("Burrata & Tomato", "Starters", "appetizer");
+expect("Chicken Wings", "SMALL PLATES", "appetizer");
+expect("Hummus & Pita", "For the Table", "appetizer");
+expect("Patatas Bravas", "Tapas", "appetizer");
+// The same dish with no starter header stays a main, as it always has.
+expect("Chicken Wings", undefined, "main");
+expect("Chicken Wings", "MAINS", "main");
+// A drink printed among the starters is still a drink.
+expect("Iced Tea", "STARTERS", "drink_non_alcoholic");
+expect("Sake Flight", "SMALL PLATES", "drink_alcoholic");
+// "Bar" alone means drinks, but bar FOOD must stay food.
+expect("Truffle Fries", "BAR BITES", "appetizer");
+expect("Old Fashioned", "BAR", "drink_alcoholic");
+// "Sides" must not be swallowed by the appetizer words, or the reverse.
+expect("French Fries", "SIDES", "side");
+expect("Shareable Nachos", "MAINS", "main");
+
+// ---------------------------------------------------------------
 console.log("\nStandalone sauces vs sauces inside a dish:");
 
 expect("Extra Chile Aioli", "SAUCES", "condiment");
@@ -109,6 +130,7 @@ expect("Chef's Selection", undefined, "main");
 console.log("\nRanked vs unranked, and the user-facing reasons:");
 
 check("mains are ranked", isRanked("main"));
+check("appetizers are ranked", isRanked("appetizer"));
 check("sides are ranked", isRanked("side"));
 check("desserts are ranked", isRanked("dessert"));
 check("soft drinks are ranked", isRanked("drink_non_alcoholic"));

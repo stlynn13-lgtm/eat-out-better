@@ -135,7 +135,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // 1.3.0 -> 1.4.0: native Google sign-in adds a native module
   // (@react-native-google-signin/google-signin) and a URL scheme. Build 13
   // testers keep getting JS-only updates from the `ota/1.3.0` branch.
-  version: "1.4.0",
+  // 1.4.0 -> 1.5.0: Sean's call, to open a new round of design changes
+  // (restaurant names, saved-scans and account redesign, category tabs). Nothing
+  // native changed — but the version still fences OTA updates, so build 14
+  // testers keep getting JS-only updates from the `ota/1.4.0` branch and this
+  // work reaches people only through a 1.5.0 build.
+  version: "1.5.0",
   // Explicit, because `...config` above spreads app.json — which still carries a
   // `web` key from the Expo template. Without this, `eas update` exports for web
   // too and dies on a missing react-native-web that this app has never needed:
@@ -179,7 +184,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // fix, 2026-09-28). Apple would accept 12 again under a new version, but one
     // number meaning two builds is how the build-10 confusion happened.
     // Always check `eas build:list` before picking the next number.
-    buildNumber: "14",
+    //
+    // 1 for v1.5.0 — Sean asked for "1.5.0 (1)", restarting the count with the
+    // new version. Apple allows it (build numbers only have to be unique within
+    // one version), and from here "version (build)" is the name of a build, so
+    // say "1.5.0 (1)", not "build 1" — a bare "build 1" also means v1.0.0's.
+    // Next build of 1.5.0 is 2.
+    buildNumber: "1",
     // Sign in with Apple entitlement. EAS enables the capability on the App ID
     // automatically at build time when this is set.
     usesAppleSignIn: true,

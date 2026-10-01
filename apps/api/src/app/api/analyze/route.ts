@@ -129,7 +129,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return errorResponse("CLAUDE_ERROR", message, 500);
     }
 
-    const { isMenu, dishes: rawDishes, unreadable: unreadableItems } = ocrResult;
+    const { isMenu, dishes: rawDishes, unreadable: unreadableItems, restaurantName } = ocrResult;
 
     // The image didn't look like a menu at all — distinct from "a menu we
     // couldn't read". HTTP 422 (Unprocessable Entity): valid request, but the
@@ -150,6 +150,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       if (unreadableItems.length > 0) {
         return successResponse({
           id: uuidv4(),
+          restaurantName,
           dishes: [],
           rawDishes: [],
           unreadableItems,
@@ -194,6 +195,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (rankableDishes.length === 0) {
       return successResponse({
         id: uuidv4(),
+        restaurantName,
         dishes: [],
         rawDishes: categorized,
         unreadableItems,
@@ -232,6 +234,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     return successResponse({
       id: uuidv4(),
+      restaurantName,
       dishes: rankedDishes,
       rawDishes: categorized,
       unreadableItems,

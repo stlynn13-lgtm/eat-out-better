@@ -11,11 +11,14 @@
 
 **Build 14 (v1.4.0) is on TestFlight, with sign-in live.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. A first-launch screen offers "Create free account" or "Continue without an account". Google and Apple sign-in are both confirmed on Sean's phone; Google now uses its own sheet and names "Eat Out Better". The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Library photo picks now show a loading tile the moment the picker closes (published to builds 13 and 14, not yet tried on a phone). Details: `log.md`, the 2026-10-01 entries.
 
-**Four release lines.** Each build only accepts over-the-air updates published from its own version:
+**Version 1.5.0 (1) is merged (PR #46), built, and submitted to TestFlight on 2026-10-01; nobody has tried it on a phone yet.** What's in it: restaurant names on saved scans with renaming, a redesigned Saved scans screen, category tabs on results, a redesigned account entry and account screen, a slower logo animation, and the "Analyze New Menu keeps the old photos" fix. Details: `log.md`, 2026-10-01 (night).
+
+**Five release lines.** Each build only accepts over-the-air updates published from its own version:
 - `ota/1.1.4` → build 9
 - `ota/1.2.0` → build 11
 - `ota/1.3.0` → build 13 (accounts, Google through the browser). Up to date: the account-screen label and photo-pick fixes were published 2026-10-01.
-- `main` (1.4.0) → build 14 (native Google sign-in). **This is the build testers should be on.**
+- `ota/1.4.0` → build 14 (native Google sign-in).
+- `main` (1.5.0) → build 1.5.0 (1). **This is the build testers should move to once it has been tried on a phone.** From 1.5.0 on, a build is named by version and number together ("1.5.0 (1)"), because the number restarted at 1.
 
 **Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
 
@@ -25,6 +28,7 @@
 
 ## NOW
 
+0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
 3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.

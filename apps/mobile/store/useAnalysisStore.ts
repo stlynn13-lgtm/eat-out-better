@@ -15,12 +15,23 @@ interface AnalysisState {
   results: RankedDish[] | null;
   session: MenuSession | null;
   error: AnalysisError | null;
+  /**
+   * Set by the results screen's "Analyze New Menu" when the capture screen that
+   * produced those results is still underneath it. That capture screen picks it
+   * up, empties its photo tray and starts a fresh scan under this analytics id.
+   * Deliberately NOT part of `initialState`, so `reset()` leaves it alone.
+   */
+  newScanRequest: string | null;
 
   setStatus: (status: AnalysisStatus) => void;
   setProgress: (value: number, message?: string) => void;
   addImage: (image: MenuImage) => void;
   clearImages: () => void;
   setResults: (session: MenuSession) => void;
+  /** Swap in an edited copy of the scan on screen (a rename). Nothing else moves. */
+  updateSession: (session: MenuSession) => void;
+  requestNewScan: (scanSessionId: string) => void;
+  consumeNewScanRequest: () => void;
   setError: (error: AnalysisError) => void;
   clearError: () => void;
   reset: () => void;
@@ -38,6 +49,7 @@ const initialState = {
 
 export const useAnalysisStore = create<AnalysisState>((set) => ({
   ...initialState,
+  newScanRequest: null,
 
   setStatus: (status) => set({ status }),
 
@@ -60,6 +72,12 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
       error: null,
       progress: 100,
     }),
+
+  updateSession: (session) =>
+    set((state) => (state.session?.id === session.id ? { session } : {})),
+
+  requestNewScan: (scanSessionId) => set({ newScanRequest: scanSessionId }),
+  consumeNewScanRequest: () => set({ newScanRequest: null }),
 
   setError: (error) => set({ status: "error", error }),
 

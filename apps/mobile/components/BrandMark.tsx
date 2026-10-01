@@ -9,6 +9,10 @@ import { AccessibilityInfo, Animated, Easing, Pressable } from "react-native";
  * lights, as confetti. Purely decorative, so it is hidden from VoiceOver, and
  * under Reduce Motion a tap does nothing at all. Everything animated is
  * opacity/transform on the native driver; nothing here moves layout.
+ *
+ * Timing was stretched by about a third in 1.5.0 (Sean: same design, slightly
+ * slower) — at the original 520ms the spin was over before it registered. The
+ * three durations scale together so the dots still land as the spin settles.
  */
 
 const SIZE = 44;
@@ -37,22 +41,22 @@ export default function BrandMark() {
     Animated.parallel([
       Animated.timing(spin, {
         toValue: 1,
-        duration: 520,
+        duration: 700,
         easing: Easing.out(Easing.back(1.4)),
         useNativeDriver: true,
       }),
       Animated.sequence([
         Animated.timing(scale, {
           toValue: 1.18,
-          duration: 140,
+          duration: 190,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
-        Animated.spring(scale, { toValue: 1, friction: 4, tension: 140, useNativeDriver: true }),
+        Animated.spring(scale, { toValue: 1, friction: 4, tension: 100, useNativeDriver: true }),
       ]),
       Animated.timing(burst, {
         toValue: 1,
-        duration: 480,
+        duration: 650,
         easing: Easing.out(Easing.cubic),
         useNativeDriver: true,
       }),
