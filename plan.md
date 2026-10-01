@@ -9,13 +9,15 @@
 
 ## Where we are right now
 
-**Sign-in is live for build 13 (v1.3.0) on TestFlight.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Details and test results: `log.md`, 2026-10-01.
+**Build 14 (v1.4.0) is on TestFlight, with sign-in live.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. A first-launch screen offers "Create free account" or "Continue without an account". Google and Apple sign-in are both confirmed on Sean's phone; Google now uses its own sheet and names "Eat Out Better". The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Details: `log.md`, both 2026-10-01 entries.
 
 **Four release lines.** Each build only accepts over-the-air updates published from its own version:
 - `ota/1.1.4` → build 9
 - `ota/1.2.0` → build 11
-- `ota/1.3.0` → build 13 (accounts)
-- `main` (1.4.0) → build 14, not built yet (native Google sign-in)
+- `ota/1.3.0` → build 13 (accounts, Google through the browser). Has one unpublished fix: the account-screen label.
+- `main` (1.4.0) → build 14 (native Google sign-in). **This is the build testers should be on.**
+
+**Publishing updates:** Sean runs `npm run update:production` himself; Claude isn't permitted to. Check the printed runtime version matches the build you mean to reach.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 
@@ -23,8 +25,8 @@
 
 ## NOW
 
-1. **Sean's phone test of accounts** (build 13): scan → "Keep this scan safe" → create an account by email → delete and reinstall → sign in → the scan is back. Then **Sign in with Apple followed by Delete account**, the only way to prove the Apple key.
-2. **Build 14** (v1.4.0): native Google sign-in. Sean runs the build; first real test is on a phone.
+1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
+2. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
 3. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
 4. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 5. **Calibrate the zoom buttons** (30 seconds, real phone).

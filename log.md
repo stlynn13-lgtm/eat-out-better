@@ -6,6 +6,25 @@
 
 ---
 
+## 2026-10-01 (later) — Build 14 on TestFlight, native Google sign-in confirmed on a phone
+
+**What changed**
+
+- **Build 14 (v1.4.0) is on TestFlight.** The build finished normally, but Expo's free submission queue sat for over an hour without starting, so Sean uploaded the finished app file with Apple's Transporter app instead. Apple processed it and it went to the same three tester groups as build 13. If a build is ever stuck at "waiting for an available submitter" again, Transporter is the way around it.
+- **Native Google sign-in works** (PR #37), confirmed by Sean on build 14: Google's own sheet, naming "Eat Out Better" rather than the Supabase address. Behind it: a second Google client for the iPhone app, and the Supabase Google provider now accepts both clients with "Skip nonce checks" on (Supabase's documented setting for iPhone sign-in).
+- **Sign in with Apple works on a phone** too: the database shows Sean's Apple login created from build 14.
+- **Account screen names the login in use** (PR #41). Sean signed in with Apple, signed out, signed in with Google, and the screen said "Signs in with Apple". Nothing was wrong with the sign-in: his Apple ID and Google account share one email, and Supabase treats logins with the same verified email as one account, so both logins sit on one account and the screen listed every one. It now shows a single "Signed in with …" label for the most recent login. Published over the air to build 14 and checked by downloading the live update.
+- **One sign-in method per account in the app's screens** (Sean's decision, in PR #36): the account page no longer offers to add a second login. Supabase still joins logins that share an email behind the scenes, which is what makes "same scans whichever button you tap" work.
+
+**Not done**
+
+- **Build 13 does not have the account-label fix.** It is on the `ota/1.3.0` branch but not published; simplest is for testers to move to build 14.
+- **Delete account after an Apple sign-in** has still never been run. It is the only thing that proves the Apple key in Vercel belongs to the right team.
+- **Restore after reinstall with a real scan** has not been tried on a phone: scan, sign in, delete the app, reinstall, sign in, scan is back.
+- The fixes from PRs #35, #36 and #41 were type-checked and bundled, then tried by Sean on his phone. There are no automated tests for these screens.
+
+---
+
 ## 2026-10-01 — Accounts live for build 13, the App Store privacy label, and what was actually tested
 
 **What changed**
