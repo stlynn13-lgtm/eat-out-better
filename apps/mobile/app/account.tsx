@@ -44,9 +44,8 @@ import AccountCreated from "../components/auth/AccountCreated";
  */
 
 type Busy = null | LoginProvider | "other";
-/** `added` = a backup login attached to an account that already had one. */
 type Success = {
-  outcome: SignInOutcome | "added";
+  outcome: SignInOutcome;
   provider: LoginProvider;
   email: string | null;
 };
@@ -80,7 +79,7 @@ export default function AccountScreen() {
       const outcome =
         provider === "apple" ? await continueWithApple() : await continueWithGoogle();
       setSuccess({
-        outcome: signedIn ? "added" : outcome,
+        outcome,
         provider,
         email: useAuth.getState().email,
       });
@@ -96,15 +95,6 @@ export default function AccountScreen() {
   const available: LoginProvider[] = appleAvailable
     ? ["apple", "google", "email"]
     : ["google", "email"];
-  // Email is only worth adding when the account has no usable address yet —
-  // an Apple "Hide My Email" relay, or none at all. Anyone whose account
-  // already has a real address can sign in by code at it today: Supabase links
-  // identities that share a confirmed email.
-  const hasRealEmail = !!auth.email && !auth.email.endsWith("@privaterelay.appleid.com");
-  const unlinked = available.filter(
-    (p) => !auth.providers.includes(p) && !(p === "email" && hasRealEmail)
-  );
-
   let body: React.ReactNode;
   if (auth.status === "unavailable") {
     body = (
@@ -135,20 +125,13 @@ export default function AccountScreen() {
         onCancel={() => setEmailOpen(false)}
         onDone={(outcome, email) => {
           setEmailOpen(false);
-          setSuccess({ outcome: signedIn ? "added" : outcome, provider: "email", email });
+          setSuccess({ outcome, provider: "email", email });
         }}
       />
     );
   } else if (signedIn) {
     body = (
-      <SignedInView
-        unlinked={unlinked}
-        busy={busy}
-        onApple={() => runProvider("apple")}
-        onGoogle={() => runProvider("google")}
-        onEmail={() => setEmailOpen(true)}
-        onClosed={close}
-      />
+      <SignedInView onClosed={close} />
     );
   } else {
     body = (
@@ -187,7 +170,7 @@ export default function AccountScreen() {
       <KeyboardAvoidingView className="flex-1" behavior="padding">
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}
+          contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingBottom: 16 }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
@@ -335,21 +318,7 @@ function Benefit({
 // Signed in
 // ---------------------------------------------------------------------------
 
-function SignedInView({
-  unlinked,
-  busy,
-  onApple,
-  onGoogle,
-  onEmail,
-  onClosed,
-}: {
-  unlinked: LoginProvider[];
-  busy: Busy;
-  onApple: () => void;
-  onGoogle: () => void;
-  onEmail: () => void;
-  onClosed: () => void;
-}) {
+function SignedInView({ onClosed }: { onClosed: () => void }) {
   const auth = useAuth();
   const [working, setWorking] = useState<null | "signout" | "delete">(null);
   const [scanCount, setScanCount] = useState<number | null>(null);
@@ -417,7 +386,7 @@ function SignedInView({
     );
 
   return (
-    <View>
+    <View className="flex-1">
       <View className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mt-2 mb-4">
         <View className="flex-row items-center">
           <View
@@ -469,23 +438,10 @@ function SignedInView({
         </View>
       </View>
 
-      {unlinked.length > 0 ? (
-        <View className="mb-6">
-          <Text className="text-sm font-semibold text-gray-700 mb-1">
-            Add another way to sign in
-          </Text>
-          <Text className="text-sm text-gray-600 mb-3 leading-snug">
-            A backup login, in case you ever can't use this one.
-          </Text>
-          <LoginButtons
-            providers={unlinked}
-            busy={busy}
-            onApple={onApple}
-            onGoogle={onGoogle}
-            onEmail={onEmail}
-          />
-        </View>
-      ) : null}
+      {/* One login per account, on purpose: once you're signed in, this
+          screen doesn't offer another way in. Sign out and Delete sit at the
+          bottom of the sheet, away from everything else. */}
+      <View className="flex-1" style={{ minHeight: 24 }} />
 
       <TouchableOpacity
         className="border border-gray-300 bg-white rounded-xl items-center justify-center flex-row"
@@ -504,8 +460,8 @@ function SignedInView({
         )}
       </TouchableOpacity>
 
-      {/* Destructive action kept well away from the everyday ones. */}
-      <View className="mt-12 pt-6 border-t border-gray-200">
+      {/* Destructive action kept apart from the everyday one. */}
+      <View className="mt-6 pt-4 border-t border-gray-200">
         <TouchableOpacity
           className="items-center justify-center"
           style={{ minHeight: 48 }}

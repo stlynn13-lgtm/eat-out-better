@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Linking } from "react-native";
 import { TERMS_URL, PRIVACY_URL } from "../lib/legal";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import FeedbackSheet from "../components/FeedbackSheet";
 import Reveal from "../components/Reveal";
+import BrandMark from "../components/BrandMark";
 import { useAuth } from "../lib/auth/account";
 import { hasAnsweredWelcome } from "../lib/welcome";
 
@@ -55,7 +56,7 @@ export default function WelcomeScreen() {
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView
         className="flex-1 px-5"
-        contentContainerStyle={{ paddingTop: 24, paddingBottom: 40 }}
+        contentContainerStyle={{ flexGrow: 1, paddingTop: 24, paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Staggered entrance, top to bottom, ~80ms apart — settled in under
@@ -63,11 +64,7 @@ export default function WelcomeScreen() {
 
         <Reveal delay={0}>
           <View className="flex-row items-center">
-            <Image
-              source={require("../assets/brand/mark.png")}
-              style={{ width: 44, height: 44 }}
-              accessible={false}
-            />
+            <BrandMark />
             <Text className="text-lg font-bold text-brand-900 ml-3">Eat Out Better</Text>
           </View>
         </Reveal>
@@ -105,9 +102,13 @@ export default function WelcomeScreen() {
           </View>
         </Reveal>
 
+        {/* Everything below sits at the bottom of the screen, within thumb
+            reach; the gap closes up when a small phone needs the room. */}
+        <View className="flex-1" style={{ minHeight: 24 }} />
+
         <Reveal delay={240}>
           <TouchableOpacity
-            className="bg-brand-900 rounded-xl items-center justify-center flex-row mt-6"
+            className="bg-brand-900 rounded-xl items-center justify-center flex-row"
             style={{ height: 52 }}
             onPress={() => router.push("/capture")}
             activeOpacity={0.85}
@@ -138,7 +139,7 @@ export default function WelcomeScreen() {
               accessibilityRole="button"
             >
               <Text className="text-sm font-semibold text-brand-900">
-                {signedIn ? "Account" : "Sign in to back up your scans"}
+                {signedIn ? "Account" : "Create a free account or sign in"}
               </Text>
             </TouchableOpacity>
           ) : null}
