@@ -112,6 +112,27 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--gray50);fo
 .hookname{position:absolute;white-space:nowrap;font-weight:900;color:#fff;letter-spacing:-0.02em;text-transform:uppercase}
 .hookname em{font-style:normal;color:#95D5B2}
 .dot{position:absolute;border-radius:50%}
+
+/* ---------- vertical 1080x1920 (?v=1) — Reels/TikTok safe zones: keep clear of top ~220, bottom ~380 ---------- */
+html.v,html.v body{width:1080px;height:1920px}
+html.v #left{left:60px;width:960px}
+html.v .lblock{width:960px;text-align:center}
+html.v .wordrow{justify-content:center}
+html.v #revBlock{top:250px!important}
+html.v #revH{font-size:96px;margin-top:40px!important}
+html.v #revSub{display:none}
+html.v #s1Block,html.v #s2Block{top:200px!important}
+html.v #s1Block .wordrow,html.v #s2Block .wordrow{flex-direction:column}
+html.v #s1t,html.v #s2t{margin-left:0!important;margin-top:22px;font-size:92px!important}
+html.v #s1s,html.v #s2s{margin-left:0!important;width:auto!important;margin-top:26px!important}
+html.v #s2chips{justify-content:center}
+html.v #s2sub br{display:none}
+html.v #hookQ{font-size:140px}
+html.v #oMarkBox{left:460px!important;top:380px!important}
+html.v #oH{top:600px!important;left:60px!important;right:60px!important;font-size:132px!important}
+html.v #oWord{top:910px!important;font-size:42px!important}
+html.v #oDots3{top:1000px!important}
+html.v #oFine{bottom:auto!important;top:1090px;left:140px!important;right:140px!important;font-size:24px!important;line-height:1.5}
 </style>
 </head>
 <body>
@@ -150,7 +171,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--gray50);fo
           <span class="chipdot" id="cd1" style="width:30px;height:30px;border-radius:50%;background:var(--y);display:block"></span>
           <span class="chipdot" id="cd2" style="width:30px;height:30px;border-radius:50%;background:var(--r);display:block"></span>
         </span>
-        <span id="s2sub" style="display:block">Green, yellow or red,<br>and what drives it.</span>
+        <span id="s2sub" style="display:block">Green, yellow or red,<br> and what drives it.</span>
       </div>
     </div>
   </div>
@@ -326,6 +347,8 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--gray50);fo
 </div>
 
 <script>
+const V = new URLSearchParams(location.search).has('v');
+if (V) document.documentElement.classList.add('v');
 // ---------------- data (scores: apps/api/evals/baselines/edible-beats-brunch.json medians) -------------
 const ENTREES = [
   ["BREAKFAST DOSA","Sunny Egg, Masala Potatoes, Mushroom, Asparagus, Maple Drizzle & Coriander Chutney",6.5,"Best Main","Mostly vegetables and one egg; dosa is typically griddled with oil or ghee."],
@@ -376,7 +399,12 @@ document.getElementById("paperThumb").innerHTML = paperHTML;
 document.querySelectorAll("[data-ico]").forEach(el=>{ el.innerHTML = (window.ICONS||{})[el.dataset.ico]||""; });
 
 // hook names (scattered pile)
-const HOOK = [
+const HOOK = V ? [
+  {txt:"Lox Benedict", t:0.00, x:80,  y:300, size:92, rot:-4},
+  {txt:"Pandan Waffle", t:0.50, x:250, y:520, size:92, rot:3},
+  {txt:"Double Smash Burger", t:1.00, x:60, y:1150, size:84, rot:-2},
+  {txt:"Donut Holes", t:1.50, x:330, y:1370, size:92, rot:4},
+] : [
   {txt:"Lox Benedict", t:0.00, x:150,  y:150, size:96, rot:-4},
   {txt:"Pandan Waffle", t:0.50, x:1000, y:330, size:96, rot:3},
   {txt:"Double Smash Burger", t:1.00, x:220, y:600, size:96, rot:-2},
@@ -426,7 +454,10 @@ function markSpin(el,t,t0){
 }
 
 // phone placement
-const PH = {x:1290,y:100,s:1.1};
+const PH = V ? {x:329.5,y:792,s:1.3} : {x:1290,y:100,s:1.1};
+// phone centre in frame coords (for the outro iris) and the logo centre (hook iris collapses into it)
+const PHC = {x:PH.x+210.5, y:PH.y+440};
+const LOGO = (()=>{const b=$("revBlock");const d=b.style.display;b.style.display="block";const r=$("revMarkBox").getBoundingClientRect();b.style.display=d;return {x:r.left+r.width/2,y:r.top+r.height/2}})();
 function touchAt(t, t0, x, y){ // x,y in screen coords
   const el=$("touch"); const q=t-t0;
   if(q<-.25||q>.45){el.style.opacity=0;return}
@@ -449,10 +480,10 @@ function render(t){
     hook.style.display="block";
     // exit: circular reveal of the light canvas, 4.0-4.45
     const pe=eIO(seg(t,3.98,4.42));
-    hook.style.clipPath = pe>0? `circle(${lerp(1900,0,pe)}px at 198px 348px)` : "none";
+    hook.style.clipPath = pe>0? `circle(${lerp(2300,0,pe)}px at ${LOGO.x}px ${LOGO.y}px)` : "none";
     // glows drift
-    css($("hg1"),{left:(1150+Math.sin(t*.9)*40)+"px",top:(-260+Math.cos(t*.7)*30)+"px"});
-    css($("hg2"),{left:(-200+Math.cos(t*.8)*30)+"px",top:(620+Math.sin(t*.6)*30)+"px"});
+    css($("hg1"),{left:((V?420:1150)+Math.sin(t*.9)*40)+"px",top:((V?-280:-260)+Math.cos(t*.7)*30)+"px"});
+    css($("hg2"),{left:((V?-260:-200)+Math.cos(t*.8)*30)+"px",top:((V?1380:620)+Math.sin(t*.6)*30)+"px"});
     // names
     HOOK.forEach((h,i)=>{
       const el=$("hn"+i); const p=seg(t,h.t,h.t+.32); const e=eBack(p,2.2);
@@ -467,13 +498,13 @@ function render(t){
     });
     // question
     const q=$("hookQ"); const pq=seg(t,2.0,2.38); const eq=eBack(pq,1.8);
-    q.style.top="390px"; q.style.opacity=pq>0?Math.min(1,pq*2.5):0;
+    q.style.top=(V?"760px":"390px"); q.style.opacity=pq>0?Math.min(1,pq*2.5):0;
     const shake = t>2.0&&t<2.25 ? Math.sin((t-2)*120)*(1-(t-2)/.25)*6 : 0;
     q.style.transform=`translate(${shake}px,${(1-clamp(eq,0,1.1))*50}px) scale(${lerp(1.35,1,clamp(eq,0,1.1)) + seg(t,2.4,4)*0.04})`;
   } else hook.style.display="none";
 
   // ===== light canvas glows =====
-  css($("bgGlow1"),{left:(1040+Math.sin(t*.5)*30)+"px",top:(80+Math.cos(t*.4)*20)+"px",width:"760px",height:"760px",background:"radial-gradient(circle,rgba(64,145,108,.16),rgba(64,145,108,0) 70%)"});
+  css($("bgGlow1"),{left:((V?160:1040)+Math.sin(t*.5)*30)+"px",top:((V?860:80)+Math.cos(t*.4)*20)+"px",width:"760px",height:"760px",background:"radial-gradient(circle,rgba(64,145,108,.16),rgba(64,145,108,0) 70%)"});
   css($("bgGlow2"),{left:(-200+Math.cos(t*.45)*30)+"px",top:(600+Math.sin(t*.35)*20)+"px",width:"700px",height:"700px",background:"radial-gradient(circle,rgba(27,67,50,.07),rgba(27,67,50,0) 70%)"});
 
   // ===== LEFT: reveal block 4.0-7.0 =====
@@ -516,7 +547,7 @@ function render(t){
   // ===== PHONE =====
   const pw=$("phoneWrap");
   const pin=eOut5(seg(t,4.0,4.75));
-  const fy = Math.sin(t*1.3)*5;
+  const fy = Math.sin(t*1.3)*5 - (V ? 150*eIO(seg(t,8.55,9.1))*(1-eIO(seg(t,9.72,10.1))) : 0); // vertical: lift the phone so the Analyze button clears the caption zone
   const pOut = eIn(seg(t,16.85,17.15));
   pw.style.left=PH.x+"px"; pw.style.top=PH.y+"px";
   pw.style.transform=`translateY(${(1-pin)*900 + fy - pOut*30}px) scale(${PH.s*(1-pOut*.04)}) rotate(${(1-pin)*8}deg)`;
@@ -597,7 +628,7 @@ function render(t){
   if(t>=16.9){
     o.style.display="block";
     const pw2=eIO(seg(t,16.95,17.4));
-    o.style.clipPath=`circle(${lerp(0,1800,pw2)}px at 1500px 540px)`;
+    o.style.clipPath=`circle(${lerp(0,2300,pw2)}px at ${PHC.x}px ${PHC.y}px)`;
     css($("og1"),{transform:`translate(${Math.sin(t*.8)*30}px,${Math.cos(t*.6)*20}px)`});
     css($("og2"),{transform:`translate(${Math.cos(t*.7)*30}px,${Math.sin(t*.5)*20}px)`});
     const pm=eOut(seg(t,17.15,17.5)); $("oMarkBox").style.opacity=pm; $("oMarkBox").style.transform=`scale(${lerp(.6,1,clamp(eBack(seg(t,17.15,17.6),1.8),0,1.2))})`;
