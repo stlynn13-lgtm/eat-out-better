@@ -51,6 +51,17 @@ function fromServerPayload(payload: ServerPayload): MenuSession {
   return { ...payload, healthCondition: DEFAULT_CONDITION } as MenuSession;
 }
 
+/**
+ * The database stores a scan only with the API's signature of its id
+ * (`scanSig`, supabase/migrations/20261003000000_signed_scans.sql). Scans saved
+ * before signing existed don't have one; they stay on this phone. Filtering
+ * them out here matters because the upload is chunked — one refused row fails
+ * its whole chunk, which would otherwise stall every scan after it.
+ */
+function isUploadable(session: MenuSession): boolean {
+  return typeof session.scanSig === "string" && session.scanSig.length > 0;
+}
+
 const UPLOAD_CHUNK = 20;
 const DOWNLOAD_LIMIT = 100;
 
@@ -143,7 +154,18 @@ export async function markRenamed(userId: string, id: string): Promise<void> {
  */
 async function replaceRenamed(userId: string): Promise<void> {
   if (!supabase) return;
-  const ids = await readRenamed(userId);
+  const queued = await readRenamed(userId);
+  if (queued.length === 0) return;
+  // Only scans that can be re-uploaded (see isUploadable) may have their old
+  // copy deleted — otherwise a rename would remove the scan from the account.
+  // An unsigned scan keeps its old name on the server and leaves the queue.
+  const uploadable = new Set(
+    (await readShelf(userId)).filter(isUploadable).map((s) => s.id)
+  );
+  const ids = queued.filter((id) => uploadable.has(id));
+  if (ids.length < queued.length) {
+    await writeRenamed(userId, ids);
+  }
   if (ids.length === 0) return;
   const { error } = await supabase
     .from("menu_sessions")
@@ -177,7 +199,9 @@ export function syncUp(userId: string): Promise<void> {
     if (!supabase || !(await sessionIs(userId))) return;
     await replaceRenamed(userId);
     const synced = await readSynced(userId);
-    const pending = (await readShelf(userId)).filter((s) => !synced.has(s.id));
+    const pending = (await readShelf(userId)).filter(
+      (s) => !synced.has(s.id) && isUploadable(s)
+    );
 
     for (let i = 0; i < pending.length; i += UPLOAD_CHUNK) {
       const chunk = pending.slice(i, i + UPLOAD_CHUNK);
