@@ -5,4 +5,4 @@ work/*.png
 !work/mark@3x.png
 work/*.wav
 work/video-silent*.mp4
-work/render.log
+work/render*.log
