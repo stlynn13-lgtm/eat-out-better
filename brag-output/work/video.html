@@ -1,0 +1,617 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(inter-latin-400-normal.woff2)}
+@font-face{font-family:Inter;font-weight:500;src:url(inter-latin-500-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(inter-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:700;src:url(inter-latin-700-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(inter-latin-800-normal.woff2)}
+@font-face{font-family:Inter;font-weight:900;src:url(inter-latin-900-normal.woff2)}
+:root{
+  --b900:#1B4332;--b800:#2D6A4F;--b600:#40916C;
+  --g:#16a34a;--y:#d97706;--r:#dc2626;
+  --gray50:#F9FAFB;--gray100:#F3F4F6;--gray200:#E5E7EB;--gray300:#D1D5DB;--gray400:#9CA3AF;
+  --gray500:#6B7280;--gray600:#4B5563;--gray700:#374151;--gray800:#1F2937;--gray900:#111827;
+  --green50:#F0FDF4;--green100:#DCFCE7;--green200:#BBF7D0;--green700:#15803D;--green800:#166534;--green900:#14532D;
+  --amber50:#FFFBEB;--amber100:#FEF3C7;--amber200:#FDE68A;--amber700:#B45309;--amber800:#92400E;
+  --red50:#FEF2F2;--red100:#FEE2E2;--red200:#FECACA;--red700:#B91C1C;--red800:#991B1B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--gray50);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+.abs{position:absolute}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--gray50)}
+.ico{display:inline-block;width:1em;height:1em}
+.ico svg{width:100%;height:100%;display:block}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- canvas backdrop ---------- */
+#bgGlow1,#bgGlow2{border-radius:50%;filter:blur(2px)}
+
+/* ---------- left column ---------- */
+#left{left:150px;top:0;width:960px;height:1080px}
+.lblock{position:absolute;left:0;width:960px}
+.wordrow{display:flex;align-items:center}
+.h-xl{font-size:86px;line-height:1.04;font-weight:800;letter-spacing:-0.035em;color:var(--gray900)}
+.h-sub{font-size:34px;line-height:1.38;font-weight:500;color:var(--gray600);letter-spacing:-0.01em}
+.stepnum{width:84px;height:84px;border-radius:50%;background:var(--b900);color:#fff;font-weight:800;font-size:44px;display:flex;align-items:center;justify-content:center;flex:none}
+.line{display:block;will-change:transform,opacity}
+
+/* ---------- phone ---------- */
+#phoneWrap{left:0;top:0;width:421px;height:880px;transform-origin:50% 50%}
+#phone{position:absolute;inset:0;border-radius:66px;background:#0b0f0d;box-shadow:0 60px 120px -30px rgba(17,24,39,.45),0 30px 60px -30px rgba(27,67,50,.35),inset 0 0 0 2px #2a2f2c}
+#screen{position:absolute;left:14px;top:14px;width:393px;height:852px;border-radius:53px;overflow:hidden;background:var(--gray50)}
+#island{position:absolute;left:50%;top:11px;width:122px;height:36px;margin-left:-61px;background:#000;border-radius:20px;z-index:50}
+#statusbar{position:absolute;left:0;top:0;width:393px;height:54px;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:6px 34px 0 46px;font-weight:600;font-size:17px;color:#000}
+#homeind{position:absolute;bottom:8px;left:50%;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#111;z-index:40}
+.scr{position:absolute;left:0;top:0;width:393px;height:852px;background:var(--gray50);overflow:hidden}
+.pad{padding:0 20px}
+.btn-primary{background:var(--b900);border-radius:12px;height:52px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px}
+.btn-sec{border:1px solid var(--gray300);background:#fff;border-radius:12px;height:52px;display:flex;align-items:center;justify-content:center;color:var(--b900);font-weight:600;font-size:16px}
+.card{background:#fff;border-radius:16px;border:1px solid var(--gray100);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.tiny-links{display:flex;gap:12px;justify-content:center;font-size:12px;color:var(--gray600)}
+.tiny-links u{text-decoration:underline}
+.step{display:flex}
+.step .n{width:32px;height:32px;border-radius:50%;background:var(--b900);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.step .t{font-size:16px;font-weight:600;color:var(--gray900);line-height:22px}
+.step .b{font-size:14px;color:var(--gray600);line-height:19px;margin-top:2px}
+
+/* capture */
+.backbtn{width:32px;height:32px;border-radius:50%;background:var(--gray100);display:flex;align-items:center;justify-content:center;color:var(--gray600);font-size:16px}
+#viewfinder{position:relative;width:353px;height:324px;border-radius:16px;overflow:hidden;background:#111827}
+#table{position:absolute;inset:-40px;background:radial-gradient(120% 90% at 40% 30%,#5a4636 0%,#3b2d22 55%,#24190f 100%)}
+.paper{position:absolute;width:300px;background:#F7F2E7;color:#1a1a1a;padding:20px 22px 18px;box-shadow:0 18px 30px rgba(0,0,0,.45);font-family:Inter}
+.paper .brand{text-align:center;font-weight:900;letter-spacing:.32em;font-size:11px;color:#2b2b2b;margin-bottom:2px}
+.paper .rule{height:1px;background:#2b2b2b;opacity:.5;margin:6px 0 9px}
+.paper .sec{font-weight:900;font-size:10.5px;letter-spacing:.22em;margin:9px 0 5px;color:#7a3b1d}
+.paper .it{margin-bottom:6px}
+.paper .nm{font-weight:800;font-size:9.5px;letter-spacing:.06em}
+.paper .ds{font-size:7.6px;color:#555;line-height:1.3;margin-top:1px}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+.zoompill{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700}
+.thumb{width:96px;height:96px;border-radius:12px;overflow:hidden;position:relative;background:#3b2d22}
+.plus{width:96px;height:96px;border-radius:12px;border:2px dashed var(--gray300);display:flex;align-items:center;justify-content:center;color:var(--gray500);font-size:24px}
+
+/* processing */
+.bar{width:100%;height:12px;background:var(--gray200);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--b900);border-radius:999px;transform-origin:left center}
+
+/* results */
+.tab{display:flex;align-items:center;height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--gray200);background:#fff;flex:none;white-space:nowrap}
+.tab .l{font-size:14px;font-weight:600;color:var(--gray800)}
+.tab .c{font-size:12px;font-weight:600;margin-left:6px;color:var(--gray500)}
+.tab.sel{background:var(--b900);border-color:var(--b900)}
+.tab.sel .l{color:#fff}.tab.sel .c{color:var(--green100)}
+.tab.zero .l{color:var(--gray500)}
+.dish{border-radius:16px;border:1px solid;padding:16px;margin-bottom:12px}
+.dish.green{background:var(--green50);border-color:var(--green200)}
+.dish.yellow{background:var(--amber50);border-color:var(--amber200)}
+.dish.red{background:var(--red50);border-color:var(--red200)}
+.dish .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.dish .rk{font-size:12px;font-weight:500;color:var(--gray600)}
+.dish .badge{border-radius:999px;padding:2px 8px;font-size:12px;font-weight:600;margin-left:8px}
+.green .badge{background:var(--green100);color:var(--green800)}
+.yellow .badge{background:var(--amber100);color:var(--amber800)}
+.red .badge{background:var(--red100);color:var(--red800)}
+.dish .nm{font-size:16px;font-weight:600;color:var(--gray900);margin-top:2px;line-height:21px}
+.dish .ds{font-size:14px;color:var(--gray500);margin-top:2px;line-height:19px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dish .sc{font-size:18px;font-weight:700;margin-left:12px;white-space:nowrap}
+.green .sc{color:var(--green700)}.yellow .sc{color:var(--amber700)}.red .sc{color:var(--red700)}
+.dish .ex{font-size:16px;line-height:25px;color:var(--gray700)}
+.grouph{display:flex;align-items:baseline;margin-bottom:12px}
+.grouph b{font-size:18px;font-weight:700;color:var(--gray900)}
+.grouph span{font-size:14px;color:var(--gray500);margin-left:8px}
+
+/* touch */
+.touch{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(255,255,255,.55);border:2px solid rgba(17,24,39,.18);box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:60;opacity:0;pointer-events:none}
+
+/* hook + outro panels */
+.panel{position:absolute;inset:0;background:var(--b900);overflow:hidden}
+.glow{position:absolute;border-radius:50%}
+.hookname{position:absolute;white-space:nowrap;font-weight:900;color:#fff;letter-spacing:-0.02em;text-transform:uppercase}
+.hookname em{font-style:normal;color:#95D5B2}
+.dot{position:absolute;border-radius:50%}
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- light canvas -->
+  <div id="bgGlow1" class="abs"></div>
+  <div id="bgGlow2" class="abs"></div>
+
+  <div id="left" class="abs">
+    <!-- reveal block -->
+    <div id="revBlock" class="lblock" style="top:300px">
+      <div class="wordrow" id="revBrand">
+        <div id="revMarkBox" style="position:relative;width:96px;height:96px;flex:none">
+          <div id="revDots"></div>
+          <img id="revMark" src="mark@3x.png" style="position:absolute;inset:0;width:96px;height:96px">
+        </div>
+        <div id="revWord" style="font-size:44px;font-weight:800;color:var(--b900);margin-left:24px;letter-spacing:-0.02em">Eat Out Better</div>
+      </div>
+      <div id="revH" class="h-xl" style="margin-top:44px">
+        <span class="line" id="revH1">See which dishes</span>
+        <span class="line" id="revH2">fit your heart health.</span>
+      </div>
+      <div id="revSub" class="h-sub" style="margin-top:28px;width:760px">Photograph any restaurant menu. Every dish ranked, with the reasons why.</div>
+    </div>
+
+    <!-- step blocks -->
+    <div id="s1Block" class="lblock" style="top:380px">
+      <div class="wordrow"><div class="stepnum" id="s1n">1</div><div id="s1t" class="h-xl" style="margin-left:32px;font-size:80px">Photograph<br>the menu</div></div>
+      <div id="s1s" class="h-sub" style="margin-top:34px;margin-left:116px">One photo per page — up to 10.</div>
+    </div>
+    <div id="s2Block" class="lblock" style="top:340px">
+      <div class="wordrow"><div class="stepnum" id="s2n">2</div><div id="s2t" class="h-xl" style="margin-left:32px;font-size:80px">Every dish<br>gets a score</div></div>
+      <div id="s2s" class="h-sub" style="margin-top:34px;margin-left:116px;width:600px">
+        <span id="s2chips" style="display:flex;gap:14px;margin-bottom:22px">
+          <span class="chipdot" id="cd0" style="width:30px;height:30px;border-radius:50%;background:var(--g);display:block"></span>
+          <span class="chipdot" id="cd1" style="width:30px;height:30px;border-radius:50%;background:var(--y);display:block"></span>
+          <span class="chipdot" id="cd2" style="width:30px;height:30px;border-radius:50%;background:var(--r);display:block"></span>
+        </span>
+        <span id="s2sub" style="display:block">Green, yellow or red,<br>and what drives it.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- phone -->
+  <div id="phoneWrap" class="abs">
+    <div id="phone">
+      <div id="screen">
+        <div id="statusbar"><span>9:41</span><span style="display:flex;gap:6px;align-items:center">
+          <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#000"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#000"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#000"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#000"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.3 4.7a9.6 9.6 0 0 1 13.4 0l-1.4 1.4a7.6 7.6 0 0 0-10.6 0z" fill="#000"/></svg>
+          <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="#000" opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2" fill="#000"/><rect x="24.5" y="4.5" width="2" height="4" rx="1" fill="#000" opacity=".4"/></svg>
+        </span></div>
+        <div id="island"></div>
+
+        <!-- HOME -->
+        <div id="scrHome" class="scr">
+          <div class="pad" style="padding-top:78px;display:flex;flex-direction:column;height:852px;padding-bottom:30px">
+            <div class="rv" data-d="0" style="display:flex;align-items:center">
+              <img src="mark@3x.png" style="width:44px;height:44px">
+              <div style="font-size:18px;font-weight:700;color:var(--b900);margin-left:12px">Eat Out Better</div>
+            </div>
+            <div class="rv" data-d="80">
+              <div style="font-size:30px;font-weight:700;color:var(--gray900);margin-top:24px;line-height:37px;letter-spacing:-0.01em">Have high cholesterol?</div>
+              <div style="font-size:16px;color:var(--gray600);margin-top:8px;line-height:26px">Photograph any restaurant menu and see which dishes fit your heart health — ranked, with the reasons why.</div>
+            </div>
+            <div class="rv" data-d="160">
+              <div class="card" style="padding:20px;margin-top:24px">
+                <div style="font-size:12px;font-weight:600;color:var(--gray600);text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px">How it works</div>
+                <div class="step" style="margin-bottom:16px"><div class="n">1</div><div style="margin-left:12px"><div class="t">Photograph the menu</div><div class="b">One photo per page — up to 10.</div></div></div>
+                <div class="step" style="margin-bottom:16px"><div class="n">2</div><div style="margin-left:12px"><div class="t">Every dish gets a score</div><div class="b">Green, yellow or red, and what drives it.</div></div></div>
+                <div class="step"><div class="n">3</div><div style="margin-left:12px"><div class="t">Order with confidence</div><div class="b">Easy swaps to ask your server for.</div></div></div>
+              </div>
+            </div>
+            <div style="flex:1;min-height:20px"></div>
+            <div class="rv" data-d="240">
+              <div class="btn-primary" id="homeScan"><span class="ico" style="font-size:22px;color:#fff" data-ico="camera-outline"></span><span style="margin-left:8px">Scan a menu</span></div>
+              <div class="btn-sec" style="margin-top:12px"><span class="ico" style="font-size:20px;color:var(--b900)" data-ico="time-outline"></span><span style="margin-left:8px">Saved scans</span></div>
+              <div style="position:relative;overflow:hidden;background:var(--b900);border-radius:16px;padding:12px 16px;margin-top:12px;min-height:76px">
+                <div class="glow" style="width:180px;height:180px;right:-60px;top:-70px;background:var(--b600);opacity:.35"></div>
+                <div class="glow" style="width:120px;height:120px;left:-40px;bottom:-50px;background:var(--b800);opacity:.6"></div>
+                <div style="position:relative;display:flex;align-items:center">
+                  <div style="width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><span class="ico" style="font-size:22px;color:var(--b900)" data-ico="cloud-upload"></span></div>
+                  <div style="flex:1;margin-left:12px">
+                    <div style="display:flex;align-items:center;margin-bottom:4px"><span style="display:flex;gap:3px"><i style="width:6px;height:6px;border-radius:3px;background:var(--g)"></i><i style="width:6px;height:6px;border-radius:3px;background:var(--y)"></i><i style="width:6px;height:6px;border-radius:3px;background:var(--r)"></i></span><span style="font-size:12px;font-weight:600;color:var(--green100);text-transform:uppercase;letter-spacing:.05em;margin-left:8px">Free account</span></div>
+                    <div style="font-size:16px;font-weight:700;color:#fff">Keep every menu you scan</div>
+                    <div style="font-size:14px;color:var(--green100);margin-top:2px">Takes seconds · no password · or sign in</div>
+                  </div>
+                  <div style="width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-left:8px;flex:none"><span class="ico" style="font-size:18px;color:var(--b900)" data-ico="arrow-forward"></span></div>
+                </div>
+              </div>
+              <div style="font-size:14px;color:var(--gray600);text-align:center;margin-top:12px">Not medical advice — always consult your doctor.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAPTURE -->
+        <div id="scrCap" class="scr">
+          <div class="pad" style="padding-top:70px;display:flex;flex-direction:column;height:852px;padding-bottom:30px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="backbtn">←</div><div style="font-size:18px;font-weight:700;color:var(--gray900)">Scan Menu</div></div>
+            <div style="font-size:20px;font-weight:700;color:var(--gray900);margin-bottom:4px">Photograph the menu</div>
+            <div style="font-size:16px;color:var(--gray500);margin-bottom:16px">One photo per page. Wide menu? Turn your phone sideways.</div>
+            <div id="viewfinder">
+              <div id="table"></div>
+              <div id="paperLive" class="paper"></div>
+              <div id="flash"></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <div style="display:flex;gap:8px">
+                <div class="zoompill" style="background:var(--b900);color:#fff">1×</div>
+                <div class="zoompill" style="background:var(--gray100);color:var(--gray600)">2×</div>
+                <div class="zoompill" style="background:var(--gray100);color:var(--gray600)">3×</div>
+              </div>
+              <div style="padding:10px 16px;border-radius:999px;border:1px solid var(--green200);background:var(--green50);font-size:14px;font-weight:600;color:var(--green700)">Add your photos</div>
+            </div>
+            <div style="display:flex;justify-content:center;margin-top:12px">
+              <div id="shutter" style="width:68px;height:68px;border-radius:50%;background:#fff;border:4px solid var(--b900)"></div>
+            </div>
+            <div id="tray" style="margin-top:16px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <div style="font-size:12px;font-weight:500;color:var(--gray500);text-transform:uppercase;letter-spacing:.05em">Added photos</div>
+                <div style="display:flex;gap:12px"><span style="font-size:12px;font-weight:600;color:var(--green700)">1 / 10</span><span style="font-size:12px;font-weight:600;color:#DC2626">Clear all</span></div>
+              </div>
+              <div style="display:flex;gap:8px;padding-top:9px">
+                <div style="position:relative" id="thumbWrap">
+                  <div class="thumb" id="thumb"><div id="paperThumb" class="paper"></div></div>
+                  <div style="position:absolute;top:-9px;right:-9px;width:26px;height:26px;border-radius:50%;background:var(--gray800);border:2px solid var(--gray50);color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;line-height:1">×</div>
+                </div>
+                <div class="plus">+</div>
+              </div>
+              <div style="font-size:12px;color:var(--gray500);margin-top:8px">Up to 10 photos per scan</div>
+            </div>
+            <div style="flex:1"></div>
+            <div id="analyzeBtn" style="border-radius:12px;padding:16px 0;text-align:center;font-weight:600;font-size:16px;background:var(--gray300);color:var(--gray500)">Add a photo to continue</div>
+          </div>
+        </div>
+
+        <!-- PROCESSING -->
+        <div id="scrProc" class="scr">
+          <div class="pad" style="padding-top:102px;display:flex;flex-direction:column;align-items:center">
+            <div style="width:96px;height:96px;border-radius:50%;background:var(--b900);display:flex;align-items:center;justify-content:center;margin-bottom:32px;font-size:36px" id="procBowl">🥗</div>
+            <div style="font-size:24px;font-weight:700;color:var(--gray900);text-align:center;margin-bottom:8px">Analyzing your menu</div>
+            <div style="font-size:16px;color:var(--gray500);text-align:center;padding:0 16px;margin-bottom:32px;line-height:26px">Reading dish names and checking cholesterol impact…</div>
+            <div style="width:100%;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px">
+              <div style="font-size:30px;font-weight:700;color:var(--b900)" class="tnum"><span id="pct">0</span><span style="font-size:20px;font-weight:600;color:var(--gray500)">%</span></div>
+              <div style="font-size:12px;color:var(--gray500);margin-bottom:6px">Usually 15–20 seconds</div>
+            </div>
+            <div class="bar" style="margin-bottom:32px"><i id="barFill"></i></div>
+            <div style="width:100%;background:var(--green50);border:1px solid var(--green200);border-radius:16px;padding:16px">
+              <div style="font-size:12px;font-weight:600;color:var(--green800);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Did you know?</div>
+              <div style="font-size:16px;color:var(--green900);line-height:26px;min-height:48px">Saturated fat raises LDL more than dietary cholesterol does.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="scrRes" class="scr">
+          <div style="padding:62px 20px 0">
+            <div class="backbtn" style="width:36px;height:36px;margin-bottom:12px">←</div>
+            <div style="display:flex;align-items:center;min-height:44px">
+              <div style="flex:1;font-size:24px;font-weight:700;color:var(--gray900)">Menu Results</div>
+              <div style="display:flex;align-items:center;border-radius:999px;background:var(--green50);border:1px solid var(--green200);padding:0 12px;height:36px"><span class="ico" style="font-size:14px;color:var(--b900)" data-ico="pencil"></span><span style="font-size:14px;font-weight:600;color:var(--b900);margin-left:4px">Name it</span></div>
+            </div>
+          </div>
+          <div style="overflow:hidden;position:relative;height:60px">
+            <div id="tabs" style="display:flex;gap:8px;padding:10px 20px;position:absolute;left:0;top:0">
+              <div class="tab sel" id="tabAll"><span class="l">All</span><span class="c">29</span></div>
+              <div class="tab"><span class="l">Entrées</span><span class="c">13</span></div>
+              <div class="tab zero"><span class="l">Appetizers</span><span class="c">0</span></div>
+              <div class="tab" id="tabSides"><span class="l">Sides</span><span class="c">7</span></div>
+              <div class="tab"><span class="l">Desserts</span><span class="c">4</span></div>
+              <div class="tab"><span class="l">Drinks</span><span class="c">5</span></div>
+            </div>
+          </div>
+          <div style="height:1px;background:var(--gray200)"></div>
+          <div style="position:absolute;left:0;right:0;top:225px;bottom:0;overflow:hidden">
+            <div id="listAll" style="position:absolute;left:20px;right:20px;top:12px"></div>
+            <div id="listSides" style="position:absolute;left:20px;right:20px;top:12px"></div>
+          </div>
+        </div>
+
+        <div id="homeind"></div>
+        <div id="touch" class="touch"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOOK -->
+  <div id="hook" class="panel">
+    <div class="glow" id="hg1" style="width:900px;height:900px;background:var(--b600);opacity:.22"></div>
+    <div class="glow" id="hg2" style="width:640px;height:640px;background:var(--b800);opacity:.7"></div>
+    <div id="hookNames"></div>
+    <div id="hookQ" class="abs" style="left:0;right:0;top:0;text-align:center;font-weight:900;color:#fff;font-size:150px;letter-spacing:-0.045em;line-height:1">Have high<br>cholesterol?</div>
+  </div>
+
+  <!-- OUTRO -->
+  <div id="outro" class="panel">
+    <div class="glow" id="og1" style="width:1100px;height:1100px;right:-300px;top:-420px;background:var(--b600);opacity:.30"></div>
+    <div class="glow" id="og2" style="width:760px;height:760px;left:-260px;bottom:-360px;background:var(--b800);opacity:.75"></div>
+    <div id="outroInner" class="abs" style="left:0;right:0;top:0;bottom:0">
+      <div id="oMarkBox" class="abs" style="left:880px;top:190px;width:160px;height:160px">
+        <div id="oDots"></div>
+        <img id="oMark" src="mark@3x.png" style="position:absolute;inset:0;width:160px;height:160px;border-radius:36px;box-shadow:0 0 0 2px rgba(255,255,255,.12)">
+      </div>
+      <div id="oH" class="abs" style="left:0;right:0;top:410px;text-align:center;font-weight:900;color:#fff;font-size:124px;letter-spacing:-0.045em;line-height:1">Order with confidence.</div>
+      <div id="oWord" class="abs" style="left:0;right:0;top:590px;text-align:center;font-weight:700;color:var(--green100);font-size:44px;letter-spacing:-0.01em">Eat Out Better <span style="opacity:.5;margin:0 14px">·</span> <span style="color:#fff">eatoutbetter.com</span></div>
+      <div id="oDots3" class="abs" style="left:0;right:0;top:690px;display:flex;justify-content:center;gap:18px">
+        <i style="width:18px;height:18px;border-radius:50%;background:var(--g)"></i><i style="width:18px;height:18px;border-radius:50%;background:var(--y)"></i><i style="width:18px;height:18px;border-radius:50%;background:var(--r)"></i>
+      </div>
+      <div id="oFine" class="abs" style="left:0;right:0;bottom:56px;text-align:center;font-weight:500;color:rgba(220,252,231,.55);font-size:22px">For high cholesterol · Not medical advice — always consult your doctor.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------------- data (scores: apps/api/evals/baselines/edible-beats-brunch.json medians) -------------
+const ENTREES = [
+  ["BREAKFAST DOSA","Sunny Egg, Masala Potatoes, Mushroom, Asparagus, Maple Drizzle & Coriander Chutney",6.5,"Best Main","Mostly vegetables and one egg; dosa is typically griddled with oil or ghee."],
+  ["FARRO CAESAR","BeatBox Greens, Smoked Almond, Pecorino, Spiced Croutons & Miso Caesar Dressing",6.5,null,"Farro adds soluble fiber; pecorino and Caesar dressing add saturated fat."],
+  ["MONGOLIAN BBQ DUCK BAO","Koji Pickled Cucumber & Scallion",5.5,null,"Duck is typically served with its skin, which carries most of its saturated fat."],
+  ["MAKE YOUR OWN BREAKFAST","2 Eggs Your Way, Choice of Avocado, Bacon or Chicken Sausage & Home Fries",5.5,null,"Depends on your picks; home fries are usually cooked in butter or oil."],
+  ["MAINE LOBSTER ROLL","Knuckle & Claw Meat, Yuzu Kosho Aioli, Brioche Bun & Home Fries",5.0,null,"Lobster is lean, but brioche is typically buttered and griddled."],
+  ["DENVER \"OMELETTE\" SAMMY","Crumpet, Soufflé Egg, Tender Belly Ham, American Cheese, Chile Aioli & Home Fries",4.5,null,"American cheese and ham add saturated fat to the egg and crumpet."],
+  ["LOX BENEDICT","Everything Milk Bread, Scallion Schmear, Fried Capers, Arugula & Lemon Hollandaise",4.5,null,"Hollandaise is typically made with butter and egg yolk."],
+  ["CHAR SIU PORK BELLY BAO","Apple, Shiso & Tangerine Yuzu Vinaigrette",4.0,null,"Pork belly is one of the fattiest cuts of pork."],
+  ["BIRRIA BREAKFAST TAMALE","Short Rib, Sunny Egg, Oaxacan Cheese, Red Onion Curtido & Birria Consommé",4.0,null,"Short rib and Oaxacan cheese are both high in saturated fat."],
+  ["BLT BISCUIT","Fluffy Egg, Crispy Bacon, Fine Herbs, Bacon-Onion Jam & Paprika Aioli",4.0,null,"Biscuits are typically made with butter; bacon appears twice."],
+  ["KOREAN FRIED CHICKEN BAO","Kimchee, Pickled Fresno & Korean Chili Aioli",3.5,null,"The chicken is deep-fried, and the aioli adds more fat."],
+  ["CHICKEN & PANDAN WAFFLE","Crispy Thigh, Sunny Egg, Kaya Jam, Gochujang Maple & Yuzu Kosho Slaw",3.5,null,"Fried thigh plus a waffle, which is usually made with butter."],
+  ["DOUBLE SMASH BURGER","Bacon-Onion Jam, American Cheese, Pickle, Special Sauce & Hot Honey Sweet Fries",3.0,"Enjoy Occasionally","Two beef patties and American cheese typically exceed a day's saturated fat."],
+];
+const SIDES = [
+  ["SEASONAL FRUIT","",10.0,"Best Side","No saturated fat, plus soluble fiber from the fruit."],
+  ["HALF AVOCADO","",9.5,null,"Mostly monounsaturated fat, which can help lower LDL."],
+  ["2 EGGS","VITAL Farms Pasture Raised",8.5,null,"Low in saturated fat; egg cholesterol is de-emphasized in current guidance."],
+  ["CHICKEN APPLE SAUSAGE","",7.0,null,"Chicken sausage is typically much leaner than pork."],
+  ["HOME FRIES","",6.5,null,"Potatoes are usually pan-fried in butter or oil."],
+];
+const tier = s => s>=7?"green":s>=4?"yellow":"red";
+function titleCase(s){return s} // the menu prints names in caps; the app shows them as read
+function dishHTML(d,i){
+  const [nm,ds,sc,tag,ex]=d, t=tier(sc);
+  return `<div class="dish ${t}"><div class="top"><div style="flex:1;margin-right:12px"><div style="display:flex;align-items:center"><span class="rk">#${i+1}</span>${tag?`<span class="badge">${tag}</span>`:""}</div><div class="nm">${nm}</div>${ds?`<div class="ds">${ds}</div>`:""}</div><div class="sc tnum">${sc.toFixed(1)}/10</div></div><div class="ex">${ex}</div></div>`;
+}
+document.getElementById("listAll").innerHTML =
+  `<div style="margin-bottom:16px"><div style="font-size:16px;color:var(--gray500)">24 dishes · ranked best to worst for your heart</div><div style="font-size:12px;color:var(--gray500);margin-top:4px">Analyzed in 14.2s</div><div style="font-size:14px;color:var(--gray600);line-height:22px;margin-top:12px">Scores are estimates read from the menu text, not medical advice — check with your doctor about your own needs.</div></div>`+
+  `<div class="grouph"><b>Entrées</b><span>13</span></div>`+
+  ENTREES.map((d,i)=>`<div class="dw">${dishHTML(d,i)}</div>`).join("")+
+  `<div class="grouph" style="margin-top:24px"><b>Sides</b><span>7</span></div>`+dishHTML(SIDES[0],0);
+document.getElementById("listSides").innerHTML = SIDES.map((d,i)=>`<div class="dw">${dishHTML(d,i)}</div>`).join("");
+
+// paper menu (transcribed from the eval corpus)
+const MENU = [
+  ["STEAMED BAO",[["MONGOLIAN BBQ DUCK BAO","Koji Pickled Cucumber & Scallion"],["CHAR SIU PORK BELLY BAO","Apple, Shiso & Tangerine Yuzu Vinaigrette"],["KOREAN FRIED CHICKEN BAO","Kimchee, Pickled Fresno & Korean Chili Aioli"]]],
+  ["MAINS",[["BREAKFAST DOSA","Sunny Egg, Masala Potatoes, Mushroom, Asparagus & Coriander Chutney"],["LOX BENEDICT","Everything Milk Bread, Scallion Schmear, Fried Capers & Lemon Hollandaise"],["BIRRIA BREAKFAST TAMALE","Short Rib, Sunny Egg, Oaxacan Cheese & Birria Consommé"],["FARRO CAESAR","BeatBox Greens, Smoked Almond, Pecorino & Miso Caesar"],["DOUBLE SMASH BURGER","Bacon-Onion Jam, American Cheese, Pickle & Special Sauce"]]],
+  ["SWEETS",[["PANDAN WAFFLE","Kaya Jam, Salted Cream Cheese Whip & Maple Syrup"],["DONUT HOLES","Chocolate Hazelnut Dulce de Leche"]]],
+];
+const paperHTML = `<div class="brand">BRUNCH</div><div class="rule"></div>`+MENU.map(([s,its])=>`<div class="sec">${s}</div>`+its.map(([n,d])=>`<div class="it"><div class="nm">${n}</div><div class="ds">${d}</div></div>`).join("")).join("");
+document.getElementById("paperLive").innerHTML = paperHTML;
+document.getElementById("paperThumb").innerHTML = paperHTML;
+
+// icons are inlined by the renderer (window.ICONS)
+document.querySelectorAll("[data-ico]").forEach(el=>{ el.innerHTML = (window.ICONS||{})[el.dataset.ico]||""; });
+
+// hook names (scattered pile)
+const HOOK = [
+  {txt:"Lox Benedict", t:0.00, x:150,  y:150, size:96, rot:-4},
+  {txt:"Pandan Waffle", t:0.50, x:1000, y:330, size:96, rot:3},
+  {txt:"Double Smash Burger", t:1.00, x:220, y:600, size:96, rot:-2},
+  {txt:"Donut Holes", t:1.50, x:1150, y:820, size:96, rot:4},
+];
+document.getElementById("hookNames").innerHTML = HOOK.map((h,i)=>`<div class="hookname" id="hn${i}" style="font-size:${h.size}px">${h.txt}<em>?</em></div>`).join("");
+
+// confetti dots (BrandMark: 6 dots, score colours)
+const DOTC = [["#16a34a",-90],["#d97706",-30],["#dc2626",30],["#16a34a",90],["#d97706",150],["#dc2626",210]];
+function mkDots(id,n,size){const el=document.getElementById(id);el.innerHTML="";for(let i=0;i<n;i++){const d=document.createElement("div");d.className="dot";d.style.width=d.style.height=size+"px";d.style.background=DOTC[i%6][0];el.appendChild(d)}}
+mkDots("revDots",6,16); mkDots("oDots",12,22);
+
+// ---------------- helpers ----------------
+const $ = id => document.getElementById(id);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eOut=p=>1-Math.pow(1-p,3);
+const eOut5=p=>1-Math.pow(1-p,5);
+const eIn=p=>p*p*p;
+const eIO=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const eBack=(p,s=1.6)=>{const c3=s+1;return 1+c3*Math.pow(p-1,3)+s*Math.pow(p-1,2)};
+const lerp=(a,b,p)=>a+(b-a)*p;
+function css(el,o){for(const k in o)el.style[k]=o[k]}
+function show(el,op,tx=0,ty=0,sc=1,rot=0){el.style.opacity=op;el.style.transform=`translate(${tx}px,${ty}px) scale(${sc}) rotate(${rot}deg)`}
+// line in/out: rise in, then rise out
+function lineIO(el,t,tin,tout,dist=40,dur=.45,outDur=.25){
+  const pi=eOut(seg(t,tin,tin+dur)), po=eIn(seg(t,tout,tout+outDur));
+  show(el,pi*(1-po),0,(1-pi)*dist-po*dist*.6);
+}
+
+// burst like BrandMark: opacity [0,.15,.7,1]->[0,1,1,0], translate cos/sin*dist, scale .4->1
+function burst(id,t,t0,dur,dist,cx,cy,size,n){
+  const kids=$(id).children;const p=seg(t,t0,t0+dur);const e=eOut(p);
+  for(let i=0;i<kids.length;i++){
+    const ang=(DOTC[i%6][1]+(i>=6?30:0))*Math.PI/180;const dd=dist*(i>=6?1.55:1);
+    let op = p<=0?0: p<.15? p/.15 : p<.7?1: 1-(p-.7)/.3; if(p>=1)op=0;
+    const k=kids[i];k.style.left=(cx-size/2)+"px";k.style.top=(cy-size/2)+"px";
+    k.style.opacity=op;k.style.transform=`translate(${Math.cos(ang)*dd*e}px,${Math.sin(ang)*dd*e}px) scale(${lerp(.4,1,e)})`;
+  }
+}
+function markSpin(el,t,t0){
+  const p=seg(t,t0,t0+.7);const spin=eBack(p,1.4)*360;
+  // scale: up to 1.18 in .19s then spring back
+  let s=1; const q=t-t0;
+  if(q>0&&q<.19) s=lerp(1,1.18,eOut(q/.19)); else if(q>=.19){const u=q-.19;s=1+.18*Math.exp(-u*7)*Math.cos(u*16)}
+  el.style.transform=`scale(${s}) rotate(${spin}deg)`;
+}
+
+// phone placement
+const PH = {x:1290,y:100,s:1.1};
+function touchAt(t, t0, x, y){ // x,y in screen coords
+  const el=$("touch"); const q=t-t0;
+  if(q<-.25||q>.45){el.style.opacity=0;return}
+  const pin=eOut(seg(t,t0-.25,t0)), pout=seg(t,t0+.15,t0+.45);
+  const press = q>=0&&q<.15 ? .82 : q>=.15? lerp(.82,1.25,eOut(pout)) : lerp(1.2,1,pin);
+  el.style.left=x+"px";el.style.top=y+"px";el.style.opacity=(pin*(1-pout))*.95;
+  el.style.transform=`scale(${press})`;
+}
+function touchEl(t,t0,target){
+  const sr=$("screen").getBoundingClientRect(), r=target.getBoundingClientRect();
+  const k=sr.width/393; touchAt(t,t0,(r.left+r.width/2-sr.left)/k,(r.top+r.height/2-sr.top)/k);
+}
+function pressScale(el,t,t0){const q=t-t0;const s=q>=-.02&&q<.16?0.965:q>=.16&&q<.36?lerp(.965,1,eOut((q-.16)/.2)):1;el.style.transform=`scale(${s})`}
+
+// ---------------- render ----------------
+function render(t){
+  // ===== HOOK 0-4 =====
+  const hook=$("hook");
+  if(t<4.6){
+    hook.style.display="block";
+    // exit: circular reveal of the light canvas, 4.0-4.45
+    const pe=eIO(seg(t,3.98,4.42));
+    hook.style.clipPath = pe>0? `circle(${lerp(1900,0,pe)}px at 198px 348px)` : "none";
+    // glows drift
+    css($("hg1"),{left:(1150+Math.sin(t*.9)*40)+"px",top:(-260+Math.cos(t*.7)*30)+"px"});
+    css($("hg2"),{left:(-200+Math.cos(t*.8)*30)+"px",top:(620+Math.sin(t*.6)*30)+"px"});
+    // names
+    HOOK.forEach((h,i)=>{
+      const el=$("hn"+i); const p=seg(t,h.t,h.t+.32); const e=eBack(p,2.2);
+      const dim = eOut(seg(t,1.95,2.3));
+      const op = p<=0?0:Math.min(1,p*3)*(1-dim*.82);
+      const sc = lerp(1.9,1,clamp(e,0,1.2)) * (1-dim*.12);
+      const drift = (t-h.t)*14*(i%2?-1:1);
+      el.style.left=h.x+"px";el.style.top=h.y+"px";el.style.opacity=op;
+      el.style.filter = dim>0?`blur(${dim*5}px)`:"none";
+      el.style.transform=`translate(${drift}px,0) scale(${sc}) rotate(${h.rot*(1-0.3*e)}deg)`;
+      el.style.transformOrigin="50% 50%";
+    });
+    // question
+    const q=$("hookQ"); const pq=seg(t,2.0,2.38); const eq=eBack(pq,1.8);
+    q.style.top="390px"; q.style.opacity=pq>0?Math.min(1,pq*2.5):0;
+    const shake = t>2.0&&t<2.25 ? Math.sin((t-2)*120)*(1-(t-2)/.25)*6 : 0;
+    q.style.transform=`translate(${shake}px,${(1-clamp(eq,0,1.1))*50}px) scale(${lerp(1.35,1,clamp(eq,0,1.1)) + seg(t,2.4,4)*0.04})`;
+  } else hook.style.display="none";
+
+  // ===== light canvas glows =====
+  css($("bgGlow1"),{left:(1040+Math.sin(t*.5)*30)+"px",top:(80+Math.cos(t*.4)*20)+"px",width:"760px",height:"760px",background:"radial-gradient(circle,rgba(64,145,108,.16),rgba(64,145,108,0) 70%)"});
+  css($("bgGlow2"),{left:(-200+Math.cos(t*.45)*30)+"px",top:(600+Math.sin(t*.35)*20)+"px",width:"700px",height:"700px",background:"radial-gradient(circle,rgba(27,67,50,.07),rgba(27,67,50,0) 70%)"});
+
+  // ===== LEFT: reveal block 4.0-7.0 =====
+  const rb=$("revBlock");
+  if(t>3.9&&t<7.4){
+    rb.style.display="block";
+    const out=eIn(seg(t,6.75,7.0));
+    rb.style.opacity=1-out; rb.style.transform=`translateY(${-out*40}px)`;
+    // mark
+    const pm=eOut(seg(t,4.05,4.4)); $("revMarkBox").style.opacity=pm; markSpin($("revMark"),t,4.08);
+    burst("revDots",t,4.12,.65,62,48,48,16);
+    lineIO($("revWord"),t,4.2,99,30,.45);
+    lineIO($("revH1"),t,4.35,99,50,.5);
+    lineIO($("revH2"),t,4.47,99,50,.5);
+    lineIO($("revSub"),t,4.75,99,30,.5);
+  } else rb.style.display="none";
+
+  // ===== LEFT: step 1 7.0-10.0 =====
+  const s1=$("s1Block");
+  if(t>6.9&&t<10.3){
+    s1.style.display="block";
+    const out=eIn(seg(t,9.78,10.02)); s1.style.opacity=1-out; s1.style.transform=`translateY(${-out*40}px)`;
+    const pn=seg(t,7.0,7.4); $("s1n").style.transform=`scale(${clamp(eBack(pn,2),0,1.3)})`; $("s1n").style.opacity=pn>0?1:0;
+    lineIO($("s1t"),t,7.08,99,50,.5);
+    lineIO($("s1s"),t,7.35,99,30,.5);
+  } else s1.style.display="none";
+
+  // ===== LEFT: step 2 10.0-17.0 =====
+  const s2=$("s2Block");
+  if(t>9.9&&t<17.3){
+    s2.style.display="block";
+    s2.style.opacity=1; s2.style.transform="none";
+    const pn=seg(t,10.0,10.4); $("s2n").style.transform=`scale(${clamp(eBack(pn,2),0,1.3)})`; $("s2n").style.opacity=pn>0?1:0;
+    lineIO($("s2t"),t,10.08,99,50,.5);
+    // chips pop on beats as cards arrive
+    [11.6,11.85,12.1].forEach((tt,i)=>{const p=seg(t,tt,tt+.3);const el=$("cd"+i);el.style.transform=`scale(${clamp(eBack(p,2.4),0,1.4)})`;el.style.opacity=p>0?1:0});
+    lineIO($("s2sub"),t,11.55,99,30,.5);
+  } else s2.style.display="none";
+
+  // ===== PHONE =====
+  const pw=$("phoneWrap");
+  const pin=eOut5(seg(t,4.0,4.75));
+  const fy = Math.sin(t*1.3)*5;
+  const pOut = eIn(seg(t,16.85,17.15));
+  pw.style.left=PH.x+"px"; pw.style.top=PH.y+"px";
+  pw.style.transform=`translateY(${(1-pin)*900 + fy - pOut*30}px) scale(${PH.s*(1-pOut*.04)}) rotate(${(1-pin)*8}deg)`;
+  pw.style.opacity = t<4?0:1;
+
+  // screens: home 4-6.6, cap 6.6-9.75, proc 9.75-11.4, res 11.4+
+  const home=$("scrHome"),cap=$("scrCap"),proc=$("scrProc"),res=$("scrRes");
+  const push=(oldEl,newEl,t0,dur=.38)=>{
+    const p=eIO(seg(t,t0,t0+dur));
+    oldEl.style.transform=`translateX(${-p*120}px)`; oldEl.style.filter=`brightness(${1-p*.12})`;
+    newEl.style.transform=`translateX(${(1-p)*393}px)`; newEl.style.boxShadow=p<1?"-10px 0 30px rgba(0,0,0,.12)":"none";
+    return p;
+  };
+  [home,cap,proc,res].forEach(e=>{e.style.display="none";e.style.transform="none";e.style.filter="none";e.style.opacity=1});
+  if(t<6.65){home.style.display="block"}
+  else if(t<7.05){home.style.display=cap.style.display="block";push(home,cap,6.65)}
+  else if(t<9.72){cap.style.display="block"}
+  else if(t<10.1){cap.style.display=proc.style.display="block";push(cap,proc,9.72)}
+  else if(t<11.3){proc.style.display="block"}
+  else if(t<11.65){const po=seg(t,11.3,11.42),pi=eOut(seg(t,11.42,11.62));if(po<1){proc.style.display="block";proc.style.opacity=1-po}else{res.style.display="block";res.style.opacity=pi;res.style.transform=`translateY(${(1-pi)*24}px)`}}
+  else res.style.display="block";
+
+  // home Reveal stagger (real component: 420ms, out-cubic, 14pt rise, 80ms steps)
+  home.querySelectorAll(".rv").forEach(el=>{const d=+el.dataset.d/1000;const p=eOut(seg(t,4.35+d,4.35+d+.42));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*14}px)`});
+  pressScale($("homeScan"),t,6.38);
+
+  // capture: viewfinder drift, shutter, flash, tray
+  const vf=t-6.65;
+  const pl=$("paperLive");
+  pl.style.left="26px"; pl.style.top="-30px";
+  pl.style.transform=`translate(${Math.sin(vf*1.1)*4-8+vf*2}px,${Math.cos(vf*.9)*3 - vf*6}px) rotate(${-3.5+Math.sin(vf*.7)*.6}deg) scale(${1.02+vf*0.012})`;
+  $("table").style.transform=`translate(${Math.sin(vf*1.1)*3}px,${Math.cos(vf*.9)*3}px)`;
+  const SH=8.05;
+  const fl=t>=SH? Math.max(0,1-(t-SH)/.28):0; $("flash").style.opacity=fl*.95;
+  const sq=t-SH; $("shutter").style.transform=`scale(${sq>-.05&&sq<.12?.9:sq>=.12&&sq<.35?lerp(.9,1,eOut((sq-.12)/.23)):1})`;
+  const tp=seg(t,SH+.08,SH+.48); const te=eBack(tp,1.8);
+  $("tray").style.opacity=tp>0?1:0;
+  $("thumbWrap").style.transform=`translate(${(1-clamp(te,0,1.2))*120}px,${(1-clamp(te,0,1.2))*-190}px) scale(${lerp(2.4,1,clamp(te,0,1.1))})`;
+  $("thumbWrap").style.transformOrigin="50% 50%";
+  const pt=$("paperThumb"); pt.style.left="-6px"; pt.style.top="-8px"; pt.style.transformOrigin="0 0"; pt.style.transform="scale(.36) rotate(-3.5deg)";
+  const ab=$("analyzeBtn");
+  if(t>=SH+.3){ab.style.background="var(--b900)";ab.style.color="#fff";ab.textContent="Analyze Menu (1 page)"} else {ab.style.background="var(--gray300)";ab.style.color="var(--gray500)";ab.textContent="Add a photo to continue"}
+  pressScale(ab,t,9.4);
+
+  // processing 10.0-11.35
+  const pp=eOut(seg(t,9.95,11.25)); const pct=Math.round(pp*100);
+  $("pct").textContent=pct; $("barFill").style.transform=`scaleX(${pp})`;
+  const bw=seg(t,9.9,11.3); $("procBowl").style.transform=`scale(${1+Math.sin(bw*Math.PI*4)*.04}) rotate(${Math.sin(bw*Math.PI*2)*6}deg)`;
+
+  // results
+  // card stagger
+  const listAll=$("listAll"); const dws=listAll.querySelectorAll(".dw");
+  dws.forEach((el,i)=>{const t0=11.55+Math.min(i,3)*.25 + (i>3? .0:0);const p=eOut(seg(t,t0,t0+.4));el.style.opacity=i<4?p:1;el.style.transform=i<4?`translateY(${(1-p)*26}px)`:"none"});
+  // scroll to the reds 13.0-14.1
+  const listH = listAll.scrollHeight; const maxScroll = listH - (852-225-24) - 60;
+  const sp=eIO(seg(t,12.95,14.05));
+  listAll.style.transform=`translateY(${-sp*maxScroll}px)`;
+  listAll.style.filter = (sp>0.08&&sp<0.92)?`blur(${Math.sin(sp*Math.PI)*1.6}px)`:"none";
+  // tab strip scroll + tap Sides
+  const ts=eIO(seg(t,14.35,14.75)); $("tabs").style.transform=`translateX(${-ts*150}px)`;
+  const TAP=14.95;
+  const sel=t>=TAP;
+  $("tabAll").classList.toggle("sel",!sel); $("tabSides").classList.toggle("sel",sel);
+  pressScale($("tabSides"),t,TAP);
+  const ls=$("listSides");
+  listAll.style.display = sel?"none":"block"; ls.style.display = sel?"block":"none";
+  ls.querySelectorAll(".dw").forEach((el,i)=>{const t0=TAP+.05+i*.12;const p=eOut(seg(t,t0,t0+.4));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*30}px) scale(${lerp(.97,1,p)})`});
+
+  // touch indicator (screen coords inside phone)
+  const el=$("touch"); el.style.opacity=0;
+  if(t>6.0&&t<6.9) touchEl(t,6.38,$("homeScan"));
+  else if(t>7.7&&t<8.6) touchEl(t,SH,$("shutter"));
+  else if(t>9.0&&t<9.9) touchEl(t,9.4,ab);
+  else if(t>14.5&&t<15.45) touchEl(t,TAP,$("tabSides"));
+
+  // ===== OUTRO 17-20 =====
+  const o=$("outro");
+  if(t>=16.9){
+    o.style.display="block";
+    const pw2=eIO(seg(t,16.95,17.4));
+    o.style.clipPath=`circle(${lerp(0,1800,pw2)}px at 1500px 540px)`;
+    css($("og1"),{transform:`translate(${Math.sin(t*.8)*30}px,${Math.cos(t*.6)*20}px)`});
+    css($("og2"),{transform:`translate(${Math.cos(t*.7)*30}px,${Math.sin(t*.5)*20}px)`});
+    const pm=eOut(seg(t,17.15,17.5)); $("oMarkBox").style.opacity=pm; $("oMarkBox").style.transform=`scale(${lerp(.6,1,clamp(eBack(seg(t,17.15,17.6),1.8),0,1.2))})`;
+    markSpin($("oMark"),t,17.18);
+    burst("oDots",t,17.22,.8,150,80,80,22);
+    const ph=seg(t,17.35,17.8); const eh=eBack(ph,1.5);
+    $("oH").style.opacity=ph>0?Math.min(1,ph*2.5):0; $("oH").style.transform=`translateY(${(1-clamp(eh,0,1.1))*60}px) scale(${lerp(1.12,1,clamp(eh,0,1.1)) + seg(t,17.8,20)*0.025})`;
+    lineIO($("oWord"),t,17.75,99,30,.5);
+    [18.0,18.12,18.24].forEach((tt,i)=>{const p=seg(t,tt,tt+.3);const k=$("oDots3").children[i];k.style.transform=`scale(${clamp(eBack(p,2.4),0,1.4)})`;k.style.opacity=p>0?1:0});
+    lineIO($("oFine"),t,18.2,99,20,.5);
+  } else o.style.display="none";
+}
+window.render=render;
+render(0);
+</script>
+</body>
+</html>

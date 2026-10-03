@@ -1,0 +1,8 @@
+# Render intermediates — regenerate with work/render.mjs + work/audio.py
+work/stills/
+work/*.jpg
+work/*.png
+!work/mark@3x.png
+work/*.wav
+work/video-silent.mp4
+work/render.log
