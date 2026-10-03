@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-01
+**Last updated:** 2026-10-03
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -28,6 +28,10 @@
 
 ## NOW
 
+0. **Security fixes (2026-10-03), in this order.** Each PR description has the exact steps.
+   - Confirm `APP_SHARED_TOKEN` is set in Vercel (Production and Preview) and matches EAS `APP_TOKEN`, then merge the "require app token" PR.
+   - Merge the dependency-updates PR; check one scan on the Vercel deploy.
+   - Merge the signed-scans PR, then apply its migration to the live database (or ask Claude to). Then set anonymous sign-ins to 5 per hour in the Supabase dashboard (Auth → Rate Limits).
 0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.

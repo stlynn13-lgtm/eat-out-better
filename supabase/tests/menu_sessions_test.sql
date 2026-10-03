@@ -22,6 +22,14 @@ insert into auth.users (id, email, is_anonymous) values
   ('22222222-2222-2222-2222-222222222222', 'b@example.com', false),
   ('33333333-3333-3333-3333-333333333333', null, true);
 
+-- Rows the app inserts must carry a valid scanSig (20261003000000_signed_scans).
+-- Security definer so the signature is computed as the test's superuser, the
+-- way /api/analyze gets one from api_sign_scan, before acting as a user.
+create function pg_temp.signed(p_id uuid, p_payload jsonb default '{"dishes": []}')
+returns jsonb language sql security definer as $$
+  select p_payload || jsonb_build_object('scanSig', private.scan_signature(p_id));
+$$;
+
 create function pg_temp.act_as(uid uuid, anonymous boolean default false)
 returns void language plpgsql as $$
 begin
@@ -51,7 +59,7 @@ select lives_ok(
   $$ insert into public.menu_sessions (id, user_id, created_at, payload)
      values ('aaaaaaaa-0000-0000-0000-000000000001',
              '11111111-1111-1111-1111-111111111111',
-             now(), '{"dishes": []}') $$,
+             now(), pg_temp.signed('aaaaaaaa-0000-0000-0000-000000000001')) $$,
   'a user can insert their own scan'
 );
 
@@ -60,7 +68,7 @@ select lives_ok(
   $$ insert into public.menu_sessions (id, user_id, created_at, payload)
      values ('aaaaaaaa-0000-0000-0000-000000000001',
              '11111111-1111-1111-1111-111111111111',
-             now(), '{"dishes": []}')
+             now(), pg_temp.signed('aaaaaaaa-0000-0000-0000-000000000001'))
      on conflict (user_id, id) do nothing $$,
   're-uploading the same scan (upsert, ignoreDuplicates) does not raise'
 );
@@ -77,7 +85,7 @@ select throws_ok(
   $$ insert into public.menu_sessions (id, user_id, created_at, payload)
      values ('aaaaaaaa-0000-0000-0000-000000000002',
              '22222222-2222-2222-2222-222222222222',
-             now(), '{"dishes": []}') $$,
+             now(), pg_temp.signed('aaaaaaaa-0000-0000-0000-000000000002')) $$,
   '42501', null,
   'a user cannot insert a scan into someone else''s history'
 );
@@ -95,7 +103,8 @@ select throws_ok(
   $$ insert into public.menu_sessions (id, user_id, created_at, payload)
      values ('aaaaaaaa-0000-0000-0000-000000000003',
              '11111111-1111-1111-1111-111111111111',
-             now(), '{"healthCondition": "high_cholesterol", "dishes": []}') $$,
+             now(), pg_temp.signed('aaaaaaaa-0000-0000-0000-000000000003',
+                                   '{"healthCondition": "high_cholesterol", "dishes": []}')) $$,
   '23514', null,
   'a payload still carrying healthCondition is refused'
 );
@@ -128,7 +137,7 @@ select lives_ok(
   $$ insert into public.menu_sessions (id, user_id, created_at, payload)
      values ('aaaaaaaa-0000-0000-0000-000000000001',
              '33333333-3333-3333-3333-333333333333',
-             now(), '{"dishes": []}') $$,
+             now(), pg_temp.signed('aaaaaaaa-0000-0000-0000-000000000001')) $$,
   'an anonymous user can save their own scan, even one whose id another account also holds'
 );
 
