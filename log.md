@@ -6,6 +6,28 @@
 
 ---
 
+## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
+
+**Status: three PRs open, none merged.** Each needs a step from Sean before or after it merges; the order is in `plan.md` (NOW, item 0).
+
+**What changed**
+
+- **Saved scans now have to come from a real scan.** The app saves scans to your account by writing to the database directly, and every install gets a free account. Until now nothing checked that a saved scan had ever been through the API, so a script could store data without paying for a scan or meeting any of the scan limits. Now the API asks the database to sign each scan it produces, and the database accepts a saved scan only with that signature. The signing key is generated inside the database and never leaves it. Scans already in accounts were signed in place. The app already saves the API's whole response, so the signature reaches the database from every build with accounts, without an app update. The app on `main` also skips scans that predate signing, so one old scan can't hold up the rest. (PR: signed scans.)
+- **New anonymous accounts are limited to 5 per hour per network**, down from 30. One person makes one per install.
+- **The API's token check no longer lets everyone through when the token isn't configured.** On Vercel, a missing `APP_SHARED_TOKEN` now stops scans with a clear error in the logs instead of quietly opening an endpoint that bills the Anthropic account. The comparison is also timing-safe. (PR: require app token.)
+- **Next.js and its image library were updated** past published security advisories, and the API's `uuid` package was replaced with Node's built-in equivalent. Dependabot now opens a weekly grouped update PR for the API and security-only PRs for the app. (PR: dependency updates.)
+
+**Worth knowing**
+
+- **The 256 KB size limit on saved scans stays.** Lowering it to 64 KB was considered and dropped: real scans run about 480 bytes per dish, so a 10-photo menu can legitimately reach 200 KB. With signatures in place, the size limit matters much less anyway.
+- **Scans made before signing that were never uploaded stay on the phone only.** In practice that's almost none: the app uploads every scan right after it's saved.
+
+**Not done**
+
+- The medium and low findings from the same audit (spend cap size, feedback endpoint, repo visibility, alerting, error messages, headers) are next, separately.
+
+---
+
 ## 2026-10-01 (night) — Pricing strategy rethought; new doc `pricing-strategy.md`
 
 **What changed**

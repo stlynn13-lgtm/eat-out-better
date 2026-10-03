@@ -16,9 +16,11 @@ import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
 import { checkRateLimit } from "@/lib/utils/rateLimit";
+import { signScan } from "@/lib/supabase/scanSignature";
 import type {
   AnalyzeRequest,
   AnalyzeResponse,
+  AnalyzeResponseData,
   AnalysisErrorCode,
 } from "@/lib/types";
 
@@ -258,8 +260,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 // Response helpers
 // -----------------------------------------------------------
 
-function successResponse(data: AnalyzeResponse["data"]): NextResponse {
-  const body: AnalyzeResponse = { success: true, data };
+/**
+ * Every successful scan goes out with `scanSig`, the database's signature of
+ * its id. The app saves the response whole and uploads it whole, so this is
+ * what lets the scan be stored in the user's account (see scanSignature.ts).
+ * Callers return this promise without awaiting it; signScan never rejects.
+ */
+async function successResponse(
+  data: Omit<AnalyzeResponseData, "scanSig">
+): Promise<NextResponse> {
+  const scanSig = await signScan(data.id);
+  const body: AnalyzeResponse = {
+    success: true,
+    data: scanSig ? { ...data, scanSig } : data,
+  };
   return NextResponse.json(body, { status: 200 });
 }
 
