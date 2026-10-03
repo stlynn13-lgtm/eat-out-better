@@ -1,0 +1,50 @@
+# Dependency update PRs.
+#
+# Two kinds of Dependabot PR, configured in different places:
+#   - Security updates: opened when a dependency has a published advisory.
+#     Switched on in GitHub → Settings → Code security, not in this file. They
+#     ignore `open-pull-requests-limit` below, so they still arrive for the
+#     mobile app.
+#   - Version updates: routine bumps, configured here.
+#
+# API and shared package (root workspace, one lockfile): weekly, minor and
+# patch grouped into a single PR so there's one thing to review. Majors arrive
+# one PR each, because they need reading.
+#
+# Mobile app: security updates only. Expo pins most native dependency versions
+# per SDK, and a routine bump outside that set breaks the native build in ways
+# CI here can't see. Upgrade those with `npx expo install --check` alongside an
+# SDK bump instead.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      api-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Next 15 is on React 18; React 19 comes with a deliberate Next upgrade.
+      - dependency-name: react
+        update-types: [version-update:semver-major]
+      - dependency-name: react-dom
+        update-types: [version-update:semver-major]
+      - dependency-name: "@types/react"
+        update-types: [version-update:semver-major]
+      # `zod` is pinned by a root override; bump it on purpose, not weekly.
+      - dependency-name: zod
+
+  - package-ecosystem: npm
+    directory: /apps/mobile
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
