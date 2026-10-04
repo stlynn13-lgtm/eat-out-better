@@ -16,6 +16,7 @@ import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
 import { checkRateLimit } from "@/lib/utils/rateLimit";
+import { isJpegBase64 } from "@/lib/utils/imageType";
 import { signScan } from "@/lib/supabase/scanSignature";
 import type {
   AnalyzeRequest,
@@ -41,6 +42,11 @@ export const maxDuration = 60;
 const MAX_IMAGES = 10;
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB per image (backstop)
 const VALID_CONDITIONS = ["high_cholesterol"];
+
+// What the client sees when a Claude call fails. The SDK's own error text can
+// carry request ids, model names and upstream detail, so it goes to the logs
+// (console.error above each return) and never to the caller.
+const ANALYSIS_FAILED_MESSAGE = "We couldn't analyze this menu. Please try again.";
 
 // -----------------------------------------------------------
 // Route handler
@@ -118,7 +124,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ocrResult = await extractDishesFromImages(images);
     } catch (error) {
       console.error("[/api/analyze] OCR failed:", error);
-      const message = error instanceof Error ? error.message : "OCR failed";
 
       if (isRateLimitError(error)) {
         return errorResponse(
@@ -128,7 +133,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", ANALYSIS_FAILED_MESSAGE, 500);
     }
 
     const { isMenu, dishes: rawDishes, unreadable: unreadableItems, restaurantName } = ocrResult;
@@ -215,7 +220,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       rankedDishes = await rankDishes(rankableDishes, healthCondition);
     } catch (error) {
       console.error("[/api/analyze] Ranking failed:", error);
-      const message = error instanceof Error ? error.message : "Ranking failed";
 
       if (isRateLimitError(error)) {
         return errorResponse(
@@ -225,7 +229,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", ANALYSIS_FAILED_MESSAGE, 500);
     }
 
     const processingTimeMs = Date.now() - startTime;
@@ -321,6 +325,16 @@ function validateRequest(body: unknown): { valid: boolean; error?: string } {
       return {
         valid: false,
         error: `Image at index ${i} must be a non-empty base64 string`,
+      };
+    }
+
+    // The app always uploads JPEG (apps/mobile lib/utils/image.ts re-encodes
+    // every photo), and ocr.ts sends it to Claude as image/jpeg. Anything
+    // else is a direct caller — refuse it here, before it costs a Claude call.
+    if (!isJpegBase64(img)) {
+      return {
+        valid: false,
+        error: `Image at index ${i} must be a JPEG`,
       };
     }
 
