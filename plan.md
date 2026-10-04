@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-03
+**Last updated:** 2026-10-04
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -37,10 +37,62 @@
 4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
 5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
+7. **Run the repeat-use test** (spec below). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 
 **Privacy label rule:** before shipping any build that collects something new (a location prompt, more analytics, a new SDK, a condition picker), update the App Store label and the policy first. Current answers: `privacy-policy-accounts-release.md`.
+
+---
+
+## Test spec: does anyone come back? (repeat-use test)
+
+**Status:** not started. Written 2026-10-04 after a pre-mortem on the idea (`.claude/skills/kill-my-idea`). Owner: Sean.
+
+**The question.** Will a person with high cholesterol, who has no reason to be polite to us, open this app at a real restaurant more than once? Everything built so far (accounts, history, pricing, scoring) assumes yes. Nothing we have measured shows it. Today the only testers are Sean and Ray.
+
+**What it decides.** Whether the next weeks go into the product as it is, into a different buyer or channel, or into stopping. It does not test willingness to pay, and it does not test whether the app beats a free general-purpose assistant. Those are separate tests (see "Not covered" below).
+
+**Who we recruit (20 people).**
+- Adults who say a clinician has told them their cholesterol or LDL is high, or who take a statin or similar. Self-reported is fine; we are not collecting medical records.
+- Eat at a restaurant, takeaway counter or café at least twice a week. Screen out anyone who rarely eats out, because they can't produce a result.
+- iPhone, iOS version the build supports.
+- Not friends, family, or anyone who knows the product. Aim for at most 4 of the 20 coming from Sean's own network. Sources to try: online cholesterol and heart-health communities, a local cardiology or dietitian practice willing to pass the invite on, and ads aimed at "high cholesterol" interests.
+- A small thank-you ($25 gift card) paid to everyone who finishes the three weeks whether or not they used the app. Paying only the users would inflate the result.
+
+**What they get.** The current TestFlight build (1.5.0 or later). Outside testers trigger Apple's Beta App Review, so start that early. One welcome message: here is the app, use it however you like, and here is how to reach us if it breaks. No reminders to use it, no tips, no check-in nudges about the app itself. The point is to see what happens without a push.
+
+**What we collect.**
+1. App usage from the database: saved scans per account, with dates. Everyone gets a silent account, so this works even for people who skip sign-in. To check before we start: that every saved scan carries a timestamp and the restaurant name where one was printed. There is no analytics yet (it's in NEXT), so this is the only usage source.
+2. A two-question text or form each Sunday, the same for everyone: "How many times did you eat at a restaurant or order takeaway this week?" and "At how many of those did you use the app?" This gives the denominator. Raw scan counts alone can't tell "uses it every time" from "tried it once and forgot".
+3. A 15-minute call at the end of week three with everyone who used it at least twice, and with up to five who didn't. For the non-users the questions are what they did instead and when the app would have helped. Ask what they did last time, not what they'd do in future.
+
+**Dates.** Week 0: recruit, screen, start Beta App Review (about 5 working days). Weeks 1 to 3: run. Week 4: readout.
+
+**What counts as a repeat user.** Scans on two or more different days, with at least one of them three or more days after install, at a real restaurant meal confirmed in the Sunday check-in. Scans in the first 24 hours are curiosity and don't count toward the two.
+
+**Decision rules (set now, before we see any data).**
+
+| Result | Meaning | Next step |
+|---|---|---|
+| 8 or more of 20 are repeat users | The need exists in this group. | Go ahead with the paywall smoke test and the head-to-head against a free assistant. Keep building. |
+| 5 to 7 | Unclear. | Read the calls: if non-users say the app was slow, wrong or awkward, fix that and re-run with a fresh 10. If they say they didn't need it, treat as a fail. |
+| 4 or fewer | The premise doesn't hold as built. | Stop adding features. Spend two weeks on a different buyer (a dietitian or clinic that recommends it) or a different moment (before choosing the restaurant, not at the table), or stop. |
+
+**Second reads, in order of how much we trust them.** Scans per restaurant meal from the Sunday answers (above 50% is strong); the share who say the app changed what they ordered; and, on the call, how they would feel if it disappeared. We read these only to explain the main number, not to rescue a fail.
+
+**Known weaknesses, so nobody over-reads the result.**
+- 20 people is small. 8 of 20 is a 40% rate, and the true rate could plausibly sit between about 20% and 60%. The test can kill a bad idea; it can't prove a good one.
+- People who answer an invite about cholesterol are more motivated than the average sufferer, and people who know they're being studied use things more. Both push the number up. A pass is therefore weaker evidence than a fail.
+- Self-reported meals can be wrong, and the Sunday check-in itself reminds people the app exists. Keep the wording flat and don't mention the app in the first question.
+
+**Data and privacy.** Screening answers and call notes live in one private sheet, with no medical details beyond "told cholesterol is high", and are deleted four weeks after the readout. Tell testers up front what we collect and that scans are tied to their silent account. Nothing new is collected inside the app, so the App Store label doesn't change.
+
+**Cost.** About $500 in thank-you cards, plus a few dollars of scan cost (roughly 4 cents a scan), well under the $200/day cap.
+
+**Needs to be true first.** 1.5.0 (1) tried on a phone (NOW item 0); the one-phone-scan sync check from `security-followups.md`; the usage query above works.
+
+**Not covered here (next tests, only if this one passes).** A paywall smoke test (about $300 of targeted ads to a page with the $39.99 annual price). A blind comparison against a free assistant: 15 real menus, a registered dietitian rating which advice is safer and more useful.
 
 ---
 
