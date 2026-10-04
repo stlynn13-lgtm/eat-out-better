@@ -8,7 +8,7 @@
 
 ## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
 
-**Status: three PRs open, none merged.** Each needs a step from Sean before or after it merges; the order is in `plan.md` (NOW, item 0).
+**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Everything still open is in `security-followups.md`.
 
 **What changed**
 
