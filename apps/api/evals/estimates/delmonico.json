@@ -1,0 +1,1332 @@
+{
+ "menu": "delmonico",
+ "recordedAt": "2026-10-05T11:33:52.932Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "SELECTED ARTISANAL CHEESES",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "EMERIL’S NEW ORLEANS BARBECUE SHRIMP",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "ALASKAN RED KING CRAB LEGS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "CREOLE BOILED GULF SHRIMP COCKTAIL",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "EMERIL’S RESERVE STURGEON CAVIAR DEVILED EGGS*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "HALF DOZEN RAW OYSTERS ON THE HALF SHELL*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "CLASSIC STEAK TARTARE*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "PAN SEARED FOIE GRAS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "CHARRED SHISHITO PEPPERS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "TRUFFLE AND PARMESAN POTATO CHIPS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "APPLE CURED KUROBUTA BONE-IN BACON",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "BEEF CARPACCIO*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "HOUSEMADE GNOCCHI POMODORO",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "PROSCIUTTO WRAPPED BLUE CHEESE",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "SEAFOOD TOWER*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "EMERIL’S RESERVE STURGEON CAVIAR SERVICE*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "TRADITIONAL NEW ORLEANS GUMBO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "LOBSTER BISQUE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "FRENCH ONION SOUP",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "CAESAR SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "WILTED SPINACH*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "ORGANIC BABY MIXED GREENS SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "VINE-RIPENED HEIRLOOM TOMATO SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "ICEBERG LETTUCE WEDGE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "PRIME BONE-IN RIBEYE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "PRIME BONELESS RIBEYE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "PRIME BONELESS NEW YORK STRIP*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "FILET MIGNON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "CHATEAUBRIAND*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "100% JAPANESE WAGYU*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "CERTIFIED PIEDMONTESE PETITE FILET MIGNON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "GRILLED BUFFALO RIBEYE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "KUROBUTA PORK CHOP*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "GRILLED JIDORI AIRLINE CHICKEN BREAST",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "FRESH SPINACH SPAGHETTI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "NEW ZEALAND KING SALMON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "MISO GLAZED GLACIER 51 CHILEAN SEA BASS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 6,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 6,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 6,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "key": "ROASTED MAINE LOBSTER TAIL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "PAN SEARED SCALLOPS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "key": "COUNTRY SMASHED POTATOES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "BAKED IDAHO POTATO",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "FINGERLING POTATOES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "key": "POTATO CROQUETTES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "POTATO AU GRATIN",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "HAND CUT SEA SALT STEAK FRIES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "key": "ANSON MILLS GRITS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "LOBSTER MAC & CHEESE FRESH CRESTE DI GALLO PASTA",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "key": "CHARRED BRUSSELS SPROUTS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "key": "CREAM CORN GRATIN",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "SAUTÉED GARLIC MUSHROOMS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "DELMONICO CREAMED SPINACH",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "BUTTERED FRESH BROCCOLI",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "BUTTERED FRESH ASPARAGUS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

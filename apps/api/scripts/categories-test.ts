@@ -127,6 +127,58 @@ expect("BeatBox Greens", undefined, "main");
 expect("Chef's Selection", undefined, "main");
 
 // ---------------------------------------------------------------
+// Found by Ray's answer key (evals/menus, 2026-10-04): real menus where the
+// rules filed a dish under the wrong tab. Each line is one of his calls.
+console.log("\nAnswer-key fixes — real menus, 2026-10-04:");
+
+// "Cocktail" is a seafood starter as often as a drink. Filing it as alcohol
+// removed it from scoring entirely.
+expect("CREOLE BOILED GULF SHRIMP COCKTAIL", "APPETIZERS", "appetizer");
+expect("Shrimp Cocktail", undefined, "main");
+expect("Crab Cocktail", "STARTERS", "appetizer");
+// …while a cocktail that is a drink stays one.
+expect("Champagne Cocktail", "APPETIZERS", "drink_alcoholic");
+expect("House Cocktail", undefined, "drink_alcoholic");
+
+// "Bar" claimed the whole section as a drinks list; a raw bar is oysters.
+expect("OYSTER SAMPLER", "RAW BAR*", "appetizer");
+expect("Oysters on the Half Shell", "OYSTER BAR", "appetizer");
+
+// A zero-alcohol beer printed under BOTTLED BEER.
+expect("HEINEKEN ZERO", "BOTTLED BEER", "drink_non_alcoholic");
+expect("Athletic N/A IPA", "BEER", "drink_non_alcoholic");
+expect("Clausthaler 0.0", "BEER", "drink_non_alcoholic");
+
+// Shake flavours are bare words; only the heading says "shake".
+expect("VANILLA", "CLASSIC SHAKES", "drink_non_alcoholic");
+expect("STRAWBERRY CHEESECAKE", "SPECIALTY SHAKES", "drink_non_alcoholic");
+expect("GREEN HORNET", "ADULT SHAKES", "drink_alcoholic");
+expect("Bourbon Caramel", "BOOZY SHAKES", "drink_alcoholic");
+
+// "À la carte" means priced individually, not "side": these are the main event.
+expect("Galbi", "BBQ A La Carte (Minimum 2 order) / BEEF", "main");
+expect("Samgyupsal", "BBQ A La Carte (Minimum 2 order) / PORK", "main");
+
+// A heading that only reads as "starters" in English, not by keyword.
+expect("Spanakopita", "A LITTLE SOMETHING BEFORE / GREEK", "appetizer");
+expect("Breaded Onion Rings", "A LITTLE SOMETHING BEFORE / AMERICAN", "appetizer");
+
+// Ray's rule: when the heading doesn't say, a staple accompaniment is a side.
+// Exact item names only — anything more specific is still a dish.
+expect("RICE", "A LA CARTA", "side");
+expect("BEANS", "A LA CARTA", "side");
+expect("Raita", "Soups & Salads", "side");
+expect("Naan", "Breads", "side");
+expect("Garlic Naan", "Breads", "side");
+expect("Pineapple Fried Rice", "A LA CARTA", "main");
+expect("BURRITO (2)", "A LA CARTA", "main");
+expect("Chicken Biryani", "Rice Specialties", "main");
+expect("Bean Burrito", undefined, "main");
+// …and the menu's own explicit heading still wins over the staple list.
+expect("MIXED VEGETABLES", "ENTREES - with your choice of meat or veggies", "main");
+expect("FRENCH FRIES", "APPETIZERS", "appetizer");
+
+// ---------------------------------------------------------------
 console.log("\nRanked vs unranked, and the user-facing reasons:");
 
 check("mains are ranked", isRanked("main"));

@@ -15,7 +15,10 @@
     "test:spend": "npx --yes tsx scripts/spend-test.ts",
     "eval": "npx --yes tsx evals/run.ts",
     "eula": "npx --yes tsx --tsconfig scripts/tsconfig.json scripts/generate-eula-text.tsx",
-    "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts"
+    "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts",
+    "test:scoring": "npx --yes tsx scripts/scoring-test.ts",
+    "eval:calibrate": "npx --yes tsx evals/calibrate.ts",
+    "eval:context": "npx --yes tsx evals/context.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

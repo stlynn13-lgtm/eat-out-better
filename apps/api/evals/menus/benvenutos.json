@@ -1,0 +1,481 @@
+{
+  "id": "benvenutos",
+  "label": "Benvenuto's (Italian-American, dinner)",
+  "note": "Two dense single-column pages with pipe-separated prices. Traps: CHICKEN PARMIGIANA appears twice with different descriptions (a pasta on p1, a sandwich on p2) — both are real dishes and must survive dedupe; FOUR MEAT (calzone) vs FOUR MEAT COMBO (pizza); add-on lines, toppings and dressings lists that are not dishes. Transcribed from the PDF's own text layer, checked against the rendered pages.",
+  "source": {
+    "restaurant": "Benvenuto's",
+    "url": "https://benvenutos.com/wp-content/uploads/2024/09/Dinner-Menu-6-1.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "Benvenuto's",
+  "dishes": [
+    {
+      "name": "SEAFOOD STUFFED MUSHROOMS",
+      "description": "Lobster, crab, shrimp, mozzarella, in white mushroom caps.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "SPINACH ARTICHOKE DIP",
+      "description": "Spinach, garlic, artichoke hearts, tomato cruda, with choice of tortilla chips or crostini.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "CHEESE BREAD",
+      "description": "Garlic bread with Italian cheeses.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "RISOTTO BALLS",
+      "description": "Fried panko breaded risotto, white wine, Italian cheeses, with aioli and marinara.",
+      "section": "STARTERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BRUSCHETTA",
+      "description": "Tomato, basil, red onion, garlic, herb cheese, crostini and balsamic glaze.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "WINGS",
+      "description": "Seasoned wings, bleu cheese dressing, and buffalo sauce.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "ITALIAN NACHOS",
+      "description": "Pasta chips, alfredo, Italian cheeses, pepperoni, Italian sausage, tomatoes, and banana peppers, with marinara.",
+      "section": "STARTERS"
+    },
+    {
+      "name": "SIRLOIN",
+      "description": "Char grilled, hand trimmed.",
+      "section": "STEAKS & OTHER FAVORITES"
+    },
+    {
+      "name": "RIBEYE",
+      "description": "Char grilled, hand cut, well marbled.",
+      "section": "STEAKS & OTHER FAVORITES"
+    },
+    {
+      "name": "LEMON BASIL SALMON",
+      "description": "Never frozen grilled salmon, lemon, basil.",
+      "section": "STEAKS & OTHER FAVORITES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "COD",
+      "description": "Fried or baked, served with coleslaw.",
+      "section": "STEAKS & OTHER FAVORITES"
+    },
+    {
+      "name": "SICILIAN CHICKEN",
+      "description": "Seared chicken breast, sun-dried tomato sauce, basil.",
+      "section": "STEAKS & OTHER FAVORITES"
+    },
+    {
+      "name": "SPAGHETTI",
+      "description": "Spaghetti with scratch made tomato sauce.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "CHEESE RAVIOLI",
+      "description": "Cheese filled pasta, choice of marinara or alfredo.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "MEAT LASAGNA",
+      "description": "Casserole style with beef, sausage, Italian cheeses, marinara.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "FETTUCCINE ALFREDO",
+      "description": "Scratch made with aged cheeses.",
+      "section": "PASTAS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CAJUN GRILL",
+      "description": "Grilled chicken, andouille sausage, spicy red cream sauce, penne.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "CHICKEN CARBONARA",
+      "description": "Penne, bacon, mushrooms, peas, garlic cream sauce, chicken.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "CHICKEN PARMIGIANA",
+      "description": "Breaded chicken, mozzarella, spaghetti, marinara.",
+      "section": "PASTAS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHICKEN TETRAZZINI",
+      "description": "Grilled chicken, spaghetti, white wine alfredo, Italian cheeses, herb crust topping.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "SEAFOOD CANNELLONI",
+      "description": "Lobster, shrimp, ricotta, mozzarella, seafood cream sauce.",
+      "section": "PASTAS"
+    },
+    {
+      "name": "CRISPY BRUSSELS SPROUTS",
+      "section": "SIDES"
+    },
+    {
+      "name": "FRIES",
+      "section": "SIDES"
+    },
+    {
+      "name": "GARLIC MASHED POTATOES",
+      "section": "SIDES"
+    },
+    {
+      "name": "PARMESAN RISOTTO",
+      "section": "SIDES"
+    },
+    {
+      "name": "GARLIC BROCCOLI",
+      "section": "SIDES",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "MINESTRONE",
+      "section": "SOUPS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SOUP OF THE DAY",
+      "section": "SOUPS"
+    },
+    {
+      "name": "BAKED FRENCH ONION SOUP",
+      "description": "Caramelized onion, Marsala, and provolone.",
+      "section": "SOUPS"
+    },
+    {
+      "name": "MIXED GREENS W/ DRESSING",
+      "section": "SALADS"
+    },
+    {
+      "name": "CAESAR W/ DRESSING",
+      "section": "SALADS"
+    },
+    {
+      "name": "ENDLESS SOUP & SALAD",
+      "description": "Homemade soup with choice of mixed greens or Caesar salad.",
+      "section": "SALADS"
+    },
+    {
+      "name": "CAPRESE",
+      "description": "Fresh mozzarella, beefsteak and grape tomatoes, basil, olive oil, balsamic glaze.",
+      "section": "SALADS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "COBB",
+      "description": "Mixed greens, grilled chicken, cheddar, black olives, bacon, egg, tomatoes, red onion, crumbled bleu cheese, croutons, with choice of dressing.",
+      "section": "SALADS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHICKEN CAESAR",
+      "description": "Grilled chicken, romaine, Caesar dressing, parmesan, lemon, croutons.",
+      "section": "SALADS"
+    },
+    {
+      "name": "FORMAGGIO",
+      "description": "Four cheese blend atop pizza sauce. Add your favorite toppings.",
+      "section": "PIZZAS"
+    },
+    {
+      "name": "MARGHERITA",
+      "description": "Fresh mozzarella, basil, oven roasted tomatoes and garlic on an olive oil brushed crust.",
+      "section": "PIZZAS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BENVENUTO",
+      "description": "Pepperoni, ham, Italian sausage, onions, mushrooms, black olives, bell peppers, pizza sauce, four cheese blend.",
+      "section": "PIZZAS"
+    },
+    {
+      "name": "FOUR MEAT COMBO",
+      "description": "Pepperoni, ham, Italian sausage, bacon, pizza sauce, four cheese blend.",
+      "section": "PIZZAS"
+    },
+    {
+      "name": "ROASTED ASPARAGUS",
+      "description": "Chicken, garlic, white sauce, sun-dried tomato, asparagus, feta.",
+      "section": "PIZZAS"
+    },
+    {
+      "name": "BUILD YOUR OWN",
+      "description": "Four cheeses and pizza sauce. Add your favorite fillings.",
+      "section": "CALZONES"
+    },
+    {
+      "name": "FOUR MEAT",
+      "description": "Pepperoni, ham, Italian sausage, bacon, four cheese blend and pizza sauce.",
+      "section": "CALZONES"
+    },
+    {
+      "name": "CHICKEN BROCCOLI",
+      "description": "Chicken, seasoned broccoli, four cheeses, Alfredo.",
+      "section": "CALZONES"
+    },
+    {
+      "name": "HOT SUPREME",
+      "description": "Italian roll, ham, pepperoni, salami, mozzarella, lettuce, tomato, red onion, Italian garlic vinaigrette.",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "GRILLED SALMON BLT",
+      "description": "Never frozen salmon, toasted garlic panini, bacon, tomato, honey lemon dressed arugula, red onion, dill aioli.",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "CHICKEN PARMIGIANA",
+      "description": "Breaded chicken, fresh mozzarella, marinara, fresh basil",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "GRILLED CHICKEN",
+      "description": "Grilled chicken, lettuce, tomato, red onion, mayo.",
+      "section": "SANDWICHES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "PRIME RIB MELT",
+      "description": "Grilled-garlic panini, sliced beef, mushrooms, onions, provolone, au jus.",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "Classic Burger",
+      "description": "Prime ground chuck with choice of lettuce, tomato, onion, and mayo.",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "TIRAMISU",
+      "description": "Made in house with espresso and Kahlua soaked lady fingers, mascarpone, cocoa.",
+      "section": "DESSERTS",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHEESECAKE",
+      "description": "Graham cracker crust cheesecake, plain or with berry topping.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "FLOURLESS CHOCOLATE TORTE",
+      "description": "Chocolate, butter, cocoa, vanilla.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "BROWNIE SKILLET",
+      "description": "Chocolate chip chocolate brownie, bourbon salted caramel, vanilla ice cream.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "AFFOGATO",
+      "description": "Vanilla ice cream topped with hot espresso and amaretto.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "BOURBON MAPLE OLD FASHIONED",
+      "description": "Chattanooga Whiskey’s small batch craft bourbon, bourbon barrel aged maple syrup, orange and cherry.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "ULTIMATE BLOODY MARY",
+      "description": "New Amsterdam vodka mixed with Dimitris Bloody Mary mix, topped with antipasto and served with a beer chaser.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "ROSEMARY LEMON-TINI",
+      "description": "New Amsterdam lemon vodka, Limoncello, fresh squeezed lemon juice, and house made rosemary simple syrup.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "WISCOLD FASHIONED",
+      "description": "Wisconsin’s own Wollersheim Distillery Press House Brandy with muddled cherry, oranges, simple syrup, and bitters topped with press.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "VERY BERRY MARTINI",
+      "description": "Madison’s own Stateline vodka, Limoncello liqueur, fresh berries and hand squeezed lemon juice.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "MEMPHIS BLUES",
+      "description": "Chattanooga Whiskey’s small batch craft bourbon, fresh blueberries, and lemonade.",
+      "section": "SIGNATURE DRINKS"
+    },
+    {
+      "name": "COFFEE",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "HOT TEA",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "HAND SQUEEZED LEMONADE",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "FOUNTAIN SODAS",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "ITALIAN SODA",
+      "section": "SOFT DRINKS",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "tier": "yellow",
+        "note": "lots of sugar",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "ITALIAN CREAM SODA",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "STRAWBERRY BASIL SODA",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "SPRECHER ORANGE & CREAM",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "SPRECHER ROOT BEER",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "SPRECHER LO-CAL ROOT BEER",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "CLUB SODA",
+      "section": "SOFT DRINKS"
+    },
+    {
+      "name": "ICED TEA",
+      "section": "SOFT DRINKS"
+    }
+  ],
+  "optional": [
+    "With Meatballs",
+    "With Chicken",
+    "With Shrimp",
+    "Cheeseburger",
+    "Bacon Cheeseburger",
+    "BURGERS",
+    "Sautéed Onions",
+    "Sautéed Mushrooms",
+    "Meatball",
+    "Italian Sausage Link",
+    "Baked With Cheese",
+    "Caesar",
+    "Oil and Vinegar",
+    "Bleu Cheese",
+    "Italian Garlic Vinaigrette",
+    "Ranch",
+    "French",
+    "Honey Dijon",
+    "Chipotle Ranch",
+    "Cauliflower crust",
+    "Flavored Syrup",
+    "Pepperoni",
+    "Italian Sausage",
+    "Ham",
+    "Chicken",
+    "Meatballs",
+    "Bacon",
+    "Mushrooms",
+    "Shrimp",
+    "Extra Cheese",
+    "Ricotta",
+    "Fresh Spinach",
+    "Pineapple",
+    "Oven Roasted Tomatoes",
+    "Sun-Dried Tomato",
+    "Onions",
+    "Black Olives",
+    "Fresh Basil",
+    "Artichoke Hearts",
+    "Green Peppers",
+    "Red Onions",
+    "Banana Peppers",
+    "Roasted Garlic"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}
