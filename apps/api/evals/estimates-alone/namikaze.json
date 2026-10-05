@@ -1,0 +1,176 @@
+{
+ "menu": "namikaze",
+ "recordedAt": "2026-10-05T11:42:12.335Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "Karaage",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "Edamame",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "Ponzu Salmon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "Miso-Yaki Cod",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "Assorted Tempura",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "Tonkotsu Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Uni Pasta",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "California",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "Rolled Royce",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 79,
+   "key": "Poke Bowl",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "Miso Soup (Vegetable based)",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 88,
+   "key": "Side Seaweed Salad",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 116,
+   "key": "Salmon (Sake)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

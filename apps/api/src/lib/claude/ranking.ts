@@ -14,7 +14,7 @@ import {
   namesPlausiblyMatch,
   matchesNameWithDescription,
 } from "./dishName";
-import { getTier, getTag } from "@/lib/config/scoring";
+import { getTier, getTag, scoreFromEstimates, type DishEstimates } from "@/lib/config/scoring";
 import { RANKED_CATEGORIES } from "@/lib/config/categories";
 import type {
   ExtractedDish,
@@ -36,7 +36,12 @@ const MAX_DISHES = 100;
 // inside callRankingAPI, before results from different chunks are merged. Never
 // carry a raw item number across the merge; on a 40-dish menu there are two
 // dishes called "item 1".
-const RANKING_CHUNK_SIZE = 35;
+// 12, not 35 (2026-10-05): in 35-dish batches the model's estimates drifted
+// toward the middle — Chicken Parmigiana 18g scored alone, 10g inside its full
+// menu — so a dish's colour depended on what else was on the menu. Smaller
+// batches cost a repeated system prompt per call (under a cent per scan) and
+// run in parallel, so a scan isn't slower.
+const RANKING_CHUNK_SIZE = 12;
 const RANKING_TIMEOUT_MS = 30_000; // per chunk — OCR (≤25s) + ranking (≤30s) fits maxDuration 60
 const RANKING_MAX_TOKENS = 8_192; // per chunk: 35 dishes × ~80 tokens ≈ 3k, ample headroom
 
@@ -53,7 +58,13 @@ const RANKING_MAX_TOKENS = 8_192; // per chunk: 35 dishes × ~80 tokens ≈ 3k, 
  */
 export async function rankDishes(
   dishes: ExtractedDish[],
-  conditionId: HealthConditionId = "high_cholesterol"
+  conditionId: HealthConditionId = "high_cholesterol",
+  options: {
+    /** Called with the model's raw estimates for each scored dish, in input
+     * order. For the eval's offline calibration only; estimates never go to
+     * the client (grams would read as false precision). */
+    onEstimates?: (estimates: { name: string; estimates?: DishEstimates }[]) => void;
+  } = {}
 ): Promise<RankedDish[]> {
   if (dishes.length === 0) {
     throw new Error("Cannot rank an empty dish list");
@@ -80,16 +91,23 @@ export async function rankDishes(
   );
 
   const merged: RawRankedDish[] = [];
+  // One entry per dish, in input order; `estimates` is absent where the dish
+  // fell back, so positions always line up with the input.
+  const collected: { name: string; estimates?: DishEstimates }[] = [];
   let failedChunks = 0;
   for (const [i, result] of settled.entries()) {
     if (result.status === "fulfilled") {
       merged.push(...result.value);
+      for (const d of result.value) collected.push({ name: d.name, estimates: d.estimates });
     } else {
       failedChunks++;
       console.error(`[Ranking] Chunk ${i + 1}/${chunks.length} failed:`, result.reason);
       merged.push(...generateFallbackRankings(chunks[i]));
+      for (const d of chunks[i]) collected.push({ name: d.name });
     }
   }
+
+  options.onEstimates?.(collected);
 
   // If every chunk failed, surface the error to the route (CLAUDE_ERROR /
   // RATE_LIMIT) rather than returning an all-5.0 "ranking".
@@ -159,6 +177,8 @@ export async function rankDishes(
 interface RawRankedDish {
   name: string;
   score: number;
+  /** What the model estimated; absent on a fallback. */
+  estimates?: DishEstimates;
   explanation: string;
   substitution: string | null;
 }
@@ -290,11 +310,11 @@ export function parseRankingResponse(
   for (const raw of parsed) {
     if (!raw || typeof raw !== "object") continue;
     const item = raw as Record<string, unknown>;
-    // Accept numeric-string scores — Claude occasionally quotes them, and
+    // Accept numeric strings — Claude occasionally quotes numbers, and
     // dropping the dish over that gave it a meaningless 5.0 fallback.
     if (
       typeof item.name !== "string" ||
-      !Number.isFinite(Number(item.score)) ||
+      !Number.isFinite(Number(item.satFatG)) ||
       typeof item.explanation !== "string"
     ) {
       continue;
@@ -312,11 +332,21 @@ export function parseRankingResponse(
     }
     if (scoredByIndex.has(index)) continue; // dedupe repeated dishes
 
+    const estimates: DishEstimates = {
+      satFatG: Number(item.satFatG),
+      // Missing sugar reads as none rather than dropping the dish: it only
+      // matters for drinks and desserts, and the fat estimate is still good.
+      addedSugarG: Number.isFinite(Number(item.addedSugarG)) ? Number(item.addedSugarG) : 0,
+      protective:
+        item.protective === "strong" || item.protective === "some" ? item.protective : "none",
+      fried: item.fried === true || item.fried === "true",
+    };
     scoredByIndex.set(index, {
       // Always the extracted name, never the model's echo of it. The user sees
       // what was printed on their menu.
       name: originalDishes[index].name,
-      score: Math.min(Math.max(Number(Number(item.score).toFixed(1)), 1.0), 10.0),
+      score: scoreFromEstimates(estimates, originalDishes[index].category),
+      estimates,
       explanation: item.explanation as string,
       substitution: typeof item.substitution === "string" ? item.substitution : null,
     });

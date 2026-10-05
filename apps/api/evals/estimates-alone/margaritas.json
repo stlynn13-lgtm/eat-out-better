@@ -1,0 +1,163 @@
+{
+ "menu": "margaritas",
+ "recordedAt": "2026-10-05T11:41:55.171Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "FAJITA NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "GUACAMOLE",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "QUESO FUNDIDO",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "RICE",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "BEANS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "BURRITO BOWL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "CHIMICHANGAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "TACOS DE TILAPIA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "key": "TACOS DE ASADA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "POLLO WITH VEGGIES",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 84,
+   "key": "CARNITAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 90,
+   "key": "ENCHILADAS VERDES",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

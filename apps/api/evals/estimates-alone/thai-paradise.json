@@ -1,0 +1,150 @@
+{
+ "menu": "thai-paradise",
+ "recordedAt": "2026-10-05T11:42:56.934Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "FRESH SPRING ROLLS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "SA-TAY",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "TOM KHA KAI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "PAD THAI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "GREEN CURRY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "MIXED VEGETABLES",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "PRA-RAM LONG SRONG",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "MALAYSIAN SALMON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "BANGKOK CHICKEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "SWEET STICKY RICE AND MANGO",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "THAI ICED TEA (Refill)",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

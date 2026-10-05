@@ -29,15 +29,17 @@ const MENU = join(HERE, "..", "evals", "menus", "edible-beats-brunch.json");
 const menu: { dishes: ExtractedDish[] } = JSON.parse(readFileSync(MENU, "utf8"));
 const dishes = menu.dishes;
 
-/** Deterministic stand-in score so output is stable across runs. */
-const scoreFor = (i: number) => Number((3 + ((i * 7) % 60) / 10).toFixed(1));
+/** Deterministic stand-in estimate so output is stable across runs. */
+const satFatFor = (i: number) => Number((1 + ((i * 7) % 60) / 4).toFixed(1));
 
 const modelReply = JSON.stringify(
   dishes.map((d, i) => ({
     item: i + 1,
     // The conflation: name + description when a description exists.
     name: d.description ? `${d.name} — ${d.description}` : d.name,
-    score: scoreFor(i),
+    satFatG: satFatFor(i),
+    addedSugarG: 0,
+    protective: "none",
     explanation: "Scored from typical preparation.",
     substitution: null,
   }))

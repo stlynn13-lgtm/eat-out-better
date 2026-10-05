@@ -86,15 +86,15 @@ console.log("\nEnd-to-end — a re-spelled dish keeps the score it was given:");
 
 const menu = [d("Crème Brûlée"), d("Grilled Salmon"), d("Fish & Chips")];
 const respelled = JSON.stringify([
-  { item: 1, name: "Creme Brulee", score: 2.4, explanation: "Cream and egg yolk.", substitution: null },
-  { item: 2, name: "Grilled Salmon", score: 9.1, explanation: "Mostly unsaturated.", substitution: null },
-  { item: 3, name: "Fish and Chips", score: 3.2, explanation: "Deep fried.", substitution: null },
+  { item: 1, name: "Creme Brulee", satFatG: 24, explanation: "Cream and egg yolk.", substitution: null },
+  { item: 2, name: "Grilled Salmon", satFatG: 3.5, explanation: "Mostly unsaturated.", substitution: null },
+  { item: 3, name: "Fish and Chips", satFatG: 15, explanation: "Deep fried.", substitution: null },
 ]);
 const parsed = parseRankingResponse(respelled, menu);
 
 check("all three dishes present", parsed.length === 3, `got ${parsed.length}`);
-check("Crème Brûlée kept its 2.4", parsed[0].score === 2.4, `got ${parsed[0].score}`);
-check("Fish & Chips kept its 3.2", parsed[2].score === 3.2, `got ${parsed[2].score}`);
+check("Crème Brûlée kept its 24g estimate", parsed[0].estimates?.satFatG === 24, `got ${parsed[0].estimates?.satFatG}g`);
+check("Fish & Chips kept its 15g estimate", parsed[2].estimates?.satFatG === 15, `got ${parsed[2].estimates?.satFatG}g`);
 check(
   "nothing was left unscored",
   !parsed.some((p) => p.explanation.includes("couldn't score")),
@@ -113,17 +113,17 @@ console.log("\nIndex drift — a wrong item number must never mis-assign a score
 
 const drifted = JSON.stringify([
   // Claims item 1, but the name is plainly dish 2. Trust the name, not the number.
-  { item: 1, name: "Grilled Salmon", score: 9.1, explanation: "Mostly unsaturated.", substitution: null },
+  { item: 1, name: "Grilled Salmon", satFatG: 3.5, explanation: "Mostly unsaturated.", substitution: null },
 ]);
 const driftParsed = parseRankingResponse(drifted, menu);
 const salmon = driftParsed.find((p) => p.name === "Grilled Salmon");
 const brulee = driftParsed.find((p) => p.name === "Crème Brûlée");
 
-check("the 9.1 landed on Grilled Salmon", salmon?.score === 9.1, `got ${salmon?.score}`);
+check("the 3.5g estimate landed on Grilled Salmon", salmon?.estimates?.satFatG === 3.5, `got ${salmon?.estimates?.satFatG}g`);
 check(
   "Crème Brûlée was NOT given the salmon's score",
   brulee?.score === 5.0 && brulee.explanation.includes("couldn't score"),
-  `got ${brulee?.score}`
+  `got ${brulee?.estimates?.satFatG}g`
 );
 
 // ---------------------------------------------------------------
@@ -132,17 +132,17 @@ check(
 console.log("\nEAT-9 guard intact, and no internal fields escape:");
 
 const hallucinated = JSON.stringify([
-  { item: 1, name: "Crème Brûlée", score: 2.4, explanation: "Cream and egg yolk.", substitution: null },
-  { item: 2, name: "Grilled Salmon", score: 9.1, explanation: "Mostly unsaturated.", substitution: null },
-  { item: 3, name: "Fish & Chips", score: 3.2, explanation: "Deep fried.", substitution: null },
-  { item: 4, name: "Lobster Thermidor", score: 2.0, explanation: "Invented.", substitution: null },
+  { item: 1, name: "Crème Brûlée", satFatG: 24, explanation: "Cream and egg yolk.", substitution: null },
+  { item: 2, name: "Grilled Salmon", satFatG: 3.5, explanation: "Mostly unsaturated.", substitution: null },
+  { item: 3, name: "Fish & Chips", satFatG: 15, explanation: "Deep fried.", substitution: null },
+  { item: 4, name: "Lobster Thermidor", satFatG: 20, explanation: "Invented.", substitution: null },
 ]);
 const guarded = parseRankingResponse(hallucinated, menu);
 check("off-menu dish dropped", !guarded.some((p) => p.name === "Lobster Thermidor"));
 check("output is exactly the extracted set", guarded.length === menu.length, `got ${guarded.length}`);
 
 const leaked = guarded.flatMap((dish) =>
-  Object.keys(dish).filter((k) => !["name", "score", "explanation", "substitution"].includes(k))
+  Object.keys(dish).filter((k) => !["name", "score", "estimates", "explanation", "substitution"].includes(k))
 );
 check(
   "no item/index/rank field on a scored dish",
@@ -161,9 +161,9 @@ const described = [
   d("MONGOLIAN BBQ DUCK BAO", "Koji Pickled Cucumber & Scallion"),
 ];
 const conflated = JSON.stringify([
-  { item: 1, name: "2 EGGS — VITAL Farms Pasture Raised", score: 8.0, explanation: "Low saturated fat.", substitution: null },
-  { item: 2, name: "HALF AVOCADO", score: 9.0, explanation: "Mostly unsaturated.", substitution: null },
-  { item: 3, name: "MONGOLIAN BBQ DUCK BAO — Koji Pickled Cucumber & Scallion", score: 4.0, explanation: "Duck skin.", substitution: null },
+  { item: 1, name: "2 EGGS — VITAL Farms Pasture Raised", satFatG: 5.5, explanation: "Low saturated fat.", substitution: null },
+  { item: 2, name: "HALF AVOCADO", satFatG: 3, explanation: "Mostly unsaturated.", substitution: null },
+  { item: 3, name: "MONGOLIAN BBQ DUCK BAO — Koji Pickled Cucumber & Scallion", satFatG: 13, explanation: "Duck skin.", substitution: null },
 ]);
 const rescued = parseRankingResponse(conflated, described);
 
@@ -172,8 +172,8 @@ check(
   !rescued.some((p) => p.explanation.includes("couldn't score")),
   rescued.filter((p) => p.explanation.includes("couldn't score")).map((p) => p.name).join(", ")
 );
-check("described dish kept its 8.0", rescued[0].score === 8.0, `got ${rescued[0].score}`);
-check("undescribed control kept its 9.0", rescued[1].score === 9.0, `got ${rescued[1].score}`);
+check("described dish kept its 5.5g estimate", rescued[0].estimates?.satFatG === 5.5, `got ${rescued[0].estimates?.satFatG}g`);
+check("undescribed control kept its 3g estimate", rescued[1].estimates?.satFatG === 3, `got ${rescued[1].estimates?.satFatG}g`);
 check(
   "names shown are the menu's, not the echo",
   rescued[0].name === "2 EGGS" && rescued[2].name === "MONGOLIAN BBQ DUCK BAO",
@@ -186,7 +186,7 @@ console.log("\nEAT-19 guards — the rescue must not mis-assign a score:");
 // dish must never be accepted for the shorter one's slot.
 const prefixMenu = [d("HOUSE SALAD", "Mixed greens"), d("HOUSE SALAD LARGE", "Mixed greens, double")];
 const wrongSlot = JSON.stringify([
-  { item: 1, name: "HOUSE SALAD LARGE — Mixed greens, double", score: 2.0, explanation: "Wrong slot.", substitution: null },
+  { item: 1, name: "HOUSE SALAD LARGE — Mixed greens, double", satFatG: 20, explanation: "Wrong slot.", substitution: null },
 ]);
 const guarded19 = parseRankingResponse(wrongSlot, prefixMenu);
 // The item number says slot 1, the name says dish 2. Which one is wrong is
@@ -200,7 +200,7 @@ check(
 check(
   "specifically, HOUSE SALAD did not inherit the 2.0",
   guarded19[0].score === 5.0,
-  `got ${guarded19[0].score}`
+  `got ${guarded19[0].estimates?.satFatG}g`
 );
 check(
   "a different dish's name+description is not accepted for this slot",

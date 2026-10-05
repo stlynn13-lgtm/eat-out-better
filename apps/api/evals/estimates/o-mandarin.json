@@ -1,0 +1,2238 @@
+{
+ "menu": "o-mandarin",
+ "recordedAt": "2026-10-05T11:38:36.268Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "Shanghai Spring Rolls (3)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "Dumplings (6)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "Soup Dumplings (6)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "Sichuan Wontons (6)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "Mild Sesame Noodle",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "Dan Dan Noodle",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "Scallion Bubble Pancake (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "Shumai (5)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "Hot & Sour Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "Wonton Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "Egg Drop Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "Famous Chengdu Fish Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "Wild Mushroom & Riblets Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "Cilantro Tofu Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "Chicken & Corn Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "Sichuan Peppercorn Beef Shank & Tendon",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "Sichuan Chili Oil Edamame",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "Sichuan Peppercorn Tofu Skin",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "Wild Peppercorn & Wood-ear Mushroom",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "Cucumber Salad",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "Sichuan Pickled Cabbage",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "Chengdu Mouthwatering Chicken",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "Jelly Fish",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "Century Egg & Soft Tofu",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "Peking Duck",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "Chicken Lettuce Wraps",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "Shrimp Lettuce Wraps",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "Honey Cucumber Rock Shrimp",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "Wild Mushroom & Sichuan Chili",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "Ma-La Beef Jerky",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "Mandarin BBQ Pork",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "Mandarin Glazed Spare Ribs",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 14,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 14,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "Sichuan Storm Fish",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "Grandma’s Steam Bun",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Sichuan Eggplant",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "Thousand layer Tofu",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "Sichuan Lamb Chop",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "key": "Mandarin Pork Shank",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "Garlic Dry-Rub Ribs",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "key": "Beef Short Ribs",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "Wild Pepper Shrimp & Crispy Rice",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "Smoked Bamboo & Pork Belly",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "key": "Fluke Filet in Rice Wine Sauce",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 43,
+   "key": "Prime Rib Sichuan Hot Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "Lion Head Meat Balls",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "key": "Triple Delight & Pine Nut",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "Organic Cauliflower",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "key": "Crispy Whole Fish",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "key": "Shredded Pork with Bamboo",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "Wild Pepper Beef",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "Sichuan Seafood Clay Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "Sweet Pea Prawns",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "Sichuan Hot Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "Kung Pao Shrimp & Scallop",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "key": "Chongqing Chili Chicken",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "key": "Braised Beef Brisket Clay Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "key": "Sichuan Basil Chicken",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "Twice Cooked Pork Belly",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "key": "Spicy Fermented Bens & Minced Pork",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 59,
+   "key": "Cabbage & Pork Belly",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "key": "Sichuan Chili Oil Stew",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "Garlic Pepper Shrimp",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "Tea Smoked Duck",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "Prime Rib In Sour Broth",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "Toothpick Lamb",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "Yu Xiang Pork",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "Lotus Root Stir-fry With Pork",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "Shredded Duck in Sweet Bean Sauce",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "Chili Onion Hot Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "Scallion & Steak",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 70,
+   "key": "Country Style Pork & Chili",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "Mapo Tofu",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "Tofu Skin & Napa Cabbage",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "Dry Stir-fry String Bean",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "key": "Asparagus & Sweet Pea",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 75,
+   "key": "Tomato & Egg",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 76,
+   "key": "Vegetable & Tofu Clay Pot",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 77,
+   "key": "Yu Xiang Eggplant",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 78,
+   "key": "Mixed Wild Mushroom",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1.5,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1.5,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1.5,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 79,
+   "key": "Bok Choy & Mushroom",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 80,
+   "key": "Chinese Pea Leaves",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "Chengdu Fried Rice",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 82,
+   "key": "Smoked Duck Fried Rice",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 83,
+   "key": "Chao Mein",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1.5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1.5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1.5,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 84,
+   "key": "Mandarin Riblet Noodle Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 85,
+   "key": "Pineapple Fried Rice",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 86,
+   "key": "Vegetable & Egg Fried Rice",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 87,
+   "key": "Braised Beef Noodle Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 88,
+   "key": "Mixed Seafood Noodle Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 89,
+   "key": "Shanghainese Rice Cake Stir-fry",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  }
+ ]
+}

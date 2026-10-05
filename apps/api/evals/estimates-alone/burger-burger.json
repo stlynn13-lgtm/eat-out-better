@@ -1,0 +1,137 @@
+{
+ "menu": "burger-burger",
+ "recordedAt": "2026-10-05T11:41:04.309Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "CLASSIC BURGER*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "BLAZIN’ BISON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "CLASSY CLUCK*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "HAIL CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "GARDEN SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "THE IMPOSSIBLE BURGER",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "HOUSE CUT FRIES",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "CHEESE CURDS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "HEINEKEN ZERO",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "VANILLA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 52,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}
