@@ -8,7 +8,7 @@
 
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
-**Status: PR open for Sean's review, not merged.** Once merged and deployed, this changes the scores every user sees; the app itself doesn't need an update.
+**Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.
 
 **What changed**
 
@@ -38,7 +38,7 @@
 
 ## 2026-10-04 (later) — Answer key in, grouping fixed, first measurement: 74%
 
-**Status: on branch `eval/corpus-expansion`, not committed.** The grouping-rule fixes change what the app does (they live in the API), but nothing is merged or deployed.
+**Status: merged with PR #57 on 2026-10-05.**
 
 **What changed**
 
@@ -62,7 +62,7 @@
 
 ## 2026-10-04 — Eval set: 15 real restaurant menus with photos
 
-**Status: on branch `eval/corpus-expansion`, not committed, not merged.** Nothing in the app or the API changed.
+**Status: merged with PR #57 on 2026-10-05.**
 
 **What changed**
 
