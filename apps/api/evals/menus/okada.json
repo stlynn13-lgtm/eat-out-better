@@ -1,0 +1,761 @@
+{
+  "id": "okada",
+  "label": "Okada Japanese Restaurant (hibachi, ramen, Japanese-Chinese) — large menu",
+  "note": "The large-menu stress test: six portrait pages (p1–6 of the PDF; p7–8 are the sake/cocktail/wine/beer lists, excluded as not what a diner photographs to choose food), ~150 items with D-codes. Sean reported in August that big menus make the model invent dishes — this is the menu that measures it. Traps: Hibachi Entrées has three sub-sections whose items are bare proteins ('Chicken', 'Salmon', 'Scallop'); the Children's Menu repeats 'Chicken', 'Steak', 'Salmon', 'Shrimp' and all four yakisoba names from the adult menu — real duplicates in different sections that dedupe must not merge; the Ramen Extra Toppings grid and soft-drink flavour grid are not dishes; photo captions ('Ahi Poke', 'Steam Soft Buns', 'Tuna, Salmon & Red Snapper', 'Crabmeat & Spicy Salmon Tower') repeat dish names. D25–D36 continue Small Plates onto p2 with no heading repeated there, so a missing section on those is acceptable. Section names keep their Japanese as printed; the matcher compares Latin text only.",
+  "source": {
+    "restaurant": "Okada Japanese Restaurant",
+    "url": "https://okadajapaneserestaurant.com/wp-content/uploads/2023/05/OkadaDinnerMenu-5-9-23.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 4, 5, 6] of the original"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg",
+    "p5.jpg",
+    "p6.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "Edamame",
+      "description": "(Lightly salted soy beans)",
+      "section": "Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Veggie Gyoza",
+      "description": "(fried or steamed)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Sauteed Mushrooms",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Hibachi Chicken Livers",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Pork Gyoza",
+      "description": "(fried or steamed)",
+      "section": "Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Shrimp Dumpling",
+      "description": "(Steamed)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Age-Dashi Tofu",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Seafood Shao Mai",
+      "description": "(Steamed)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Shrimp Chive Cake",
+      "description": "(Panfried)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Chicken Yakitori",
+      "description": "(Chicken skewer and vegetable served with teriyaki sauce)",
+      "section": "Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "*Seared Beef Tataki",
+      "description": "(Thinly slice beef served with ponzu sauce)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Fried Soft Shell Crab",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Pan Fried Calamari Rings w/ Bell Peppers",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Mussels with Lemon Butter, Wine Sauce",
+      "section": "Appetizers"
+    },
+    {
+      "name": "*Fresh Daily Oysters",
+      "description": "(Half dozen) (Served raw on the half shell with cocktail sauce, lemon)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Garlic Edamame",
+      "description": "sautéed with olive oil & mild chili powder",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Steam Soft Buns",
+      "description": "Choice of: Chicken Katsu, or Pork Belly with baby arugula, cucumber & hoisin sauce",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Spicy Salmon Rice Bowl",
+      "description": "Spicy Salmon with rice, lettuce, cucumber, avocado, crispy onion, daikon sprinkled with masago and sesame seeds",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Spicy Tuna Rice Bowl",
+      "description": "Spicy Tuna Tuna with rice, lettuce, cucumber, avocado, crispy onion, daikon sprinkled with masago and sesame seeds",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Spicy Chirashi Rice Bowl",
+      "description": "Assorted sashimi pieces with rice, lettuce, cucumber, avocado, crispy onion, daikon sprinkled with masago and sesame seeds",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Spicy Seafood Rice Bowl",
+      "description": "Assorted non-fish pieces with rice, lettuce, cucumber, avocado, crispy onion, daikon sprinkled with masago and sesame seeds",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Chicken with Lettuce Wrap",
+      "description": "with mushrooms, scallions, water chestnuts over crispy rice sticks",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Buttery Spicy Prawns",
+      "description": "with baby arugula & fried lotus roots",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Crispy Calamari Steak",
+      "description": "sautéed with broccoli in ginger plum sauce",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Salt & Pepper Shrimps",
+      "description": "(without shells) on soft tacos with salsa verde",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Fresh Crabmeat & Spicy Salmon Tower",
+      "description": "with mango, avocado, masago and spicy mayo",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Tuna Tataki",
+      "description": "with ponzu sauce & seaweed salad",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Ahi Poke",
+      "description": "with wonton chips & wasabi mayo",
+      "section": "Small Plates",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "*Tuna Tataki with Miso dressing",
+      "description": "Lightly seared tuna sprinkled with sesame seeds, seaweed and masago in miso dressing",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Salmon Tempura Sushi roll",
+      "description": "with sweet butter, sprinkled with scallion & masago",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*White Tuna Tataki",
+      "description": "with avocado, scallion in cilantro & olive oil",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Tuna, Salmon & Red Snapper",
+      "description": "wrapped with cucumber in wasabi dressing",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Salmon, cream cheese & asparagus Sushi roll",
+      "description": "wrapped with Tuna",
+      "section": "Small Plates"
+    },
+    {
+      "name": "*Hamachi & avocado",
+      "description": "served with daikon radish, jalapeno & ponzu sauce",
+      "section": "Small Plates"
+    },
+    {
+      "name": "Veggie Miso Ramen",
+      "description": "Miso flavored noodle soup topped with tofu, napa cabbage, carrot, red pickled ginger, bamboo shoot, corn, beansprout, scallion, and dry seaweed.",
+      "section": "Ramen (ラーメン)",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Veggie Shoyu Ramen",
+      "description": "Shoyu flavored noodle soup topped with tofu, napa cabbage, carrot, red pickled ginger, bamboo shoot, corn, beansprout, scallion, dry seaweed.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Spicy Umami Miso Ramen",
+      "description": "Miso flavored noodle soup topped with minced pork, beansprout, scallion, nappa cabbage, soft egg, corn, garlic & chili oil.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chicken Wonton Ramen",
+      "description": "Chicken broth with wonton, baby bok choy, scallion.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chashu Pork Miso Ramen",
+      "description": "Miso flavored topped with marinated chashu pork, bamboo shoot, red pickled ginger, soft egg, corn, scallion, dry seaweed, beansprout and minced pork.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chicken Miso Ramen",
+      "description": "Miso flavored topped with marinated chicken, bamboo shoot, red pickled ginger, soft egg, corn, scallion, dry seaweed, and beansprout.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chashu Pork Shoyu Ramen",
+      "description": "Soy sauce based broth, topped with marinated chashu pork with red pickled ginger, corn, soft egg, scallion, dry seaweed, beansprout and minced pork.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chicken Shoyu Ramen",
+      "description": "Soy sauce based broth topped with marinated chicken with red pickled ginger, corn, soft egg, scallion, dry seaweed, and beansprout.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chashu Pork Spicy Miso Ramen",
+      "description": "Miso flavored topped with marinated chashu pork, bamboo shoot, red pickled ginger, soft egg, corn, scallion, dry seaweed, beansprout and minced pork, garlic and chili oil.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chicken Spicy Miso Ramen",
+      "description": "Miso flavored topped with marinated chicken, bamboo shoot, red pickled ginger, soft egg, corn, scallion, dry seaweed, beansprout, garlic and chili oil.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Chashu Pork Tonkotsu Ramen",
+      "description": "Tonkotsu flavored noodle soup topped with marinated chashu pork, soft egg, bamboo shoot, red pickled ginger, scallion, dry seaweed, and beansprout with minced pork.",
+      "section": "Ramen (ラーメン)",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken Tonkotsu Ramen",
+      "description": "Tonkotsu flavored noodle soup topped with marinated chicken, soft egg, bamboo shoot, red pickled ginger, scallion, dry seaweed, and beansprout.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Seafood Miso Ramen",
+      "description": "Miso flavored noodle soup topped with shrimp, squid, crabmeat, red pickled ginger, soft egg, scallion, dry seaweed, spinach and black garlic oil.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Seafood Shoyu Ramen",
+      "description": "Soy sauce based broth topped with shrimp, squid, crabmeat, red pickled ginger, corn, soft egg, scallion, dry seaweed, spinach and black garlic oil.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Braised Beef Brisket Ramen (New)",
+      "description": "Shoyu Flavored noodle soup topped with braised briskets, baby bok choy, soft egg, bamboo shoot, red pickled ginger, scallion, dry seaweed.",
+      "section": "Ramen (ラーメン)"
+    },
+    {
+      "name": "Shrimps Flambe",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Seafood Entrées"
+    },
+    {
+      "name": "Salmon",
+      "aliases": [
+        "Hibachi Salmon"
+      ],
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Seafood Entrées",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Scallop",
+      "aliases": [
+        "Hibachi Scallop"
+      ],
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Seafood Entrées"
+    },
+    {
+      "name": "Tokyo Shrimp",
+      "description": "(Jumbo shrimps grilled with a touch of lemon, herbs, and teriyaki sauce)",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Seafood Entrées"
+    },
+    {
+      "name": "Double Lobsters",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Seafood Entrées"
+    },
+    {
+      "name": "Chicken",
+      "aliases": [
+        "Hibachi Chicken"
+      ],
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Steak & Chicken Entrées"
+    },
+    {
+      "name": "New York Steak",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Steak & Chicken Entrées"
+    },
+    {
+      "name": "Filet Mignon",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Steak & Chicken Entrées",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Vegetable Dinner",
+      "section": "Hibachi Entrées (鉄板焼き) / Hibachi Vegetable Entrées"
+    },
+    {
+      "name": "Steak & Chicken",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Shrimp & Chicken",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Steak & Shrimp",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Filet Mignon & Chicken",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Filet Mignon & Shrimp",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Filet Mignon & Scallop",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Filet Mignon & Lobster",
+      "section": "Hibachi Combination Entrées"
+    },
+    {
+      "name": "Grilled Tilapia",
+      "section": "Grilled Fish Entrées (焼き魚)"
+    },
+    {
+      "name": "Grilled Salmon",
+      "section": "Grilled Fish Entrées (焼き魚)",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Grilled Mahi Mahi",
+      "section": "Grilled Fish Entrées (焼き魚)"
+    },
+    {
+      "name": "Grilled Chilean Sea Bass",
+      "section": "Grilled Fish Entrées (焼き魚)"
+    },
+    {
+      "name": "Grilled Lamb Chop",
+      "description": "Lamb chops marinated and grilled Hibachi style sautéed with seasonal vegetables, and served with Jasmine rice and chimichurri sauce.",
+      "section": "Grilled Lamb Entrées (焼き羊)"
+    },
+    {
+      "name": "Veggie Bento (New)",
+      "description": "Avocado & Cucumber Roll, Sauteed Vegetables, (No Half Calif Roll).",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "Tonkatsu Bento",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "Chicken Katsu Bento",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "Teriyaki Chicken Bento",
+      "section": "BENTOS Dinner (弁当)",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Teriyaki Steak Bento",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "Teriyaki Salmon Bento",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "*Sushi Bento (4 pieces of Sushi)",
+      "description": "Tuna, Salmon, Albacore, Yellowtail, with Seaweed Salad (No Jasmine Rice)",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "*Sashimi Bento (6 pieces of Sashimi)",
+      "description": "Tuna, Salmon, Yellowtail, with Seaweed Salad (No Jasmine Rice)",
+      "section": "BENTOS Dinner (弁当)"
+    },
+    {
+      "name": "Shrimp Tempura Udon",
+      "description": "(Wheat noodle soup with shrimp tempura and vegetables)",
+      "section": "Japanese Udon (うどん)",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Seafood Udon",
+      "description": "(Wheat noodle soup with various seafood meat balls and vegetables)",
+      "section": "Japanese Udon (うどん)"
+    },
+    {
+      "name": "Sesame Chicken",
+      "description": "Wok seared in sesame sauce with broccoli, bell peppers & onions.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Crispy Honey Chicken",
+      "description": "Lightly battered in honey & sake sauce with scallions & chilli.",
+      "section": "Dinner Entrées (夕飯)",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Crispy Honey Shrimp",
+      "description": "Lightly battered in honey & sake sauce with scallions & chilli.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Almond & Cashew Chicken",
+      "description": "Stir-fried with bell peppers, onions, celery, bamboo shoots and water chestnuts in garlic soy sauce",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Pepper Steak",
+      "description": "Black pepper-garlic sauce marinated sliced steak, onions and bell peppers.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Beef with Broccoli",
+      "description": "Sliced steak seared with fresh ginger, green onions and garlic.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Mongolian Beef",
+      "description": "Sweet, soy-glazed sliced steak wok-seared with onions, scallions and garlic.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Beef A La Sichuan",
+      "description": "Fiery pepper sauce wok-tossed with strips of marinated sliced steak, julienne carrots and celery.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Tokyo Pork Tenderloin",
+      "description": "Pork tenderloin sautéed with plum sauce, bamboo shoots topped with shredded scallions.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Orange Peel Chicken",
+      "description": "Hunan chili sauce with dried orange slices and onions.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Orange Peel Beef",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Orange Peel Shrimp",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Chicken",
+      "description": "Spicy Sichuan chili sauce with peanuts, celery, bamboo shoots, water chestnut, scallions, and red chili peppers.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Beef",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Shrimp",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Scallop",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Calamari (New)",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Salt & Pepper Prawns",
+      "description": "Crispy prawns with shells in aromatic spices with chilli peppers and green onions.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Pan-Fried Prawns",
+      "description": "Large prawns with shells pan-fried, seasoning with salt & peppers on bed of baby argula (non-spicy)",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Triple Delight Prawns",
+      "description": "Large prawns with shredded gingers, scallions, and bell peppers sautéed in light oyster sauce.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Sesame Tofu (New)",
+      "description": "Wok seared in sesame sauce with broccoli, bell peppers & onions",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Crispy Honey Tofu (New)",
+      "description": "Lightly battered in Honey & Sake sauce with scallions & chili",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Kung Pao Tofu (New)",
+      "description": "Spicy Sichuan chili sauce with peanuts, celery, bamboo shoots, water chestnut, scallions, and red chili peppers.",
+      "section": "Dinner Entrées (夕飯)"
+    },
+    {
+      "name": "Vegetable Yakisoba",
+      "section": "Japanese Yakisoba (焼きそば)"
+    },
+    {
+      "name": "Chicken Yakisoba",
+      "section": "Japanese Yakisoba (焼きそば)"
+    },
+    {
+      "name": "Steak Yakisoba",
+      "section": "Japanese Yakisoba (焼きそば)"
+    },
+    {
+      "name": "Shrimp Yakisoba",
+      "section": "Japanese Yakisoba (焼きそば)"
+    },
+    {
+      "name": "Chicken",
+      "aliases": [
+        "Kids Chicken"
+      ],
+      "section": "Children’s Menu (Under Age 10 only)",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Steak",
+      "aliases": [
+        "Kids Steak"
+      ],
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Salmon",
+      "aliases": [
+        "Kids Salmon"
+      ],
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Shrimp",
+      "aliases": [
+        "Kids Shrimp"
+      ],
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Vegetable Yakisoba",
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Chicken Yakisoba",
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Shrimp Yakisoba",
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Steak Yakisoba",
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Junior Bento",
+      "description": "Jasmine Rice with Chicken Tenders & French Fries & choice of: Juice, or Softdrink, or Milk. (Animated Bento Box is used for serving purpose only).",
+      "section": "Children’s Menu (Under Age 10 only)"
+    },
+    {
+      "name": "Japanese Ice Cream",
+      "description": "(Red bean or green tea flavor)",
+      "section": "Dessert"
+    },
+    {
+      "name": "Banana Tempura",
+      "section": "Dessert"
+    },
+    {
+      "name": "Cheese Cake",
+      "section": "Dessert"
+    },
+    {
+      "name": "Fried Ice Cream",
+      "section": "Dessert",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Mochi Ice Cream",
+      "description": "(Assorted flavor)",
+      "section": "Dessert"
+    },
+    {
+      "name": "Fried Cheese Cake",
+      "section": "Dessert"
+    },
+    {
+      "name": "Soft Drink",
+      "description": "(free refill)",
+      "section": "Beverages"
+    },
+    {
+      "name": "Juices",
+      "description": "(no free refill)",
+      "section": "Beverages"
+    },
+    {
+      "name": "Shirley Temple / Cherry Coke",
+      "aliases": [
+        "Shirley Temple",
+        "Cherry Coke"
+      ],
+      "description": "(no free refill)",
+      "section": "Beverages"
+    },
+    {
+      "name": "Spring Water",
+      "section": "Beverages"
+    },
+    {
+      "name": "Japanese Green Tea",
+      "description": "(Hot)",
+      "section": "Beverages"
+    }
+  ],
+  "optional": [
+    "Chashu Pork",
+    "Minced Pork",
+    "Noodle",
+    "Avocado",
+    "Napa",
+    "Dry Seaweed",
+    "Tofu",
+    "Picked Ginger",
+    "Corn",
+    "Beansprouts",
+    "Carrots",
+    "Scallion",
+    "Bamboo Shoots",
+    "Garlic & Chili Oil",
+    "Soft Egg",
+    "Mushroom",
+    "Kim Chi",
+    "Slices of Chicken",
+    "Substitute Shiratake (Tofu Noodles)",
+    "Add side of fried Tofu",
+    "Coke",
+    "Coke Zero",
+    "Diet Coke",
+    "Sprite",
+    "Root Beer",
+    "Ginger Ale",
+    "Fanta Orange",
+    "Mr. Pibb",
+    "Sweetened / Unsweetened Ice Tea",
+    "Fruit Punch",
+    "Lemonade",
+    "Orange",
+    "Apple",
+    "Pineapple",
+    "Cranberry",
+    "mango salsa",
+    "chimichurri sauce",
+    "lemon butter",
+    "pan asian Sauce",
+    "Crabmeat & Spicy Salmon Tower"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

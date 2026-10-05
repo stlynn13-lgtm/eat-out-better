@@ -1,0 +1,417 @@
+{
+  "id": "thai-paradise",
+  "label": "Thai Paradise EDH (Thai)",
+  "note": "Four clean single-column portrait pages with numbered items — the easiest layout in the corpus, kept as a control: if extraction fails here, it is not a layout problem. Most mains have no price on their own line because price depends on the protein ('CHOICES OF MEAT…' boxes, not dishes). Photo captions under the photo strips repeat dish names with their numbers ('1. Fresh Spring Rolls', '4. Sa-Tay', '15. Pad Thai', '23. Green Curry'…). Sides, desserts and drinks on p4 have their prices in a separate column at the bottom of the text layer, but sit beside their items on the page. The name 'Thai Paradise EDH' is the page title on p1.",
+  "source": {
+    "restaurant": "Thai Paradise EDH",
+    "url": "https://thaiparadiseedh.com/wp-content/uploads/2021/07/Thai-Paradise-EDH-Dinner-Menu-1.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg"
+  ],
+  "restaurantName": "Thai Paradise EDH",
+  "dishes": [
+    {
+      "name": "FRESH SPRING ROLLS",
+      "description": "Alfalfa, carrots, lettuce, and cilantro wrapped in rice paper served with peanut sauce and honey plum sauce",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FRIED THAI SPRING ROLLS",
+      "description": "Spring roll wrapper stuffed with cabbage, carrots, bean-thread noodles and served with honey plum sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "POTSTICKERS",
+      "description": "Steamed chicken potstickers served with ginger sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "SA-TAY",
+      "description": "Grilled marinated chicken breast on skewers, served with peanut sauce and cucumber salad",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "ANGEL WINGS",
+      "description": "De-boned chicken wings stuffed with ground chicken, silver noodles, deep-fried and served with a special honey plum sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "SHRIMP ROLLS",
+      "description": "Crispy shrimp rolls served with honey plum sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "TOM YUM KOONG",
+      "description": "Prawns, white mushrooms, tomato and Thai herbs in hot and sour soup",
+      "section": "SOUPS"
+    },
+    {
+      "name": "TOM YUM KAI",
+      "description": "Chicken, white mushrooms, tomato and Thai herbs in hot and sour soup",
+      "section": "SOUPS"
+    },
+    {
+      "name": "TOM KHA KOONG",
+      "description": "Prawns, white mushrooms, tomato and Thai herbs in coconut milk",
+      "section": "SOUPS"
+    },
+    {
+      "name": "TOM KHA KAI",
+      "description": "Chicken, white mushrooms, tomato and Thai herbs in coconut milk",
+      "section": "SOUPS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "VEGGIE AND TOFU SOUP",
+      "description": "Clear broth with veggies and tofu",
+      "section": "SOUPS"
+    },
+    {
+      "name": "PAPAYA SALAD (Som Tom)",
+      "aliases": [
+        "PAPAYA SALAD",
+        "Som Tom"
+      ],
+      "description": "Shredded green papaya, tomato and roasted peanuts seasoned with spicy house dressing",
+      "section": "SALADS"
+    },
+    {
+      "name": "GRILLED BEEF SALAD",
+      "description": "Grilled sirloin with fresh vegetables seasoned with spicy lime juice",
+      "section": "SALADS"
+    },
+    {
+      "name": "SILVER NOODLE SALAD",
+      "description": "Steamed silver noodles, sliced chicken and shrimp seasoned with spicy lime juice",
+      "section": "SALADS"
+    },
+    {
+      "name": "PAD THAI",
+      "description": "Pan-fried rice noodles, tofu, egg, bean sprouts and green onions topped with ground peanuts",
+      "section": "NOODLES - with your choice of meat or veggies",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "DRUNKEN NOODLES (Pad Kee Mao)",
+      "aliases": [
+        "DRUNKEN NOODLES",
+        "Pad Kee Mao"
+      ],
+      "description": "Pan-fried flat rice noodles, green beans, onion, snow peas, red bell peppers, jalapeno, bean sprouts, basil and garlic chili sauce",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "PAD SE-IEW",
+      "description": "Pan-fried flat rice noodles with garlic, carrots, broccoli, egg and brown sauce",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "SILVER NOODLES",
+      "description": "Pan-fried bean thread noodles with egg, onion, snow peas, white mushrooms, bean sprouts and special sauce",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "THAI CHOW MEIN",
+      "description": "Thai style pan-fried egg noodles with cabbage, onion, bean sprouts and carrots in light brown sauce",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "CURRY NOODLES (Kao Soi)",
+      "aliases": [
+        "CURRY NOODLES",
+        "Kao Soi"
+      ],
+      "description": "Rice noodles in special curry sauce with red bell peppers, onion, snow peas, bamboo, green beans, bean sprouts and basil topped with fried garlic",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "BOAT NOODLES",
+      "description": "Traditional Thai noodle soup with sliced beef or veggie, with bean sprouts, cilantro, onion, basil and fried garlic",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "CHICKEN NOODLE SOUP",
+      "description": "Rice stick noodles with sliced chicken, cilantro, green onions and fried garlic in clear chicken broth.",
+      "section": "NOODLES - with your choice of meat or veggies"
+    },
+    {
+      "name": "GREEN CURRY",
+      "description": "Green curry paste with green beans, eggplant, bamboo, red bell peppers, basil and coconut milk",
+      "section": "CURRIES - with your choice of meat or veggies",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "RED CURRY",
+      "description": "Red curry paste with green beans, eggplant, bamboo, red bell peppers, basil and coconut milk",
+      "section": "CURRIES - with your choice of meat or veggies"
+    },
+    {
+      "name": "YELLOW CURRY",
+      "description": "Yellow curry paste with potato, onion, carrots and coconut milk",
+      "section": "CURRIES - with your choice of meat or veggies"
+    },
+    {
+      "name": "PINEAPPLE CURRY",
+      "description": "Red curry paste with pineapple, tomato, red bell peppers, basil and coconut milk",
+      "section": "CURRIES - with your choice of meat or veggies"
+    },
+    {
+      "name": "PA-NAENG CURRY",
+      "description": "Pa-naeng curry paste with green beans, red bell peppers, kaffir lime leaf, basil and coconut milk",
+      "section": "CURRIES - with your choice of meat or veggies"
+    },
+    {
+      "name": "THAI BASIL (Pad Ka Prao)",
+      "aliases": [
+        "THAI BASIL",
+        "Pad Ka Prao"
+      ],
+      "description": "Sautèed with onion, jalapeno, red bell peppers, green beans, basil and garlic chili sauce",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "EGGPLANT DELIGHT",
+      "description": "Sautèed eggplant with garlic, jalapeno, red bell peppers, onion and basil",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "SPICY ASPARAGUS",
+      "description": "Sautèed asparagus with onion, jalapeno, red bell peppers, basil and garlic chili sauce",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "CASHEW NUT",
+      "description": "Sautèed cashew nuts with garlic, snow peas, carrots, zucchini, water chestnuts and onion",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "MIXED VEGETABLES",
+      "description": "Sautèed vegetables with garlic and special sauce",
+      "section": "ENTREES - with your choice of meat or veggies",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SWEET AND SOUR",
+      "description": "Sautèed with snow peas, carrots, onions, tomato, pineapple and zucchini",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "GINGER SAUTE’",
+      "description": "Fresh ginger sautèed with garlic, onion, white mushrooms, red bell peppers, snow peas and carrots",
+      "section": "ENTREES - with your choice of meat or veggies"
+    },
+    {
+      "name": "PRA-RAM LONG SRONG",
+      "description": "Steamed vegetables topped with peanut sauce",
+      "section": "ENTREES - with your choice of meat or veggies",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "THAI FRIED RICE",
+      "description": "Wok fried rice with egg, onions and carrots",
+      "section": "FRIED RICE - with choice of meat or veggies"
+    },
+    {
+      "name": "SPICY FRIED RICE (no egg)",
+      "description": "Wok fried rice with onions, red bell peppers, jalapeno, green beans, basil and garlic chili sauce (no egg)",
+      "section": "FRIED RICE - with choice of meat or veggies"
+    },
+    {
+      "name": "VEGETARIAN VEGAN FRIED RICE (no egg)",
+      "description": "Wok fried rice with mixed vegetables, cashew nuts and special sauce (no egg)",
+      "section": "FRIED RICE - with choice of meat or veggies"
+    },
+    {
+      "name": "PINEAPPLE FRIED RICE WITH CASHEWS",
+      "description": "Wok fried rice with egg, chicken, shrimp, onion, pineapple, cashews and curry powder",
+      "section": "FRIED RICE - with choice of meat or veggies"
+    },
+    {
+      "name": "CRAB FRIED RICE",
+      "description": "Wok fried rice with crab meat, white onion, egg and topped with cucumber",
+      "section": "FRIED RICE - with choice of meat or veggies"
+    },
+    {
+      "name": "MALAYSIAN SALMON",
+      "description": "Grilled salmon with broccoli, basil, sweet potato, mushrooms, corn and red bell pepper topped with homemade curry",
+      "section": "CHEF’S SPECIALS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SCALLOPS AND PRAWNS",
+      "description": "Stir fried scallops and prawns with red bell pepper, onion, jalapeno, green beans, basil and garlic sauce",
+      "section": "CHEF’S SPECIALS"
+    },
+    {
+      "name": "SPICY POMPANO",
+      "description": "Sautèed deep fried pompano with onion, green beans, red bell pepper, jalapeno, black and white mushrooms, asparagus, basil and garlic chili sauce",
+      "section": "CHEF’S SPECIALS"
+    },
+    {
+      "name": "PHUKET SALMON SAUTE’",
+      "description": "Sautèed salmon fillet in ginger sauce, fresh ginger, white mushrooms, onion, snow peas and carrots",
+      "section": "CHEF’S SPECIALS"
+    },
+    {
+      "name": "BANGKOK CHICKEN",
+      "description": "Crispy chicken topped with chef’s sweet sauce, Bangkok style",
+      "section": "CHEF’S SPECIALS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "WHITE RICE",
+      "section": "SIDES"
+    },
+    {
+      "name": "BROWN RICE",
+      "section": "SIDES"
+    },
+    {
+      "name": "PEANUT SAUCE OR CUCUMBER SALAD",
+      "aliases": [
+        "CUCUMBER SALAD"
+      ],
+      "section": "SIDES"
+    },
+    {
+      "name": "HOUSE SALAD",
+      "section": "SIDES"
+    },
+    {
+      "name": "FBI (Fried Banana with Ice Cream)",
+      "aliases": [
+        "FBI",
+        "Fried Banana with Ice Cream"
+      ],
+      "section": "DESSERTS"
+    },
+    {
+      "name": "COCONUT or MANGO ICE CREAM",
+      "aliases": [
+        "COCONUT ICE CREAM",
+        "MANGO ICE CREAM"
+      ],
+      "section": "DESSERTS"
+    },
+    {
+      "name": "SWEET STICKY RICE AND MANGO",
+      "description": "(Available during the mango season)",
+      "section": "DESSERTS",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "note": "lots of carbs and simple sugars",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "THAI ICED TEA (Refill)",
+      "aliases": [
+        "THAI ICED TEA"
+      ],
+      "section": "DRINKS",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "tier": "red",
+        "note": "SO MUCH SUGAR AND CONDENSED MILK",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "THAI ICED COFFEE (Refill)",
+      "aliases": [
+        "THAI ICED COFFEE"
+      ],
+      "section": "DRINKS"
+    },
+    {
+      "name": "SODA",
+      "section": "DRINKS"
+    },
+    {
+      "name": "GINGER BREW (GINGER ALE)",
+      "aliases": [
+        "GINGER BREW"
+      ],
+      "section": "DRINKS"
+    },
+    {
+      "name": "COCONUT WATER",
+      "section": "DRINKS"
+    }
+  ],
+  "optional": [
+    "Vegetable",
+    "Tofu",
+    "Chicken",
+    "Pork",
+    "Beef",
+    "Prawns",
+    "Calamari",
+    "Scallops",
+    "Seafood",
+    "Salmon",
+    "PEANUT SAUCE"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

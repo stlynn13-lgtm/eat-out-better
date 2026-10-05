@@ -1,0 +1,471 @@
+{
+  "id": "burger-burger",
+  "label": "Burger Burger (burgers, beer and shakes)",
+  "note": "Two portrait pages. p1 food in two columns; p2 almost entirely drinks — bottled/tap beer, cocktails, wine, ADULT SHAKES (alcoholic) next to CLASSIC and SPECIALTY SHAKES (not). The restaurant name is NOT printed as a title anywhere: 'BURGER BURGER' appears only inside 'BURGER BURGER SAUCE' and 'BURGER BURGER BLOODY MARY', so the correct restaurantName is null and any guess is a hallucination. Traps: the upgrade/substitution box and 'CUSTOMIZE YOUR BASIC' topping lists are not dishes; wing sauces are options; shake flavours under CLASSIC SHAKES are bare words ('VANILLA') that only make sense with their heading; HEINEKEN ZERO is non-alcoholic beer under BOTTLED BEER.",
+  "source": {
+    "restaurant": "Burger Burger",
+    "url": "https://eatburgerburger.com/wp-content/uploads/2022/07/Burger-Burger-Menu_7-11-22-1.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "CLASSIC BURGER*",
+      "description": "BEEF PATTY, WHITE AMERICAN CHEESE, LEAF LETTUCE, TOMATO AND BURGER BURGER SAUCE",
+      "section": "BURGERS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "B.A.M.F!*",
+      "description": "BIG AND MEATY FUN, BEEF PATTY, WISCONSIN SHARP CHEDDAR, LEAF LETTUCE, TOMATO, RED ONION, DILL PICKLE SLICES, CRISPY FRENCH FRY ENDS, APPLEWOOD SMOKED BACON AND BURGER BURGER SAUCE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "JOHN WAYNE*",
+      "description": "BEEF PATTY, WISCONSIN SHARP CHEDDAR, DILL PICKLE SLICES, BOURBON BBQ SAUCE, BURGER BURGER SAUCE, ONION RINGS AND APPLEWOOD SMOKED BACON",
+      "section": "BURGERS"
+    },
+    {
+      "name": "BASIC BURGER*",
+      "description": "BEEF PATTY, WHITE AMERICAN CHEESE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "MAC DADDY*",
+      "description": "BEEF PATTY, WHITE AMERICAN CHEESE, MAC & CHEESE BITES, LEAF LETTUCE, RED ONIONS AND BBQ SAUCE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "MAGIC MUSHROOM*",
+      "description": "BEEF PATTY, SWISS CHEESE, BUTTER CRUSTED MUSHROOMS, LEAF LETTUCE AND BURGER BURGER SAUCE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "FRENCH KISS*",
+      "description": "BEEF PATTY, WHITE AMERICAN CHEESE, CARAMELIZED ONIONS, ONION RINGS AND BURGER BURGER SAUCE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "BAE*",
+      "description": "BEEF PATTY, FRESH AVOCADO, FRIED EGG, LEAF LETTUCE, APPLEWOOD SMOKED BACON AND BURGER BURGER SAUCE",
+      "section": "BURGERS"
+    },
+    {
+      "name": "BLAZIN’ BISON*",
+      "description": "GROUND BISON PATTY, HOUSE PICKLED PEPPERS, MAYO, LEAF LETTUCE, TOMATO AND RED ONION",
+      "section": "BURGERS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CLASSY CLUCK*",
+      "description": "CRISPY OR GRILLED CHICKEN BREAST, LEAF LETTUCE, TOMATO AND MAYO",
+      "section": "BURGERS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "HAIL CAESAR",
+      "description": "HOUSE DRESSING, ROMAINE, CHERRY TOMATOES, CIABATTA GARLIC CROUTONS AND GRATED PARMESAN",
+      "section": "SALADS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHICKEN CAESAR",
+      "description": "OUR CLASSIC CAESAR TOPPED WITH CHOPPED CRISPY CHICKEN BREAST",
+      "section": "SALADS"
+    },
+    {
+      "name": "BUFFALO CHICKEN CAESAR",
+      "description": "OUR CLASSIC CAESAR TOPPED WITH CRISPY CHIC BREAST TOSSED IN BUFFALO SAUCE",
+      "section": "SALADS"
+    },
+    {
+      "name": "GARDEN SALAD",
+      "description": "CLASSIC TOSSED SALAD, YOUR CHOICE OF ONE SIDE SAUCE FROM OUR SIGNATURE SAUCE LIST",
+      "section": "SALADS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "THE IMPOSSIBLE BURGER",
+      "description": "IMPOSSIBLE PATTY, VEGAN SMOKED CHEDDAR CHEESE, LEAF LETTUCE, TOMATO, RED ONIONS, PICKLE, MAYO AND BURGER BURGER SAUCE",
+      "section": "VEGAN & PLANT BASED FRIENDLY",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "OVER THE SHROOM",
+      "description": "IMPOSSIBLE PATTY, VEGAN SMOKED CHEDDAR, LETTUCE, VEGAN MAYO, CARAMELIZED MUSHROOMS ON A VEGAN BUN",
+      "section": "VEGAN & PLANT BASED FRIENDLY"
+    },
+    {
+      "name": "SOUTHWEST VEGAN",
+      "description": "IMPOSSIBLE PATTY, GUACAMOLE, CHIPOTLE MAYO, ONIONS, PICKLED JALAPENOS, VEGAN BUN",
+      "section": "VEGAN & PLANT BASED FRIENDLY"
+    },
+    {
+      "name": "CALIFORNIA DREAM",
+      "description": "IMPOSSIBLE PATTY, FRESH AVOCADO, VEGAN BURGER SAUCE, LEAF LETTUCE AND VEGAN BACON",
+      "section": "VEGAN & PLANT BASED FRIENDLY"
+    },
+    {
+      "name": "MISSION IMPOSSIBLE",
+      "description": "IMPOSSIBLE PATTY, VEGAN SMOKED CHEDDAR CHEESE, LEAF LETTUCE, TOMATO AND RED ONIONS",
+      "section": "VEGAN & PLANT BASED FRIENDLY"
+    },
+    {
+      "name": "CAULIFLOWER WINGS",
+      "description": "BUFFALO • SWEET CHILI • LEMON GARLIC • HOUSE DRY RUB • HONEY SRIRACHA • HONEY MUSTARD • BOURBON BBQ",
+      "section": "VEGAN & PLANT BASED FRIENDLY"
+    },
+    {
+      "name": "CHICKEN WINGS*",
+      "description": "BUFFALO • SWEET CHILI • LEMON GARLIC • HOUSE DRY RUB • HONEY SRIRACHA • HONEY MUSTARD • BOURBON BBQ",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "ONION RINGS",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "HOUSE CUT FRIES",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHEESE CURDS",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "MAC & CHEESE BITES",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CORONA EXTRA",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "CORONA LIGHT",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "MICH ULTRA",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "ANGRY ORCHARD",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "BUSCH LIGHT",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "HEINEKEN ZERO",
+      "section": "BOTTLED BEER",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "WHITE CLAW",
+      "description": "BLACK CHERRY, RASPBERRY, GRAPEFRUIT",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "HIGH NOON",
+      "description": "PINEAPPLE, MANGO",
+      "section": "BOTTLED BEER"
+    },
+    {
+      "name": "SUMMIT EPA",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "SUMMIT PILS",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "SUMMIT SEASONAL",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "WILD STATE SEMI DRY CIDER",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "MILLER LIGHT",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "CASTLE DANGER CREAM ALE",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "BENT PADDLE HAZY IPA",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "LAKE MONSTER DEPTH CHARGE JUICY IPA",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "FULTON LONELY BLONDE",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "INDEED MEXICAN HONEY LIGHT",
+      "section": "TAP BEER"
+    },
+    {
+      "name": "HONEY BADGER",
+      "description": "JIM BEAM HONEY, SWEET VERMOUTH, LEMON JUICE BITTERS",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "WHISKEY NOIR",
+      "description": "BULLEIT RYE WHISKEY, LEMON JUICE, SIMPLE SYRUP, BIG HOUSE CABERNET SAUVIGNON",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "COSMO KRAMER",
+      "description": "TITO’S HANDMADE VODKA, RASPBERRY, COINTREAU, LIME JUICE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "DRUNKEN CARAMEL APPLE",
+      "description": "APPLE CINNAMON LIQUEUR, LIME JUICE, CARAMEL SYRUP",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "BURGER BURGER BLOODY MARY",
+      "description": "ABSOLUT PEPPAR, BLOODY MARY MIX, PICKLE, OLIVES, CELERY",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "DOWN & DIRTY TINI",
+      "description": "TITO’S HANDMADE VODKA, OLIVE JUICE, QUEEN PITTED OLIVE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "SWEET JULEP TEA",
+      "description": "JACK DANIELS, LEMON & LIME JUICE, MINT LEAVES, SWEET ICED TEA",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "BLACK & BLUE LEMONADE",
+      "description": "BLUEBERRY MOONSHINE, LIME JUICE, BLUEBERRIES, LEMONADE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "BLUEBERRY FIELDS",
+      "description": "TITO’S HANDMADE VODKA, RASPBERRY, COINTREAU, LIME JUICE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "MARGARITA",
+      "description": "TEQUILA, LEMON JUICE, SIMPLE SYRUP, ORANGE JUICE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "MARGARITA ORO",
+      "description": "TEQUILA REPOSADO, GRAND MARNIER, LEMON JUICE, SIMPLE SYRUP, ORANGE JUICE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "SLOW RIDE",
+      "description": "MALIBU, BLUE CURACAO, ORANGE JUICE, STOLI VANIL, PINEAPPLE JUICE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "CABERNET SAUVIGNON",
+      "section": "WINE LIST / RED"
+    },
+    {
+      "name": "CHARDONNAY",
+      "section": "WINE LIST / WHITE"
+    },
+    {
+      "name": "GREEN HORNET",
+      "description": "OREO COOKIES, HERSHEY’S CHOCOLATE SYRUP, MINT SYRUP, CREME DE MENTHE LIQUEUR, CREME DE CACAO LIQUEUR",
+      "section": "ADULT SHAKES",
+      "expected": {
+        "category": "drink_alcoholic",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SOUTHERN BELLE",
+      "description": "PEACH PRESERVE, FIREBALL WHISKEY",
+      "section": "ADULT SHAKES"
+    },
+    {
+      "name": "COOKIE MONSTER",
+      "description": "SNICKERDOODLE COOKIE, VODKA, CINNAMON",
+      "section": "ADULT SHAKES"
+    },
+    {
+      "name": "LUCKY CHARM",
+      "description": "NUTELLA, BAILEYS",
+      "section": "ADULT SHAKES"
+    },
+    {
+      "name": "DONKEY KONG",
+      "description": "BANANA, MALIBU, CARAMEL",
+      "section": "ADULT SHAKES"
+    },
+    {
+      "name": "VANILLA",
+      "aliases": [
+        "VANILLA SHAKE"
+      ],
+      "section": "CLASSIC SHAKES",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "tier": "red",
+        "note": "so bad for you. its a shake so its milke + ice cream. so much sugar. not good for cholesterol",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHOCOLATE",
+      "aliases": [
+        "CHOCOLATE SHAKE"
+      ],
+      "section": "CLASSIC SHAKES"
+    },
+    {
+      "name": "STRAWBERRY",
+      "aliases": [
+        "STRAWBERRY SHAKE"
+      ],
+      "section": "CLASSIC SHAKES"
+    },
+    {
+      "name": "OREO",
+      "aliases": [
+        "OREO SHAKE"
+      ],
+      "section": "CLASSIC SHAKES"
+    },
+    {
+      "name": "STRAWBERRY CHEESECAKE",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "LATTE LOVE",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "BANANA EXPLOSION",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "ORANGE DREAMSICLE",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "HOT FUDGE BROWNIE",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "S’MORES",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "INSIDE OUT TURTLE",
+      "section": "SPECIALTY SHAKES"
+    },
+    {
+      "name": "SODA",
+      "aliases": [
+        "REGULAR"
+      ],
+      "section": "SODA"
+    }
+  ],
+  "optional": [
+    "BUFFALO",
+    "SWEET CHILI",
+    "LEMON GARLIC",
+    "HOUSE DRY RUB",
+    "HONEY SRIRACHA",
+    "HONEY MUSTARD",
+    "BOURBON BBQ",
+    "RAW ONION",
+    "DILL PICKLE SLICES",
+    "MAYO",
+    "LETTUCE",
+    "TOMATO",
+    "BURGER BURGER SAUCE",
+    "APPLEWOOD SMOKED BACON",
+    "CARAMELIZED ONIONS",
+    "MUSHROOMS",
+    "HOUSE PICKLED PEPPERS",
+    "AVOCADO",
+    "BBQ SAUCE",
+    "FRIED EGG",
+    "DOUBLE PATTY",
+    "TRIPLE",
+    "CRISPY CHICKEN BREAST",
+    "BISON",
+    "GLUTEN FREE BUN",
+    "VEGAN BUN",
+    "REGULAR",
+    "LARGE"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

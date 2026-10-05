@@ -1,0 +1,453 @@
+{
+  "id": "trojan-horse",
+  "label": "Trojan Horse (Greek & American, carry-out tri-fold)",
+  "note": "Two landscape tri-fold panels, sepia print, small type — the whole spread in one 1600px image, which is close to what the app uploads (long edge capped at 1568px), so legibility here is a real-world finding, not a test artifact. Traps: photo captions that repeat dish names ('Pita Melt', 'Gyros', 'Pitas & Cream', 'Courthouse Fish', 'Greek Sampler', 'Combination Plate 1') must not create duplicates or new dishes; nested headings A LITTLE SOMETHING BEFORE → Greek / American; burger size lines, 'Dressed your way' topping grid, Dressings and Extras lists are not dishes. Section notation 'PARENT / CHILD' accepts either level.",
+  "source": {
+    "restaurant": "Trojan Horse",
+    "url": "https://www.thetrojanhorse.com/wp-content/uploads/2014/10/compressed_carryout-menu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "TROJAN HORSE",
+  "dishes": [
+    {
+      "name": "Better Burgers",
+      "aliases": [
+        "Hamburger"
+      ],
+      "description": "Yep, we're pretty proud of 'em. Order them as you like. We'll cook'em up for ya.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Vegan Burger",
+      "description": "Our own recipe with just the right mix of black beans, red onion, red peppers, chipotle pepper in adobo sauce, and our secret blend of spices! Served on Vegan flatbread. Dressed your way.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Fish Sandwich",
+      "description": "Tilapia, breaded and served on a bun with our own tartar sauce, lettuce and tomato.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Pita Melt",
+      "description": "Trojan’s twist on the classic patty melt. We start with the perfect burger patty, top it with a slice of melted American cheese and sautéed onions – seasoned just right. Then we serve it up on bun-sized grilled pitas.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Popeye & Olive Oil",
+      "description": "You’re gonna love this very grown-up and unique twist on grilled cheese. Wilted baby spinach sautéed with fresh garlic and olive oil grilled on thick sliced homemade bread with brie and apricot preserves. A classic... just like Popeye!",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "All-American Chicken",
+      "description": "A tender charbroiled chicken breast, seasoned to perfection and served with lettuce, tomato and mayonnaise on a bun. As American as hot dogs or apple pie!",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Btown BBQ",
+      "description": "These mouth watering mini sandwiches are made from the best cuts of pork, rubbed, slow-cooked and sauced up just right! Served on a fresh, yellow egg bun.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Tenderloin - Breaded or Grilled",
+      "aliases": [
+        "Tenderloin"
+      ],
+      "description": "Handmade breaded pork loin, deep fried and served on a bun or fresh-cut tenderloin, lightly seasoned and grilled to perfection. Dressed your way.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Grilled Portabella Wrap",
+      "description": "Fresh portabella mushrooms sautéed with our Chimichurri sauce. Wrapped in pita bread with romaine lettuce, grated parmesan cheese, and red onions. Caesar dressing on the side.",
+      "section": "AMERICAN SANDWICHES"
+    },
+    {
+      "name": "Falafel Taco",
+      "description": "A new twist on one of your veggie favorites! A spicy blend of chick peas and bulghur wheat deep fried and wrapped in a flour tortilla. Topped with red cabbage and our own pico de gallo.",
+      "section": "Tacos"
+    },
+    {
+      "name": "Pork Taco",
+      "description": "Slow-cooked pork seasoned with a hint of hot in a soft flour tortilla. Topped with grated cheese, lettuce and a side of our salsa verde.",
+      "section": "Tacos"
+    },
+    {
+      "name": "Fish Taco",
+      "description": "One flour tortillas filled with spicy breaded Tilapia, red cabbage, pico de gallo and a side of our “cool” hot sauce.",
+      "section": "Tacos"
+    },
+    {
+      "name": "Gyros",
+      "description": "A delicious blend of savory lamb, beef and spices. Our unique method of cooking seals the juices and seasonings into the gyros meat, which we make ourselves. The gyros is sliced very thin and topped off with tomatoes, onions and our own Zaziki sauce (a combination of yogurt, sour cream, cucumbers and garlic).",
+      "section": "GREEK SANDWICHES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Super G",
+      "description": "Our gyros with more meat, more veggies, and more Zaziki but not more pita.",
+      "section": "GREEK SANDWICHES"
+    },
+    {
+      "name": "Falafel",
+      "description": "A spicy blend of chick peas and bulghur wheat. Deep fried, wrapped in pita with lettuce, tomato, onion and Tahini sauce.",
+      "section": "GREEK SANDWICHES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "The V.I.P.",
+      "description": "Sautéed mushrooms, green peppers and onions, topped with fresh tomatoes, sprouts, onions and lettuce on pita with Zaziki.",
+      "section": "GREEK SANDWICHES"
+    },
+    {
+      "name": "Souvlaki",
+      "description": "Marinated pork loin skewer broiled and served on pita with Zaziki, fresh sliced onions and tomatoes.",
+      "section": "GREEK SANDWICHES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken Gyros",
+      "description": "A lighter version of our old standby! Tender strips of chicken breast seasoned just like our gyros sandwich. Wrapped in a pita and topped with fresh onions, tomatoes and Zaziki sauce.",
+      "section": "GREEK SANDWICHES"
+    },
+    {
+      "name": "Super Chicken",
+      "description": "Our chicken gyros with more of everything but not more pita.",
+      "section": "GREEK SANDWICHES"
+    },
+    {
+      "name": "Baklava",
+      "description": "The best known of the Greek pastries— many layers of thin filo with lots of honey, cinnamon and finely crushed walnuts.",
+      "section": "DESSERTS",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "note": "its still a ton of sugar...",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Baklava Ice Cream",
+      "description": "Our own Baklava folded into vanilla ice cream.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Ambrosia",
+      "description": "Truly the nectar of the Gods. Delicious yogurt, walnuts and honey.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Pitas & Cream",
+      "description": "A scoop of our Baklava ice cream garnished with cinnamon pita points.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Cheesecake",
+      "description": "Ask your server for today’s flavor.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Double Chocolate Brownie",
+      "description": "Made fresh daily with lots of chocolate, blood orange infused olive oil, and dairy-free ingredients. Loads of flavor!",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Root Beer Float",
+      "description": "Gourmet Sprecher Root Beer and vanilla ice cream.",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "Tabouleh",
+      "description": "Traditional Mediterranean salad with bulghur wheat, tomatoes, onions, cucumbers, parsley and spices.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Black Bean Hummus",
+      "description": "Uh huh! Made with black beans instead of chick peas, all spiced up hummus-like! Served with two pitas.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Stuffed Grape Leaves",
+      "description": "(Dolmas) Stuffed with rice, almonds and currants. Three per order. Served warm.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Spanakopita",
+      "description": "(Spinach Pie) A filo pastry filled with spinach and cheese. Better order more than one!",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Cheesepa’rer",
+      "description": "Spinach and feta cheese spread served with two quartered pitas – think of it as hummus for cheese-heads.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Meatballs Kokkinisto",
+      "description": "A blend of beef and lamb seasoned just right with Parmesan and Fontinella cheeses baked right in. Topped with a hearty Greek red sauce.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Hummus",
+      "description": "Chick peas and tahini, blended and spiced up just right... scoop it up with two quartered pitas.",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Greek Sampler",
+      "description": "Hummus, Cheesepa’rer, Black Bean Hummus and Tabouleh served with two quartered pitas. A great beginning!",
+      "section": "A LITTLE SOMETHING BEFORE / GREEK"
+    },
+    {
+      "name": "Fries",
+      "description": "Handcut daily with Walter’s slicer.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Super Fries",
+      "description": "A whole basket full of ‘em.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Jalapeño Straws",
+      "description": "Fresh cut jalapeños breaded in our beer batter. Served with a side of jalapeño mayo. Olé!",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Breaded Mushrooms",
+      "description": "Only the best will do – all dipped in our beer batter.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Breaded Onion Rings",
+      "description": "Fresh onion rings dipped in beer batter.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Breaded Green Peppers",
+      "description": "A very fresh, dipped and battered veggie.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Breaded Dill Pickles",
+      "description": "That’s right. Breaded pickle spears!",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Mixed Veggies",
+      "description": "Mushrooms, green peppers, jalapeño straws and onions all dipped in batter, fried and delicious.",
+      "section": "A LITTLE SOMETHING BEFORE / AMERICAN"
+    },
+    {
+      "name": "Mediterranean Antipasto Salad",
+      "description": "Made with garbanzo beans, quinoa, red and green peppers, red onion, cilantro, Kalamata olives, feta cheese, almonds and our herbed oil and vinegar dressing.",
+      "section": "SALADS"
+    },
+    {
+      "name": "Greek Salad",
+      "description": "A classic. A mix of iceberg and romaine lettuce garnished with tomatoes, cucumbers, onions, feta cheese and Greek olives. Traditionally served with herbed oil & vinegar.",
+      "section": "SALADS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Dolmasalata",
+      "description": "Tomatoes, cucumbers, onions, feta cheese and olives topped with olive oil, vinegar and spices.",
+      "section": "SALADS"
+    },
+    {
+      "name": "Garden Salad",
+      "description": "Lettuce, tomatoes, sliced carrots and red cabbage. Enough said.",
+      "section": "SALADS"
+    },
+    {
+      "name": "Portabella Spinach Salad",
+      "description": "Portabellas grilled with chimichurri sauce, feta cheese, red onions and bacon make this fresh spinach salad a real contender. Add a drizzle of balsamic vinegar. Ooh La La!",
+      "section": "SALADS"
+    },
+    {
+      "name": "Chicken Pasta Salad",
+      "description": "Three flavors of spiral pasta tossed with spinach, onions, tomatoes, Greek olives and feta cheese. Topped with strips of charbroiled chicken breast and served with your choice of dressing.",
+      "section": "SALADS"
+    },
+    {
+      "name": "Chicken Caesar Salad",
+      "description": "Grilled chicken breast atop a bed of fresh romaine lettuce with hard-boiled eggs, bacon, red onions, and grated parmesan. This is a serious salad. Served with pita croutons and Caesar dressing.",
+      "section": "SALADS"
+    },
+    {
+      "name": "Soup of the day",
+      "description": "Oh so good & sooo good for you!",
+      "section": "SOUP OF THE DAY"
+    },
+    {
+      "name": "Gyros Dinner",
+      "description": "A heaping portion of our gyros meat on a bed of rice with pita bread, tomatoes, onions and side of Zaziki. Served with a Greek salad.",
+      "section": "OUR SIGNATURE DISHES"
+    },
+    {
+      "name": "Moussaka Dinner",
+      "description": "Traditional Greek casserole with eggplant, meat sauce and custard topping. Served with a Greek salad and Tabouleh.",
+      "section": "OUR SIGNATURE DISHES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Combination Plate I",
+      "description": "A healthy portion of the three Greek meat dishes served at the Trojan Horse. Moussaka, Gyros and Souvlaki plus a Dolmasalata, Tabouleh and Spanakopita.",
+      "section": "OUR SIGNATURE DISHES"
+    },
+    {
+      "name": "Combination Plate II",
+      "description": "These five unique Greek offerings make one great meal. Stuffed Grape Leaves, Spanakopita, Tabouleh, Falafel, and Hummus served with pita bread and a Dolmasalata. A vegetarian delight!",
+      "section": "OUR SIGNATURE DISHES"
+    },
+    {
+      "name": "Courthouse Fish",
+      "description": "Tilapia seasoned with olive oil, white wine and herbs, steamed in foil served atop a bed of sautéed rice and veggies.",
+      "section": "SPECIALTIES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Pasko’s Skewer",
+      "description": "A savory, marinated steak kabob with fresh vegetables on a bed of rice with our own Chimichurri sauce on the side.",
+      "section": "SPECIALTIES"
+    },
+    {
+      "name": "Chicken Giannoulas",
+      "description": "Our melt-in-your-mouth boneless chicken breast, carefully marinated and open grilled, served on sautéed rice with vegetables. Big enough for dinner, but great for lunch.",
+      "section": "SPECIALTIES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Lamb Kabob",
+      "description": "A modern twist to a classic Greek dish. Deliciously marinated lamb skewered with red onions, red peppers and mushrooms on a bed of rice.",
+      "section": "SPECIALTIES"
+    },
+    {
+      "name": "Bottled Root Beer",
+      "description": "Gourmet Root Beer from the award-winning Sprecher Breweryin Milwaukee.",
+      "section": "BEVERAGES"
+    },
+    {
+      "name": "Coke, Diet Coke, Sprite, Mr. Pibb, Ginger Ale",
+      "aliases": [
+        "Coke",
+        "Diet Coke",
+        "Sprite",
+        "Mr. Pibb",
+        "Ginger Ale",
+        "Soft Drinks"
+      ],
+      "section": "BEVERAGES"
+    },
+    {
+      "name": "Iced Tea, Raspberry Tea, Lemonade",
+      "aliases": [
+        "Iced Tea",
+        "Raspberry Tea",
+        "Lemonade"
+      ],
+      "section": "BEVERAGES"
+    },
+    {
+      "name": "Dasani Bottled Water",
+      "aliases": [
+        "Bottled Water"
+      ],
+      "section": "BEVERAGES"
+    },
+    {
+      "name": "Juices",
+      "description": "(orange, pineapple, cranberry, grapefruit & V8)",
+      "section": "BEVERAGES"
+    }
+  ],
+  "optional": [
+    "Cheesebuger",
+    "Cheeseburger",
+    "Make it a double",
+    "Combination Plate 1",
+    "Lettuce",
+    "Pickle",
+    "Mustard",
+    "Sprouts",
+    "Onion",
+    "Mayonnaise",
+    "Tomato",
+    "Tartar Sauce",
+    "Ketchup",
+    "Herbed Oil & Vinegar",
+    "Honey Mustard",
+    "Creamy Italian",
+    "Lite Ranch",
+    "Feta Cheese",
+    "Creamy Caesar",
+    "Zaziki",
+    "Pita Bread",
+    "Tahini",
+    "Jalapeño Mayo",
+    "Cup of Zaziki",
+    "Add Three-pepper Spice",
+    "Three-pepper Spice"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}
