@@ -6,7 +6,14 @@
     "restaurant": "Margaritas Mexican Restaurant",
     "url": "https://www.mexicanrestaurantmargaritas.com/assets/menu.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 6, 7] of the original"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 6, 7] of the original",
+    "pages": [
+      1,
+      2,
+      3,
+      6,
+      7
+    ]
   },
   "photos": [
     "p1.jpg",

@@ -6,7 +6,11 @@
     "restaurant": "Delmonico Steakhouse",
     "url": "https://delmonicosteakhouse.com/wp-content/uploads/2024/08/Steakhouse-Dinner-Menu-Master-5-22-24-New-Logo.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px",
+    "pages": [
+      1,
+      2
+    ]
   },
   "photos": [
     "p1.jpg",
