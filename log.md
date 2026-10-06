@@ -8,7 +8,7 @@
 
 ## 2026-10-06 (later) — A retry collects the scan the server already finished
 
-**Status: same branch and PR as the entry below (#69), which Sean asked to build and merge.** The API half goes live when this merges and the database migration is applied. The app half reaches phones with the next over-the-air update, which Sean publishes.
+**Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half is live once Vercel deploys `main`. The app half reaches phones with the next over-the-air update, which Sean publishes (`npm run update:production`). Not yet tried in the simulator or on a phone.
 
 **What changed**
 
@@ -26,7 +26,7 @@
 
 ## 2026-10-06 — Leaving the app mid-scan no longer fails or double-charges the scan (EAT-10, third pass)
 
-**Status: on branch `claude/pensive-gauss-jqu5au` (PR #69), not yet tried in the simulator or on a phone.** The app half is JavaScript-only, so it ships as an over-the-air update.
+**Status: merged 2026-10-06 (PR #69), not yet tried in the simulator or on a phone.** JavaScript-only, so it reaches phones with the next over-the-air update.
 
 **What changed**
 
