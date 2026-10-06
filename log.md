@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-06 — Landing page build prompt written
+
+**What changed:** added `landing-page-prompt.md`, a standalone prompt for building and deploying the pre-launch marketing site (`apps/web`) through the Vercel MCP. It covers the conversion layout, a desktop-only QR code that goes through a tracked `/get` redirect to the App Store, animation rules, SEO, AI-search (llms.txt, answer-first content, crawler rules), a hosted privacy policy page, and a QA checklist. No site built yet.
+
+**Open before running it:** Sean picks the domain, exports 3–4 real app screenshots, and confirms the App Store listing is live (otherwise the page runs in pre-launch mode).
+
+---
+
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
 **Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.
