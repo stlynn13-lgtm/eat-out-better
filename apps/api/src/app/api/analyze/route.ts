@@ -11,7 +11,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "node:crypto";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (rawDishes.length === 0) {
       if (unreadableItems.length > 0) {
         return successResponse({
-          id: uuidv4(),
+          id: randomUUID(),
           restaurantName,
           dishes: [],
           rawDishes: [],
@@ -196,7 +196,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // than an error.
     if (rankableDishes.length === 0) {
       return successResponse({
-        id: uuidv4(),
+        id: randomUUID(),
         restaurantName,
         dishes: [],
         rawDishes: categorized,
@@ -235,7 +235,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
 
     return successResponse({
-      id: uuidv4(),
+      id: randomUUID(),
       restaurantName,
       dishes: rankedDishes,
       rawDishes: categorized,

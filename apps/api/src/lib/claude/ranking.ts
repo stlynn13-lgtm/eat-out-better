@@ -5,7 +5,7 @@
  * Returns dishes sorted by rank (1 = best), each with a score, explanation, tier, and tag.
  */
 
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "node:crypto";
 import { getAnthropicClient, MODELS } from "./client";
 import { recordSpend } from "@/lib/utils/rateLimit";
 import { getRankingSystemPrompt, getRankingUserPrompt } from "./prompts";
@@ -455,7 +455,7 @@ function enrichRankings(
   }
 
   return raw.map((dish) => ({
-    id: uuidv4(),
+    id: randomUUID(),
     name: dish.name,
     description: descriptionsByName.get(normalizeDishName(dish.name)),
     category: dish.category,
