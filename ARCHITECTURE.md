@@ -174,6 +174,8 @@ Main pipeline. Receives menu photos, orchestrates OCR → ranking, returns resul
 }
 ```
 
+**Optional header `x-request-id`** (UUID, one per scan, the same on every retry). The API claims it in Postgres (`api_claim_analysis`, migration `20261006010000_analysis_results.sql`) before doing any work. A retry of a scan that already finished gets the stored response back, and one that is still running waits for it, so leaving the app mid-scan doesn't run or bill the scan twice. Final outcomes (HTTP 200 and 422) are stored for 15 minutes, with the health condition stripped. Transient failures release the claim so a retry recomputes. Requests without the header, or any database problem, just run uncached. Code: `apps/api/src/lib/supabase/analysisCache.ts`.
+
 **Response (success):**
 ```typescript
 {
