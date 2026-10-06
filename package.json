@@ -3,12 +3,15 @@
   "private": true,
   "workspaces": [
     "apps/api",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {
     "mobile": "cd apps/mobile && npx expo start",
     "api": "npm run dev --workspace=apps/api",
-    "build:api": "npm run build --workspace=apps/api"
+    "build:api": "npm run build --workspace=apps/api",
+    "web": "npm run dev --workspace=apps/web",
+    "build:web": "npm run build --workspace=apps/web"
   },
   "engines": {
     "node": ">=20"

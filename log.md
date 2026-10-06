@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-06 — Landing page scaffolded (not deployed)
+
+**Status: draft PR, not live.** A pre-launch landing page now exists in `apps/web` (Next.js + Tailwind, same versions as the API and app). It uses the app's green brand colours and the copy from the draft landing page brief, which Sean hasn't signed off yet. All copy sits in one file (`apps/web/src/content.ts`) so it is easy to swap.
+
+**What's still placeholder:** the "Get early access" form checks the email and shows a thank-you but sends it nowhere. The example dish cards are illustrative and need real app screenshots. The cost and photo-privacy FAQ answers are left out until those decisions are made. The privacy policy needs a line about the signup list before the form goes live.
+
+---
+
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
 **Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.
