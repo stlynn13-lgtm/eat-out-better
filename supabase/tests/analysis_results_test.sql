@@ -1,5 +1,5 @@
 -- pgTAP tests for the scan result handoff
--- (supabase/migrations/20261006000000_analysis_results.sql).
+-- (supabase/migrations/20261006010000_analysis_results.sql).
 --
 -- The properties under test: one request id is worked on by one request at a
 -- time, a finished result is handed back as-is, only the claim holder can

@@ -8,7 +8,7 @@
  *
  * The app sends one id per scan as `x-request-id` on every attempt. Before
  * doing any work, the route claims that id in Postgres
- * (supabase/migrations/20261006000000_analysis_results.sql):
+ * (supabase/migrations/20261006010000_analysis_results.sql):
  *
  *   run     → this request does the work, then calls `settle` with its
  *             response: a final outcome is stored for the retry, and a
