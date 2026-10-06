@@ -6,6 +6,69 @@
 
 ---
 
+## 2026-10-06 (later) — A retry collects the scan the server already finished
+
+**Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half went live when Vercel deployed `main`. **The app half was published as an over-the-air update by Sean on 2026-10-06** (production branch, runtime 1.5.0, from commit `4f3155f`, update group `60a0e0d0`). It reaches 1.5.0 (1) phones on their second launch after that. Builds 13 and 14 are on their own `ota/` lines and don't get it. Not yet tried in the simulator or on a phone.
+
+**That update also carried one earlier change for the first time:** saved-scan sync skips scans from before signing (`db06a68`, from the signed-scans work on 10-03). It was merged then but never published to 1.5.0. It's covered by `npm run test:sync`, but check that saved scans still back up during the phone test.
+
+**What changed**
+
+- **When you leave the app mid-scan, the server keeps going and finishes the scan. That result used to be thrown away**, and the app's retry re-uploaded every photo and paid for the whole analysis again: roughly 5 cents and 30 seconds per leave-and-return.
+- **Now the app gives each scan an id and sends it on every attempt.** If the server has already finished that scan, the retry gets the result back in about a second, free. If it's still working (the usual case: you come back after 5 seconds of a 30-second scan), the retry waits for it instead of starting a second one.
+- **Only real answers are kept for the retry:** a result, "that's not a menu" and "no dishes found". Errors that might go away on a second try (the AI service being busy, a timeout) are not kept, so the retry runs fresh.
+- **Collecting a stored result doesn't count against the daily scan limits or the $200 spend cap**, because it costs nothing.
+- **Privacy:** what's kept is the analysis result only: no photos, no IP address, no account, and no health condition (stripped before saving, as the privacy policy promises). It's deleted after 15 minutes. The policy's wording doesn't need to change, but this is server-side storage, so it's noted here per the privacy-label rule.
+- **If anything about this breaks, scans run exactly as before.** That covers the database being down, the migration not being applied, or an older app build that doesn't send an id.
+- **Tests:** `npm run test:cache` in `apps/api` (12 cases) and 16 new database tests (`supabase/tests/analysis_results_test.sql`, run in CI and checked locally on Postgres 16). `npm run test:suspend` in `apps/mobile` now also checks that every retry of a scan carries the same id and that a new scan gets a new one.
+
+**One assumption to know about:** this relies on Vercel finishing the scan after the phone disconnects. That's Vercel's default; it only stops a function early if `supportsCancellation` is switched on, and it isn't. If that ever changes, a retry would wait up to 50 seconds on a scan that's no longer running and then show "took too long".
+
+---
+
+## 2026-10-06 — Leaving the app mid-scan no longer fails or double-charges the scan (EAT-10, third pass)
+
+**Status: merged 2026-10-06 (PR #69), not yet tried in the simulator or on a phone.** JavaScript-only, so it reaches phones with the next over-the-air update.
+
+**What changed**
+
+- **When you come back to the app, iOS often reports the interrupted request as "Network request failed" before the app even knows it's back in front.** The old code only recognised "I stopped the request myself" as an interruption, so it treated this as a real connection problem. Real connection problems get one retry, not three, so **leaving the app twice during one scan failed it** with "Check your connection".
+- **Each return also sent the scan twice.** The failed request had already been retried when the "you're back" signal arrived, and that signal then killed the healthy retry and started a third request. That re-uploaded every photo and paid for a second round of AI calls for nothing.
+- **Now:** "Network request failed" counts as an interruption when the app actually left the screen during that request. It's retried silently, once, as soon as the app is back in front, and the "you're back" signal only stops the request that was actually interrupted. Up to three leave-and-returns per scan still complete.
+- **Being genuinely offline is unchanged:** iOS uses the same "Network request failed" message for that, so it still gets one retry and then the connection error. Retrying it three times would just spend longer failing.
+- **Added `npm run test:suspend`** (in `apps/mobile`): seven leave-and-return cases with no phone needed. Against the old code, three fail: the double request, the second leave-and-return failing the scan, and the retry limit being hit early.
+
+**Still to do:** the simulator check. Start an analysis, swipe to the home screen straight away, wait 5 seconds, reopen. The progress bar should keep going and results should appear, with no error. Do it twice in one scan as well, since that's the case that used to fail.
+
+---
+## 2026-10-06 — Marketing site built (eatoutbetter.com, pre-launch)
+
+**Status: built and deploying as a Vercel preview. Not on eatoutbetter.com yet — that needs a DNS change only Sean can make.**
+
+**What changed**
+
+- **A new website at `apps/web`**, built from `landing-page-prompt.md`. Its own Vercel project (`eat-out-better-web`), separate from the API, so nothing on the site can break scans.
+- **Design: "warm editorial."** Cream paper background, the app icon's forest green, a large serif headline, real app UI as the hero. Sean picked this over "bold & vibrant" and "dark premium."
+- **The page explains the product by showing it.** The hero phone plays a loop: a menu photo → scanning → dishes sorted green to red. Further down, visitors tap dishes on a sample menu and see exactly what the app would say (score, reason, "Make it better" swap). The sample dishes are made up and labeled that way; their scores follow the app's real rules.
+- **Pre-launch, every button leads to an email waitlist** (Sean's call over a public TestFlight link). Emails go into a new Supabase table, `waitlist`, which the website can add to but never read back.
+- **The QR code is permanent.** It points at `eatoutbetter.com/get?src=qr`, not the App Store. Today that lands on the waitlist; once the listing exists, flipping two settings makes it, and every button, go straight to the App Store. It only appears on desktop, since you can't scan your own phone.
+- **Built to be found and quoted by search and AI assistants:** a 1,000-word guide, "How to eat out with high cholesterol," with every heading phrased as the question people ask and three cited sources (AHA, FDA, an AHA science advisory); structured data; a sitemap; and an `llms.txt` summary for AI tools. All product facts live in one file so the page, the structured data and llms.txt can't disagree.
+- **Privacy, Terms and Support redirect to the existing pages** on the API project rather than copying them. Two copies of a privacy policy is how one goes stale.
+
+**How it measured (Lighthouse, local build)**
+
+- Accessibility 100, SEO 100 on both pages. Desktop performance 100. Mobile performance 83–92 on a throttled slow-4G simulation; the remaining gap is mostly font download time, and it should improve on Vercel's CDN.
+- Dropping one optional font feature (Fraunces' "SOFT" axis) cut the font download from 270KB to 149KB and mobile load time by ~2 seconds. The headline is now slightly crisper, which is barely visible.
+
+**Privacy policy updated (same day).** The policy now covers the website: what the waitlist stores (email, which button, when) and that it's used only for the launch email; that website analytics are cookie-free and don't identify anyone; Vercel and Supabase's roles for the site; and that waitlist emails are deleted within 90 days of the launch email. The App Store privacy label doesn't change, since it describes the app, not the website.
+
+**Not done / needs a decision**
+
+- The site isn't on eatoutbetter.com until DNS is pointed at Vercel (steps in `plan.md`).
+- Before sending traffic: done. The privacy policy covers the waitlist and website analytics (above).
+- The waitlist form couldn't be tested end-to-end from Claude's sandbox (Supabase is blocked there); the database side was tested directly. Test one signup on the preview.
+- AI training crawlers (GPTBot, Google-Extended and similar) are allowed by default. One line in `apps/web/app/robots.ts` blocks them without affecting search or AI-answer visibility, if Sean prefers.
+
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
 **Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.

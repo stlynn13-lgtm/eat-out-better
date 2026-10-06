@@ -8,9 +8,11 @@ import { compressImageUri, perImageByteTarget } from "../lib/utils/image";
 import { hasMenuText } from "../lib/utils/menuTextCheck";
 import { saveSession } from "../lib/storage/session";
 import { recordScan } from "../lib/utils/scanQuota";
+import { isSuspendedRequestError } from "../lib/utils/suspendedRequest";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
 import Constants from "expo-constants";
+import * as ExpoCrypto from "expo-crypto";
 import {
   trackMenuAnalysisCompleted,
   trackMenuAnalysisFailed,
@@ -25,14 +27,28 @@ const ANALYSIS_API = `${API_URL}/api/analyze`;
 const APP_TOKEN: string | undefined = Constants.expoConfig?.extra?.appToken;
 
 // Retry budget. The abort/retry is event-driven, not timer-based: iOS suspends
-// the in-flight fetch when the app is backgrounded, so the network promise can
-// hang indefinitely. When the app returns to the foreground we abort the
-// (now-dead) request, which rejects the fetch and lets the catch logic
-// re-issue it. Aborts (user backgrounded the app) get their own, more generous
-// budget than genuine network failures — backgrounding twice during one scan
-// shouldn't fail the analysis.
+// the in-flight fetch when the app is backgrounded, and on return it either
+// hangs forever or rejects with "Network request failed" (iOS tore the socket
+// down). Both are handled: a hang is aborted by the AppState listener, a
+// rejection is recognised as a suspension casualty, and either way the catch
+// logic silently re-issues the request. Suspensions (user backgrounded the
+// app) get their own, more generous budget than genuine network failures —
+// backgrounding twice during one scan shouldn't fail the analysis.
 const MAX_NETWORK_RETRIES = 1;
-const MAX_ABORT_RETRIES = 3;
+const MAX_SUSPENSION_RETRIES = 3;
+
+/** Resolves once the app is in the foreground (immediately if it already is). */
+function waitForActive(): Promise<void> {
+  if (AppState.currentState === "active") return Promise.resolve();
+  return new Promise((resolve) => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        subscription.remove();
+        resolve();
+      }
+    });
+  });
+}
 
 /** An error whose message is already safe to show to the user verbatim. */
 class FriendlyError extends Error {}
@@ -64,7 +80,11 @@ export function useAnalysis() {
   const abortControllerRef = useRef<AbortController | null>(null);
   const requestInFlightRef = useRef(false);
   const networkRetriesRef = useRef(0);
-  const abortRetriesRef = useRef(0);
+  const suspensionRetriesRef = useRef(0);
+  // Whether the app went to the background while the CURRENT attempt was in
+  // flight. Reset at the start of every attempt, so a fresh retry is never
+  // mistaken for the request iOS suspended.
+  const attemptBackgroundedRef = useRef(false);
 
   // When iOS brings the app back from the BACKGROUND while a request is still
   // in-flight, the suspended fetch will never resolve. Abort it: within the
@@ -78,6 +98,11 @@ export function useAnalysis() {
   // those threw away a perfectly healthy in-flight analysis, re-uploaded every
   // photo and paid for a second set of LLM calls — and with a budget of 3, four
   // notification banners during one scan failed the scan outright.
+  //
+  // The abort is scoped to the attempt that was actually backgrounded. Often
+  // the suspended fetch has already rejected with "Network request failed" and
+  // a retry is queued by the time this event arrives; aborting then would kill
+  // the healthy retry and spend a second retry on the same interruption.
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
   useEffect(() => {
     const subscription = AppState.addEventListener(
@@ -85,7 +110,15 @@ export function useAnalysis() {
       (nextState: AppStateStatus) => {
         const wasBackgrounded = appStateRef.current === "background";
         appStateRef.current = nextState;
-        if (nextState === "active" && wasBackgrounded && requestInFlightRef.current) {
+        if (nextState === "background" && requestInFlightRef.current) {
+          attemptBackgroundedRef.current = true;
+        }
+        if (
+          nextState === "active" &&
+          wasBackgrounded &&
+          requestInFlightRef.current &&
+          attemptBackgroundedRef.current
+        ) {
           abortControllerRef.current?.abort();
         }
       }
@@ -185,26 +218,35 @@ export function useAnalysis() {
           healthCondition: DEFAULT_CONDITION,
         };
 
-        // Issue the request, retrying if the in-flight fetch is aborted (the
-        // AppState listener aborts suspended requests when iOS re-foregrounds
-        // the app) or genuinely rejects. Aborts and network failures draw from
-        // separate budgets. Each attempt gets a fresh AbortController; the
-        // progress simulation is restarted on retry so the bar doesn't freeze.
+        // Issue the request, retrying if it was a casualty of iOS suspending
+        // the app (aborted by the AppState listener, or rejected with "Network
+        // request failed" on return) or genuinely rejects. Suspensions and
+        // network failures draw from separate budgets. Each attempt gets a
+        // fresh AbortController; the progress simulation is restarted on retry
+        // so the bar doesn't freeze.
         let response: Response | undefined;
         let rawBody = "";
+        // One id for this scan, sent on every attempt. When a retry follows a
+        // leave-and-return, the server has usually finished (or is finishing)
+        // the first attempt; with the same id it hands that result back
+        // instead of re-running the scan and billing it twice. Minted per call,
+        // never reused: new photos must never get an old scan's result.
+        const requestId = ExpoCrypto.randomUUID();
         networkRetriesRef.current = 0;
-        abortRetriesRef.current = 0;
+        suspensionRetriesRef.current = 0;
         requestInFlightRef.current = true;
 
         // eslint-disable-next-line no-constant-condition
         while (true) {
           const controller = new AbortController();
           abortControllerRef.current = controller;
+          attemptBackgroundedRef.current = false;
           try {
             const res = await fetch(ANALYSIS_API, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                "x-request-id": requestId,
                 ...(APP_TOKEN ? { "x-app-token": APP_TOKEN } : {}),
               },
               body: JSON.stringify(requestBody),
@@ -219,10 +261,23 @@ export function useAnalysis() {
             response = res;
             break;
           } catch (fetchError) {
-            const wasAborted = controller.signal.aborted;
-            if (wasAborted) {
-              if (abortRetriesRef.current >= MAX_ABORT_RETRIES) throw fetchError;
-              abortRetriesRef.current += 1;
+            const wasSuspended =
+              controller.signal.aborted ||
+              isSuspendedRequestError(
+                fetchError,
+                attemptBackgroundedRef.current,
+                AppState.currentState === "active"
+              );
+            if (wasSuspended) {
+              if (suspensionRetriesRef.current >= MAX_SUSPENSION_RETRIES) throw fetchError;
+              suspensionRetriesRef.current += 1;
+              // Retry silently. If the rejection landed before the app is
+              // fully foregrounded, wait for it: a request issued while still
+              // suspended would just be suspended again. Clearing the
+              // controller first means the listener's abort on that same
+              // return is a no-op instead of hitting the retry.
+              abortControllerRef.current = null;
+              await waitForActive();
             } else {
               if (networkRetriesRef.current >= MAX_NETWORK_RETRIES) throw fetchError;
               networkRetriesRef.current += 1;
