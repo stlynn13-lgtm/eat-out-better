@@ -12,6 +12,7 @@
  * Server-only. ANTHROPIC_API_KEY is never exposed to the client.
  */
 
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
@@ -62,12 +63,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   // `x-app-token` header; requests without it are rejected. This protects the
   // public endpoint, which bills the Anthropic account on every call. It is NOT
   // unbreakable — the token ships inside the app bundle and a determined
-  // attacker can extract it — so it's paired with Vercel rate-limiting and an
-  // Anthropic spend cap (the real financial backstop).
+  // attacker can extract it — so it's paired with the durable rate limits and
+  // spend cap below and the Anthropic account limit (the real financial
+  // backstops). App Attest is the planned replacement (app-attest-migration.md).
   //
-  // Fail-OPEN only when APP_SHARED_TOKEN is unset, so a forgotten Vercel env var
-  // doesn't 401 every real user. Set it in Vercel to activate the gate.
-  if (!isAuthorized(req)) {
+  // Fails CLOSED on Vercel when APP_SHARED_TOKEN is unset: a missing variable
+  // there turns every scan into a 503 that shows up in the logs, rather than
+  // silently opening a billed endpoint to anyone who finds the URL. Only a
+  // local `next dev` (no VERCEL env) runs without a token.
+  const gate = checkAppToken(req);
+  if (gate === "misconfigured") {
+    return errorResponse(
+      "UNKNOWN",
+      "Menu analysis is temporarily unavailable. Please try again later.",
+      503
+    );
+  }
+  if (gate === "denied") {
     return NextResponse.json(
       { success: false, error: { code: "UNAUTHORIZED", message: "Unauthorized." } },
       { status: 401 }
@@ -126,9 +138,9 @@ async function admitAndAnalyze(
   healthCondition: AnalyzeRequest["healthCondition"],
   startTime: number
 ): Promise<NextResponse> {
-  // Durable rate limiting (see rateLimit.ts). Matters most while the
-  // shared-token gate is fail-open — right now this is the only thing standing
-  // between a stranger who finds this URL and the Anthropic bill.
+  // Durable rate limiting (see rateLimit.ts). The token checked in POST is
+  // extractable from the app, so this and the spend cap are what actually
+  // bound the bill.
   const clientIp =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rateLimit = await checkRateLimit(clientIp);
@@ -394,16 +406,35 @@ function validateRequest(body: unknown): { valid: boolean; error?: string } {
   return { valid: true };
 }
 
-function isAuthorized(req: NextRequest): boolean {
+/**
+ * "ok" — the header matches, or this is a local dev server with no token set.
+ * "denied" — a token is configured and the header doesn't match it.
+ * "misconfigured" — running on Vercel with APP_SHARED_TOKEN unset.
+ */
+function checkAppToken(req: NextRequest): "ok" | "denied" | "misconfigured" {
   const expected = process.env.APP_SHARED_TOKEN;
   if (!expected) {
-    console.warn(
-      "[/api/analyze] APP_SHARED_TOKEN is not set — endpoint is UNPROTECTED. " +
-        "Set it in Vercel env vars to require the app token."
-    );
-    return true;
+    if (process.env.VERCEL) {
+      console.error(
+        "[/api/analyze] APP_SHARED_TOKEN is not set on this Vercel deployment — " +
+          "refusing every scan (503). Set it in Vercel → Settings → Environment " +
+          "Variables to the same value as the EAS APP_TOKEN, then redeploy."
+      );
+      return "misconfigured";
+    }
+    return "ok";
   }
-  return req.headers.get("x-app-token") === expected;
+  return tokensMatch(req.headers.get("x-app-token") ?? "", expected) ? "ok" : "denied";
+}
+
+/**
+ * Constant-time comparison. Hashing both sides first gives timingSafeEqual
+ * the equal-length inputs it requires without leaking the token's length.
+ */
+function tokensMatch(provided: string, expected: string): boolean {
+  const a = createHash("sha256").update(provided).digest();
+  const b = createHash("sha256").update(expected).digest();
+  return timingSafeEqual(a, b);
 }
 
 function isRateLimitError(error: unknown): boolean {
