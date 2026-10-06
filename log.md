@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-10-06 (evening) — Security fixes #52 and #56 merged
+
+**What changed**
+
+- **The API now refuses to run without its token (PR #52, merged 2026-10-06).** If `APP_SHARED_TOKEN` is missing on Vercel, every scan returns a "temporarily unavailable" error instead of running without the check. The token comparison is also timing-safe.
+- **The five quick security fixes went live (PR #56, merged 2026-10-06).** Plain error messages, photo-only uploads, a smaller health check and stricter browser headers on the API. Vercel deploys both automatically from `main`.
+- **The feedback script change is NOT live yet.** It runs inside the Google Sheet, not on Vercel, so it only takes effect when Sean pastes it in (`scripts/feedback-sheet/README.md`).
+
+**Check now (Sean)**
+
+- **Run one scan on the phone.** It's the first proof that the token in Vercel matches the app's. If it fails with "temporarily unavailable", the Vercel token is missing; if "Unauthorized", it doesn't match. Either way the fix is in Vercel → eat-out-better-api → Settings → Environment Variables, then **Redeploy**. To undo instantly: Vercel → Deployments → the previous production deployment → **Promote**.
+- **Open `https://eat-out-better-api.vercel.app/privacy`** and confirm the policy shows. The new browser security policy was tested locally, but this is the URL App Store Connect links to.
+
+---
+
 ## 2026-10-06 (later) — A retry collects the scan the server already finished
 
 **Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half went live when Vercel deployed `main`. **The app half was published as an over-the-air update by Sean on 2026-10-06** (production branch, runtime 1.5.0, from commit `4f3155f`, update group `60a0e0d0`). It reaches 1.5.0 (1) phones on their second launch after that. Builds 13 and 14 are on their own `ota/` lines and don't get it. Not yet tried in the simulator or on a phone.
