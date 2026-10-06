@@ -77,6 +77,15 @@
 
 ---
 
+## Marketing Site (`apps/web`)
+
+`eatoutbetter.com`: a static Next.js 16 site in its own Vercel project (`eat-out-better-web`, root directory `apps/web`). It is not an npm workspace (own lockfile), so it can't affect the API's install or build.
+
+- **Waitlist:** a Server Action calls the Supabase function `join_waitlist(email, source)` with the publishable key. The `waitlist` table has RLS on and all grants revoked, so the key can add rows but never read them; the function validates, de-duplicates, and caps inserts at 300 per 10 minutes globally. Migration: `supabase/migrations/20261006000000_waitlist.sql`.
+- **Downloads:** every CTA and the QR code point at `/get?src=<placement>`, never at the App Store directly. Pre-launch it lands on the waitlist; with `NEXT_PUBLIC_LAUNCH_STATE=live` and `NEXT_PUBLIC_APP_STORE_URL` set it 302s iPhones to the store with `ct=<placement>`. The QR never needs regenerating.
+- **Legal pages:** `/privacy`, `/terms`, `/support` redirect (307) to the API project's pages, which the app already links to. One copy of each.
+- **SEO / AI search:** product facts live once in `apps/web/lib/site.ts` and feed the page copy, JSON-LD (Organization, WebSite, MobileApplication, FAQPage), and `/llms.txt`. The guide at `/high-cholesterol-restaurant-guide` is the content page, written answer-first with cited sources.
+
 ## Repository Structure
 
 ```

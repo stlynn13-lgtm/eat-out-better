@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------------
+   Design tokens. Components use these names, never raw hex, so light/dark
+   and any future rebrand change in one place.
+
+   Brand green and cream are sampled from the app icon (apps/mobile/assets/
+   icon.png): #174B44 / #FDFCEE. Tier colors are a shade darker than the app's
+   so text on the tinted card backgrounds clears WCAG AA (4.5:1).
+   ------------------------------------------------------------------------ */
+:root {
+  --paper: #faf6ec;
+  --paper-2: #f2ecdc;
+  --card: #fffdf7;
+  --ink: #13221c;
+  --ink-2: #48554e;
+  --line: rgb(19 34 28 / 0.12);
+  --forest: #174b44;
+  --forest-deep: #0e332e;
+  --cream: #fdfcee;
+  --on-forest: #fdfcee;
+  --leaf: #2f7a5a;
+
+  --green-ink: #166534;
+  --green-bg: #e2f0e4;
+  --green-dot: #16a34a;
+  --amber-ink: #92400e;
+  --amber-bg: #fbecd2;
+  --amber-dot: #d97706;
+  --red-ink: #991b1b;
+  --red-bg: #f8e0dc;
+  --red-dot: #dc2626;
+
+  --shadow-lg: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 30px 60px -20px rgb(23 75 68 / 0.35),
+    0 18px 36px -18px rgb(0 0 0 / 0.25);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0d1613;
+    --paper-2: #13201b;
+    --card: #182621;
+    --ink: #eef0e6;
+    --ink-2: #a8b4ac;
+    --line: rgb(238 240 230 / 0.12);
+    --forest: #8fd0b4;
+    --forest-deep: #07100d;
+    --cream: #fdfcee;
+    --on-forest: #0d1613;
+    --leaf: #7cc7a2;
+
+    --green-ink: #86efac;
+    --green-bg: rgb(22 163 74 / 0.16);
+    --amber-ink: #fcd34d;
+    --amber-bg: rgb(217 119 6 / 0.18);
+    --red-ink: #fca5a5;
+    --red-bg: rgb(220 38 38 / 0.18);
+
+    --shadow-lg: 0 30px 60px -20px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.06);
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-cream: var(--cream);
+  --color-on-forest: var(--on-forest);
+  --color-leaf: var(--leaf);
+  --color-green-ink: var(--green-ink);
+  --color-green-bg: var(--green-bg);
+  --color-green-dot: var(--green-dot);
+  --color-amber-ink: var(--amber-ink);
+  --color-amber-bg: var(--amber-bg);
+  --color-amber-dot: var(--amber-dot);
+  --color-red-ink: var(--red-ink);
+  --color-red-bg: var(--red-bg);
+  --color-red-dot: var(--red-dot);
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --shadow-phone: var(--shadow-lg);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Paper grain. A static SVG noise tile at very low opacity: gives the cream
+   background a printed-menu tactility without an image request. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Fraunces italic lives in its own (non-preloaded) font family; see layout.tsx. */
+.font-display em,
+.font-display.italic,
+.font-display .italic,
+em.font-display {
+  font-family: var(--font-fraunces-italic), var(--font-fraunces), ui-serif, Georgia, serif;
+  font-style: italic;
+}
+
+::selection {
+  background: var(--forest);
+  color: var(--cream);
+}
+
+:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ------------------------------------------------------------------------
+   Scroll-driven reveals. Pure CSS (no JS observer), compositor-only
+   properties. Browsers without view timelines, and anyone who prefers
+   reduced motion, simply see the content.
+   ------------------------------------------------------------------------ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+    .reveal-scale {
+      animation: reveal-scale linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .parallax-slow {
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(40px);
+  }
+  to {
+    transform: translateY(-40px);
+  }
+}
+
+/* Cuisine marquee. Pauses on hover/focus; stops under reduced motion. */
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scan line over the menu in the hero phone. */
+@keyframes scan {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* FAQ disclosure marker. */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
