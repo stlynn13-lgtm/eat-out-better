@@ -31,7 +31,7 @@
 **Marketing site (new, 2026-10-06):** built in `apps/web`, deploying to the Vercel project `eat-out-better-web`. To finish:
 - **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist`.
 - **Point eatoutbetter.com at it:** Vercel → eat-out-better-web → Settings → Domains → add `eatoutbetter.com` and `www.eatoutbetter.com`; then in Namecheap → Advanced DNS add exactly the A / CNAME records Vercel shows. **Don't delete the existing MX, TXT (SPF/DKIM) or `send` records**; those carry the sign-in code emails and Resend.
-- **Privacy policy:** the site now collects waitlist emails and uses cookieless Vercel Analytics. Add a sentence for each to the policy before sending traffic.
+- **Privacy policy:** updated on this branch to cover waitlist emails and the website's cookie-free analytics; goes live when the PR merges (the API project serves `/privacy`). **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
 - **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
 - **At App Store launch:** follow `apps/web/README.md` → "Going live" (two settings, the official Apple badge, the Smart App Banner).
 
