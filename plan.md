@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-04
+**Last updated:** 2026-10-06
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -28,7 +28,7 @@
 
 ## NOW
 
-**Security follow-ups first:** `security-followups.md` has the open items, in order with exact steps. Signed scans are live; the repo is private; the five quick code fixes are in PR #56 (merges cleanly in any order). Still open: **one phone scan to prove sync** (nothing has been saved or counted since 10-01, which also needs ruling out that the spend cap stopped counting); confirm the API token in Vercel and merge #52; merge #51 and #56; paste the new feedback script; Supabase anonymous sign-up limit and password settings; lower the spend cap.
+**Security follow-ups first:** the open items are tracked privately, outside this repo (the repo is public again since 2026-10-05, so open weaknesses aren't written down here). Merge #56 (security quick fixes), then paste the new feedback script (item 4 below).
 
 0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.

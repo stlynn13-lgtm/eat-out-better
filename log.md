@@ -85,29 +85,23 @@
 
 ---
 
-## 2026-10-04 — Security quick fixes (PR #56); live sync still unproven
+## 2026-10-04 — Security quick fixes (PR #56)
 
 **What changed**
 
-- **The five quick security fixes from the audit are in one PR (#56), waiting to merge.** The feedback form's spreadsheet script now treats every submission as hostile: text that would run as a spreadsheet formula is stored as plain text, fields are limited to the values the app actually sends, and errors are no longer shown to whoever sent the request. The API now gives a plain "couldn't analyze this menu" message instead of passing on raw error text from Claude, refuses uploads that aren't photos before paying for a Claude call, reveals less on its public health check, and sends stricter browser security headers.
+- **Five smaller fixes from the 2026-10-03 security audit, in one PR (#56).** The feedback form's spreadsheet script now treats every submission as hostile: text that would run as a spreadsheet formula is stored as plain text, fields are limited to the values the app actually sends, and errors are no longer shown to whoever sent the request. The API now gives a plain "couldn't analyze this menu" message instead of passing on raw error text from Claude, refuses uploads that aren't photos before paying for a Claude call, reveals less on its public health check, and sends stricter browser security headers.
 - **One planned fix was changed after testing.** The suggested browser security policy would have shown a **blank page** for the privacy policy, terms and support pages, and the privacy URL is what App Store Connect links to. Those pages don't need any scripts, so the policy now blocks scripts entirely, and all three pages were checked and render fully.
-- **`security-followups.md` statuses updated.** Section 4 now records what was done; the dashboard steps for Sean are unchanged and still open.
-
-**Worth knowing**
-
-- **No scan has been saved or counted since 1 October.** Re-checked the live database today: the same 12 saved scans, and the scan counter has a row only for 10-01. Either nobody has scanned against production for three days, or scans aren't being counted, which would also mean the daily spend cap isn't counting. One phone scan answers it (B1 in `security-followups.md`).
-- The Supabase advisor still reports leaked-password protection off (A4 open). Claude couldn't check the Vercel settings (A2, A5): the Vercel connector doesn't have access to the team.
-- #56 merges cleanly with #51 and #52, so the order doesn't matter.
+- **`security-followups.md` was removed from the repo (2026-10-06).** The repo went public again on 10-05, and that file listed open weaknesses; its own rule was to delete it if that happened. The open security items are now tracked outside the repo (Sean's private copy). Git history still contains the old version.
 
 **Not done**
 
-- Sean's steps: paste the new feedback script after #56 merges; A2 to A6. Sentry alerting (M4) and moving feedback behind the API (M2 step 2) still need setup or a spec.
+- After #56 merges, Sean pastes the new feedback script into the sheet (`scripts/feedback-sheet/README.md`).
 
 ---
 
 ## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
 
-**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Everything still open is in `security-followups.md`.
+**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Open items are tracked privately, outside the repo.
 
 **What changed**
 
