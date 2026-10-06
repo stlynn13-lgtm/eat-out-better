@@ -1,0 +1,124 @@
+{
+ "menu": "golf-club-breakfast",
+ "recordedAt": "2026-10-05T11:41:28.567Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "The Berkeley*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "Omelette*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "Breakfast Burrito*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "Biscuit and Gravy",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "Pastrami Hash with Eggs*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "Pancakes",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "Three Slices of Bacon",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "Fresh Fruit",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "Egg*",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

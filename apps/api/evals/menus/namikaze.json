@@ -1,0 +1,792 @@
+{
+  "id": "namikaze",
+  "label": "Namikaze (Japanese: sushi, ramen, izakaya)",
+  "note": "Four portrait pages, two columns each, with a faint wave watermark behind the text and red inline add-on notes inside dish lines ('Add *Shrimp $4', '*$1 more for GF/Vegan option'). The restaurant's name is never printed as a title — it appears only inside 'Namikaze Nachos' and the 'Namikaze Rolls' heading — so null is the strict answer and 'Namikaze' is also accepted. Traps: roll names are written 'Name-description' with a hyphen and no space; the LUNCH SPECIAL box on p3 re-lists ~17 dish names as pick-two options (optional, not dishes); 'Chicken Teriyaki' and 'Sukiyaki Style Beef' are both an entrée and a rice bowl; Nigiri and Sashimi A La Carte share fish names ('Tuna', 'Salmon', 'Escolar', 'Avocado', 'Octopus') — real duplicates in different sections; dietary icons (leaf, gf box) are not text. The PDF text layer splits words ('Na mikaze', 'No odles', 'Ent rée'); the page reads normally.",
+  "source": {
+    "restaurant": "Namikaze",
+    "url": "https://namikazerestaurant.com/wp-content/uploads/2023/07/namikaze-menu-2023.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "Karaage",
+      "description": "Japanese fried chicken served with spicy mayo",
+      "section": "Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Edamame",
+      "description": "Salted, Garlic or Spicy Garlic",
+      "section": "Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Buta no Kakuni",
+      "description": "Braised Pork Belly served with seasoned boiled egg",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Spicy Baked Mussel",
+      "description": "(5pcs)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Loaded Otaku Fries",
+      "description": "Kimchi, mayo, Otafuku sauce and seaweed seasoning on top",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Namikaze Nachos",
+      "description": "Wonton chips, topped with ahi tuna, jalapeno, fresh salsa, avocado, spicy mayo and wasabi mayo",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Gyoza",
+      "description": "(chicken potstickers) 5pcs",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Ebi Temp",
+      "description": "(Deep fried shrimp) 5pcs",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Yasai Tempura",
+      "description": "(Deep fried vegetables)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Soft Shell Crab",
+      "description": "2 Deep fried Whole soft shell crabs served with Ponzu",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Hamachi-Kama",
+      "description": "Broiled Yellow Tail collar with lemon wedge & Daikon ponzu",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Sake-Kama",
+      "description": "Broiled Salmon collar with lemon wedge & Daikon ponzu",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Ika Ring",
+      "description": "Crispy calamari rings served with a sweet and spicy sauce",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Sashimi Sampler",
+      "description": "-6pcs (salmon, tuna and yellowtail)",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Vegan Spring Rolls",
+      "description": "Spinach, cucumber, carrots, red bell pepper and cilantro",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Shishito Peppers",
+      "description": "(tempura or garlic sauteed) Mildly spicy Japanese peppers",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Takoyaki",
+      "description": "(octopus balls) 5pcs Deep fried ball-shaped snack made of flour-based batter",
+      "section": "Appetizers"
+    },
+    {
+      "name": "Seafood Seaweed Salad",
+      "description": "Tuna, Shrimp, tobiko, crab salad, avocado and scallion mixed with seaweed salad (Choose: original or spicy)",
+      "section": "Salads"
+    },
+    {
+      "name": "Oriental Chicken Salad",
+      "description": "Grilled or fried chicken on Lettuce, radish, cucumber, carrots, with house sesame dressing and wonton strips on top. (Carrot Ginger, and Miso Tomato Dressing available)",
+      "section": "Salads"
+    },
+    {
+      "name": "Tahini Soba Salad",
+      "description": "Cold Soba, red bell pepper, carrots, edamame, cucumber, tossed in a Miso Tahini dressing, garnished with sprouts",
+      "section": "Salads"
+    },
+    {
+      "name": "Sukiyaki Style Beef",
+      "description": "Thinly sliced marinated sirloin on assorted veggies served on a sizzling plate.",
+      "section": "Entrée"
+    },
+    {
+      "name": "Chicken Teriyaki",
+      "description": "Sliced grilled chicken on assorted veggies served on sizzling plate.",
+      "section": "Entrée"
+    },
+    {
+      "name": "Ponzu Salmon",
+      "description": "Grilled Salmon served with steamed asparagus, mushroom, sweet ponzu and scallions",
+      "section": "Entrée",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Miso-Yaki Cod",
+      "description": "Broiled Cod with white miso, served with sautéed spinach",
+      "section": "Entrée",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Tofu Steak",
+      "description": "Pan fried tofu topped with assorted sautéed mushrooms",
+      "section": "Entrée"
+    },
+    {
+      "name": "Assorted Tempura",
+      "description": "Prawns and assorted vegetables fried in tempura batter",
+      "section": "Entrée",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Honey Chili Seafood Mix",
+      "description": "Lightly fried shrimp, scallops and calamari tossed in a sweet and spicy honey glaze on assorted veggies",
+      "section": "Entrée"
+    },
+    {
+      "name": "Miso Cioppino",
+      "description": "Crab leg, mussels, calamari, prawns and scallops stewed in a tomato miso broth.",
+      "section": "Entrée"
+    },
+    {
+      "name": "Umami Soup",
+      "description": "(Choice of Udon or Soba) Seasoned egg, scallions, sliced shiitake in a soy-based broth",
+      "section": "Noodles"
+    },
+    {
+      "name": "Spicy Miso Ramen",
+      "description": "Homemade vegetarian stock, miso, chili, topped with spinach, sliced shiitake, scallions, seaweed and sprouts",
+      "section": "Noodles"
+    },
+    {
+      "name": "Tonkotsu Ramen",
+      "description": "Savory pork bone marrow broth topped with sliced braised pork, seasoned egg, scallions, seaweed and sprouts",
+      "section": "Noodles",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken Ramen",
+      "description": "Soy based chicken broth topped with chicken, shiitake, seasoned egg, scallions, sprouts and seaweed",
+      "section": "Noodles"
+    },
+    {
+      "name": "Curry Udon",
+      "description": "Japanese Curry, Umami Broth, carrots, onion, zucchini, with Udon Noodles.",
+      "section": "Noodles"
+    },
+    {
+      "name": "Yakisoba",
+      "description": "(Pan-fried Pasta) Bacon, sautéed veggies topped with seaweed and scallions",
+      "section": "Noodles"
+    },
+    {
+      "name": "Uni Pasta",
+      "description": "Tossed in an uni garlic cream sauce, topped with roe",
+      "section": "Noodles",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Stir Fry Pasta",
+      "description": "Edamame, red bell pepper, carrots, onion, zucchinis chili in sweet-soy sauce, topped with cilantro and scallions",
+      "section": "Noodles"
+    },
+    {
+      "name": "California",
+      "aliases": [
+        "California Roll"
+      ],
+      "description": "Crab salad and avocado",
+      "section": "Namikaze Rolls",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Caterpillar",
+      "description": "Unagi, cucumber topped with Avocado, teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Crunchy",
+      "description": "Cooked shrimp, crab salad, cucumber Siracha, crunch topped with teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Chicken Teriyaki",
+      "aliases": [
+        "Chicken Teriyaki Roll"
+      ],
+      "description": "Grilled chicken, cucumber topped with teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Dragon",
+      "description": "Shrimp tempura, crab salad, cucumber Topped with unagi, avocado, teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Ebi-Temp Roll",
+      "description": "Shrimp tempura, avocado, cucumber topped with teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "JoJo",
+      "description": "cooked shrimp, crab salad, topped with Cooked shrimp topped with teriyaki sauce (soy paper)",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Katana",
+      "description": "Shrimp tempura, crab salad, avocado topped with salmon, sliced onion, spicy mayo, siracha, tobiko, scallions",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Kimono",
+      "description": "Spicy tuna, scallops, cucumber, topped with Yellowtail, avocado, spicy crab salad, tobiko and teriyaki",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Koi",
+      "description": "Shrimp, spicy tuna, cucumber topped with tuna ono (escolar), sliced jalapeno, chili ponzu, scallions",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Maiko",
+      "description": "Fried cali roll with cream cheese, topped with chopped Shrimp tempura, spicy crab salad with teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Ninja",
+      "description": "Assorted tempura fish mixture, cucumber topped with teriyaki sauce, wasabi mayo, crushed wasabi peas",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Origami",
+      "description": "Hamachi, salmon, spicy tuna, escolar, avocado wrapped in cucumber, topped with tobiko, scallions, teriyaki sauce, ponzu, crushed wasabi peas.",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Philadelphia",
+      "description": "Smoked salmon, cream cheese, cucumber and avocado",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Rainbow Roll",
+      "description": "Cali roll topped 5 assorted fish, teriyaki sauce, scallions",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Rolled Royce",
+      "description": "Shrimp tempura, crab salad, spicy tuna, cream cheese, avocado topped with teriyaki, wasabi mayo, tobiko",
+      "section": "Namikaze Rolls",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Salmon Roll",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Salmon Skin",
+      "description": "Crispy salmon skin, gobo, cucumber, sprouts",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Shogun",
+      "description": "Spicy tuna, shrimp tempura topped with tuna, albacore, teriyaki, wasabi mayo, tobiko, crushed wasabi peas",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "SOYonara",
+      "description": "Salmon, Avocado, cucumber, crab salad, unagi, wrapped in soy-wrap with teriyaki sauce and crunch",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Spicy Crab Roll",
+      "description": "with cucumber",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Spicy Tuna Roll",
+      "description": "with cucumber",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Spider",
+      "description": "Fried soft shell crab, avocado, cucumber With teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Surf & Turf",
+      "description": "(with A5-WAGYU) Shrimp tempura, cucumber, carrot and pickled radish topped with Seared WAGYU, fried onion, garlic, teriyaki scallion and red pepper threads",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Tiger",
+      "description": "Albacore, crab salad, cucumber topped with Salmon, avocado, teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Tuna Roll",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "UnaQ",
+      "description": "Unagi, Cucumber with teriyaki sauce",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Yellowtail Roll",
+      "section": "Namikaze Rolls"
+    },
+    {
+      "name": "Asparagus",
+      "aliases": [
+        "Asparagus Roll"
+      ],
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Avocado",
+      "aliases": [
+        "Avocado Roll"
+      ],
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Blue Moon",
+      "description": "Spicy Inari, cucumber, topped with Tomato, avocado, teriyaki sauce, crushed wasabi peas",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Bonsai",
+      "description": "Asparagus, cucumber, avocado, topped with sautéed eggplant, scallions",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Baby Groots",
+      "description": "Pickled veggies (carrots, onions), Cucumber, asparagus, topped with avocado, miso tahini sauce, red pepper threads",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Caterpillar “V”",
+      "description": "Sauteed shiitake with garlic, cucumber topped with avocado, teriyaki sauce",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Cucumber",
+      "aliases": [
+        "Cucumber Roll"
+      ],
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Eggplant",
+      "aliases": [
+        "Eggplant Roll"
+      ],
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Sunshine",
+      "description": "Yam tempura, asparagus, cream cheese topped with avocado, carrots, vegan sweet chili sauce",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Tofu Lover",
+      "description": "Seasoned tofu, cucumber, asparagus topped with avocado, Inari (tofu), fried onion, chili flakes and teriyaki sauce",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Veggie Roll",
+      "description": "tomato, cucumber and avocado",
+      "section": "Vegetarian Rolls"
+    },
+    {
+      "name": "Chicken Teriyaki",
+      "aliases": [
+        "Chicken Teriyaki Rice Bowl"
+      ],
+      "description": "Sliced grilled chicken with teriyaki and sesame seeds",
+      "section": "Rice Bowls"
+    },
+    {
+      "name": "Spicy Crispy Chicken",
+      "description": "Deep fried chicken with teriyaki and Japanese chili flake",
+      "section": "Rice Bowls"
+    },
+    {
+      "name": "Sukiyaki Style Beef",
+      "aliases": [
+        "Sukiyaki Style Beef Rice Bowl"
+      ],
+      "description": "Thinly sliced marinated beef",
+      "section": "Rice Bowls"
+    },
+    {
+      "name": "Salmon Teriyaki",
+      "description": "Grilled salmon with teriyaki sauce",
+      "section": "Rice Bowls"
+    },
+    {
+      "name": "Poke Bowl",
+      "description": "(Available on rice or green salad) Choose Proteins (tuna, salmon, ebi, or tofu) *up to 2 Choose Sauces (sweet ponzu, chili lime ponzu, spicy mayo or wasabi mayo) *ask for wonton chips or fried onions Served with seaweed salad, avocado, edamame and scallions",
+      "section": "Rice Bowls",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Kakuni (Braised Pork Belly)",
+      "aliases": [
+        "Kakuni"
+      ],
+      "description": "Sliced braised pork belly with seasoned egg and scallions",
+      "section": "Rice Bowls"
+    },
+    {
+      "name": "Miso Soup (Vegetable based)",
+      "aliases": [
+        "Miso Soup"
+      ],
+      "section": "Sides",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Brown Rice",
+      "section": "Sides"
+    },
+    {
+      "name": "White Rice",
+      "section": "Sides"
+    },
+    {
+      "name": "Bacon Fried Rice",
+      "description": "Mixed vegetable, bacon, egg, butter and soy sauce",
+      "section": "Sides"
+    },
+    {
+      "name": "Kizami Wasabi",
+      "description": "Chopped fresh wasabi",
+      "section": "Sides"
+    },
+    {
+      "name": "Side Green Salad",
+      "section": "Sides"
+    },
+    {
+      "name": "Cucumber Salad",
+      "description": "Sliced cucumber in house vinaigrette",
+      "section": "Sides"
+    },
+    {
+      "name": "Side Seaweed Salad",
+      "section": "Sides",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "French Fries",
+      "section": "Sides"
+    },
+    {
+      "name": "Side Wonton Chips",
+      "section": "Sides"
+    },
+    {
+      "name": "Side of Kimchi (Pickled Nappa cabbage)",
+      "aliases": [
+        "Side of Kimchi"
+      ],
+      "section": "Sides"
+    },
+    {
+      "name": "Eggplant & Tofu",
+      "description": "Sliced eggplant and tofu sautéed with garlic and Gluten free soy sauce",
+      "section": "Sides"
+    },
+    {
+      "name": "Curry Rice Bowl",
+      "description": "Japanese Curry with onions, carrots, and zucchini",
+      "section": "Sides"
+    },
+    {
+      "name": "Osaka",
+      "description": "Thinly sliced fresh Japanese seabass served on a bed of daikon and sliced onion with a chili lime ponzu sauce, topped with jalapeno, tobiko and sesame seed",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Kabuki",
+      "description": "A dome of spicy scallops, spicy tuna, spicy crab, tobiko and green onion wrapped with avocado, served with wonton chips, teriyaki and spicy mayo",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Chirashi Pizza",
+      "description": "Tuna, salmon, and tai sashimi, and avocado on crispy rice paper topped with roe, spicy mayo, sprouts and sesame seeds",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Sashimi",
+      "description": "16 pieces of Chef’s choice assorted fish, served raw with fresh wasabi and a choice of steamed rice or green salad",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Tataki",
+      "description": "Seared albacore, topped with cilantro, chili ponzu, red chili, thin sliced of lemon, scallions, sprouts, jalapeno, sesame and garlic",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Seared WAGYU-A5",
+      "description": "WAGYU, juicy and tender premium beef seared, sliced and plated with daikon, topped with sliced onion, sprouts and scallions",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Rice Crispy Treats",
+      "description": "Crispy rice topped with spicy tuna, sliced jalapeno, teriyaki sauce and sesame seeds",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Ceviche Tower",
+      "description": "Snow crab, scallops, shrimp, fresh salsa, avocado, cucumber and jalapeno with chili lime ponzu",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Firecrackers",
+      "description": "Deep fried jalapenos stuffed with spicy tuna and cream cheese topped with house sweet chili sauce, wasabi mayo and sesame",
+      "section": "Specialty Plates"
+    },
+    {
+      "name": "Shrimp *Boiled (Ebi)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Surf Clam (Hokkigai)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Eel (Unagi)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Squid (Ika)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Flying Fish Roe (Tobiko)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Tuna (Maguro)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Japanese Egg Omelet (Tamago)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Yellowtail (Hamachi)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Mackerel (Shime-Saba)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Tilapia",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Escolar",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Octopus (Tako)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Japanese Seabass (Tai)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Salmon (Sake)",
+      "section": "Nigiri",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Salmon Roe (Ikura)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Scallop (Hotate)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Avocado",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Sweet Shrimp",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Smoked Salmon (Smoked sake)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "A5 WAGYU",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Inari (seasoned tofu)",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Albacore",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Live Scallops",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Monkfish Liver",
+      "section": "Nigiri"
+    },
+    {
+      "name": "Fresh Oysters on half shell",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Tuna",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Escolar",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Yellowtail",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Salmon",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Avocado",
+      "section": "Sashimi A La Carte"
+    },
+    {
+      "name": "Octopus",
+      "section": "Sashimi A La Carte"
+    }
+  ],
+  "optional": [
+    "Lunch Special",
+    "Chicken Teriyaki Rice Bowl",
+    "Sukiyaki Style Beef Rice Bowl",
+    "Kakuni (Sliced braised pork belly) Rice Bowl",
+    "Umami Soup Udon or Soba",
+    "Spicy Crispy Chicken Rice Bowl",
+    "Eggplant & Tofu Rice Bowl",
+    "Gyoza (chicken )",
+    "California Roll",
+    "Avocado Roll",
+    "Ebi Temp Roll",
+    "Tuna Sashimi",
+    "Salmon Sashimi",
+    "Karaage (Fried chicken)",
+    "Add *Shrimp",
+    "Add *Chicken",
+    "Beef",
+    "Ebi temp",
+    "Crispy Chicken",
+    "Fresh Uni",
+    "Salmon Roe",
+    "Sub *Beef",
+    "*Shrimp",
+    "*Salmon",
+    "*Tofu",
+    "kimchi"
+  ],
+  "expected": {},
+  "restaurantNameAlsoAccept": [
+    "Namikaze"
+  ],
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

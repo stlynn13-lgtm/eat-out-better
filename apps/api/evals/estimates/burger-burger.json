@@ -1,0 +1,1173 @@
+{
+ "menu": "burger-burger",
+ "recordedAt": "2026-10-05T11:33:22.581Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "CLASSIC BURGER*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "B.A.M.F!*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "JOHN WAYNE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "BASIC BURGER*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 15,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 15,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 15,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "MAC DADDY*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "MAGIC MUSHROOM*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "FRENCH KISS*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 23,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 25,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 23,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "BAE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "BLAZIN’ BISON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "CLASSY CLUCK*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "HAIL CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "CHICKEN CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "BUFFALO CHICKEN CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "GARDEN SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "THE IMPOSSIBLE BURGER",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "OVER THE SHROOM",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "SOUTHWEST VEGAN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "CALIFORNIA DREAM",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "MISSION IMPOSSIBLE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "CAULIFLOWER WINGS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "CHICKEN WINGS*",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "ONION RINGS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "HOUSE CUT FRIES",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "CHEESE CURDS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "MAC & CHEESE BITES",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "CORONA EXTRA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 26,
+   "key": "CORONA LIGHT",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 27,
+   "key": "MICH ULTRA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 28,
+   "key": "ANGRY ORCHARD",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 29,
+   "key": "BUSCH LIGHT",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 30,
+   "key": "HEINEKEN ZERO",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "WHITE CLAW",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 32,
+   "key": "HIGH NOON",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 33,
+   "key": "SUMMIT EPA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 34,
+   "key": "SUMMIT PILS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 35,
+   "key": "SUMMIT SEASONAL",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 36,
+   "key": "WILD STATE SEMI DRY CIDER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 37,
+   "key": "MILLER LIGHT",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 38,
+   "key": "CASTLE DANGER CREAM ALE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 39,
+   "key": "BENT PADDLE HAZY IPA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 40,
+   "key": "LAKE MONSTER DEPTH CHARGE JUICY IPA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 41,
+   "key": "FULTON LONELY BLONDE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 42,
+   "key": "INDEED MEXICAN HONEY LIGHT",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 43,
+   "key": "HONEY BADGER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 44,
+   "key": "WHISKEY NOIR",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 45,
+   "key": "COSMO KRAMER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 46,
+   "key": "DRUNKEN CARAMEL APPLE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 47,
+   "key": "BURGER BURGER BLOODY MARY",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 48,
+   "key": "DOWN & DIRTY TINI",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 49,
+   "key": "SWEET JULEP TEA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 50,
+   "key": "BLACK & BLUE LEMONADE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 51,
+   "key": "BLUEBERRY FIELDS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 52,
+   "key": "MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 53,
+   "key": "MARGARITA ORO",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 54,
+   "key": "SLOW RIDE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 55,
+   "key": "CABERNET SAUVIGNON",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 56,
+   "key": "CHARDONNAY",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 57,
+   "key": "GREEN HORNET",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 58,
+   "key": "SOUTHERN BELLE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 59,
+   "key": "COOKIE MONSTER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 60,
+   "key": "LUCKY CHARM",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 61,
+   "key": "DONKEY KONG",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 62,
+   "key": "VANILLA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 65,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 65,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 65,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "CHOCOLATE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 72,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 72,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 72,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "STRAWBERRY",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "OREO",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 75,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 75,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 75,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "STRAWBERRY CHEESECAKE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 78,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 78,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 78,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "LATTE LOVE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 62,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 62,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 62,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "BANANA EXPLOSION",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 70,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 70,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 70,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "ORANGE DREAMSICLE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 74,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 76,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 76,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 70,
+   "key": "HOT FUDGE BROWNIE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 21,
+     "addedSugarG": 80,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 80,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 80,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "S’MORES",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 23,
+     "addedSugarG": 82,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 23,
+     "addedSugarG": 82,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 82,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "INSIDE OUT TURTLE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 68,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}
