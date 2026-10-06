@@ -6,6 +6,30 @@
 
 ---
 
+## 2026-10-06 (evening) — Security follow-ups: #52 unblocked, API hardening and feedback-sheet fixes written
+
+**Status:** code written and pushed; nothing below is live yet. Every remaining step is Sean's, in `security-followups.md`.
+
+**What changed**
+
+- **The required-token PR (#52) had fallen behind.** The analysis-cache change rewrote the same part of the scan endpoint, so #52 could no longer merge. Brought `main` into it, rebuilt, and re-checked the gate: on Vercel with no token set, scans are refused (503); with a wrong token, 401; with the right one, they go through. It still waits on Sean confirming the token in Vercel (A2). Merging it first would break every scan.
+- **API hardening, PR #71 (stacked on #52):**
+  - when the AI step fails, the app gets a plain "couldn't analyze this menu" message instead of the AI provider's internal error text;
+  - uploads that aren't JPEG photos are refused before they cost anything (the app only ever sends JPEG);
+  - the health check stops advertising the branch name and full commit;
+  - the legal pages get modern browser security headers.
+- **Feedback sheet script hardened (this PR):**
+  - the sheet's web address is public, so anyone could post text like `=IMPORTXML(...)` that would run as a formula when someone opened the sheet, and could leak the other rows. Such text is now stored as plain text;
+  - fields are length-capped and checked against the values the app actually sends;
+  - errors no longer echo internal details.
+
+  It only takes effect once Sean pastes it into Apps Script and redeploys the same deployment.
+- **`security-followups.md` brought up to date:** #51 merged, the 1.5.0 update already carries the sync fix, and the status of each item.
+
+**Still unproven:** that scans from real phones get signed and back up (B1). Do one scan on the updated 1.5.0, then ask Claude to "check sync".
+
+---
+
 ## 2026-10-06 (later) — A retry collects the scan the server already finished
 
 **Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half went live when Vercel deployed `main`. **The app half was published as an over-the-air update by Sean on 2026-10-06** (production branch, runtime 1.5.0, from commit `4f3155f`, update group `60a0e0d0`). It reaches 1.5.0 (1) phones on their second launch after that. Builds 13 and 14 are on their own `ota/` lines and don't get it. Not yet tried in the simulator or on a phone.

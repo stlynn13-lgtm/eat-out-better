@@ -1,8 +1,8 @@
 # Security follow-ups
 
 **What this is:** everything still open from the 2026-10-03 security audit (against the "20 security holes in vibe-coded apps" checklist): open bugs, actions for Sean, and the order to do them. Delete items as they close. When this file is empty, delete it.
-**Last updated:** 2026-10-03
-**Read with:** `plan.md` (NOW, item 0) · `log.md` (2026-10-03 entry) · PRs #51, #52, #53.
+**Last updated:** 2026-10-06
+**Read with:** `plan.md` (NOW) · `log.md` (2026-10-03 and 2026-10-06 security entries) · PRs #52, #71, and the PR that carries this update.
 
 > ⚠️ This file describes open weaknesses. It lives here only because the repo is **private** (since 2026-10-03). If the repo is ever made public again, delete this file first, and remember git history keeps it.
 
@@ -13,11 +13,11 @@
 | Item | Status |
 |---|---|
 | **H1: saved scans must come from a real scan** (signed scans) | ✅ **Live.** PR #53 merged; migration applied and verified on the live database 2026-10-03 18:00 UTC. All 12 existing scans signed. Unsigned, forged and wrong-id inserts are refused; signed ones are stored. |
-| **H2: API token check fails closed** | 🟡 **PR #52 open, green.** Blocked on A2 (confirm the token in Vercel). Merging before that turns every scan into an error. |
-| **H3: patched Next.js / sharp, Dependabot** | 🟡 **PR #51 open, green.** Ready to merge. |
-| **End-to-end check that live scans get signed** | 🔴 **Not proven.** No scan has reached the production API since the deploy (the logs show nothing after 01:44 UTC on 10-03). See B1. |
+| **H2: API token check fails closed** | 🟡 **PR #52 open.** It had fallen behind `main` (the analysis-cache change rewrote the same function); merged `main` in 2026-10-06, rebuilt, and re-checked the gate locally (no token on Vercel → 503, wrong → 401, right → through). Still blocked on A2: merging before the token is confirmed turns every scan into an error. |
+| **H3: patched Next.js / sharp, Dependabot** | ✅ **PR #51 merged.** The Dependabot config file is live; the GitHub security toggles (A3) are unconfirmed. |
+| **End-to-end check that live scans get signed** | 🔴 **Not proven.** See B1. The 2026-10-06 over-the-air update to 1.5.0 is the right build to prove it on. |
 | **M3: repo was public** | ✅ Private since 2026-10-03. |
-| Medium / low audit findings | ⬜ Not started. Sections 3 and 4. |
+| Medium / low audit findings | 🟡 Code fixes written. Q1 (feedback sheet) is in the PR carrying this update and needs Sean's paste; Q2–Q5 are PR #71, stacked on #52. Dashboard items (A3–A6) and M4 still open. |
 
 ---
 
@@ -25,7 +25,7 @@
 
 **B1. The sync check after the signed-scans deploy is unverified.** *(Highest priority: it confirms H1 works for real users.)*
 A test scan after the 17:53 UTC deploy never reached the API: no usage row for 10-03 and no request logs. Either the scan didn't run against production, or it failed before the request left the phone.
-- **Do:** on build 14 or 1.5.0 (1), run one scan, let results load, wait about 30 s, then ask Claude to "check sync". It should find a new `menu_sessions` row whose `scanSig` validates.
+- **Do:** on 1.5.0 (1), after opening the app twice so the 2026-10-06 update applies, run one scan, let results load, wait about 30 s, then ask Claude to "check sync". It should find a new `menu_sessions` row whose `scanSig` validates.
 - **If results appeared but no row arrives:** check which API URL that build uses (`extra.apiUrl` in `apps/mobile/app.config.ts`, from the `API_URL` env var) and whether the phone is signed in to an account (anonymous counts).
 - **If the scan errored:** note the exact message. It isn't the token gate, because #52 isn't merged.
 
@@ -51,8 +51,7 @@ Do these in order. Each has the exact clicks.
 - Scan on your phone. If it works, merge **#52** (**Ready for review** → **Merge**), wait about 1 minute, and scan again.
 - **Rollback if needed:** Vercel → Deployments → the previous deployment → ⋯ → **Promote**.
 
-**A3. Merge #51 and turn on Dependabot (3 min).**
-- Merge **#51**. Wait about 1 minute and scan on your phone.
+**A3. Turn on Dependabot security updates (2 min).** *(#51 merged.)*
 - github.com → repo → **Settings** → **Code security** → enable **Dependabot alerts** and **Dependabot security updates**.
 
 **A4. Supabase: limit anonymous sign-ups, and turn on the password check (2 min).**
@@ -80,6 +79,8 @@ Do these in order. Each has the exact clicks.
 
 Each item below is self-contained: paste the **Prompt** into a new Claude Code session on this repo. Merge **#52 first** (A2): Q2 to Q5 touch `apps/api/src/app/api/analyze/route.ts` and `next.config.mjs`, and starting after #52 avoids conflicts. **Q2 to Q5 can be one PR**, "API hardening".
 
+**Status 2026-10-06:** Q1 is written (the PR carrying this update); Q2–Q5 are written as one PR, **#71**, stacked on #52. The prompts below are kept until those merge, as the record of what each change is.
+
 ### Q1. Make the feedback endpoint safe (M2, step 1): 15 min, plus a Sean paste
 **Why:** `scripts/feedback-sheet/Code.gs` accepts any POST from anyone. `appendRow` turns text starting with `=` into a live spreadsheet formula, which can leak the sheet's other rows to an outside URL when the sheet is opened. It also echoes raw errors back to the caller.
 **Prompt:**
@@ -96,7 +97,7 @@ Each item below is self-contained: paste the **Prompt** into a new Claude Code s
 >
 > Update `scripts/feedback-sheet/README.md` if the redeploy steps change. Keep the deployment URL unchanged ("Manage deployments → edit → new version"), and spell out the paste-and-redeploy steps for Sean in the PR description.
 
-**Then Sean:** paste the new `Code.gs` into the sheet's Apps Script editor as eatoutbetter@gmail.com and redeploy as a new version of the same deployment. In the existing sheet, search for cells starting with `=` and delete any you didn't write.
+**Then Sean (after merge):** paste the new `Code.gs` into the sheet's Apps Script editor as eatoutbetter@gmail.com and redeploy as a new version of the **same** deployment (`scripts/feedback-sheet/README.md`, steps 2 and 4). Then **Edit → Find and replace**, search `=` with "Also search within formulas" ticked, and delete any formula you didn't write.
 
 ### Q2. Generic error messages from the API (L1): 10 min
 **Prompt:**
@@ -130,7 +131,7 @@ Each item below is self-contained: paste the **Prompt** into a new Claude Code s
 | **M4. Alerting on the API** | Add `@sentry/nextjs` to `apps/api`. Send an error event when the spend cap trips (`rateLimit.ts` "DAILY SPEND CAP REACHED"), when the limiter fails open, when spend recording fails, when the token is missing, and when scan signing fails (`apps/api/src/lib/supabase/scanSignature.ts`). Email alert rule on each. | New dependency and DSN; Sean creates the Sentry project and alert rules. | ~2 h PR plus Sean's Sentry setup. Small enough to skip a full spec. |
 | **M2, step 2. Feedback through the API** | Replace the public Apps Script URL with `/api/feedback`, behind the token and rate limiter, writing to a Supabase table. | New endpoint, table and migration; needs an app update to change the URL. | Spec when feedback is next touched. Q1 covers the risk until then. |
 | **H2.4 / L3. App Attest** | Replace the extractable shared token with Apple device attestation, and enforce the 5/day scan limit on the server. | Native module and a new build; already specced in `app-attest-migration.md`. | Keep on the roadmap. **Don't build a paid tier on the 5/day counter until this ships**: it resets on reinstall. |
-| **Optional OTA** | Ship the `apps/mobile/lib/sync/sessions.ts` change (skip unsigned scans) to `ota/1.4.0` and `ota/1.3.0`. | Affects almost nobody: only scans saved before signing and never uploaded. | Only if B1 shows a stuck upload on build 13 or 14. |
+| **Optional OTA** | Ship the `apps/mobile/lib/sync/sessions.ts` change (skip unsigned scans) to `ota/1.4.0` and `ota/1.3.0`. **1.5.0 already has it** (2026-10-06 update, group `60a0e0d0`). | Affects almost nobody: only scans saved before signing and never uploaded. | Only if B1 shows a stuck upload on build 13 or 14. |
 
 ---
 
