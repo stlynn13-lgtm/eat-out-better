@@ -1,0 +1,690 @@
+{
+  "id": "north-india",
+  "label": "North India (Indian, San Francisco)",
+  "note": "Two landscape pages, four narrow italic columns with prices in a separate right-hand column — dish-to-description pairing depends on reading 'Name - description' runs that wrap. The restaurant name is in a logo on p2 only. Hearts (♥) mark the restaurant's own 'Heart Smart' items; recorded under restaurantFlags as an outside signal, NOT as an answer key. Traps: Mango Chutney and Mixed Pickle under Soups & Salads are condiments; the Thali lists ten components that are not separate orders; Tandoori Chicken has Half/Full price lines. Wording from the PDF text layer, pairing checked against the rendered pages.",
+  "source": {
+    "restaurant": "North India Restaurant",
+    "url": "https://northindiasf.com/NorthIndiaMenu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "NORTH INDIA",
+  "dishes": [
+    {
+      "name": "Papadum",
+      "description": "Sun dried lentil wafers",
+      "section": "Starters"
+    },
+    {
+      "name": "Vegetable Samosa",
+      "description": "Two crisp & spiced vegetable puffs filled with potatoes & peas",
+      "section": "Starters",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Vegetable Pakora",
+      "description": "Mixed vegetable fritters delicately spiced",
+      "section": "Starters"
+    },
+    {
+      "name": "Baingan Pakora",
+      "description": "Eggplant dipped in Garbanzo batter",
+      "section": "Starters"
+    },
+    {
+      "name": "Cheese Pakora",
+      "description": "Homemade cheese pieces dipped in Garbanzo batter",
+      "section": "Starters"
+    },
+    {
+      "name": "Fish Pakora",
+      "description": "Fresh fish marinated with North India spices",
+      "section": "Starters"
+    },
+    {
+      "name": "Chicken Pakora",
+      "description": "Breast cubes marinated with North India spices then dipped in Garbonzo batter",
+      "section": "Starters"
+    },
+    {
+      "name": "Bombay Pakora",
+      "description": "Lightly spiced calamari dipped in chickpea batter",
+      "section": "Starters"
+    },
+    {
+      "name": "North India Meat Platter",
+      "description": "Marinated Lamb & Chicken cooked in a Clay Pot",
+      "section": "Starters"
+    },
+    {
+      "name": "Dal Soup",
+      "description": "Traditional Indian style lentil soup",
+      "section": "Soups & Salads"
+    },
+    {
+      "name": "Mulligatawny Soup",
+      "description": "A delicately spiced chicken & lentil soup",
+      "section": "Soups & Salads"
+    },
+    {
+      "name": "Salad",
+      "description": "Fresh organic spring mix salad with cucumber, tomato, & homemade vinaigrette",
+      "section": "Soups & Salads"
+    },
+    {
+      "name": "Fish Salad",
+      "description": "Barbecued Fish over fresh organic spring mix salad",
+      "section": "Soups & Salads"
+    },
+    {
+      "name": "Raita",
+      "description": "Refreshing yogurt with herbs, cucumber, carrots, & roasted cumin",
+      "section": "Soups & Salads",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Dal",
+      "description": "Assorted lentils delicately spiced & sautéed with ginger & garlic",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Bhindi Masala",
+      "description": "Okra sautéed with onions & spices Indian style",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Bengan Bartha",
+      "description": "Freshly roasted eggplant sautéed with chopped onions, garlic, ginger & spices",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Saag Paneer",
+      "description": "Cubes of homemade cheese sautéed with spinach & spices",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Paneer Makhani",
+      "description": "Homemade cheese cooked in a creamy tomato sauce with spices",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Saag Mushroom",
+      "description": "Mushroom & spinach cooked with spices",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Saag Aloo",
+      "description": "Spinach & potatoes cooked with onion, ginger, & garlic",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Dal Saag",
+      "description": "Combination of spinach & lentil",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Aloo Mattar",
+      "description": "Potatoes & green peas cooked in a curry sauce",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Mattar Paneer",
+      "description": "Green peas & homemade cheese cubes cooked with spices in a curry sauce",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Mushroom Mattar",
+      "description": "Fresh mushroom & peas sautéed gently with spices",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Chana Masala",
+      "description": "Garbanzo beans cooked with onions, fresh tomatoes, & spices North India style",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Aloo Gobhi",
+      "description": "Cauliflower & potatoes cooked with a hint of garlic & spices",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Navratan Korma",
+      "description": "Mixed vegetables in a delicately spiced cream sauce & cashew nuts",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Paneer Bhurji",
+      "description": "Crushed homemade cheese sautéed with tomato & green onion",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Sabji",
+      "description": "Home style mixed vegetable curry",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Vegetable Jalfrezi",
+      "description": "Lightly pan fried mixed vegetables with garlic & cumin",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Paneer Jalfrezi",
+      "description": "Pan fried mix vegetables with garlic, cumin, & paneer",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Paneer Tikka Korma",
+      "description": "Homemade cheese cooked in a mild creamy sauce with a blend of spices",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Murgh Masala",
+      "description": "Traditional chicken curry in exotic spices",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Tikka Masala",
+      "description": "Barbecued boneless white meat sautéed with herbs, spices & tomatoes",
+      "section": "Chicken Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Bombay Chicken",
+      "description": "Hot chicken curry cooked in North India spices",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Korma",
+      "description": "Boneless white meat cooked in a mild yogurt & creamy sauce",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Vindaloo",
+      "description": "Hot & spicy chicken curry with potatoes",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Dalwala",
+      "description": "Chicken pieces & lentils cooked in a mildly spiced sauce",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Saagwala",
+      "description": "Chicken curry cooked with spinach",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Hydrabadi Chicken",
+      "description": "Chicken cooked with Hydrabadi masala, apricots & potato straws",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Murgh Makhani",
+      "description": "Tandoori chicken boned & cooked in a mildly creamy tomato sauce",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Jalfrezi",
+      "description": "Boneless chicken stir fried with vegetables, herbs, & spices",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Chicken Madras",
+      "description": "Chicken cooked in a spicy coconut sauce with raisins",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Kashmiri Chicken",
+      "description": "Clay Oven roasted chicken cooked in butter sauce with Spinach",
+      "section": "Chicken Specialties"
+    },
+    {
+      "name": "Tandoori Chicken",
+      "description": "Chicken marinated in yogurt & spices & baked in a clay oven",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "Chicken Tikka Kebab",
+      "description": "Boneless chicken breast cubes marinated in yogurt & spices",
+      "section": "Tandoori Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Boti Kebab",
+      "description": "Succulent cubed leg of lamb marinated & baked in the Tandoor",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "Seekh Kebab",
+      "description": "Minced leg of lamb mixed with herbs & spices",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "Fish Tandoori",
+      "description": "Chilean Sea Bass marinated in herbs & spices",
+      "section": "Tandoori Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Tandoori Salmon",
+      "description": "Fresh fish marinated in spices & cooked in a clay pot.",
+      "section": "Tandoori Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Tandoori Prawns",
+      "description": "Jumbo prawns lightly marinated in ginger & garlic",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "North India Mixed Tandoori",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "Lamb Chops",
+      "description": "Marinated in yogurt & North India spices & cooked on charcoal",
+      "section": "Tandoori Specialties"
+    },
+    {
+      "name": "Rogan Josh",
+      "description": "Classic lamb curry with garlic, ginger, & onion gravy sauce",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Lamb Pasanda",
+      "description": "Lamb cooked in a sauce of yogurt, cream & ground cashew nuts",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Lamb Vindaloo",
+      "description": "Lamb curry & potatoes in a very hot curry sauce",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Saag Gosht",
+      "description": "Boneless lamb cooked with creamed spinach",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Keema Mattar",
+      "description": "Freshly minced lamb & green peas sautéed with spices",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Lamb Jalfrezi",
+      "description": "Stir fried pieces of lamb with mixed vegetables",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Karahi Gosht",
+      "description": "Lightly curried lamb with green onions & fresh ginger",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Dal Gosht",
+      "description": "Lamb & lentils cooked together in a sauce",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Lamb Madras",
+      "description": "Lamb cooked in a spicy coconut sauce with raisins",
+      "section": "Lamb Specialties"
+    },
+    {
+      "name": "Lamb Korma",
+      "description": "Lamb cooked in a mild yogurt & cream sauce",
+      "section": "Lamb Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Fish Masala",
+      "description": "Chilean Sea Bass chunks cooked in a tomato curry sauce",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Punjabi Fish",
+      "description": "A Northern Indian preparation of hot fish curry",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Fish Saag",
+      "description": "Fish cooked with creamed spinach",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Fish Tikka Masala",
+      "description": "Fish cooked in a mild creamy tomato sauce",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Calamari Curry",
+      "description": "Calamari cooked in a blend of herbs & spices",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Jheenga Masala",
+      "description": "Prawns sautéed with tomatoes & a blend of spices",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Jheenga Palak",
+      "description": "Prawns sautéed in a spiced spinach sauce",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Prawn Coconut",
+      "description": "Prawns cooked with coconut milk & North India Spices",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Prawn Vindaloo",
+      "description": "Prawns & potatoes in a hot & spicy sauce",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Prawn Jalfrez",
+      "description": "Prawns cooked with fresh vegetables",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Prawn Korma",
+      "description": "Prawns cooked in a mild yogurt & cashew nut sauce",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Mixed Seafood Curry",
+      "description": "Fish, calamari, & prawns",
+      "section": "Seafood Specialties"
+    },
+    {
+      "name": "Naan",
+      "description": "Leavened bread baked in our clay oven",
+      "section": "Breads",
+      "expected": {
+        "category": "side",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Garlic Naan",
+      "description": "Naan studded with garlic & cilantro",
+      "section": "Breads"
+    },
+    {
+      "name": "Kabuli Naan",
+      "description": "Naan stuffed with fruits & nuts",
+      "section": "Breads"
+    },
+    {
+      "name": "Onion Kulcha",
+      "description": "Naan stuffed with onion, cilantro, herbs & spices",
+      "section": "Breads"
+    },
+    {
+      "name": "Keema Naan",
+      "description": "Naan stuffed with minced lamb & baked in our clay oven",
+      "section": "Breads"
+    },
+    {
+      "name": "Goat Cheese Naan",
+      "description": "Naan stuffed with goat cheese, green onion & bell peppers",
+      "section": "Breads"
+    },
+    {
+      "name": "Chapati",
+      "description": "Unleavened whole wheat bread baked in a Tandoor",
+      "section": "Breads"
+    },
+    {
+      "name": "Paratha",
+      "description": "Buttered & layered whole wheat bread",
+      "section": "Breads"
+    },
+    {
+      "name": "Aloo Paratha",
+      "description": "Unleavened whole wheat bread stuffed with potatoes & peas",
+      "section": "Breads"
+    },
+    {
+      "name": "Spinach Paratha",
+      "description": "Whole wheat bread staffed with spinach",
+      "section": "Breads"
+    },
+    {
+      "name": "Chili Nan",
+      "description": "Nan stuffed with Fresh chili",
+      "section": "Breads"
+    },
+    {
+      "name": "Assorted Breads",
+      "description": "Garlic Naan, Onion Kulcha & Nan",
+      "section": "Breads"
+    },
+    {
+      "name": "Pulao",
+      "description": "Steamed basmati rice with peas",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Vegetable Biryani",
+      "description": "Mixed vegetable & rice cooked with herbs & spices",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Kashmiri Biryani",
+      "description": "Fruits & nuts cooked with rice",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Chicken Biryani",
+      "description": "Chicken cooked with basmati rice",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Lamb Biryani",
+      "description": "Basmati rice cooked with spiced lamb",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Calamari Biryani",
+      "description": "Calamari & rice cooked with herbs & spices",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Prawn Biryani",
+      "description": "Prawns cooked with basmati rice & spices",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Mixed Seafood Biryani",
+      "description": "Prawns, calamari, fish, & rice cooked with herbs & spices",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "Punjabi Fry Rice",
+      "description": "Basmati rice fried with potatoes, egg & green peas",
+      "section": "Rice Specialties"
+    },
+    {
+      "name": "North India Thali (For Two)",
+      "description": "Papadum Veg. Samosa Raita Tandoori Chicken Boti Kabab Chk Tikka Masala Saag Paneer Nan Rice Kheer",
+      "section": "North India Dinner"
+    },
+    {
+      "name": "Kheer",
+      "description": "Traditional Indian rice pudding",
+      "section": "Desserts"
+    },
+    {
+      "name": "Gulab Jamun",
+      "description": "Milk dumplings in rose flavored sugar syrup",
+      "section": "Desserts",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Kufi",
+      "description": "Homemade Indian ice cream",
+      "section": "Desserts"
+    },
+    {
+      "name": "Mango Ice Cream",
+      "section": "Desserts"
+    },
+    {
+      "name": "Coconut Ice Cream",
+      "description": "Fresh homemade ice cream with delicious coconut",
+      "section": "Desserts"
+    },
+    {
+      "name": "Masala Chai",
+      "description": "Special tea from the east Himalayan valleys",
+      "section": "Beverages"
+    },
+    {
+      "name": "Himalayan Tea (Cold)",
+      "section": "Beverages"
+    },
+    {
+      "name": "Sweet Lassi",
+      "description": "Refreshing yogurt drink",
+      "section": "Beverages"
+    },
+    {
+      "name": "Mango Lassi",
+      "description": "Refreshing mango & yogurt drink",
+      "section": "Beverages",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "tier": "yellow",
+        "note": "SO MUCH SUGAR",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Ice Tea",
+      "section": "Beverages"
+    },
+    {
+      "name": "Coffee",
+      "section": "Beverages"
+    },
+    {
+      "name": "Pellegrino Water",
+      "section": "Beverages"
+    },
+    {
+      "name": "Sodas",
+      "description": "(Coke, Diet-coke & Sprite)",
+      "section": "Beverages"
+    }
+  ],
+  "optional": [
+    "Mango Chutney",
+    "Mixed Pickle",
+    "Veg. Samosa",
+    "Boti Kabab",
+    "Chk Tikka Masala",
+    "Nan",
+    "Rice",
+    "Half",
+    "Full"
+  ],
+  "expected": {},
+  "restaurantFlags": {
+    "heart-smart": [
+      "Fish Salad",
+      "Mushroom Mattar",
+      "Chana Masala",
+      "Aloo Gobhi",
+      "Vegetable Jalfrezi",
+      "Chicken Jalfrezi",
+      "Chicken Tikka Kebab",
+      "Fish Tandoori",
+      "Tandoori Salmon",
+      "Tandoori Prawns",
+      "Lamb Jalfrezi"
+    ]
+  },
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

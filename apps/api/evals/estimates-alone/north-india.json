@@ -1,0 +1,202 @@
+{
+ "menu": "north-india",
+ "recordedAt": "2026-10-05T11:42:20.993Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 1,
+   "key": "Vegetable Samosa",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "Raita",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "Dal",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "Saag Paneer",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "Chana Masala",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "Aloo Gobhi",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "Navratan Korma",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Chicken Tikka Masala",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "Chicken Tikka Kebab",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "Fish Tandoori",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "Tandoori Salmon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "Lamb Korma",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 76,
+   "key": "Naan",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 99,
+   "key": "Gulab Jamun",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 106,
+   "key": "Mango Lassi",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 18,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

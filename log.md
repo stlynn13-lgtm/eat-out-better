@@ -6,6 +6,170 @@
 
 ---
 
+## 2026-10-06 (later) — A retry collects the scan the server already finished
+
+**Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half went live when Vercel deployed `main`. **The app half was published as an over-the-air update by Sean on 2026-10-06** (production branch, runtime 1.5.0, from commit `4f3155f`, update group `60a0e0d0`). It reaches 1.5.0 (1) phones on their second launch after that. Builds 13 and 14 are on their own `ota/` lines and don't get it. Not yet tried in the simulator or on a phone.
+
+**That update also carried one earlier change for the first time:** saved-scan sync skips scans from before signing (`db06a68`, from the signed-scans work on 10-03). It was merged then but never published to 1.5.0. It's covered by `npm run test:sync`, but check that saved scans still back up during the phone test.
+
+**What changed**
+
+- **When you leave the app mid-scan, the server keeps going and finishes the scan. That result used to be thrown away**, and the app's retry re-uploaded every photo and paid for the whole analysis again: roughly 5 cents and 30 seconds per leave-and-return.
+- **Now the app gives each scan an id and sends it on every attempt.** If the server has already finished that scan, the retry gets the result back in about a second, free. If it's still working (the usual case: you come back after 5 seconds of a 30-second scan), the retry waits for it instead of starting a second one.
+- **Only real answers are kept for the retry:** a result, "that's not a menu" and "no dishes found". Errors that might go away on a second try (the AI service being busy, a timeout) are not kept, so the retry runs fresh.
+- **Collecting a stored result doesn't count against the daily scan limits or the $200 spend cap**, because it costs nothing.
+- **Privacy:** what's kept is the analysis result only: no photos, no IP address, no account, and no health condition (stripped before saving, as the privacy policy promises). It's deleted after 15 minutes. The policy's wording doesn't need to change, but this is server-side storage, so it's noted here per the privacy-label rule.
+- **If anything about this breaks, scans run exactly as before.** That covers the database being down, the migration not being applied, or an older app build that doesn't send an id.
+- **Tests:** `npm run test:cache` in `apps/api` (12 cases) and 16 new database tests (`supabase/tests/analysis_results_test.sql`, run in CI and checked locally on Postgres 16). `npm run test:suspend` in `apps/mobile` now also checks that every retry of a scan carries the same id and that a new scan gets a new one.
+
+**One assumption to know about:** this relies on Vercel finishing the scan after the phone disconnects. That's Vercel's default; it only stops a function early if `supportsCancellation` is switched on, and it isn't. If that ever changes, a retry would wait up to 50 seconds on a scan that's no longer running and then show "took too long".
+
+---
+
+## 2026-10-06 — Leaving the app mid-scan no longer fails or double-charges the scan (EAT-10, third pass)
+
+**Status: merged 2026-10-06 (PR #69), not yet tried in the simulator or on a phone.** JavaScript-only, so it reaches phones with the next over-the-air update.
+
+**What changed**
+
+- **When you come back to the app, iOS often reports the interrupted request as "Network request failed" before the app even knows it's back in front.** The old code only recognised "I stopped the request myself" as an interruption, so it treated this as a real connection problem. Real connection problems get one retry, not three, so **leaving the app twice during one scan failed it** with "Check your connection".
+- **Each return also sent the scan twice.** The failed request had already been retried when the "you're back" signal arrived, and that signal then killed the healthy retry and started a third request. That re-uploaded every photo and paid for a second round of AI calls for nothing.
+- **Now:** "Network request failed" counts as an interruption when the app actually left the screen during that request. It's retried silently, once, as soon as the app is back in front, and the "you're back" signal only stops the request that was actually interrupted. Up to three leave-and-returns per scan still complete.
+- **Being genuinely offline is unchanged:** iOS uses the same "Network request failed" message for that, so it still gets one retry and then the connection error. Retrying it three times would just spend longer failing.
+- **Added `npm run test:suspend`** (in `apps/mobile`): seven leave-and-return cases with no phone needed. Against the old code, three fail: the double request, the second leave-and-return failing the scan, and the retry limit being hit early.
+
+**Still to do:** the simulator check. Start an analysis, swipe to the home screen straight away, wait 5 seconds, reopen. The progress bar should keep going and results should appear, with no error. Do it twice in one scan as well, since that's the case that used to fail.
+
+---
+## 2026-10-06 — Marketing site built (eatoutbetter.com, pre-launch)
+
+**Status: built and deploying as a Vercel preview. Not on eatoutbetter.com yet — that needs a DNS change only Sean can make.**
+
+**What changed**
+
+- **A new website at `apps/web`**, built from `landing-page-prompt.md`. Its own Vercel project (`eat-out-better-web`), separate from the API, so nothing on the site can break scans.
+- **Design: "warm editorial."** Cream paper background, the app icon's forest green, a large serif headline, real app UI as the hero. Sean picked this over "bold & vibrant" and "dark premium."
+- **The page explains the product by showing it.** The hero phone plays a loop: a menu photo → scanning → dishes sorted green to red. Further down, visitors tap dishes on a sample menu and see exactly what the app would say (score, reason, "Make it better" swap). The sample dishes are made up and labeled that way; their scores follow the app's real rules.
+- **Pre-launch, every button leads to an email waitlist** (Sean's call over a public TestFlight link). Emails go into a new Supabase table, `waitlist`, which the website can add to but never read back.
+- **The QR code is permanent.** It points at `eatoutbetter.com/get?src=qr`, not the App Store. Today that lands on the waitlist; once the listing exists, flipping two settings makes it, and every button, go straight to the App Store. It only appears on desktop, since you can't scan your own phone.
+- **Built to be found and quoted by search and AI assistants:** a 1,000-word guide, "How to eat out with high cholesterol," with every heading phrased as the question people ask and three cited sources (AHA, FDA, an AHA science advisory); structured data; a sitemap; and an `llms.txt` summary for AI tools. All product facts live in one file so the page, the structured data and llms.txt can't disagree.
+- **Privacy, Terms and Support redirect to the existing pages** on the API project rather than copying them. Two copies of a privacy policy is how one goes stale.
+
+**How it measured (Lighthouse, local build)**
+
+- Accessibility 100, SEO 100 on both pages. Desktop performance 100. Mobile performance 83–92 on a throttled slow-4G simulation; the remaining gap is mostly font download time, and it should improve on Vercel's CDN.
+- Dropping one optional font feature (Fraunces' "SOFT" axis) cut the font download from 270KB to 149KB and mobile load time by ~2 seconds. The headline is now slightly crisper, which is barely visible.
+
+**Privacy policy updated (same day).** The policy now covers the website: what the waitlist stores (email, which button, when) and that it's used only for the launch email; that website analytics are cookie-free and don't identify anyone; Vercel and Supabase's roles for the site; and that waitlist emails are deleted within 90 days of the launch email. The App Store privacy label doesn't change, since it describes the app, not the website.
+
+**Not done / needs a decision**
+
+- The site isn't on eatoutbetter.com until DNS is pointed at Vercel (steps in `plan.md`).
+- Before sending traffic: done. The privacy policy covers the waitlist and website analytics (above).
+- The waitlist form couldn't be tested end-to-end from Claude's sandbox (Supabase is blocked there); the database side was tested directly. Test one signup on the preview.
+- AI training crawlers (GPTBot, Google-Extended and similar) are allowed by default. One line in `apps/web/app/robots.ts` blocks them without affecting search or AI-answer visibility, if Sean prefers.
+
+## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
+
+**Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.
+
+**What changed**
+
+- **The AI no longer picks the 1–10 score.** It estimates what it actually knows about each dish: grams of saturated fat, grams of added sugar, whether it's deep-fried, and whether its fat is mostly the heart-healthy kind. Code turns those into the score, using thresholds anyone can read in `scoring.ts`.
+- **The thresholds:** green at 5g of saturated fat or less, red over 11g. Heart-healthy fat or fibre adds up to 1.5 points. Deep-fried loses a point. For drinks and desserts, more than 15g of added sugar is red. Ray approved 11g on 2026-10-05.
+- **Sugar now counts for drinks and desserts** (Ray's decision, 2026-10-04).
+- **The AI now sees each dish's section heading.** A bare "Vanilla" under SHAKES used to be read as 0g of fat.
+- **Dishes are scored in batches of 12, not 35.** Large batches pulled estimates toward the middle.
+- **The scoring prompt is 15% shorter.**
+
+**How it measured (against Ray's 202-dish answer key)**
+
+- **75% of dishes match Ray** (old prompt: 74%). Misses are now balanced: 27 greener than Ray, 22 redder. The old prompt was greener on 41 and redder on only 11, so it flattered dishes.
+- **The same dish changes colour depending on what else is on the menu for 30 of 196 dishes**, down from 46. These are only borderline dishes, and only by one colour step. Ray's call: acceptable for now, since the same scan always gives the same result. Scoring each dish on its own call would remove it completely, at about 4× the cost.
+- **Ray's answers stand as the answer key.** The 49 dishes where the app still disagrees are the app's to fix. Some can't be fixed without a scope decision: if Ray marked a poke bowl yellow for sodium or white rice, the cholesterol score doesn't measure those.
+
+**Tooling**
+
+- `npm run eval` now saves the AI's gram estimates for every dish. `npm run eval:calibrate` tests different thresholds against the answer key for free, with no AI calls. `npm run eval:context` measures how much colours depend on the rest of the menu.
+
+**Not done**
+
+- **Menus over 100 dishes still lose their tail.** Parked until PostHog shows how often real scans are that long.
+- **Likely estimation errors to fix next:** Falafel at 14g, and Lox Benedict lifted out of red by a "salmon is heart-healthy" bonus despite its hollandaise.
+
+---
+
+## 2026-10-04 (later) — Answer key in, grouping fixed, first measurement: 74%
+
+**Status: merged with PR #57 on 2026-10-05.**
+
+**What changed**
+
+- **Ray's answer key is in the eval.** 202 dishes across 16 menus now carry Ray's colour call and the tab each dish belongs under, made blind on a review page (the app's score appeared only after each pick).
+- **Two rules came out of the review:** added sugar counts for drinks and desserts; and an explicit menu heading decides the tab, while anything ambiguous goes under Sides.
+- **Eight grouping bugs fixed** (shrimp cocktail and raw-bar oysters were treated as alcohol and never scored; Heineken Zero was alcohol; shakes were mains; Korean BBQ meats were sides; "A Little Something Before" wasn't read as starters; plain rice, beans, naan and raita under vague headings were mains). 31 new automatic checks, all passing.
+- **The eval now checks tabs as well as colours**, keeps same-name dishes apart, and prints an overall match rate.
+- **The review page now keeps each person's first pick**, so a change made after seeing the app's score can't overwrite the blind call.
+
+**What we learned (first full run, ~$3)**
+
+- **The app matches Ray on 74% of dishes (148 of 200). When it's wrong it's usually too generous: greener than Ray on 41 of 52 misses.**
+- **The biggest problem: a dish's score depends on what else is on the menu.** The same dish scored alone and inside its full menu changed colour 46 times out of 194 (Thai iced tea 9.0 vs 6.0; carnitas 2.0 vs 4.0). The model grades on a curve against the dishes next to it. Until that's fixed, the same dish can get different colours at two restaurants, or from two vs five photos of one menu.
+- **The scoring bands straddle the red/yellow line**, which is why 14 misses sit at exactly 4.0.
+- **Menus over 100 dishes get cut off**: the scoring step stops at 100, so the last dishes on big menus (a whole sushi section, all the desserts and drinks) get no score.
+- **Grouping now matches Ray almost everywhere**; the 4 differences left are judgement calls no heading rule can make.
+
+**Next (proposed, not started):** make scoring absolute (fixed reference dishes in the prompt) and measure how often colours change with context; then align the bands; then count sugar; then lift the 100-dish cap. One eval run per step.
+
+---
+
+## 2026-10-04 — Eval set: 15 real restaurant menus with photos
+
+**Status: merged with PR #57 on 2026-10-05.**
+
+**What changed**
+
+- **15 new test menus** in `apps/api/evals/menus/`, each with its page photos in `evals/photos/`: Italian-American, Chinese-American, Sichuan (bilingual), Thai ×2, steakhouse, Greek tri-fold, Indian, burgers & beer, seafood, golf-club breakfast, Japanese hibachi (127 items), sushi (134 items), Tex-Mex, Korean BBQ (Hangul). 1,242 dishes, 45 photos, 19 MB. All from the restaurants' own website PDFs, with the source link and date in each file.
+- **Each menu records what a correct reading looks like**: every dish, its description, the section heading it sits under, and the restaurant name — or "no name" when the page doesn't print one. This is for a photo-reading test we don't have yet: today nothing checks whether the model reads a menu photo correctly, which is where Sean saw it invent dishes on big menus in August and where wrong groupings start.
+- **Deliberate traps** in the set: dishes with the same name in two sections (they must both survive), photo captions that repeat dish names, add-on and topping lists that aren't dishes, a restaurant name that only appears inside a dish name, a cover page with no dishes, alcohol next to non-alcoholic shakes, and one PDF with text that's invisible on the page.
+- **The scoring eval now skips menus that have no answer key or baseline yet**, so `npm run eval` costs what it did before. `--menu <id>` still runs any of them on purpose.
+
+**Decisions and why**
+
+- **Website PDFs, not Yelp photos.** Yelp's terms forbid scraping, and a restaurant's own PDF carries its own text, which is a better answer key than anything read off an image.
+- **Clean PDFs flatter the model.** Real photos have glare and angles. The set needs our own phone photos too (the brunch menu and BCD originals are on Sean's and Ray's phones; nothing in our system keeps scan photos).
+
+**Not done**
+
+- **No expected tiers on any new menu.** Those are a human call. The brunch answer-key form (29 dishes) is still waiting on Ray.
+- **The photo-reading eval itself isn't built.** Next step: a runner that sends each menu's photos through the real reading step and reports dishes missed, dishes invented, wrong descriptions, wrong sections and the restaurant name.
+- **The scoring runner keys dishes by name**, so menus with genuine duplicates (e.g. two Chicken Parmigianas) need a fix before they can be scored.
+- **Spot-check needed:** the dish-to-description pairing on several pages was checked by Claude reading the images, which is close to a model writing its own key. List in `evals/README.md`.
+
+---
+
+## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
+
+**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Everything still open is in `security-followups.md`.
+
+**What changed**
+
+- **Saved scans now have to come from a real scan.** The app saves scans to your account by writing to the database directly, and every install gets a free account. Until now nothing checked that a saved scan had ever been through the API, so a script could store data without paying for a scan or meeting any of the scan limits. Now the API asks the database to sign each scan it produces, and the database accepts a saved scan only with that signature. The signing key is generated inside the database and never leaves it. Scans already in accounts were signed in place. The app already saves the API's whole response, so the signature reaches the database from every build with accounts, without an app update. The app on `main` also skips scans that predate signing, so one old scan can't hold up the rest. (PR: signed scans.)
+- **New anonymous accounts are limited to 5 per hour per network**, down from 30. One person makes one per install.
+- **The API's token check no longer lets everyone through when the token isn't configured.** On Vercel, a missing `APP_SHARED_TOKEN` now stops scans with a clear error in the logs instead of quietly opening an endpoint that bills the Anthropic account. The comparison is also timing-safe. (PR: require app token.)
+- **Next.js and its image library were updated** past published security advisories, and the API's `uuid` package was replaced with Node's built-in equivalent. Dependabot now opens a weekly grouped update PR for the API and security-only PRs for the app. (PR: dependency updates.)
+
+**Worth knowing**
+
+- **The 256 KB size limit on saved scans stays.** Lowering it to 64 KB was considered and dropped: real scans run about 480 bytes per dish, so a 10-photo menu can legitimately reach 200 KB. With signatures in place, the size limit matters much less anyway.
+- **Scans made before signing that were never uploaded stay on the phone only.** In practice that's almost none: the app uploads every scan right after it's saved.
+
+**Not done**
+
+- The medium and low findings from the same audit (spend cap size, feedback endpoint, repo visibility, alerting, error messages, headers) are next, separately.
+
+---
+
 ## 2026-10-01 (night) — Pricing strategy rethought; new doc `pricing-strategy.md`
 
 **What changed**

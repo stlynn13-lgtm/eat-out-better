@@ -1,0 +1,178 @@
+{
+  "id": "golf-club-breakfast",
+  "label": "Golf club breakfast menu (American breakfast)",
+  "note": "One page (p2 of the PDF; p1 is a photo-only cover). A short menu — 19 items — with a busy photo background around a white panel. No restaurant name is printed anywhere on the page: correct restaurantName is null. 'The Berkeley' is a DISH, not the venue — returning it as the restaurant name is a failure. Traps: the omelette's build-your-own ingredient list is not a set of dishes; the overall title 'Breakfast Menu' is the only heading over the main items. Useful for the omelet question in plan.md (should a restaurant omelette ever be green?).",
+  "source": {
+    "restaurant": "Golf club (CyberGolf-hosted site, course id 1257)",
+    "url": "https://cdn.cybergolf.com/images/1257/BreakfastMenu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [2] of the original"
+  },
+  "photos": [
+    "p1.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "The Berkeley*",
+      "description": "Two eggs any style with a choice of three bacon strips or two sausage patties, a choice of hash browns, grits or fruit and a choice of toast, English muffin or biscuit",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Omelette*",
+      "description": "Build your own Omelette. Choose any three of the following items: Bacon • Ham • Sausage • Mushrooms • Onions • Peppers • Spinach • Tomatoes • Salsa • Shredded Cheddar Cheese. Served with a choice of hash browns, grits or fruit and a choice of toast, English muffin or biscuit",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Breakfast Burrito*",
+      "description": "Two eggs scrambled with onions, peppers, sausage and cheddar cheese wrapped in a flour tortilla and served with salsa and choice of hash browns, grits or fruit",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "The Egg Sandwich*",
+      "description": "Two eggs any style, bacon or sausage patty, and choice of cheese. Served on choice of 8 grain, white, marble rye bread, biscuit or English muffin",
+      "section": "Breakfast Menu"
+    },
+    {
+      "name": "Biscuit and Gravy",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Pastrami Hash with Eggs*",
+      "description": "Corned beef hash and two eggs any style with choice of toast, biscuit or English muffin",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken or Sausage Biscuit",
+      "section": "Breakfast Menu"
+    },
+    {
+      "name": "Belgian Waffles",
+      "description": "Made to order waffle sprinkled with powdered sugar served with butter and maple syrup",
+      "section": "Breakfast Menu"
+    },
+    {
+      "name": "Pancakes",
+      "description": "A stack of three pancakes served with butter and your choice of honey or maple syrup",
+      "section": "Breakfast Menu",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Knife & Fork Fried Chicken Biscuit",
+      "description": "Fried chicken breast on buttermilk biscuit, topped with gravy",
+      "section": "Breakfast Menu"
+    },
+    {
+      "name": "French Toast",
+      "description": "Two thick slices of Texas toast dipped in a cinnamon and nutmeg flavored batter then sautéed until golden brown with a dusting of powdered sugar",
+      "section": "Breakfast Menu"
+    },
+    {
+      "name": "Two Sausage Patties",
+      "section": "A La Carte & Side Items"
+    },
+    {
+      "name": "Three Slices of Bacon",
+      "section": "A La Carte & Side Items",
+      "expected": {
+        "category": "side",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Hash browns",
+      "section": "A La Carte & Side Items"
+    },
+    {
+      "name": "Grits",
+      "section": "A La Carte & Side Items"
+    },
+    {
+      "name": "Fresh Fruit",
+      "section": "A La Carte & Side Items",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Egg*",
+      "section": "A La Carte & Side Items",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Two Pieces of Toast",
+      "section": "A La Carte & Side Items"
+    },
+    {
+      "name": "English Muffin • Biscuit",
+      "aliases": [
+        "English Muffin",
+        "Biscuit"
+      ],
+      "section": "A La Carte & Side Items"
+    }
+  ],
+  "optional": [
+    "Bacon",
+    "Ham",
+    "Sausage",
+    "Mushrooms",
+    "Onions",
+    "Peppers",
+    "Spinach",
+    "Tomatoes",
+    "Salsa",
+    "Shredded Cheddar Cheese"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

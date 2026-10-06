@@ -1,0 +1,2711 @@
+{
+ "menu": "namikaze",
+ "recordedAt": "2026-10-05T11:37:27.193Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "Karaage",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "Edamame",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "Buta no Kakuni",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "Spicy Baked Mussel",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "Loaded Otaku Fries",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "Namikaze Nachos",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "Gyoza",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "Ebi Temp",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "Yasai Tempura",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "Soft Shell Crab",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "Hamachi-Kama",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "Sake-Kama",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 12,
+   "key": "Ika Ring",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "Sashimi Sampler",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "Vegan Spring Rolls",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "Shishito Peppers",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "Takoyaki",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "Seafood Seaweed Salad",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "Oriental Chicken Salad",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "Tahini Soba Salad",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "Sukiyaki Style Beef [Entrée]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "Chicken Teriyaki [Entrée]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "Ponzu Salmon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4.5,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4.5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "Miso-Yaki Cod",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "Tofu Steak",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "Assorted Tempura",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "Honey Chili Seafood Mix",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 18,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "Miso Cioppino",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "Umami Soup",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "Spicy Miso Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "Tonkotsu Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "Chicken Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "Curry Udon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "Yakisoba",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Uni Pasta",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "Stir Fry Pasta",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "California",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "key": "Caterpillar",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "Crunchy",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "key": "Chicken Teriyaki [Namikaze Rolls]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "Dragon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "Ebi-Temp Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "key": "JoJo",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "Katana",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "Kimono",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "key": "Koi",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "Maiko",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "key": "Ninja",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "key": "Origami",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "Philadelphia",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5.5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "Rainbow Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "Rolled Royce",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "Salmon Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "Salmon Skin",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "key": "Shogun",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "key": "SOYonara",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "key": "Spicy Crab Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "Spicy Tuna Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "key": "Spider",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 59,
+   "key": "Surf & Turf",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "key": "Tiger",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "Tuna Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "UnaQ",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "Yellowtail Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "Asparagus",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "Avocado [Vegetarian Rolls]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "Blue Moon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "Bonsai",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "Baby Groots",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "Caterpillar “V”",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 70,
+   "key": "Cucumber",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "Eggplant",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "Sunshine",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 6,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "Tofu Lover",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 3.5,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "key": "Veggie Roll",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 75,
+   "key": "Chicken Teriyaki [Rice Bowls]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 76,
+   "key": "Spicy Crispy Chicken",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 77,
+   "key": "Sukiyaki Style Beef [Rice Bowls]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 78,
+   "key": "Salmon Teriyaki",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 5,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 6,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 6,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 79,
+   "key": "Poke Bowl",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4.5,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4.5,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 80,
+   "key": "Kakuni (Braised Pork Belly)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "Miso Soup (Vegetable based)",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 82,
+   "key": "Brown Rice",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 83,
+   "key": "White Rice",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.2,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 84,
+   "key": "Bacon Fried Rice",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 85,
+   "key": "Kizami Wasabi",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 86,
+   "key": "Side Green Salad",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 87,
+   "key": "Cucumber Salad",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 88,
+   "key": "Side Seaweed Salad",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 89,
+   "key": "French Fries",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 90,
+   "key": "Side Wonton Chips",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 91,
+   "key": "Side of Kimchi (Pickled Nappa cabbage)",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 92,
+   "key": "Eggplant & Tofu",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 93,
+   "key": "Curry Rice Bowl",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 94,
+   "key": "Osaka",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 95,
+   "key": "Kabuki",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 96,
+   "key": "Chirashi Pizza",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 97,
+   "key": "Sashimi",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 98,
+   "key": "Tataki",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 99,
+   "key": "Seared WAGYU-A5",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 100,
+   "key": "Rice Crispy Treats",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 101,
+   "key": "Ceviche Tower",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 102,
+   "key": "Firecrackers",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 103,
+   "key": "Shrimp *Boiled (Ebi)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 104,
+   "key": "Surf Clam (Hokkigai)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 105,
+   "key": "Eel (Unagi)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 106,
+   "key": "Squid (Ika)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 107,
+   "key": "Flying Fish Roe (Tobiko)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 108,
+   "key": "Tuna (Maguro)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 109,
+   "key": "Japanese Egg Omelet (Tamago)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 110,
+   "key": "Yellowtail (Hamachi)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 111,
+   "key": "Mackerel (Shime-Saba)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 112,
+   "key": "Tilapia",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 113,
+   "key": "Escolar [Nigiri]",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 114,
+   "key": "Octopus (Tako)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 115,
+   "key": "Japanese Seabass (Tai)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 116,
+   "key": "Salmon (Sake)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 117,
+   "key": "Salmon Roe (Ikura)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 118,
+   "key": "Scallop (Hotate)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 119,
+   "key": "Avocado [Nigiri]",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 120,
+   "key": "Sweet Shrimp",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 121,
+   "key": "Smoked Salmon (Smoked sake)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 122,
+   "key": "A5 WAGYU",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 123,
+   "key": "Inari (seasoned tofu)",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 124,
+   "key": "Albacore",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 125,
+   "key": "Live Scallops",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 126,
+   "key": "Monkfish Liver",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 127,
+   "key": "Fresh Oysters on half shell",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 128,
+   "key": "Tuna",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 129,
+   "key": "Escolar [Sashimi A La Carte]",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 130,
+   "key": "Yellowtail",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 131,
+   "key": "Salmon",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 132,
+   "key": "Avocado [Sashimi A La Carte]",
+   "category": "main",
+   "runs": []
+  },
+  {
+   "index": 133,
+   "key": "Octopus",
+   "category": "main",
+   "runs": []
+  }
+ ]
+}

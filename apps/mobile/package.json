@@ -10,6 +10,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "test:history": "npx --yes tsx scripts/history-shelves-test.ts",
+    "test:sync": "npx --yes tsx scripts/sync-signed-test.ts",
+    "test:suspend": "npx --yes tsx scripts/suspended-request-test.ts",
     "update:preview": "../../scripts/publish-update.sh preview",
     "update:production": "../../scripts/publish-update.sh production"
   },

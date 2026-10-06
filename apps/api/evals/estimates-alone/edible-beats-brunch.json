@@ -1,0 +1,319 @@
+{
+ "menu": "edible-beats-brunch",
+ "recordedAt": "2026-10-05T11:41:22.396Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 5,
+   "key": "MONGOLIAN BBQ DUCK BAO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "CHAR SIU PORK BELLY BAO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "KOREAN FRIED CHICKEN BAO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "CARROT CAKE FRENCH TOAST",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 28,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "LEMON POPPY SEED PANCAKE",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 32,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "PANDAN WAFFLE",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 35,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "DONUT HOLES",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "2 EGGS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "CHICKEN APPLE SAUSAGE",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "BRUNSON BLACK PEPPER BACON",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "HALF AVOCADO",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "SEASONAL FRUIT",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "HOME FRIES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "HOT HONEY SWEET POTATO FRIES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "MAKE YOUR OWN BREAKFAST",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "DENVER \"OMELETTE\" SAMMY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "BIRRIA BREAKFAST TAMALE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "LOX BENEDICT",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "BLT BISCUIT",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "BREAKFAST DOSA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "CHICKEN & PANDAN WAFFLE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "FARRO CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "MAINE LOBSTER ROLL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "DOUBLE SMASH BURGER",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  }
+ ]
+}

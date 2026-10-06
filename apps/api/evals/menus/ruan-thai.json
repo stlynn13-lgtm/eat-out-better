@@ -1,0 +1,492 @@
+{
+  "id": "ruan-thai",
+  "label": "Ruan Thai (Thai)",
+  "note": "Two dense two-column pages, items numbered 1–69 with prices in the name line. Traps: 'Please select one of the following choices' protein-price blocks under STIR-FRIED/CURRY/RICE AND NOODLE are not dishes; the four sauces under items 67–69 (LARD PRIK, SAM LOS, GINGER BLACK BEAN, CHOO CHEE) are options for the whole fish/crab/salmon, not dishes; DESSERT/SIDE mixes desserts, sides and condiment sauces on two lines. Wording from the PDF text layer, pairing checked against the rendered pages.",
+  "source": {
+    "restaurant": "Ruan Thai",
+    "url": "https://ruanthaiwheaton.com/wp-content/uploads/2022/02/RuanThai-Restaurant-Menu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "RUAN THAI",
+  "dishes": [
+    {
+      "name": "SATAY CHICKEN (6 SKEWERS)",
+      "description": "Chicken BBQ skewers served with peanut sauce and cucumber salad. (Extra peanut sauce will be an additional $2 charge)",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TOD MUN (5 CAKES)",
+      "description": "Fried fish cake with chili paste served with cucumber salad",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CHIVE DUMPLING (2 DUMPLINGS)",
+      "description": "Choice of steamed or fried chive dumpling served with sweet soy sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "KANUM JEEB (6 DUMPLINGS)",
+      "description": "Steamed dumpling wrapped with ground chicken served with sweet soy sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "SPRING ROLL (3 ROLLS)",
+      "description": "Deep fried vegetarian spring roll wrapped with bean thread noodle and black mushroom served with sweet and sour sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PEEK GAI YUD SAI (2 WINGS)",
+      "description": "Stuffed chicken wings with ground pork, spring onion, and black mushroom served with red sweet and sour sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "TOFU TOD",
+      "description": "Fried bean curd served spicy sweet and sour sauce with ground peanut.",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CURRY PUFF (2 PUFFS)",
+      "description": "Deep fried curry puff stuffed with potato and choice of chicken or vegetarian served with cucumber salad",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "LARB",
+      "description": "Minced chicken, beef or pork tossed with cilantro, red onion, scallion, roasted rice powder, and spicy lime dressing",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "YUM WATERCRESS",
+      "description": "Deep-fried watercress, shrimp, and squid with onion, cilantro, and cashew nut in spicy lime dressing",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "YUM MA KEAU",
+      "description": "Sliced grilled eggplant with chopped pork and shrimp with lime-juice",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "YUM PED YANG",
+      "description": "Spicy sliced duck meat with chili paste and lime-juice",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "NAM KAO TOD",
+      "description": "Spicy fermented pork mixed with deep fried rice, ginger, onion, peanut and lime sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "YUM WOON SEN",
+      "description": "Spicy bean thread noodle with ground pork, shrimp, onion, scallion, shredded carrot, and celery in lime sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "YUM NEAU YANG",
+      "description": "Sliced grilled beef mixed with tomato, onion, cucumber seasoned with hot chili and lime-juice",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "NUM TOK",
+      "description": "A choice of deep fried tofu, sliced grilled beef or grilled pork mixed with rice powder, onion, spring onion, and hot chili and lime-juice",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PLA MEUK TOD KROB",
+      "description": "Deep-fried crispy squid served with red sweet and sour sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "SOM TUM (PAPAYA SALAD)",
+      "aliases": [
+        "PAPAYA SALAD"
+      ],
+      "description": "Shredded green papaya mixed with dried shrimp, string bean, tomato, and ground peanut with Thai dressing",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "GARDEN SALAD",
+      "description": "Iceberg lettuce, cucumber, tomato, bell pepper, cabbage, and carrot served with homemade creamy lime dressing",
+      "section": "SALAD"
+    },
+    {
+      "name": "RUAN THAI HOUSE SALAD",
+      "description": "Iceberg lettuce, cucumber, tomato, bell pepper, cabbage, carrot, egg, and tofu served with peanut sauce",
+      "section": "SALAD"
+    },
+    {
+      "name": "TOM YUM",
+      "description": "Lemon grass soup with galangal, kaffir lime leaves, mushroom, cilantro and spicy lime-juice",
+      "section": "SOUPS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TOM KHA",
+      "description": "Coconut lemon grass soup with galangal, kaffir lime leaves, mushroom, cilantro and spicy lime-juice",
+      "section": "SOUPS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "GANG JEUD WOON SEN",
+      "description": "Choice of tofu or bean thread noodle with ground pork or chicken onion and spring onion in clear broth",
+      "section": "SOUPS"
+    },
+    {
+      "name": "PAD KHA PRAO",
+      "description": "Your choice of meat Sautéed with hot chili, bell pepper and fresh basil leaves",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD KHING",
+      "description": "Your choice of meat sautéed with fresh ginger, black fungus mushroom, onion, and spring onion in black bean sauce",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD PRIK KHING",
+      "description": "Your choice of meat sautéed with string beans and house special red curry paste",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD PAK",
+      "description": "Your choice of meat sautéed with broccoli, cauliflower, snow pea, baby corn, carrot, mushroom, and cabbage in brown garlic sauce",
+      "section": "STIR-FRIED",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "PAD PIEW WHAN",
+      "description": "Your choice of meat sautéed with pineapple, cucumber, tomato, onion, bell pepper, and spring onion in sweet and sour sauce",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD TOU LAN TAU",
+      "description": "Your choice of meat sautéed with baby corn and snow pea in brown sauce",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD TOU HIM MA PARN",
+      "description": "Your choice of meat sautéed with cashew nut and spring onion",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD NUM MUN HOI",
+      "description": "Your choice of meat sautéed with bell pepper, mushroom, baby corn, carrot, and onion with oyster sauce",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD KHA TIEM PRIK THAI",
+      "description": "Your choice of meat sautéed with white pepper and garlic",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD TALAY",
+      "description": "Stir-fried shrimp and squid with ginger, baby corn, snow pea, mushroom, carrot, and brown sauce",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "PAD YELLOW CURRY",
+      "description": "Your choice of meat sautéed with chili paste, curry powder, onion, bell pepper, celery, egg, and milk",
+      "section": "STIR-FRIED"
+    },
+    {
+      "name": "Mango Sticky Rice",
+      "section": "DESSERT/SIDE",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "note": "a lot of sugar too",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Custard Sticky",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Fried Banana",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Jasmine Rice",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Sticky Rice",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Steam Veggie",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Steam Noodle",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "Fried Egg",
+      "section": "DESSERT/SIDE"
+    },
+    {
+      "name": "PAD KHA NAH",
+      "description": "Stir-fried Chinese broccoli sautéed with oyster sauce",
+      "section": "VEGETABLE DISHES"
+    },
+    {
+      "name": "PAD WATERCRESS",
+      "description": "Stir-fried watercress sautéed with black bean sauce",
+      "section": "VEGETABLE DISHES"
+    },
+    {
+      "name": "PAD MA KEAU",
+      "description": "Stir-fried eggplant sautéed with chili paste or black bean sauce pepper and fresh basil leaves",
+      "section": "VEGETABLE DISHES"
+    },
+    {
+      "name": "PAD STRING BEAN",
+      "description": "Stir-fried string bean sautéed with black bean sauce",
+      "section": "VEGETABLE DISHES"
+    },
+    {
+      "name": "PAD WOON SEN",
+      "description": "Stir-fried bean thread noodle mixed with spring onion, baby corn, mushroom, snow pea, carrot, and egg",
+      "section": "VEGETABLE DISHES"
+    },
+    {
+      "name": "GANG KEOW WHAN",
+      "description": "Green curry with your choice of meat, bamboo shoots, eggplant, bell pepper and basil leaves in coconut milk",
+      "section": "CURRY",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "GANG PA (No coconut milk)",
+      "description": "Country curry with bamboo shoot, eggplant, bell pepper, mushroom, baby corn, string bean, julienne rhizome root and basil leaves",
+      "section": "CURRY"
+    },
+    {
+      "name": "PANANG",
+      "description": "Red curry with your choice of meat, bell pepper, and basil leaves in coconut milk",
+      "section": "CURRY",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BEEF MUSSA MUN",
+      "description": "Red curry and Thai herbs with beef, onion and potato in coconut milk",
+      "section": "CURRY"
+    },
+    {
+      "name": "CHICKEN YELLOW CURRY",
+      "description": "Yellow curry with white meat chicken, onion, and potato in coconut milk served with cucumber salad on the side",
+      "section": "CURRY"
+    },
+    {
+      "name": "PED PA LOW",
+      "description": "Steamed duck with soy sauce and herbs",
+      "section": "DUCK"
+    },
+    {
+      "name": "PED PAD KHA PRAO",
+      "description": "Stir-fried boneless duck with hot chili and fresh basil leaves and bell pepper",
+      "section": "DUCK"
+    },
+    {
+      "name": "PED TOD KOB",
+      "description": "Fried crispy duck with house special brown sauce on the side",
+      "section": "DUCK",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "KAO PAD",
+      "description": "Fried rice with your choice of meat along with egg, onion, tomato, and scallion",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "PINEAPPLE FRIED RICE",
+      "description": "Chef’s special fried rice with your choice of meat along with egg, pineapple, cashew nut, onion, peas, carrot, and raisin",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "BASIL FRIED RICE",
+      "description": "Spicy fried rice with your choice of meat along with chili garlic and fresh basil leaves",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "PAD THAI",
+      "description": "Sautéed Thai thin rice noodle with your choice of meat along with egg, ground peanut, red tofu, bean sprout, and spring onion",
+      "section": "RICE AND NOODLE DISHES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "LAD NAH",
+      "description": "Pan-fried fresh wide rice noodle with your choice of meat along with Chinese broccoli and gravy. (light bean sauce)",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "PAD SA EW",
+      "description": "Stir-fried fresh wide rice noodle mixed with soy sauce along with your choice of meat, Chinese broccoli, and egg",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "KEE MAO (DRUNKEN NOODLE)",
+      "aliases": [
+        "DRUNKEN NOODLE"
+      ],
+      "description": "Stir-fried fresh wide rice noodle along with your choice of meat and hot chili garlic sauce, tomato sauce, fresh tomato, and basil leaves",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "GUAY TEOW PAD GAI",
+      "description": "Stir-fried fresh wide rice noodle along with your choice of meat and scallion, egg, and green lettuce",
+      "section": "RICE AND NOODLE DISHES"
+    },
+    {
+      "name": "PLA NUM TOK",
+      "description": "Deep-fried fillet catfish mixed with roasted rice powder, red onion, scallion, cilantro, and spicy lime dressing",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "PLA PAD PRIK KHING",
+      "description": "Deep-fried fillet catfish sautéed with string bean and house special red curry paste",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "PLA PAD PED",
+      "description": "Deep-fried fillet catfish in red peppery sauce with julienne rhizome root, bell pepper, and basil leaves",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "PLA PAD CHA",
+      "description": "Deep-fried fillet catfish sautéed with celery and garlic in hot chili and special Thai sauce",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "MOOH KORB KHA NAH",
+      "description": "Stir-fried crispy pork belly with Chinese broccoli sautéed with oyster sauce",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "MOOH KORB PAD PRIK KHING",
+      "description": "Crispy pork belly sautéed with string beans and house special red curry paste",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "HOW MOK TALAY",
+      "description": "Baked shrimp and squid in red curry sauce and coconut milk",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "GOONG OB MOR DIN",
+      "description": "Shrimp sautéed with ginger, celery, shiitake mushroom, spring onion, and bean thread noodle",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "MOOH PHING",
+      "description": "Grilled pork on bamboo skewer served with sticky rice and Thai spicy sauce on the side",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "MOOH COOK FOON",
+      "description": "Grilled charcoal pork with roasted rice powder served with Thai spicy sauce",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "CRABMEAT FRIED RICE",
+      "description": "Fried rice with your crab meat along with egg, cilantro and scallion",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "DEEP-FRIED WHOLE FLOUNDER (Market prices)",
+      "aliases": [
+        "DEEP-FRIED WHOLE FLOUNDER"
+      ],
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "DEEP-FRIED SOFT SHELL CRAB",
+      "section": "HOUSE SPECIAL"
+    },
+    {
+      "name": "GRILLED SALMON",
+      "section": "HOUSE SPECIAL",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    }
+  ],
+  "optional": [
+    "LARD PRIK SAUCE",
+    "SAM LOS SAUCE",
+    "GINGER BLACK BEAN SAUCE",
+    "CHOO CHEE SAUCE",
+    "Peanut Sauce",
+    "Cucumber Sauce",
+    "Fish Sauce",
+    "Sweet and Sour Sauce",
+    "Chili in Vinegar Sauce",
+    "Combo (Chicken,Beef,Pork and Shrimp)"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

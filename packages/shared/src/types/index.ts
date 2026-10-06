@@ -104,6 +104,12 @@ export interface MenuSession {
   dishCount: number;
   processingTimeMs: number;
   createdAt: string; // ISO 8601
+  /**
+   * The API's signature of `id`. The database stores a scan in an account only
+   * when this is valid (supabase/migrations/20261003000000_signed_scans.sql),
+   * so scans saved before signing existed stay on the phone.
+   */
+  scanSig?: string;
 }
 
 // ---- API request/response ----

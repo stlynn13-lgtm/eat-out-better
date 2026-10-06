@@ -1,0 +1,608 @@
+{
+  "id": "margaritas",
+  "label": "Margaritas Mexican Restaurant (Tex-Mex)",
+  "note": "Five portrait photos from a ten-page booklet: p1 cover (logo + QR code, no dishes — the restaurant name is ONLY here), p2 nachos/appetizers/à la carta/extras, p3 margaritas & cocktails (alcohol), p6 burritos/chimichangas/street tacos, p7 house specials/enchiladas/quesadillas. Busy design: textured background, dish photos with captions that repeat dish names ('FAJITA NACHOS', 'TAQUITOS', 'QUESO FUNDIDO', 'BURRITO AZABACHE', 'BURRITO BOWL', 'FAJITAS CHIMICHANGA', 'STREET TACOS', 'POLLO WITH VEGGIES', 'CARNITAS', 'ENCHILADAS SUPREMAS', 'QUESABIRRIA'), award ribbons, and a vertical tab down the page edge listing section names — none of which are dishes. Extras other than French fries are add-ons. The PDF text layer has 'DEL G0LFO' with a zero; the printed page reads GOLFO. Cover page tests isMenu on a page with no items.",
+  "source": {
+    "restaurant": "Margaritas Mexican Restaurant",
+    "url": "https://www.mexicanrestaurantmargaritas.com/assets/menu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 6, 7] of the original"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg",
+    "p5.jpg"
+  ],
+  "restaurantName": "MARGARITAS",
+  "dishes": [
+    {
+      "name": "FAJITA NACHOS",
+      "description": "Crispy tortilla chips topped with cheese, onions, tomatoes and green peppers. Choice of steak, grilled chicken, shrimp or carnitas",
+      "section": "NACHOS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SEAFOOD NACHOS",
+      "description": "Crispy tortilla chips topped with cheese, shrimp and crabmeat grilled with onions, tomatoes and green peppers",
+      "section": "NACHOS"
+    },
+    {
+      "name": "NACHOS TEXANOS",
+      "description": "Crispy tortilla chips topped with grilled chicken, steak and shrimp cooked with onions, tomatoes and green peppers, smothered with cheese",
+      "section": "NACHOS"
+    },
+    {
+      "name": "MEXICAN PIZZA",
+      "description": "Choice of steak or chicken",
+      "section": "NACHOS"
+    },
+    {
+      "name": "NACHOS CANCUN",
+      "description": "Grilled steak, chicken, shrimp and chorizo cooked with onions, tomatoes and peppers. Topped with cheese sauce and pico de gallo",
+      "section": "NACHOS"
+    },
+    {
+      "name": "SHREDDED CHICKEN NACHOS",
+      "section": "NACHOS"
+    },
+    {
+      "name": "GROUND BEEF NACHOS",
+      "section": "NACHOS"
+    },
+    {
+      "name": "CARNITAS & CHEESE NACHOS",
+      "section": "NACHOS"
+    },
+    {
+      "name": "SPECIAL NACHOS",
+      "description": "Crispy tortilla chips topped with ground beef and shredded chicken, cheese, lettuce, tomatoes, sour cream and guacamole",
+      "section": "NACHOS"
+    },
+    {
+      "name": "GRILLED NACHOS SUPREME",
+      "description": "Choice of steak, chicken, shrimp or carnitas. Topped with cheese, lettuce, guacamole, sour cream and tomatoes",
+      "section": "NACHOS"
+    },
+    {
+      "name": "CHEESE DIP",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CHORI-QUESO",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "GROUND BEEF & CHEESE DIP",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "BEAN DIP",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "GUACAMOLE",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FIESTA TRIO",
+      "description": "Cheese Dip, Guacamole & Pico De Gallo",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "TABLESIDE GUACAMOLE",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CHICKEN TENDERS (3)",
+      "description": "Served with French fries",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "QUESO FUNDIDO",
+      "description": "Choose one: chorizo, grilled chicken, steak or carnitas. Blended with cheese and served with jalapeño, green onions and pico de gallo",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TAQUITOS MEXICANOS (FLAUTAS)",
+      "aliases": [
+        "TAQUITOS MEXICANOS",
+        "FLAUTAS"
+      ],
+      "description": "Four rolled corn tortillas stuffed with shredded beef or shredded chicken, Served with lettuce, guacamole, sour cream and pico de gallo",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PAPAS LOCAS",
+      "description": "Golden French fries topped with grilled steak or chicken, cheese sauce and pico de gallo",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CHICKEN WINGS",
+      "description": "Crispy chicken wings tossed in your choice of BBQ or Buffalo. Served with French fries",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "BURRITO (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "TACO (3)",
+      "description": "Soft Taco or Hard Taco",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "ENCHILADA (3)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "CHIMICHANGA (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "RICE",
+      "section": "A LA CARTA",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BEANS",
+      "section": "A LA CARTA",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHILE RELLENO (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "QUESADILLA",
+      "description": "Grilled Chicken, Steak, Chorizo, Shrimp or Mushrooms (2) Ground Beef or Shredded Chicken (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "TOSTADA (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "CHALUPA (2)",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "MEXICAN RICE WITH CHEESE DIP",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "GRILLED TACOS (1)",
+      "description": "Grilled Chicken, Steak, Carnitas, Pastor",
+      "section": "A LA CARTA"
+    },
+    {
+      "name": "FRENCH FRIES",
+      "section": "EXTRAS"
+    },
+    {
+      "name": "BLUE AGAVE MARGARITA",
+      "description": "A distinctive margarita made with Sauza Hornitos Tequila, Blue Curacao, Grand Marnier and fresh citrus juices",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "CABO WABO MARGARITA",
+      "description": "ESCAPE TO CABO SAN LUCAS! This premium margarita is made with Cabo Wabo Tequila Reposado, Dekuyper Sour Apple Pucker and fresh citrus juices. Finished with a shot of Grand Marnier",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "CADILLAC MARGARITA",
+      "description": "A smooth blend of Amaretto, Grand Marnier and our house margarita",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "PATRÓN PERFECTA MARGARITA",
+      "description": "A super premium margarita made with Patrón Silver Tequila, Patrón Citrónge and fresh citrus juices",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "PASSION FRUIT MARGARITA",
+      "description": "A premium hand-shaken margarita made with Cazadores Reposado, passion fruit and fresh citrus juices",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "TROPICAL MARGARITA",
+      "description": "Made with only the freshest ingredients! 1800 Tequila and triple sec with fresh lime juice, pineapple juice and orange juice",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "CORONARITA",
+      "description": "Two taste in one! Made with our classic margarita and coronita",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "SANGRIA-RITA",
+      "description": "Two great tastes in one fresh made sangria and our classic margarita",
+      "section": "SPECIAL MARGARITAS"
+    },
+    {
+      "name": "FLAVORED MARGARITAS",
+      "description": "Made with our house tequila and your choice of flavor: Strawberry • Peach • Raspberry • Mango • Wild Berry",
+      "section": "FLAVORED MARGARITAS"
+    },
+    {
+      "name": "HOUSE MARGARITAS",
+      "description": "Made with Jose Cuervo Gold, Triple Sec, sweet & sour and lime juice",
+      "section": "HOUSE MARGARITAS",
+      "expected": {
+        "category": "drink_alcoholic",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TEXAS MARGARITAS",
+      "description": "Made with a double shot of Jose Cuervo Gold Tequila, Grand Marnier and fresh citrus juices",
+      "section": "TEXAS MARGARITAS"
+    },
+    {
+      "name": "PREMIUM MARGARITAS",
+      "description": "Choose your favorite: Patrón, Don Julio, 1800, Cabo Wabo, Herradura, Cazadores, Hornitos, Jimador",
+      "section": "PREMIUM MARGARITAS"
+    },
+    {
+      "name": "PALOMA",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "HURRICANE",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "BAHAMA MAMA",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "CANTARITO",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "SKINNY MARGARITA",
+      "section": "COCKTAILS"
+    },
+    {
+      "name": "DEL GOLFO BURRITO",
+      "description": "A big burrito stuffed with shrimp and crabmeat cooked with onions, tomatoes and green peppers. Topped with cheese dip and served with rice, lettuce, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO TOLUCA",
+      "description": "A big burrito filled with steak, grilled chicken, pork and chorizo cooked with onions, tomatoes and green peppers. Topped with cheese dip and red sauce. Served with rice, lettuce, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO LOCO FAJITA",
+      "description": "Burrito stuffed with onions, tomatoes and bell peppers, topped with cheese dip. Served with rice and beans. Choice of grilled chicken, steak or shrimp",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "TRES AMIGOS",
+      "description": "Three burritos, one each: chicken, ground beef and shredded beef. Topped with cheese dip, red sauce and sour cream",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO DE ASADA",
+      "description": "A big burrito filled with grilled chicken or steak. Topped with cheese dip and red sauce. Served with rice, lettuce, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO BOWL",
+      "description": "Served in a bowl with your choice of grilled steak, chicken or carnitas. Served with lettuce, black beans, cheese, avocado, rice and sour cream",
+      "section": "BURRITOS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BURRITO AZABACHE",
+      "description": "A big burrito filled with steak, grilled chicken and shrimp cooked with onions, tomatoes and green peppers. Topped with cheese dip and red sauce. Served with rice, lettuce, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITOS SUPREMOS",
+      "description": "Two burritos, one chicken & beans and one ground beef & beans, topped with cheese dip, red sauce, lettuce, tomatoes and sour cream",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO MIXTO",
+      "description": "A burrito filled with ground beef, shredded chicken, rice and beans. Topped with cheese dip, red sauce and sour cream",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO MEXICANOS",
+      "description": "Two grilled chicken burritos topped with cheese dip, red sauce, lettuce, tomatoes, guacamole and sour cream",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "WET BURRITO",
+      "description": "A big burrito filled with grilled chicken or steak, rice, black beans, guacamole and pico de gallo. Topped with cheese sauce",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "KING BURRITO",
+      "description": "Large flour tortilla filled with your choice of grilled steak, chicken or carnitas, topped with cheese sauce, black beans, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "BURRITO DELUXE",
+      "description": "A big burrito filled with carnitas, grilled chicken, steak and shrimp. Cooked with onions, tomatoes and peppers, topped with cheese dip and red sauce. Served with rice, lettuce, guacamole and pico de gallo",
+      "section": "BURRITOS"
+    },
+    {
+      "name": "SEAFOOD CHIMICHANGA",
+      "description": "Flour tortilla stuffed with shrimp & crabmeat, deep-fried and topped with cheese dip, lettuce, sour cream, guacamole and pico de gallo. Includes rice and beans",
+      "section": "CHIMICHANGAS"
+    },
+    {
+      "name": "FAJITA CHIMICHANGA",
+      "description": "Flour tortilla stuffed with onions, tomatoes and peppers, deep-fried and topped with cheese dip, Served with lettuce, sour cream, guacamole and pico de gallo. Served with rice and beans",
+      "section": "CHIMICHANGAS"
+    },
+    {
+      "name": "CHIMICHANGAS",
+      "description": "Two flour tortillas filled with choice of ground beef or shredded chicken, then deep-fried golden brown. Topped with cheese dip, lettuce, guacamole, sour cream and tomatoes. Served with rice and beans",
+      "section": "CHIMICHANGAS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TEXAS CHIMICHANGA",
+      "description": "Flour tortilla stuffed with grilled chicken, shrimp and steak cooked with onions, tomatoes and green peppers. Topped with cheese dip. Served with guacamole, lettuce, pico de gallo, sour cream, rice and beans",
+      "section": "CHIMICHANGAS"
+    },
+    {
+      "name": "TEX-MEX TACOS",
+      "description": "Three corn tortillas stuffed with grilled steak, chorizo and cheese with rice and beans",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "TACOS SUPREMOS",
+      "description": "Three soft flour tortillas filled with chicken, lettuce, tomatoes, sour cream and cheese",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "TACOS AL PASTOR",
+      "description": "Three soft corn tortillas filled with chunks of pork cooked in a spicy sauce, finished with onions and cilantro",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "TACOS DE TILAPIA",
+      "description": "Three grilled tilapia tacos served with lettuce and pico de gallo",
+      "section": "STREET TACOS",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TACOS DE CARNITAS",
+      "description": "Three soft corn tortillas filled with carnitas, onions and cilantro",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "TACOS DE ASADA",
+      "description": "Three soft corn tortillas filled with steak, onions and cilantro",
+      "section": "STREET TACOS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "SHRIMP TACOS",
+      "description": "Three soft corn tortillas filled with shrimp, cheese, lettuce and pico de gallo",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "TACOS DE BIRRIA",
+      "description": "Three corn, red tortillas stuffed with birria, onions and cilantro",
+      "section": "STREET TACOS"
+    },
+    {
+      "name": "PARRILLADA (Dinner for Two)",
+      "aliases": [
+        "PARRILLADA"
+      ],
+      "description": "Marinated grilled chicken, steak, crabmeat, shrimp, carnitas and chorizo cooked with onions, tomatoes and green peppers. Served with rice, beans and tortillas",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "DOS AMIGOS",
+      "description": "Two burritos stuffed with shredded chicken or ground beef, topped with cheese dip and green sauce. Served with lettuce, tomatoes, sour cream and rice",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "JALISCO ESPECIAL",
+      "description": "Skirt steak and chicken breast served with rice, beans, lettuce, guacamole, pico de gallo and tortillas",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "CHILE COLORADO",
+      "description": "Grilled beef tips simmered in our special red sauce. Served with rice, beans and tortillas",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "POLLO WITH VEGGIES",
+      "description": "Marinated chicken sliced and grilled with California veggies. Served over rice and topped with cheese sauce",
+      "section": "HOUSE SPECIALS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CALIFORNIA BURRITO",
+      "description": "Mucho Grande flour tortilla stuffed with your choice of grilled chicken, steak, carnitas or shrimp. With rice, beans, lettuce, pico de gallo and cheese. Served with French fries",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "CHILE VERDE",
+      "description": "Diced pork smothered in our special tomatillo sauce. Served with rice, beans and tortillas",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "CARNITAS",
+      "description": "Fried pork tips served with rice, beans and tortillas. Garnished with lettuce, guacamole and pico de gallo",
+      "section": "HOUSE SPECIALS",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CANCUN ESPECIAL",
+      "description": "Steak, grilled chicken, shrimp and chorizo served over a bed of rice and topped with cheese dip",
+      "section": "HOUSE SPECIALS"
+    },
+    {
+      "name": "ENCHILADAS SUPREMAS",
+      "description": "Three cheese enchiladas topped with pork, cheese dip and red sauce. Served with rice and beans",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "ENCHILADAS AZABACHE",
+      "description": "Three grilled chicken enchiladas topped with cheese dip, green sauce & sour cream. Includes rice & beans",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "ENCHILADAS RANCHERAS",
+      "description": "Five enchiladas. one ground beef, shredded chicken, cheese, shredded beef and bean. Topped with cheese dip, red sauce, lettuce, tomatoes and sour cream",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "SUPER ENCHILADAS",
+      "description": "Three chicken or beef enchiladas topped with cheese dip. Served with rice, sour cream, lettuce, guacamole and pico de gallo",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "ENCHILADAS VERDES",
+      "description": "Three flour tortillas filled with shredded chicken or ground beef. Topped with cheese and green sauce. Served with rice, lettuce, tomatoes and sour cream",
+      "section": "ENCHILADAS",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TRES MARIAS",
+      "description": "Three chicken enchiladas topped with cheese dip & red sauce. Served with rice, lettuce, tomatoes and sour cream",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "ENCHILADAS DEL GULFO",
+      "description": "Three enchiladas, stuffed with grilled shrimp, crabmeat, onions, tomatoes and peppers. Topped with cheese, served with rice and beans",
+      "section": "ENCHILADAS"
+    },
+    {
+      "name": "QUESADILLA TOLUCA",
+      "description": "Grilled chicken and chorizo, topped with cheese dip. Served with rice and beans",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "FAJITA QUESADILLA",
+      "description": "Steak or chicken strips cooked with onions, tomatoes, green peppers and cheese. Served with rice and beans",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "QUESADILLA ROJA",
+      "description": "Ground beef or shredded chicken, topped with cheese dip. Served with lettuce, tomatoes, sour cream and rice",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "QUESABIRRIA",
+      "description": "Three corn quesadillas stuffed with birria, onions and cilantro. Served with rice and hot consome",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "QUESADILLA SUPREMA",
+      "description": "Grilled chicken, steak, shrimp, onions, tomatoes and green peppers. Topped with cheese dip. Served with rice and beans",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "QUESADILLA DEL GULFO",
+      "description": "Shrimp, crabmeat, onions, tomatoes and green peppers. Served with rice and beans. Topped with cheese dip",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "VEGGIE QUESADILLA",
+      "description": "A big quesadilla filled with grilled California veggies, mushrooms, onions, tomatoes and peppers. Topped with cheese dip. Served with rice, lettuce, tomatoes, guacamole and sour cream",
+      "section": "QUESADILLAS"
+    },
+    {
+      "name": "QUESADILLA MEXICANA",
+      "description": "Grilled steak or grilled chicken and cheese topped with cheese sauce. Served with rice and beans",
+      "section": "QUESADILLAS"
+    }
+  ],
+  "optional": [
+    "SOUR CREAM",
+    "GRILLED CHICKEN",
+    "THREE TORTILLAS",
+    "PICO DE GALLO",
+    "SIX SHRIMP",
+    "GRILLED STEAK",
+    "TAQUITOS",
+    "FAJITAS CHIMICHANGA",
+    "Strawberry",
+    "Peach",
+    "Raspberry",
+    "Mango",
+    "Wild Berry",
+    "MARGARITAS MEXICAN RESTAURANT"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

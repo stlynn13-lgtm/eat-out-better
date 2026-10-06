@@ -191,6 +191,13 @@ export interface AnalyzeResponseData {
   healthCondition: HealthConditionId;
   /** ISO 8601 timestamp of when analysis completed */
   createdAt: string;
+  /**
+   * HMAC of `id`, issued by the database. Required for the scan to be stored
+   * in a user's account (supabase/migrations/20261003000000_signed_scans.sql).
+   * Absent only if the database couldn't be reached — the scan then stays on
+   * the phone.
+   */
+  scanSig?: string;
 }
 
 export interface AnalyzeResponse {
@@ -218,6 +225,8 @@ export interface MenuSession {
   processingTimeMs: number;
   /** ISO string */
   createdAt: string;
+  /** See AnalyzeResponseData.scanSig. */
+  scanSig?: string;
 }
 
 // -----------------------------------------------------------
