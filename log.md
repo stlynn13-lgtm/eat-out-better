@@ -148,9 +148,23 @@
 
 ---
 
+## 2026-10-04 — Security quick fixes (PR #56)
+
+**What changed**
+
+- **Five smaller fixes from the 2026-10-03 security audit, in one PR (#56).** The feedback form's spreadsheet script now treats every submission as hostile: text that would run as a spreadsheet formula is stored as plain text, fields are limited to the values the app actually sends, and errors are no longer shown to whoever sent the request. The API now gives a plain "couldn't analyze this menu" message instead of passing on raw error text from Claude, refuses uploads that aren't photos before paying for a Claude call, reveals less on its public health check, and sends stricter browser security headers.
+- **One planned fix was changed after testing.** The suggested browser security policy would have shown a **blank page** for the privacy policy, terms and support pages, and the privacy URL is what App Store Connect links to. Those pages don't need any scripts, so the policy now blocks scripts entirely, and all three pages were checked and render fully.
+- **`security-followups.md` was removed from the repo (2026-10-06).** The repo went public again on 10-05, and that file listed open weaknesses; its own rule was to delete it if that happened. The open security items are now tracked outside the repo (Sean's private copy). Git history still contains the old version.
+
+**Not done**
+
+- After #56 merges, Sean pastes the new feedback script into the sheet (`scripts/feedback-sheet/README.md`).
+
+---
+
 ## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
 
-**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Everything still open is in `security-followups.md`.
+**Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Open items are tracked privately, outside the repo.
 
 **What changed**
 

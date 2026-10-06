@@ -212,10 +212,10 @@ Main pipeline. Receives menu photos, orchestrates OCR → ranking, returns resul
 
 ### `GET /api/health`
 
-Vercel / uptime monitors. Returns build metadata.
+Vercel / uptime monitors. Returns minimal build metadata — public, so no branch, full SHA or environment name.
 
 ```typescript
-{ status: 'ok'; version: string; timestamp: string }
+{ status: 'ok'; version: string; timestamp: string; commit: string /* 7-char SHA, or "local" */ }
 ```
 
 ---
