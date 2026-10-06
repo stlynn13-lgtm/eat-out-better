@@ -37,7 +37,7 @@
 4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
 5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
-7. **Check the leave-mid-scan fix in the simulator** (branch `claude/pensive-gauss-jqu5au`): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error. Repeat with two leaves in one scan. Details: `log.md`, 2026-10-06.
+7. **Check the leave-mid-scan fix and the result handoff in the simulator** (PR #69; the API half is live once merged, the app half needs `npm run update:production`): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. Details: `log.md`, 2026-10-06.
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 

@@ -12,6 +12,7 @@ import { isSuspendedRequestError } from "../lib/utils/suspendedRequest";
 import { DEFAULT_CONDITION } from "@eat-out-better/shared";
 import type { AnalyzeResponse, AnalyzeRequest } from "@eat-out-better/shared";
 import Constants from "expo-constants";
+import * as ExpoCrypto from "expo-crypto";
 import {
   trackMenuAnalysisCompleted,
   trackMenuAnalysisFailed,
@@ -225,6 +226,12 @@ export function useAnalysis() {
         // so the bar doesn't freeze.
         let response: Response | undefined;
         let rawBody = "";
+        // One id for this scan, sent on every attempt. When a retry follows a
+        // leave-and-return, the server has usually finished (or is finishing)
+        // the first attempt; with the same id it hands that result back
+        // instead of re-running the scan and billing it twice. Minted per call,
+        // never reused: new photos must never get an old scan's result.
+        const requestId = ExpoCrypto.randomUUID();
         networkRetriesRef.current = 0;
         suspensionRetriesRef.current = 0;
         requestInFlightRef.current = true;
@@ -239,6 +246,7 @@ export function useAnalysis() {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                "x-request-id": requestId,
                 ...(APP_TOKEN ? { "x-app-token": APP_TOKEN } : {}),
               },
               body: JSON.stringify(requestBody),

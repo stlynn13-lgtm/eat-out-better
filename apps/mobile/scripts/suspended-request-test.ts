@@ -15,6 +15,7 @@ import Module from "module";
 
 // ── Fakes ───────────────────────────────────────────────────────────────────
 let appState = "active";
+let uuidCount = 0;
 let listeners: Array<(s: string) => void> = [];
 const AppState = {
   get currentState() {
@@ -53,6 +54,7 @@ const fakes = {
   "posthog-react-native": { usePostHog: () => null },
   "@sentry/react-native": { captureException: () => {} },
   "expo-constants": { __esModule: true, default: { expoConfig: { extra: {} } } },
+  "expo-crypto": { randomUUID: () => `id-${++uuidCount}` },
   "../store/useAnalysisStore": { useAnalysisStore: () => store },
   "../lib/utils/image": {
     compressImageUri: async () => ({ base64: "x" }),
@@ -75,7 +77,12 @@ M._load = function (request: string, ...rest: unknown[]) {
 };
 
 // Each fetch call is handed to the scenario, which decides how it ends.
-type Call = { resolve: () => void; reject: (e: Error) => void; signal: AbortSignal };
+type Call = {
+  resolve: () => void;
+  reject: (e: Error) => void;
+  signal: AbortSignal;
+  requestId: string;
+};
 let calls: Call[] = [];
 const okBody = JSON.stringify({ success: true, data: { dishCount: 3, dishes: [] } });
 globalThis.fetch = (_url, init) =>
@@ -84,6 +91,7 @@ globalThis.fetch = (_url, init) =>
       resolve: () => resolve({ status: 200, statusText: "OK", text: async () => okBody }),
       reject,
       signal: init.signal,
+      requestId: init.headers["x-request-id"],
     };
     init.signal.addEventListener("abort", () => {
       const e = new Error("Aborted");
@@ -111,11 +119,15 @@ async function scenario(name: string, run: () => Promise<void>, expect: { calls:
   await run();
   await done;
   const ok = storeState.status === "complete";
-  const pass = ok === expect.ok && calls.length === expect.calls;
+  // Every attempt of one scan carries the same id, so the server can hand a
+  // retry the result it already worked out instead of running it again.
+  const ids = new Set(calls.map((c) => c.requestId));
+  const sameId = ids.size === 1 && !ids.has(undefined);
+  const pass = ok === expect.ok && calls.length === expect.calls && sameId;
   if (!pass) failures++;
   console.log(
     `${pass ? "PASS" : "FAIL"}  ${name}` +
-      (pass ? "" : `\n      expected ok=${expect.ok} calls=${expect.calls}; got ok=${ok} calls=${calls.length} error=${JSON.stringify(storeState.error)}`)
+      (pass ? "" : `\n      expected ok=${expect.ok} calls=${expect.calls}; got ok=${ok} calls=${calls.length} ids=${[...ids]} error=${JSON.stringify(storeState.error)}`)
   );
 }
 
@@ -212,6 +224,22 @@ const finishLatest = async () => {
     },
     { calls: 1, ok: true }
   );
+
+  // A second scan must get a fresh id, or it could be handed the first
+  // scan's stored result.
+  calls = [];
+  appState = "active";
+  listeners = [];
+  const { startAnalysis } = useAnalysis();
+  const second = startAnalysis(["file://other.jpg"], "scan-2", Date.now());
+  await tick();
+  const before = uuidCount;
+  await finishLatest();
+  await second;
+  const fresh = calls.length === 1 && calls[0].requestId === `id-${before}`;
+  const distinct = calls[0].requestId !== "id-1";
+  if (!(fresh && distinct)) failures++;
+  console.log(`${fresh && distinct ? "PASS" : "FAIL"}  a new scan gets a new request id`);
 
   console.log(failures ? `\n${failures} scenario(s) failed` : "\nAll scenarios passed");
   process.exit(failures ? 1 : 0);
