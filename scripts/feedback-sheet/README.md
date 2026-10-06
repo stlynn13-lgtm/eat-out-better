@@ -22,3 +22,19 @@ Do this signed in as **eatoutbetter@gmail.com**, which owns the sheet.
 
 Columns are matched by header name, so reordering the sheet is safe. To capture a new field later, add one line
 to `COLUMNS` and repeat steps 2 and 4.
+
+## Why the script cleans what it stores
+
+The web app URL ships inside the app, so anyone can POST to it, not just the app. Since 2026-10-06 the script:
+
+- stores any text starting with `=`, `+`, `-` or `@` with a hidden `'` in front, so Sheets keeps it as text. A
+  formula such as `=IMPORTXML(...)` would otherwise run when someone opens the sheet and could send the sheet's other
+  rows to an outside website;
+- caps every text field at 2,000 characters;
+- accepts only known values for `Screen` (anything else is stored as `other`) and `feedback_type`, and only whole
+  numbers for `Rating` (1–5) and `dish_count`;
+- answers errors with a bare `{ ok: false }`. The details are in **Apps Script → Executions**.
+
+**After pasting this version (steps 2 and 4 above; step 3 isn't needed), check the existing rows once:** in the
+sheet, **Edit → Find and replace**, search `=` with **Also search within formulas** ticked. Delete any formula you
+didn't write.
