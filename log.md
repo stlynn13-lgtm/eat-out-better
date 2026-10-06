@@ -6,6 +6,34 @@
 
 ---
 
+## 2026-10-06 — Marketing site built (eatoutbetter.com, pre-launch)
+
+**Status: built and deploying as a Vercel preview. Not on eatoutbetter.com yet — that needs a DNS change only Sean can make.**
+
+**What changed**
+
+- **A new website at `apps/web`**, built from `landing-page-prompt.md`. Its own Vercel project (`eat-out-better-web`), separate from the API, so nothing on the site can break scans.
+- **Design: "warm editorial."** Cream paper background, the app icon's forest green, a large serif headline, real app UI as the hero. Sean picked this over "bold & vibrant" and "dark premium."
+- **The page explains the product by showing it.** The hero phone plays a loop: a menu photo → scanning → dishes sorted green to red. Further down, visitors tap dishes on a sample menu and see exactly what the app would say (score, reason, "Make it better" swap). The sample dishes are made up and labeled that way; their scores follow the app's real rules.
+- **Pre-launch, every button leads to an email waitlist** (Sean's call over a public TestFlight link). Emails go into a new Supabase table, `waitlist`, which the website can add to but never read back.
+- **The QR code is permanent.** It points at `eatoutbetter.com/get?src=qr`, not the App Store. Today that lands on the waitlist; once the listing exists, flipping two settings makes it, and every button, go straight to the App Store. It only appears on desktop, since you can't scan your own phone.
+- **Built to be found and quoted by search and AI assistants:** a 1,000-word guide, "How to eat out with high cholesterol," with every heading phrased as the question people ask and three cited sources (AHA, FDA, an AHA science advisory); structured data; a sitemap; and an `llms.txt` summary for AI tools. All product facts live in one file so the page, the structured data and llms.txt can't disagree.
+- **Privacy, Terms and Support redirect to the existing pages** on the API project rather than copying them. Two copies of a privacy policy is how one goes stale.
+
+**How it measured (Lighthouse, local build)**
+
+- Accessibility 100, SEO 100 on both pages. Desktop performance 100. Mobile performance 83–92 on a throttled slow-4G simulation; the remaining gap is mostly font download time, and it should improve on Vercel's CDN.
+- Dropping one optional font feature (Fraunces' "SOFT" axis) cut the font download from 270KB to 149KB and mobile load time by ~2 seconds. The headline is now slightly crisper, which is barely visible.
+
+**Privacy policy updated (same day).** The policy now covers the website: what the waitlist stores (email, which button, when) and that it's used only for the launch email; that website analytics are cookie-free and don't identify anyone; Vercel and Supabase's roles for the site; and that waitlist emails are deleted within 90 days of the launch email. The App Store privacy label doesn't change, since it describes the app, not the website.
+
+**Not done / needs a decision**
+
+- The site isn't on eatoutbetter.com until DNS is pointed at Vercel (steps in `plan.md`).
+- Before sending traffic: done. The privacy policy covers the waitlist and website analytics (above).
+- The waitlist form couldn't be tested end-to-end from Claude's sandbox (Supabase is blocked there); the database side was tested directly. Test one signup on the preview.
+- AI training crawlers (GPTBot, Google-Extended and similar) are allowed by default. One line in `apps/web/app/robots.ts` blocks them without affecting search or AI-answer visibility, if Sean prefers.
+
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
 **Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.

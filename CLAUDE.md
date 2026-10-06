@@ -11,6 +11,7 @@
 - **Styling:** NativeWind v4 (Tailwind for React Native)
 - **State:** Zustand
 - **Backend/API:** Next.js API at `apps/api`, deployed on Vercel (`https://eat-out-better-api.vercel.app`) — receives menu images/text and calls the Claude API
+- **Marketing site:** Next.js 16 at `apps/web` (its own Vercel project `eat-out-better-web`, for `eatoutbetter.com`). Deliberately not an npm workspace, so its dependencies can never change the API build. Waitlist pre-launch, App Store download after — switched by env vars, see `apps/web/README.md`
 - **AI Analysis:** Claude API — Haiku for cost efficiency, Sonnet for quality-critical calls
 - **Future (V1, not yet implemented):** Supabase (Postgres + auth + storage) for accounts/history — deferred until after the no-account MVP is validated
 - **V1 session storage:** AsyncStorage (no account required)
