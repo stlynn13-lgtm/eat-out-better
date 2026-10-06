@@ -8,7 +8,9 @@
 
 ## 2026-10-06 (later) — A retry collects the scan the server already finished
 
-**Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half is live once Vercel deploys `main`. The app half reaches phones with the next over-the-air update, which Sean publishes (`npm run update:production`). Not yet tried in the simulator or on a phone.
+**Status: merged 2026-10-06 with the entry below (PR #69), at Sean's request.** The database migration was applied to the live database and checked there: a claim/finish/replay round trip works, and the app's roles can't read or call any of it. The API half went live when Vercel deployed `main`. **The app half was published as an over-the-air update by Sean on 2026-10-06** (production branch, runtime 1.5.0, from commit `4f3155f`, update group `60a0e0d0`). It reaches 1.5.0 (1) phones on their second launch after that. Builds 13 and 14 are on their own `ota/` lines and don't get it. Not yet tried in the simulator or on a phone.
+
+**That update also carried one earlier change for the first time:** saved-scan sync skips scans from before signing (`db06a68`, from the signed-scans work on 10-03). It was merged then but never published to 1.5.0. It's covered by `npm run test:sync`, but check that saved scans still back up during the phone test.
 
 **What changed**
 
