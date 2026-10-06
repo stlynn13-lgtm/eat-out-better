@@ -6,6 +6,22 @@
 
 ---
 
+## 2026-10-06 — Leaving the app mid-scan no longer fails or double-charges the scan (EAT-10, third pass)
+
+**Status: on branch `claude/pensive-gauss-jqu5au`, not merged, not yet tried in the simulator or on a phone.** It's a JavaScript-only change, so it can ship as an over-the-air update once verified.
+
+**What changed**
+
+- **When you come back to the app, iOS often reports the interrupted request as "Network request failed" before the app even knows it's back in front.** The old code only recognised "I stopped the request myself" as an interruption, so it treated this as a real connection problem. Real connection problems get one retry, not three, so **leaving the app twice during one scan failed it** with "Check your connection".
+- **Each return also sent the scan twice.** The failed request had already been retried when the "you're back" signal arrived, and that signal then killed the healthy retry and started a third request. That re-uploaded every photo and paid for a second round of AI calls for nothing.
+- **Now:** "Network request failed" counts as an interruption when the app actually left the screen during that request. It's retried silently, once, as soon as the app is back in front, and the "you're back" signal only stops the request that was actually interrupted. Up to three leave-and-returns per scan still complete.
+- **Being genuinely offline is unchanged:** iOS uses the same "Network request failed" message for that, so it still gets one retry and then the connection error. Retrying it three times would just spend longer failing.
+- **Added `npm run test:suspend`** (in `apps/mobile`): seven leave-and-return cases with no phone needed. Against the old code, three fail: the double request, the second leave-and-return failing the scan, and the retry limit being hit early.
+
+**Still to do:** the simulator check. Start an analysis, swipe to the home screen straight away, wait 5 seconds, reopen. The progress bar should keep going and results should appear, with no error. Do it twice in one scan as well, since that's the case that used to fail.
+
+---
+
 ## 2026-10-05 — Scoring rebuilt: the model estimates grams, code decides the colour
 
 **Status: merged 2026-10-05 (PR #57), without a test on a real scan (Ray's call).** Vercel blocked the first production deploy because the repo was private and the commits were Ray's; the repo is now public, and this log update re-triggers the deploy. Once live, it changes the scores every user sees; the app itself doesn't need an update.

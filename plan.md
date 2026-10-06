@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-03
+**Last updated:** 2026-10-06
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -37,6 +37,7 @@
 4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
 5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
+7. **Check the leave-mid-scan fix in the simulator** (branch `claude/pensive-gauss-jqu5au`): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error. Repeat with two leaves in one scan. Details: `log.md`, 2026-10-06.
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 
