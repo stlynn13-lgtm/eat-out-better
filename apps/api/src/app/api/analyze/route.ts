@@ -12,13 +12,13 @@
  * Server-only. ANTHROPIC_API_KEY is never exposed to the client.
  */
 
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "node:crypto";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
 import { checkRateLimit } from "@/lib/utils/rateLimit";
+import { isJpegBase64 } from "@/lib/utils/imageType";
 import { signScan } from "@/lib/supabase/scanSignature";
 import { claimAnalysis, withHealthCondition } from "@/lib/supabase/analysisCache";
 import type {
@@ -44,6 +44,10 @@ export const maxDuration = 60;
 // limits are a server-side backstop for direct API callers.
 const MAX_IMAGES = 10;
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB per image (backstop)
+
+// What the app shows when the OCR or ranking call fails. The SDK's own error
+// text (model names, request ids, upstream detail) goes to the logs only.
+const CLAUDE_FAILURE_MESSAGE = "We couldn't analyze this menu. Please try again.";
 const VALID_CONDITIONS = ["high_cholesterol"];
 
 /**
@@ -175,8 +179,6 @@ async function admitAndAnalyze(
       ocrResult = await extractDishesFromImages(images);
     } catch (error) {
       console.error("[/api/analyze] OCR failed:", error);
-      const message = error instanceof Error ? error.message : "OCR failed";
-
       if (isRateLimitError(error)) {
         return errorResponse(
           "RATE_LIMIT",
@@ -185,7 +187,7 @@ async function admitAndAnalyze(
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", CLAUDE_FAILURE_MESSAGE, 500);
     }
 
     const { isMenu, dishes: rawDishes, unreadable: unreadableItems, restaurantName } = ocrResult;
@@ -272,8 +274,6 @@ async function admitAndAnalyze(
       rankedDishes = await rankDishes(rankableDishes, healthCondition);
     } catch (error) {
       console.error("[/api/analyze] Ranking failed:", error);
-      const message = error instanceof Error ? error.message : "Ranking failed";
-
       if (isRateLimitError(error)) {
         return errorResponse(
           "RATE_LIMIT",
@@ -282,7 +282,7 @@ async function admitAndAnalyze(
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", CLAUDE_FAILURE_MESSAGE, 500);
     }
 
     const processingTimeMs = Date.now() - startTime;
@@ -378,6 +378,13 @@ function validateRequest(body: unknown): { valid: boolean; error?: string } {
       return {
         valid: false,
         error: `Image at index ${i} must be a non-empty base64 string`,
+      };
+    }
+
+    if (!isJpegBase64(img)) {
+      return {
+        valid: false,
+        error: `Image at index ${i} is not a JPEG.`,
       };
     }
 

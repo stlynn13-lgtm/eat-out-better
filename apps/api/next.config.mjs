@@ -30,7 +30,24 @@ const nextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
+          // The API's only pages are the static /privacy, /terms and
+          // /support. Nothing should frame them, and nothing on them needs
+          // the camera, microphone or location. Next.js inlines its hydration
+          // scripts and the pages' styles, hence 'unsafe-inline' for those two:
+          // the pages take no user input, so there's nothing to inject, and a
+          // nonce would force every page to render dynamically.
+          // (X-XSS-Protection is gone: browsers dropped the filter it
+          // controlled, and CSP replaces it.)
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline'; " +
+              "style-src 'self' 'unsafe-inline'; frame-ancestors 'none'",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
         ],
       },
     ];

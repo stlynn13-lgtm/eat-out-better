@@ -11,18 +11,17 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  // Vercel injects these on every deployment (Settings > Environment Variables >
+  // Vercel injects this on every deployment (Settings > Environment Variables >
   // "Automatically expose System Environment Variables", on by default).
-  // Locally they are undefined, hence the "local" fallbacks.
-  const commitSha = process.env.VERCEL_GIT_COMMIT_SHA ?? null;
+  // Locally it is undefined, hence the "local" fallback. Only the short SHA is
+  // returned: enough to tell which deploy is live, without advertising the
+  // branch, environment or full commit to anyone who calls this.
+  const commitSha = process.env.VERCEL_GIT_COMMIT_SHA;
 
   return NextResponse.json({
     status: "ok",
     version: process.env.npm_package_version ?? "0.1.0",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV ?? "development",
     commit: commitSha ? commitSha.slice(0, 7) : "local",
-    commitSha,
-    branch: process.env.VERCEL_GIT_COMMIT_REF ?? "local",
   });
 }
