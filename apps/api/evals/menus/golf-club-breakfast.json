@@ -6,7 +6,10 @@
     "restaurant": "Golf club (CyberGolf-hosted site, course id 1257)",
     "url": "https://cdn.cybergolf.com/images/1257/BreakfastMenu.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [2] of the original"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [2] of the original",
+    "pages": [
+      2
+    ]
   },
   "photos": [
     "p1.jpg"
