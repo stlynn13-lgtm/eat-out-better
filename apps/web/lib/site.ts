@@ -23,7 +23,41 @@ export const APP_STORE_URL = process.env.NEXT_PUBLIC_APP_STORE_URL ?? "";
 /** Legal pages already live on the API project, which the app links to. One copy, not two. */
 export const API_URL = "https://eat-out-better-api.vercel.app";
 
+/**
+ * The real-app screen recording shown under "How it works". Null renders
+ * nothing, so the site ships fine without it. To turn it on, put the files in
+ * public/video/ and fill this in (see README -> "Adding the demo video").
+ * Paths are site-relative: media is self-hosted, never a YouTube/Vimeo embed,
+ * because the privacy policy promises no third-party cookies.
+ */
+export type DemoVideoConfig = {
+  /** Poster frame. Required: iOS Safari shows nothing until play without one. */
+  poster: string;
+  /** H.264 MP4 plays everywhere; WebM is an optional smaller file for Chrome/Firefox. */
+  mp4: string;
+  webm?: string;
+  /** WebVTT captions. Most people watch with sound off; also an accessibility need. */
+  captions?: string;
+  /** "portrait" = phone recording (framed); "landscape" = screen recording. */
+  orientation: "portrait" | "landscape";
+  /** Width / height of the file, so the box reserves space and the page doesn't jump. */
+  width: number;
+  height: number;
+  /** One-sentence description for screen readers. */
+  description: string;
+};
+
+export const DEMO_VIDEO: DemoVideoConfig | null = null;
+
 export const SUPPORT_EMAIL = "support@eatoutbetter.com";
+
+/**
+ * Real content dates, read by the sitemap and the guide. Bump HOME_MODIFIED when
+ * homepage copy changes. Bump GUIDE_REVIEWED only when the guide's claims have
+ * actually been re-checked: the page publishes it as "Last reviewed".
+ */
+export const HOME_MODIFIED = "2026-10-09";
+export const GUIDE_REVIEWED = "2026-10-06";
 
 export const PRODUCT = {
   name: "Eat Out Better",

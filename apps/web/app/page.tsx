@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteChrome } from "@/components/Chrome";
 import Cta from "@/components/Cta";
+import DemoVideo from "@/components/DemoVideo";
 import DishCard from "@/components/DishCard";
 import Footer from "@/components/Footer";
 import HeroPhone from "@/components/HeroPhone";
@@ -9,7 +10,7 @@ import QrCard from "@/components/QrCard";
 import WaitlistForm from "@/components/WaitlistForm";
 import { homeJsonLd, JsonLd } from "@/lib/jsonld";
 import { SAMPLE_MENU } from "@/lib/sample-menu";
-import { FAQ, LAUNCH_STATE, SCORE_BANDS } from "@/lib/site";
+import { DEMO_VIDEO, FAQ, LAUNCH_STATE, SCORE_BANDS } from "@/lib/site";
 
 const CUISINES = [
   "Steakhouse", "Italian", "Thai", "Mexican", "Diner breakfast", "Sushi", "Burgers", "Indian",
@@ -62,8 +63,8 @@ export default function Home() {
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl text-pretty">
-                Snap any restaurant menu. Eat Out Better scores every dish from 1 to 10 for your cholesterol,
-                tells you why in plain English, and shows you an easy swap. In about 30 seconds.
+                Eating out with high cholesterol? Snap any restaurant menu. Eat Out Better scores every dish from
+                1 to 10, tells you why in plain English, and shows you an easy swap. In about 30 seconds.
               </p>
 
               <div id="hero-cta" data-hide-sticky className="mt-8 max-w-lg">
@@ -236,6 +237,22 @@ export default function Home() {
                 </p>
               </li>
             </ol>
+
+            {DEMO_VIDEO && (
+              <div className="reveal mt-20 grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+                <div className="max-w-md">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fd0b4]">See it for real</p>
+                  <h3 className="font-display text-3xl font-semibold leading-tight text-balance">
+                    Watch it work on a real menu.
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-cream/75">
+                    From the camera to ranked dishes, start to finish.
+                  </p>
+                  <div className="mt-6"><Cta placement="how-video" tone="dark" /></div>
+                </div>
+                <DemoVideo video={DEMO_VIDEO} />
+              </div>
+            )}
           </div>
         </section>
 

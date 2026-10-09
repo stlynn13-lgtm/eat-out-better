@@ -17,6 +17,39 @@
 
 - Add the Resend API key as an Edge Function secret named `RESEND_API_KEY` (Supabase → Edge Functions → Secrets). Until then signups still save, but no alert goes out; they're sent with the first signup after the key is added.
 
+---
+
+## 2026-10-09 — Website: slot for the demo video (not live yet)
+
+**What changed**
+
+- **Added a "See it for real" block under How it works** on the marketing site: a tap-to-play video of the app on a real menu, with a waitlist (later App Store) button beside it. It stays hidden until a video is configured, so nothing visible changes today.
+- **Videos are self-hosted, not YouTube or Vimeo.** A YouTube embed would be blocked by the site's security headers, and it would break the privacy policy's promise of no third-party cookies. The video never autoplays and doesn't download until someone taps it, so page speed is unaffected.
+- **Two new analytics events:** `video_play` and `video_complete`.
+
+**Why it mattered:** the hero loop and the try-it demo are both simulations. A recording of the real app is the proof that it works on an actual menu.
+
+**What it sets up next:** Sean drops the compressed video, a poster image and captions into `apps/web/public/video/` and fills in `DEMO_VIDEO` in `apps/web/lib/site.ts` (steps in `apps/web/README.md`). The App Store listing's App Preview is a separate, raw screen capture (15-30 s, exact device sizes) and isn't part of this change.
+
+---
+
+## 2026-10-09 — Search fixes on the marketing site
+
+**What changed** (all in `apps/web`)
+
+- **Guide title and description shortened** so Google doesn't cut them off. Title is now "How to Eat Out With High Cholesterol: Ordering Guide"; the description dropped from about 205 to about 150 characters.
+- **Homepage now says "high cholesterol" in the places search engines weigh most**: the page description and the first line under the headline. The brand headline is unchanged.
+- **Removed the `keywords` tag.** Google and Bing ignore it.
+- **Sitemap dates are now real.** They come from two constants in `lib/site.ts`, so they only change when content does. The guide's "Last reviewed" date was deliberately not bumped, because nobody re-checked its claims.
+
+**Not done, on purpose**
+
+- Ranking for broad terms (diets, "eating healthy") isn't realistic for a new site and conflicts with the one-condition v1 scope. Logged in `backlog.md` under "Search / SEO growth" with a recommended order.
+- A named dietitian or clinician reviewing the guide is the biggest remaining ranking lever for health content. It needs a real person; **Sean to decide who.**
+
+**Not verified live:** the live site couldn't be reached from the session. After the next deploy, view source on the live URLs to confirm the new title and description, and submit the sitemap in Search Console once the domain is verified.
+
+---
 ## 2026-10-06 (evening) — Security fixes #52 and #56 merged
 
 **What changed**
