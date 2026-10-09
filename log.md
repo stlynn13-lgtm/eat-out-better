@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-10-09 — eatoutbetter.com is live; waitlist signups now email Sean
+
+**What changed**
+
+- **The site is live on eatoutbetter.com** with HTTPS. Namecheap DNS points at Vercel (apex A record, `www` CNAME); `www` redirects to the apex. The first visits showed an unstyled "not secure" page only because the SSL certificate hadn't been issued yet; it was issued automatically a few minutes later.
+- **Waitlist alerts:** each new signup emails eatoutbetter@gmail.com (the address, which button it came from, and the running total). A database trigger calls a small Supabase function (`notify-waitlist`), which sends through Resend from no-reply@eatoutbetter.com. The signup itself never waits on the email, and each address is reported once. Signups from before this change aren't re-sent.
+
+**Needs Sean**
+
+- Add the Resend API key as an Edge Function secret named `RESEND_API_KEY` (Supabase → Edge Functions → Secrets). Until then signups still save, but no alert goes out; they're sent with the first signup after the key is added.
+
 ## 2026-10-06 (evening) — Security fixes #52 and #56 merged
 
 **What changed**
