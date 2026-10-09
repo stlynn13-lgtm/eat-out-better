@@ -11,6 +11,9 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
+  // Demo video is self-hosted (public/video). Third-party players stay blocked
+  // on purpose: the privacy policy promises no third-party cookies.
+  "media-src 'self'",
   "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",

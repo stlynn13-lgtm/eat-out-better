@@ -33,6 +33,18 @@ Also at launch: swap the CTA's placeholder badge for Apple's official badge artw
 | SEO / AI search | `app/robots.ts`, `app/sitemap.ts`, `app/llms.txt/route.ts`, `lib/jsonld.tsx`, `app/high-cholesterol-restaurant-guide/` |
 | Privacy / Terms / Support | redirect to the API project's pages (one copy of each) — `next.config.ts` |
 
+## Adding the demo video
+
+The "See it for real" block under How it works renders only when `DEMO_VIDEO` in `lib/site.ts` is set. It's `null` today, so nothing shows.
+
+1. Compress a screen recording to H.264 MP4 (`ffmpeg -i in.mov -vf scale=-2:1280 -c:v libx264 -crf 26 -preset slow -an -movflags +faststart public/video/demo.mp4`; drop `-an` if it has audio). Aim for under 5 MB. `+faststart` lets it start before it finishes downloading.
+2. Export one frame as the poster (`public/video/demo-poster.jpg`) and, ideally, a `.vtt` caption file.
+3. Fill in `DEMO_VIDEO` (paths, width, height, one-sentence description) and redeploy.
+
+Files live in `public/`, so keep them small: git history never forgets a big binary. Anything over about 10 MB should go in Vercel Blob instead, with its host added to `media-src` in `next.config.ts`. Don't embed YouTube/Vimeo: the CSP blocks it, and it would break the cookie-free promise in the privacy policy.
+
+Events: `video_play` and `video_complete` (once each per page view) in Vercel Analytics.
+
 ## Reading the waitlist
 
 Supabase dashboard → Table Editor → `waitlist` (or SQL: `select * from waitlist order by created_at`). The publishable key can only add rows, never read them.
