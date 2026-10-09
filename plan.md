@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-04
+**Last updated:** 2026-10-09
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -28,16 +28,25 @@
 
 ## NOW
 
-**Security follow-ups first:** `security-followups.md` has the open items, in order with exact steps. Signed scans are live; the repo is private. Still open: confirm the API token in Vercel and merge #52; merge #51; Supabase anonymous sign-up limit and password settings; lower the spend cap; one phone scan to prove sync.
+**Marketing site (new, 2026-10-06):** built in `apps/web`, deploying to the Vercel project `eat-out-better-web`. To finish:
+- **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist`.
+- **Point eatoutbetter.com at it:** Vercel → eat-out-better-web → Settings → Domains → add `eatoutbetter.com` and `www.eatoutbetter.com`; then in Namecheap → Advanced DNS add exactly the A / CNAME records Vercel shows. **Don't delete the existing MX, TXT (SPF/DKIM) or `send` records**; those carry the sign-in code emails and Resend.
+- **Privacy policy:** updated on this branch to cover waitlist emails and the website's cookie-free analytics; goes live when the PR merges (the API project serves `/privacy`). **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
+- **Pick a clinical reviewer for the guide** (registered dietitian or clinician). It's the biggest remaining ranking lever for the health guide; see `backlog.md` → "Search / SEO growth".
+- **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
+- **At App Store launch:** follow `apps/web/README.md` → "Going live" (two settings, the official Apple badge, the Smart App Banner).
+
+**Security follow-ups first:** the open items are tracked privately, outside this repo (the repo is public again since 2026-10-05, so open weaknesses aren't written down here). #52 (token required) and #56 (security quick fixes) merged 2026-10-06. **Next: one phone scan** to prove the Vercel token matches the app's (a failure means fix the token in Vercel, see `log.md` 2026-10-06 evening), check `/privacy` still shows, then paste the feedback script (item 4).
 
 0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
 1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
 3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
-4. **Paste the feedback script** — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com.
+4. **Paste the feedback script** (PR #56 merged 2026-10-06; the sheet still runs the old one until you do) — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. The new version also blocks spreadsheet-formula injection; then search the sheet for cells starting with `=` you didn't write.
 5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
-7. **Run the repeat-use test** (spec below). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
+7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
+8. **Run the repeat-use test** (spec below). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 

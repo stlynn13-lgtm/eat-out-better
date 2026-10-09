@@ -1,0 +1,355 @@
+{
+  "id": "matunuck",
+  "label": "Matunuck Oyster Bar (seafood, Rhode Island)",
+  "note": "Inside spread only (p1 of the PDF): one landscape page, four columns, pale blue background with decorative line art over the text edges. The restaurant name is NOT printed on this page — it is on the back cover, which is deliberately excluded. 'MATUNUCK' appears in two dish names (ONE DOZEN MATUNUCK OYSTERS, MATUNUCK HOUSE SALAD), so returning 'Matunuck Oyster Bar' would be a guess from the dishes: correct restaurantName is null. Names run straight into descriptions on the same line, separated only by caps vs. sentence case. Traps: salad protein add-on lines, champagne add-on lines, the sandwich substitution line, the lumache add-on line and the dietary-icon legend are not dishes.",
+  "source": {
+    "restaurant": "Matunuck Oyster Bar",
+    "url": "https://rhodyoysters.com/wp-content/uploads/mob-dinner-menu-web.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1] of the original"
+  },
+  "photos": [
+    "p1.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "ONE DOZEN MATUNUCK OYSTERS",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "OYSTER SAMPLER",
+      "description": "assortment of twelve local oysters",
+      "section": "RAW BAR*",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "note": "seafood",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "OYSTERS A LA CARTE",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "JUMBO SHRIMP",
+      "description": "U/8",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "LITTLENECK CLAMS",
+      "description": "Narragansett Bay",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "CHERRYSTONES",
+      "description": "Narragansett Bay",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "CHILLED LOBSTER",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "ISLANDER",
+      "description": "assortment of twelve local oysters, six littleneck clams, four jumbo shrimp",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "\"PASS\" THE TOWER",
+      "aliases": [
+        "PASS THE TOWER"
+      ],
+      "description": "assortment of twelve local oysters, six littleneck clams, four jumbo shrimp, a chilled whole lobster, tuna poke, seaweed salad",
+      "section": "RAW BAR*"
+    },
+    {
+      "name": "PT. JUDITH CALAMARI",
+      "description": "lightly fried, cherry peppers, arugula, capers, citrus aioli",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "LITTLENECKS & CHOURIÇO",
+      "description": "RI littlenecks, tomatoes, garlic, white wine, white beans, garlic crostini",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "LOBSTER PIZZA",
+      "description": "naan, lobster, mascarpone, arugula, gouda, prosciutto, mozzarella, white truffle",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "HOUSE-MADE STUFFIE",
+      "description": "chopped quahog meat, bell pepper, chouriço, basil",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PANKO CRUSTED OCTOPUS",
+      "description": "spicy mayo, scallions, eel sauce, pickled vegetable",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "STEAMERS",
+      "description": "1½ lbs of soft-shelled clams, clam broth, drawn butter",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "TUNA CRUDO",
+      "description": "strawberry shoyu ponzu, chili crisp, umami cashews, extra virgin olive oil, sorrel",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "OYSTERS ROCKEFELLER",
+      "description": "5 per order, pernod, spinach, bacon, bread crumbs, fresh herbs",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "BOURBON OYSTERS",
+      "description": "5 per order, Bourbon chipotle sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "OYSTER DUO",
+      "description": "three Bourbon, three Rockefeller",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "NEW ENGLAND CLAM CHOWDER (creamy)",
+      "aliases": [
+        "NEW ENGLAND CLAM CHOWDER"
+      ],
+      "description": "chopped clams, red bliss potatoes, bacon, clam broth",
+      "section": "CHOWDER",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BEET AND GOAT CHEESE",
+      "description": "organic mixed greens, roasted beets, goat cheese, spiced pecans, orange-rice wine vinaigrette",
+      "section": "SALADS"
+    },
+    {
+      "name": "MATUNUCK HOUSE SALAD",
+      "description": "organic mixed greens, cucumbers, cherry tomatoes, balsamic vinaigrette",
+      "section": "SALADS",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CAESAR",
+      "description": "romaine lettuce, white anchovies, garlic crostini, house-made dressing",
+      "section": "SALADS"
+    },
+    {
+      "name": "LOBSTER ROLL",
+      "description": "chilled lobster, lightly dressed with mayonnaise, chopped celery, grilled buttery roll",
+      "section": "SANDWICHES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FRIED CHICKEN SANDWICH",
+      "description": "julienned vegetable slaw, arugula, orange mirin vinaigrette, gochujang honey mustard, tomato, house-made roll",
+      "section": "SANDWICHES"
+    },
+    {
+      "name": "BOILED LOBSTER",
+      "description": "1½ lb lobster, and choice of one side",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "note": "watch out for the butter",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "STUFFED LOBSTER",
+      "description": "1½ lb lobster, jumbo shrimp, scallops, seafood stuffing, and choice of one side",
+      "section": "ENTREES"
+    },
+    {
+      "name": "TOGARASHI SCALLOPS",
+      "description": "seared scallops, togarashi seasoning, sticky rice, pickled ginger aioli, cucumber-carrot slaw",
+      "section": "ENTREES"
+    },
+    {
+      "name": "CLAMS & LINGUINE",
+      "description": "RI littlenecks, linguine, white wine, garlic, extra virgin olive oil, fresh herbs",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "GRILLED ATLANTIC SALMON",
+      "description": "sweet and spicy ginger chili glaze, sautéed snow peas, sticky rice",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BLACKENED YELLOWFIN TUNA*",
+      "description": "fire-roasted sweet pepper relish, creole mustard cream sauce, mashed potatoes",
+      "section": "ENTREES"
+    },
+    {
+      "name": "LUMACHE PESTO",
+      "description": "house-made lumache, basil-pesto cream, Parmigiano Reggiano, tomato",
+      "section": "ENTREES"
+    },
+    {
+      "name": "POTTER POND POKE BOWL*",
+      "description": "yellowfin tuna, edamame, peppers, seaweed, avocado, carrot, cucumber, crispy wontons, sticky rice, sesame tamari, ginger aioli",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FISH & CHIPS",
+      "description": "fresh Atlantic cod, coleslaw, french fries, tartar",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FRIED OYSTERS",
+      "description": "lightly fried, coleslaw, french fries remoulade",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Small Beet Salad",
+      "section": "SIDES"
+    },
+    {
+      "name": "Small Caesar Salad",
+      "section": "SIDES"
+    },
+    {
+      "name": "Small House Salad",
+      "section": "SIDES"
+    },
+    {
+      "name": "Mashed Potatoes",
+      "section": "SIDES"
+    },
+    {
+      "name": "Seasonal Chef Vegetables",
+      "section": "SIDES"
+    },
+    {
+      "name": "French Fries",
+      "section": "SIDES"
+    },
+    {
+      "name": "Truffle Fries",
+      "section": "SIDES"
+    },
+    {
+      "name": "Snow Peas",
+      "section": "SIDES"
+    },
+    {
+      "name": "Sticky Rice",
+      "section": "SIDES",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "KEY LIME POP",
+      "description": "graham cracker crust, dipped in white chocolate",
+      "section": "DESSERTS",
+      "expected": {
+        "category": "dessert",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FLOURLESS CHOCOLATE TORTE",
+      "description": "raspberry purée, whipped cream",
+      "section": "DESSERTS"
+    },
+    {
+      "name": "GRILLED CHEESE",
+      "description": "choice of french fries, or seasonal chef vegetables",
+      "section": "CHILDREN'S MENU"
+    },
+    {
+      "name": "FISH STICKS",
+      "description": "choice of french fries, or seasonal chef vegetables",
+      "section": "CHILDREN'S MENU"
+    },
+    {
+      "name": "CHICKEN FINGERS",
+      "description": "choice of french fries, or seasonal chef vegetables",
+      "section": "CHILDREN'S MENU"
+    }
+  ],
+  "optional": [
+    "add a bottle of Taittinger Champagne",
+    "Taittinger Champagne",
+    "lobster salad",
+    "tuna",
+    "salmon",
+    "seared shrimp",
+    "scallops",
+    "chicken",
+    "fried oysters",
+    "truffle fries",
+    "beet and goat cheese salad",
+    "house salad",
+    "add shrimp",
+    "GLUTEN-FREE",
+    "AVAILABLE GLUTEN-FREE",
+    "VEGETARIAN",
+    "VEGAN"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

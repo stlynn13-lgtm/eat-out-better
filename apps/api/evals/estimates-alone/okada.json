@@ -1,0 +1,189 @@
+{
+ "menu": "okada",
+ "recordedAt": "2026-10-05T11:42:38.653Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "Edamame",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "Pork Gyoza",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "Chicken Yakitori",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "*Ahi Poke",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Veggie Miso Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "Chashu Pork Tonkotsu Ramen",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "Salmon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "key": "Filet Mignon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "Grilled Salmon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "Teriyaki Chicken Bento",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 78,
+   "key": "Shrimp Tempura Udon",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "Crispy Honey Chicken",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 107,
+   "key": "Chicken",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 119,
+   "key": "Fried Ice Cream",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  }
+ ]
+}

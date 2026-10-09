@@ -1,0 +1,2190 @@
+{
+ "menu": "margaritas",
+ "recordedAt": "2026-10-05T11:36:23.070Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "FAJITA NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "SEAFOOD NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "NACHOS TEXANOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 30,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "MEXICAN PIZZA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "NACHOS CANCUN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 30,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 30,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "SHREDDED CHICKEN NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "GROUND BEEF NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "CARNITAS & CHEESE NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "SPECIAL NACHOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "GRILLED NACHOS SUPREME",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "CHEESE DIP",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "CHORI-QUESO",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "GROUND BEEF & CHEESE DIP",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "BEAN DIP",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "GUACAMOLE",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "FIESTA TRIO",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "TABLESIDE GUACAMOLE",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "CHICKEN TENDERS (3)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "QUESO FUNDIDO",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "TAQUITOS MEXICANOS (FLAUTAS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "PAPAS LOCAS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "CHICKEN WINGS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "BURRITO (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "TACO (3)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "ENCHILADA (3)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "CHIMICHANGA (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "RICE",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "BEANS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "CHILE RELLENO (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "QUESADILLA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "TOSTADA (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "CHALUPA (2)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "MEXICAN RICE WITH CHEESE DIP",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "GRILLED TACOS (1)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "FRENCH FRIES",
+   "category": "condiment",
+   "runs": []
+  },
+  {
+   "index": 35,
+   "key": "BLUE AGAVE MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 36,
+   "key": "CABO WABO MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 37,
+   "key": "CADILLAC MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 38,
+   "key": "PATRÓN PERFECTA MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 39,
+   "key": "PASSION FRUIT MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 40,
+   "key": "TROPICAL MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 41,
+   "key": "CORONARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 42,
+   "key": "SANGRIA-RITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 43,
+   "key": "FLAVORED MARGARITAS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 44,
+   "key": "HOUSE MARGARITAS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 45,
+   "key": "TEXAS MARGARITAS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 46,
+   "key": "PREMIUM MARGARITAS",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 47,
+   "key": "PALOMA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 48,
+   "key": "HURRICANE",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 49,
+   "key": "BAHAMA MAMA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 50,
+   "key": "CANTARITO",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 51,
+   "key": "SKINNY MARGARITA",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 52,
+   "key": "DEL GOLFO BURRITO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "BURRITO TOLUCA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "key": "BURRITO LOCO FAJITA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "key": "TRES AMIGOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "key": "BURRITO DE ASADA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "BURRITO BOWL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "key": "BURRITO AZABACHE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 59,
+   "key": "BURRITOS SUPREMOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "key": "BURRITO MIXTO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "BURRITO MEXICANOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "WET BURRITO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "KING BURRITO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "BURRITO DELUXE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 21,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "SEAFOOD CHIMICHANGA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "FAJITA CHIMICHANGA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "CHIMICHANGAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 26,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "TEXAS CHIMICHANGA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 27,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 29,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 27,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "TEX-MEX TACOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 70,
+   "key": "TACOS SUPREMOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "TACOS AL PASTOR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "TACOS DE TILAPIA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "TACOS DE CARNITAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "key": "TACOS DE ASADA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 75,
+   "key": "SHRIMP TACOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 76,
+   "key": "TACOS DE BIRRIA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 77,
+   "key": "PARRILLADA (Dinner for Two)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 32,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 78,
+   "key": "DOS AMIGOS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 79,
+   "key": "JALISCO ESPECIAL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 80,
+   "key": "CHILE COLORADO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 81,
+   "key": "POLLO WITH VEGGIES",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 82,
+   "key": "CALIFORNIA BURRITO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 83,
+   "key": "CHILE VERDE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 84,
+   "key": "CARNITAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 85,
+   "key": "CANCUN ESPECIAL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 86,
+   "key": "ENCHILADAS SUPREMAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 87,
+   "key": "ENCHILADAS AZABACHE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 88,
+   "key": "ENCHILADAS RANCHERAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 21,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 21,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 89,
+   "key": "SUPER ENCHILADAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 90,
+   "key": "ENCHILADAS VERDES",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 91,
+   "key": "TRES MARIAS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 92,
+   "key": "ENCHILADAS DEL GULFO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 93,
+   "key": "QUESADILLA TOLUCA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 94,
+   "key": "FAJITA QUESADILLA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 95,
+   "key": "QUESADILLA ROJA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 96,
+   "key": "QUESABIRRIA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 97,
+   "key": "QUESADILLA SUPREMA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 21,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 98,
+   "key": "QUESADILLA DEL GULFO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 99,
+   "key": "VEGGIE QUESADILLA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 100,
+   "key": "QUESADILLA MEXICANA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

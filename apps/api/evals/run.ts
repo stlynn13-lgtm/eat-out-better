@@ -9,7 +9,7 @@
  *   ANTHROPIC_API_KEY=... npm run eval
  */
 
-import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnvConfig } from "@next/env";
@@ -17,10 +17,12 @@ import { rankDishes } from "../src/lib/claude/ranking";
 import { getTier, GREEN_MIN, YELLOW_MIN } from "../src/lib/config/scoring";
 import { categorizeDish, isRanked, CATEGORY_LABEL, RANKED_CATEGORIES } from "../src/lib/config/categories";
 import type { ExtractedDish, ScoreTier, DishCategory } from "../src/lib/types";
+import type { DishEstimates } from "../src/lib/config/scoring";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MENUS_DIR = join(HERE, "menus");
 const BASELINES_DIR = join(HERE, "baselines");
+const ESTIMATES_DIR = join(HERE, "estimates");
 
 // Read apps/api/.env.local the same way `next dev` does. A bare tsx script does
 // NOT pick that file up on its own, so without this the runner reports "no API
@@ -36,16 +38,26 @@ loadEnvConfig(join(HERE, ".."));
  */
 const EDGE_MARGIN = 0.3;
 
+/** A human answer key on one dish (the photo corpus keeps it on the dish
+ * itself, so two dishes sharing a name can carry different answers). */
+interface DishExpectation {
+  tier?: ScoreTier;
+  category?: DishCategory;
+}
+
 interface MenuFile {
   id: string;
   label: string;
   note?: string;
-  dishes: ExtractedDish[];
+  dishes: (ExtractedDish & { expected?: DishExpectation })[];
+  /** Older menus: expected tier by dish name. */
   expected?: Record<string, ScoreTier>;
 }
 
 interface DishResult {
+  /** Display key: the name, or "name [section]" when the menu prints the name twice. */
   name: string;
+  expected?: DishExpectation;
   category: DishCategory;
   scores: number[];
   median: number;
@@ -93,12 +105,36 @@ function isUnscored(explanation: string): boolean {
   return explanation.includes("couldn't score") || explanation.includes("couldn't fully assess");
 }
 
+/**
+ * A menu with neither an answer key nor a baseline has nothing to be judged
+ * against — scoring it costs real calls and can only print numbers. The
+ * extraction corpus (menus collected for the photo-reading eval) lands here
+ * before anyone has set its tiers, so the default run skips those; name one
+ * with --menu to score it anyway, e.g. to record its first baseline.
+ */
+function isScorable(menu: MenuFile): boolean {
+  return (
+    Object.keys(menu.expected ?? {}).length > 0 ||
+    menu.dishes.some((d) => d.expected) ||
+    existsSync(join(BASELINES_DIR, `${menu.id}.json`))
+  );
+}
+
 function loadMenus(): MenuFile[] {
   if (!existsSync(MENUS_DIR)) return [];
-  return readdirSync(MENUS_DIR)
+  const menus = readdirSync(MENUS_DIR)
     .filter((f) => f.endsWith(".json"))
-    .map((f) => JSON.parse(readFileSync(join(MENUS_DIR, f), "utf8")) as MenuFile)
-    .filter((m) => !ONLY || m.id === ONLY);
+    .map((f) => JSON.parse(readFileSync(join(MENUS_DIR, f), "utf8")) as MenuFile);
+  if (ONLY) return menus.filter((m) => m.id === ONLY);
+  const skipped = menus.filter((m) => !isScorable(m));
+  if (skipped.length > 0) {
+    console.log(
+      `Skipping ${skipped.length} menu(s) with no answer key or baseline yet: ${skipped
+        .map((m) => m.id)
+        .join(", ")}\n`
+    );
+  }
+  return menus.filter(isScorable);
 }
 
 // --- Scoring --------------------------------------------------
@@ -108,42 +144,89 @@ async function scoreMenu(menu: MenuFile): Promise<DishResult[]> {
   // then rank ONLY the rankable ones. Without this the excluded dishes would come
   // back with no scores, median 0, tier red — five phantom catastrophic
   // regressions on any menu with a bar.
-  const categorized = menu.dishes.map((d) => ({ ...d, category: categorizeDish(d) }));
+  // Real menus print the same name twice for different orders (Benvenuto's
+  // pasta and sandwich CHICKEN PARMIGIANA; Okada's adult and kids' "Chicken").
+  // Keying results by name alone would pour both into one score list, so each
+  // dish gets a display key, and the ranker's answers are handed back by name,
+  // then category, then order.
+  const nameCount = new Map<string, number>();
+  for (const d of menu.dishes) nameCount.set(d.name, (nameCount.get(d.name) ?? 0) + 1);
+  const categorized = menu.dishes.map((d) => ({
+    ...d,
+    category: categorizeDish(d),
+    key: (nameCount.get(d.name) ?? 0) > 1 ? `${d.name} [${d.section ?? "no section"}]` : d.name,
+    expectation: d.expected ?? (menu.expected?.[d.name] ? { tier: menu.expected[d.name] } : undefined),
+  }));
   const rankable = categorized.filter((d) => isRanked(d.category));
 
   const perDishScores = new Map<string, number[]>();
-  const unscoredNames = new Set<string>();
+  const unscoredKeys = new Set<string>();
   // COUNT badge wins per dish rather than collecting a set of winners. A set
   // hides the thing that matters: if two dishes in one category each won some
   // runs, the badge is unstable and the user's "Best Side" changes between scans.
   const bestWins = new Map<string, number>();
 
+  // The model's raw estimates per dish per run, saved so thresholds can be
+  // tuned offline against the answer key (npm run eval:calibrate).
+  const estimatesByKey = new Map<string, (DishEstimates | null)[]>();
+
   for (let run = 1; run <= RUNS; run++) {
     process.stdout.write(`    run ${run}/${RUNS}…\r`);
-    const ranked = await rankDishes(rankable, "high_cholesterol");
-    for (const dish of ranked) {
-      if (isUnscored(dish.explanation)) unscoredNames.add(dish.name);
-      if (dish.tag === "best-in-category")
-        bestWins.set(dish.name, (bestWins.get(dish.name) ?? 0) + 1);
-      const list = perDishScores.get(dish.name) ?? [];
-      list.push(dish.score);
-      perDishScores.set(dish.name, list);
+    const ranked = await rankDishes(rankable, "high_cholesterol", {
+      onEstimates: (list) =>
+        list.forEach((e, i) => {
+          const key = rankable[i].key;
+          estimatesByKey.set(key, [...(estimatesByKey.get(key) ?? []), e.estimates ?? null]);
+        }),
+    });
+    const pool = [...ranked];
+    for (const dish of rankable) {
+      const sameCategory = pool.findIndex((r) => r.name === dish.name && r.category === dish.category);
+      const i = sameCategory >= 0 ? sameCategory : pool.findIndex((r) => r.name === dish.name);
+      if (i < 0) { unscoredKeys.add(dish.key); continue; }
+      const [r] = pool.splice(i, 1);
+      if (isUnscored(r.explanation)) unscoredKeys.add(dish.key);
+      if (r.tag === "best-in-category") bestWins.set(dish.key, (bestWins.get(dish.key) ?? 0) + 1);
+      const list = perDishScores.get(dish.key) ?? [];
+      list.push(r.score);
+      perDishScores.set(dish.key, list);
     }
   }
   process.stdout.write("                    \r");
 
+  mkdirSync(ESTIMATES_DIR, { recursive: true });
+  writeFileSync(
+    join(ESTIMATES_DIR, `${menu.id}.json`),
+    JSON.stringify(
+      {
+        menu: menu.id,
+        recordedAt: new Date().toISOString(),
+        runs: RUNS,
+        dishes: categorized.map((d, index) => ({
+          index,
+          key: d.key,
+          category: d.category,
+          runs: estimatesByKey.get(d.key) ?? [],
+        })),
+      },
+      null,
+      1
+    ) + "\n"
+  );
+
   return categorized.map((dish) => {
     const excluded = !isRanked(dish.category);
-    const scores = perDishScores.get(dish.name) ?? [];
+    const scores = perDishScores.get(dish.key) ?? [];
     const med = scores.length ? median(scores) : 0;
     return {
-      name: dish.name,
+      name: dish.key,
+      expected: dish.expectation,
       category: dish.category,
       scores,
       median: med,
       tier: getTier(med),
-      bestWins: bestWins.get(dish.name) ?? 0,
-      unscored: !excluded && unscoredNames.has(dish.name),
+      bestWins: bestWins.get(dish.key) ?? 0,
+      unscored: !excluded && unscoredKeys.has(dish.key),
       excluded,
     };
   });
@@ -153,7 +236,7 @@ async function scoreMenu(menu: MenuFile): Promise<DishResult[]> {
 
 interface Problem {
   dish: string;
-  kind: "unscored" | "expected" | "drift";
+  kind: "unscored" | "expected" | "group" | "drift";
   detail: string;
 }
 
@@ -179,7 +262,11 @@ function evaluate(menu: MenuFile, results: DishResult[]): Problem[] {
     console.log(`\n  ${CATEGORY_LABEL[category]}${ranked ? "" : "  (not scored)"}`);
     for (const r of inCategory) {
       if (!ranked) {
-        console.log(`  ${r.name.padEnd(pad)}       —  —       excluded by design`);
+        const want = r.expected?.category;
+        if (want && want !== r.category) {
+          problems.push({ dish: r.name, kind: "group", detail: `filed as ${CATEGORY_LABEL[r.category]}, should be ${CATEGORY_LABEL[want]}` });
+        }
+        console.log(`  ${r.name.padEnd(pad)}       —  —       excluded by design${want && want !== r.category ? `  WRONG GROUP want=${want}` : ""}`);
         continue;
       }
       reportDish(r, menu, baseline, hasBaseline, problems, pad);
@@ -208,7 +295,7 @@ function reportDish(
       notes.push("UNSCORED");
     }
 
-    const expected = menu.expected?.[r.name];
+    const expected = r.expected?.tier;
     if (expected && expected !== r.tier) {
       problems.push({
         dish: r.name,
@@ -218,6 +305,16 @@ function reportDish(
       notes.push(`WRONG want=${expected}`);
     } else if (expected) {
       notes.push(`ok=${expected}`);
+    }
+
+    const wantGroup = r.expected?.category;
+    if (wantGroup && wantGroup !== r.category) {
+      problems.push({
+        dish: r.name,
+        kind: "group",
+        detail: `filed as ${CATEGORY_LABEL[r.category]}, should be ${CATEGORY_LABEL[wantGroup]}`,
+      });
+      notes.push(`WRONG GROUP want=${wantGroup}`);
     }
 
     const base = baseline[r.name];
@@ -288,11 +385,25 @@ async function main() {
   }
 
   let total = 0;
+  const tally = { tierChecked: 0, tierOk: 0, appGreener: 0, appRedder: 0, groupChecked: 0, groupOk: 0 };
+  const rank: Record<ScoreTier, number> = { red: 0, yellow: 1, green: 2 };
   for (const menu of menus) {
     console.log(`\n${menu.label} (${menu.dishes.length} dishes, ${RUNS} runs)`);
     if (menu.note) console.log(`  ${menu.note}`);
     const results = await scoreMenu(menu);
     const problems = evaluate(menu, results);
+    for (const r of results) {
+      if (r.expected?.category) {
+        tally.groupChecked++;
+        if (r.expected.category === r.category) tally.groupOk++;
+      }
+      if (r.expected?.tier && !r.excluded && !r.unscored) {
+        tally.tierChecked++;
+        if (r.expected.tier === r.tier) tally.tierOk++;
+        else if (rank[r.tier] > rank[r.expected.tier]) tally.appGreener++;
+        else tally.appRedder++;
+      }
+    }
     if (UPDATE_BASELINE) writeBaseline(menu, results);
 
     if (problems.length > 0) {
@@ -300,6 +411,13 @@ async function main() {
       for (const p of problems) console.log(`  ${p.kind.toUpperCase()}: ${p.dish} — ${p.detail}`);
     }
     total += problems.length;
+  }
+
+  if (tally.tierChecked + tally.groupChecked > 0) {
+    const pct = (a: number, b: number) => (b ? `${Math.round((100 * a) / b)}%` : "—");
+    console.log("\nAgainst the answer key:");
+    console.log(`  tiers   ${tally.tierOk}/${tally.tierChecked} match (${pct(tally.tierOk, tally.tierChecked)}) — app greener than the key on ${tally.appGreener}, redder on ${tally.appRedder}`);
+    console.log(`  groups  ${tally.groupOk}/${tally.groupChecked} match (${pct(tally.groupOk, tally.groupChecked)})`);
   }
 
   if (UPDATE_BASELINE) {

@@ -1,0 +1,1932 @@
+{
+ "menu": "ruan-thai",
+ "recordedAt": "2026-10-05T11:39:41.870Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "SATAY CHICKEN (6 SKEWERS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "TOD MUN (5 CAKES)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "CHIVE DUMPLING (2 DUMPLINGS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "KANUM JEEB (6 DUMPLINGS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "SPRING ROLL (3 ROLLS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "PEEK GAI YUD SAI (2 WINGS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "TOFU TOD",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "CURRY PUFF (2 PUFFS)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "LARB",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "YUM WATERCRESS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "YUM MA KEAU",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "YUM PED YANG",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "NAM KAO TOD",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "YUM WOON SEN",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "YUM NEAU YANG",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "NUM TOK",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "PLA MEUK TOD KROB",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "SOM TUM (PAPAYA SALAD)",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "GARDEN SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "RUAN THAI HOUSE SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "TOM YUM",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "TOM KHA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "GANG JEUD WOON SEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "PAD KHA PRAO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "PAD KHING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "PAD PRIK KHING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "PAD PAK",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "PAD PIEW WHAN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "PAD TOU LAN TAU",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "PAD TOU HIM MA PARN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "PAD NUM MUN HOI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "PAD KHA TIEM PRIK THAI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "PAD TALAY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "PAD YELLOW CURRY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "Mango Sticky Rice",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "Custard Sticky",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "Fried Banana",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "key": "Jasmine Rice",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "Sticky Rice",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "key": "Steam Veggie",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "Steam Noodle",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 1,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "Fried Egg",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "key": "PAD KHA NAH",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "PAD WATERCRESS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "PAD MA KEAU",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "key": "PAD STRING BEAN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "PAD WOON SEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "key": "GANG KEOW WHAN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "key": "GANG PA (No coconut milk)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "PANANG",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "BEEF MUSSA MUN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "CHICKEN YELLOW CURRY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 15,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "PED PA LOW",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "PED PAD KHA PRAO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "key": "PED TOD KOB",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "key": "KAO PAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "key": "PINEAPPLE FRIED RICE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 8,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "BASIL FRIED RICE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "key": "PAD THAI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 5,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 4,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 59,
+   "key": "LAD NAH",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "key": "PAD SA EW",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "KEE MAO (DRUNKEN NOODLE)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "GUAY TEOW PAD GAI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "PLA NUM TOK",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "PLA PAD PRIK KHING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "PLA PAD PED",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "PLA PAD CHA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "MOOH KORB KHA NAH",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "MOOH KORB PAD PRIK KHING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 19,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "HOW MOK TALAY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 70,
+   "key": "GOONG OB MOR DIN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "MOOH PHING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 72,
+   "key": "MOOH COOK FOON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 73,
+   "key": "CRABMEAT FRIED RICE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 74,
+   "key": "DEEP-FRIED WHOLE FLOUNDER (Market prices)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 75,
+   "key": "DEEP-FRIED SOFT SHELL CRAB",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 76,
+   "key": "GRILLED SALMON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

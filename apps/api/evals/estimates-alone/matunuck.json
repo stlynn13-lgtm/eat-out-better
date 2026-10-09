@@ -1,0 +1,163 @@
+{
+ "menu": "matunuck",
+ "recordedAt": "2026-10-05T11:42:03.736Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 1,
+   "key": "OYSTER SAMPLER",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "STEAMERS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "NEW ENGLAND CLAM CHOWDER (creamy)",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "MATUNUCK HOUSE SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "LOBSTER ROLL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "BOILED LOBSTER",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "CLAMS & LINGUINE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "GRILLED ATLANTIC SALMON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 4,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "POTTER POND POKE BOWL*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 3,
+     "protective": "strong",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "FISH & CHIPS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "Sticky Rice",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0.5,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "KEY LIME POP",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,150 @@
+{
+ "menu": "delmonico",
+ "recordedAt": "2026-10-05T11:41:13.149Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 3,
+   "key": "CREOLE BOILED GULF SHRIMP COCKTAIL",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 1,
+     "addedSugarG": 2,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "ICEBERG LETTUCE WEDGE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "PRIME BONE-IN RIBEYE*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "FILET MIGNON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "FRESH SPINACH SPAGHETTI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "NEW ZEALAND KING SALMON*",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "PAN SEARED SCALLOPS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "BAKED IDAHO POTATO",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "LOBSTER MAC & CHEESE FRESH CRESTE DI GALLO PASTA",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "DELMONICO CREAMED SPINACH",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "BUTTERED FRESH BROCCOLI",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

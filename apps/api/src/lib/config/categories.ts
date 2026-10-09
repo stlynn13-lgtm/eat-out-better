@@ -139,12 +139,25 @@ const SECTION_PATTERNS: readonly { kind: SectionKind; words: readonly string[] }
     words: ["appetizers", "appetizer", "apps", "starters", "starter", "small plates",
             "small plate", "shareables", "shareable", "sharables", "to share",
             "for the table", "snacks", "bites", "nibbles", "antipasti", "antipasto",
-            "tapas", "mezze", "meze", "hors d oeuvres", "to start", "first course"],
+            "tapas", "mezze", "meze", "hors d oeuvres", "to start", "first course",
+            // A raw bar is oysters, not drinks; listed here so "bar" below can't claim it.
+            "raw bar", "oyster bar",
+            // Headings that mean "starters" without using the word (Trojan Horse's
+            // "A LITTLE SOMETHING BEFORE").
+            "something before", "to begin", "beginnings"],
+  },
+  // Shakes are drinks, but an "adult" or "boozy" shake is alcohol. Checked before
+  // the soft-drinks entry, which would otherwise claim "shakes" first.
+  {
+    kind: "drink_alcoholic",
+    words: ["adult shakes", "adult shake", "boozy shakes", "boozy shake", "spiked shakes",
+            "adult milkshakes"],
   },
   {
     kind: "drink_non_alcoholic",
     words: ["soft drinks", "mocktails", "mocktail", "non alcoholic", "zero proof",
-            "coffee", "tea", "juices", "smoothies", "sodas"],
+            "coffee", "tea", "juices", "smoothies", "sodas", "shakes", "milkshakes",
+            "malts", "floats"],
   },
   {
     kind: "drink_alcoholic",
@@ -164,8 +177,10 @@ const SECTION_PATTERNS: readonly { kind: SectionKind; words: readonly string[] }
   },
   {
     kind: "side",
+    // Not "a la carte": it means "priced individually", and Korean BBQ menus put
+    // the main event under it ("BBQ A La Carte / BEEF").
     words: ["sides", "side", "side orders", "add ons", "add on", "extras sides",
-            "a la carte", "accompaniments"],
+            "accompaniments", "breads"],
   },
 ];
 
@@ -201,7 +216,34 @@ const ALCOHOL_WORDS: readonly string[] = [
 const NON_ALCOHOLIC_WORDS: readonly string[] = [
   "virgin", "mocktail", "non alcoholic", "nonalcoholic", "alcohol free", "zero proof",
   "na beer", "soft drink", "soft drinks",
+  // Zero-alcohol beer printed under a beer heading: "Heineken Zero", "0.0", "N/A IPA".
+  "zero", "0 0", "n a",
 ];
+
+/**
+ * Seafood and fruit "cocktails" are food. Without this, "Shrimp Cocktail" under
+ * APPETIZERS read as alcohol and dropped out of scoring entirely. Only these
+ * phrases are excused; any other cocktail is still a drink.
+ */
+const FOOD_COCKTAIL_WORDS: readonly string[] = [
+  "shrimp cocktail", "prawn cocktail", "crab cocktail", "lobster cocktail",
+  "seafood cocktail", "oyster cocktail", "fruit cocktail",
+];
+
+/**
+ * Staple accompaniments that are a side whenever the menu's heading doesn't say
+ * otherwise (Ray's rule, 2026-10-04: follow an explicit heading; when it's
+ * ambiguous, a side). Matched against the WHOLE item name, never a word in it:
+ * "Rice" is a side, "Pineapple Fried Rice" is a dish.
+ */
+const STAPLE_SIDE_NAMES: ReadonlySet<string> = new Set([
+  "rice", "white rice", "brown rice", "steamed rice", "jasmine rice", "basmati rice",
+  "sticky rice", "beans", "refried beans", "black beans", "pinto beans",
+  "rice and beans", "naan", "nan", "garlic naan", "butter naan", "roti", "chapati",
+  "paratha", "papadum", "pappadum", "raita", "fries", "french fries", "side salad",
+  "tortillas", "pita", "pita bread", "toast", "coleslaw", "cole slaw",
+  "mashed potatoes", "baked potato", "steamed vegetables",
+]);
 
 const BEVERAGE_WORDS: readonly string[] = [
   "coffee", "espresso", "americano", "latte", "cappuccino", "macchiato", "mocha",
@@ -219,7 +261,12 @@ const DESSERT_WORDS: readonly string[] = [
   "affogato", "profiteroles", "eclair", "macaron", "macarons",
 ];
 
-const looksAlcoholic = (name: string) => has(normalize(name), ALCOHOL_WORDS);
+const looksAlcoholic = (name: string) => {
+  let n = normalize(name);
+  if (has(n, FOOD_COCKTAIL_WORDS)) n = n.replace(" cocktail ", " ");
+  return has(n, ALCOHOL_WORDS);
+};
+const isStapleSide = (name: string) => STAPLE_SIDE_NAMES.has(normalize(name).trim());
 const looksNonAlcoholic = (name: string) => has(normalize(name), NON_ALCOHOLIC_WORDS);
 const looksBeverage = (name: string) => has(normalize(name), BEVERAGE_WORDS);
 const looksDessert = (name: string) => has(normalize(name), DESSERT_WORDS);
@@ -267,7 +314,7 @@ export function categorizeDish(dish: { name: string; section?: string }): DishCa
   ) {
     if (looksAlcoholic(dish.name)) return "drink_alcoholic";
     if (looksBeverage(dish.name)) return "drink_non_alcoholic";
-    if (kind === "food") return "main";
+    if (kind === "food") return isStapleSide(dish.name) ? "side" : "main";
     return kind;
   }
 
@@ -275,5 +322,6 @@ export function categorizeDish(dish: { name: string; section?: string }): DishCa
   if (looksAlcoholic(dish.name)) return "drink_alcoholic";
   if (looksBeverage(dish.name)) return "drink_non_alcoholic";
   if (looksDessert(dish.name)) return "dessert";
+  if (isStapleSide(dish.name)) return "side";
   return "main";
 }

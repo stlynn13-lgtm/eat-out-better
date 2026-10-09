@@ -3,20 +3,24 @@
  *
  * Main analysis pipeline:
  *   1. Validate request
- *   2. OCR: images → extracted dishes (parallel, Claude Vision)
- *   3. Rank: dishes → ranked dishes (single call, Claude text)
- *   4. Return results
+ *   2. Claim the scan's request id: a retry of a scan that already finished
+ *      (or is still running) gets that result instead of paying again
+ *   3. OCR: images → extracted dishes (parallel, Claude Vision)
+ *   4. Rank: dishes → ranked dishes (single call, Claude text)
+ *   5. Return results (and store them for a retry)
  *
  * Server-only. ANTHROPIC_API_KEY is never exposed to the client.
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "node:crypto";
 import { extractDishesFromImages } from "@/lib/claude/ocr";
 import { rankDishes } from "@/lib/claude/ranking";
 import { categorizeDish, isRanked, UNRANKED_REASON } from "@/lib/config/categories";
 import { checkRateLimit } from "@/lib/utils/rateLimit";
+import { isJpegBase64 } from "@/lib/utils/imageType";
 import { signScan } from "@/lib/supabase/scanSignature";
+import { claimAnalysis, withHealthCondition } from "@/lib/supabase/analysisCache";
 import type {
   AnalyzeRequest,
   AnalyzeResponse,
@@ -42,6 +46,17 @@ const MAX_IMAGES = 10;
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB per image (backstop)
 const VALID_CONDITIONS = ["high_cholesterol"];
 
+// What the client sees when a Claude call fails. The SDK's own error text can
+// carry request ids, model names and upstream detail, so it goes to the logs
+// (console.error above each return) and never to the caller.
+const ANALYSIS_FAILED_MESSAGE = "We couldn't analyze this menu. Please try again.";
+
+/**
+ * How long a retry waits for an earlier attempt at the same scan to finish,
+ * measured from when the retry arrived. Leaves headroom under maxDuration.
+ */
+const REPLAY_WAIT_MS = 50_000;
+
 // -----------------------------------------------------------
 // Route handler
 // -----------------------------------------------------------
@@ -65,6 +80,58 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
+  // Parse body
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return errorResponse("INVALID_IMAGE", "Invalid request body — expected JSON.", 400);
+  }
+
+  // Validate request shape
+  const validation = validateRequest(body);
+  if (!validation.valid) {
+    return errorResponse("INVALID_IMAGE", validation.error!, 400);
+  }
+
+  const { images, healthCondition } = body as AnalyzeRequest;
+
+  // A retry of a scan this API already finished, or is still working on, gets
+  // that result: no second upload to Claude, no second bill (see
+  // analysisCache.ts). Requests without an id (app versions before this change) always run.
+  const claim = await claimAnalysis(
+    req.headers.get("x-request-id"),
+    startTime + REPLAY_WAIT_MS
+  );
+  if (claim.kind === "replay") {
+    console.log(`[/api/analyze] Replayed stored result (HTTP ${claim.status})`);
+    return NextResponse.json(withHealthCondition(claim.body, healthCondition), {
+      status: claim.status,
+    });
+  }
+  if (claim.kind === "timeout") {
+    return errorResponse(
+      "CLAUDE_ERROR",
+      "The analysis took too long. Try again — fewer pages usually helps.",
+      504
+    );
+  }
+
+  const response = await admitAndAnalyze(req, images, healthCondition, startTime);
+  await claim.settle(response.status, (await response.clone().json()) as AnalyzeResponse);
+  return response;
+}
+
+/**
+ * Rate limits, then the pipeline. Everything here costs money, which is why a
+ * replayed result never reaches it.
+ */
+async function admitAndAnalyze(
+  req: NextRequest,
+  images: AnalyzeRequest["images"],
+  healthCondition: AnalyzeRequest["healthCondition"],
+  startTime: number
+): Promise<NextResponse> {
   // Durable rate limiting (see rateLimit.ts). Matters most while the
   // shared-token gate is fail-open — right now this is the only thing standing
   // between a stranger who finds this URL and the Anthropic bill.
@@ -95,22 +162,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     });
   }
 
-  // Parse body
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return errorResponse("INVALID_IMAGE", "Invalid request body — expected JSON.", 400);
-  }
-
-  // Validate request shape
-  const validation = validateRequest(body);
-  if (!validation.valid) {
-    return errorResponse("INVALID_IMAGE", validation.error!, 400);
-  }
-
-  const { images, healthCondition } = body as AnalyzeRequest;
-
   try {
     // Step 1: OCR — extract dishes from all images
     let ocrResult;
@@ -118,7 +169,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ocrResult = await extractDishesFromImages(images);
     } catch (error) {
       console.error("[/api/analyze] OCR failed:", error);
-      const message = error instanceof Error ? error.message : "OCR failed";
 
       if (isRateLimitError(error)) {
         return errorResponse(
@@ -128,7 +178,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", ANALYSIS_FAILED_MESSAGE, 500);
     }
 
     const { isMenu, dishes: rawDishes, unreadable: unreadableItems, restaurantName } = ocrResult;
@@ -151,7 +201,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (rawDishes.length === 0) {
       if (unreadableItems.length > 0) {
         return successResponse({
-          id: uuidv4(),
+          id: randomUUID(),
           restaurantName,
           dishes: [],
           rawDishes: [],
@@ -196,7 +246,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // than an error.
     if (rankableDishes.length === 0) {
       return successResponse({
-        id: uuidv4(),
+        id: randomUUID(),
         restaurantName,
         dishes: [],
         rawDishes: categorized,
@@ -215,7 +265,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       rankedDishes = await rankDishes(rankableDishes, healthCondition);
     } catch (error) {
       console.error("[/api/analyze] Ranking failed:", error);
-      const message = error instanceof Error ? error.message : "Ranking failed";
 
       if (isRateLimitError(error)) {
         return errorResponse(
@@ -225,7 +274,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
       }
 
-      return errorResponse("CLAUDE_ERROR", message, 500);
+      return errorResponse("CLAUDE_ERROR", ANALYSIS_FAILED_MESSAGE, 500);
     }
 
     const processingTimeMs = Date.now() - startTime;
@@ -235,7 +284,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
 
     return successResponse({
-      id: uuidv4(),
+      id: randomUUID(),
       restaurantName,
       dishes: rankedDishes,
       rawDishes: categorized,
@@ -321,6 +370,16 @@ function validateRequest(body: unknown): { valid: boolean; error?: string } {
       return {
         valid: false,
         error: `Image at index ${i} must be a non-empty base64 string`,
+      };
+    }
+
+    // The app always uploads JPEG (apps/mobile lib/utils/image.ts re-encodes
+    // every photo), and ocr.ts sends it to Claude as image/jpeg. Anything
+    // else is a direct caller — refuse it here, before it costs a Claude call.
+    if (!isJpegBase64(img)) {
+      return {
+        valid: false,
+        error: `Image at index ${i} must be a JPEG`,
       };
     }
 

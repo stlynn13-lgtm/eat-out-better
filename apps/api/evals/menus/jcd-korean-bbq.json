@@ -1,0 +1,685 @@
+{
+  "id": "jcd-korean-bbq",
+  "label": "JCD K-Barbecue (Korean BBQ)",
+  "note": "Five portrait pages (p3–7 of the PDF; p1–2 are a cover and a 'how to grill' welcome page, excluded). Photo-card grid: every item has a code (A1, B4, H2, E17), a Hangul name in red, a romanised name, and a short English description. Names in the truth are the romanised line, with Hangul as an alias; the matcher compares Latin text only. The restaurant name is not printed in Latin script on these pages — '장충동' (Jangchungdong, the 'JCD') appears only inside two dish names in Hangul — so restaurantName is null. Traps: Bossam, Jokbal, Pork Bulgogi, Chicken Bulgogi and Bulgogi each appear twice in different sections (shareable/BBQ vs entrée) and are genuinely different orders; BBQ Combo A/B list components (with photos) that are not separate orders; the PDF text layer on p4 contains a SIDE ORDER block (Corn Cheese, Egg, Side Rice…) that is NOT visible on the rendered page — it is deliberately not in the truth, and returning it would mean reading something no diner can see. The printed 'Galbi)' typo on E-page is kept verbatim.",
+  "source": {
+    "restaurant": "JCD K-Barbecue",
+    "url": "https://www.jcdbbq.com/images/pdf/JCD_BBQ_Menu.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [3, 4, 5, 6, 7] of the original"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg",
+    "p5.jpg"
+  ],
+  "restaurantName": null,
+  "dishes": [
+    {
+      "name": "Mandoo Tigim",
+      "aliases": [
+        "만두튀김"
+      ],
+      "description": "Fried dumpling. (8 pcs)",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Mulmandoo",
+      "aliases": [
+        "물만두"
+      ],
+      "description": "Steamed dumpling. (8 pcs)",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Gimmali",
+      "aliases": [
+        "김말이"
+      ],
+      "description": "Korean deep fried seaweed noodle rolls. (8 pcs)",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Coconut Saewoo",
+      "aliases": [
+        "코코넛 새우"
+      ],
+      "description": "Fried coconut shrimp. (8 pcs)",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Tteokbokki",
+      "aliases": [
+        "떡볶이"
+      ],
+      "description": "Rice cake & fish cake in spicy sauce",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "note": "the sauce is probably not great",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "No spicy Tteokbokki",
+      "aliases": [
+        "안매운 떡볶이"
+      ],
+      "description": "Rice cake & fish cake in soy base sauce",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Sweet Potato Fries",
+      "aliases": [
+        "고구마튀김"
+      ],
+      "description": "Fried sweet potato",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Haemul Pajeon",
+      "aliases": [
+        "해물파전"
+      ],
+      "description": "Seafood scallion pancake",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Yachae Pajeon",
+      "aliases": [
+        "야채파전"
+      ],
+      "description": "Vegetables pancake",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Kimchi Pajeon",
+      "aliases": [
+        "김치파전"
+      ],
+      "description": "Kimchi Pancake",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Corndog",
+      "aliases": [
+        "콘독"
+      ],
+      "description": "Korean Mozzarella cheese & fish sausage",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Cheese Stick",
+      "aliases": [
+        "치즈 스틱"
+      ],
+      "description": "Mozzarella cheese & rice cake",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "French Fries",
+      "aliases": [
+        "감자튀김"
+      ],
+      "description": "Fried potato",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "Jokbal",
+      "aliases": [
+        "장충동 족발"
+      ],
+      "description": "Seasoned steamed sliced pork shank. Served cold",
+      "section": "Shareable Plate"
+    },
+    {
+      "name": "Bossam",
+      "aliases": [
+        "장충동 보쌈"
+      ],
+      "description": "Steamed sliced pork belly. Served w/spicy seasoned shredded radish & Korean pickled cabbage",
+      "section": "Shareable Plate",
+      "expected": {
+        "category": "appetizer",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Soondae",
+      "aliases": [
+        "순대"
+      ],
+      "description": "Steamed Korean blood sausage",
+      "section": "Shareable Plate"
+    },
+    {
+      "name": "Soondae Combination",
+      "aliases": [
+        "순대 콤비네이션"
+      ],
+      "description": "Steamed Korean blood sausage w/ pork intestine",
+      "section": "Shareable Plate"
+    },
+    {
+      "name": "BBQ Combo A",
+      "description": "For 3-4 People",
+      "section": "BBQ Combo"
+    },
+    {
+      "name": "BBQ Combo B",
+      "description": "For 2-3 People",
+      "section": "BBQ Combo"
+    },
+    {
+      "name": "Saeng Galbi",
+      "aliases": [
+        "생갈비"
+      ],
+      "description": "Beef Ribs",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF"
+    },
+    {
+      "name": "Galbi",
+      "aliases": [
+        "양념갈비"
+      ],
+      "description": "Beef ribs marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "LA Galbi",
+      "aliases": [
+        "LA갈비"
+      ],
+      "description": "Beef shorts ribs marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF"
+    },
+    {
+      "name": "Bulgogi",
+      "aliases": [
+        "불고기"
+      ],
+      "description": "Thinly sliced ribeye beef marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "note": "the marinade is very sugary",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Deung Shim",
+      "aliases": [
+        "등심"
+      ],
+      "description": "Rib eye steak",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF"
+    },
+    {
+      "name": "Chadol Baegi",
+      "aliases": [
+        "차돌배기"
+      ],
+      "description": "Thinly sliced beef brisket",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF"
+    },
+    {
+      "name": "Jumullleok",
+      "aliases": [
+        "주물럭"
+      ],
+      "description": "Marinated beef steak cubes",
+      "section": "BBQ A La Carte (Minimum 2 order) / BEEF"
+    },
+    {
+      "name": "Samgyupsal",
+      "aliases": [
+        "삼겹살"
+      ],
+      "description": "Sliced pork belly",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Daepae Samgyupsal",
+      "aliases": [
+        "대패삼겹살"
+      ],
+      "description": "Thinly sliced pork belly",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK"
+    },
+    {
+      "name": "Moksal",
+      "aliases": [
+        "목살"
+      ],
+      "description": "Pork shoulder butt",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK"
+    },
+    {
+      "name": "Hanjeongsal",
+      "aliases": [
+        "항정살"
+      ],
+      "description": "Pork jowl",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK"
+    },
+    {
+      "name": "Pork Bulgogi",
+      "aliases": [
+        "돼지불고기"
+      ],
+      "description": "Pork marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK"
+    },
+    {
+      "name": "Spicy Pork",
+      "aliases": [
+        "매운돼지"
+      ],
+      "description": "Pork marinated in spicy sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / PORK"
+    },
+    {
+      "name": "Chicken Bulgogi",
+      "aliases": [
+        "치킨불고기"
+      ],
+      "description": "Chicken marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / CHICKEN & SQUID"
+    },
+    {
+      "name": "Squid Gui",
+      "aliases": [
+        "오징어구이"
+      ],
+      "description": "Whole squid marinated in house sauce",
+      "section": "BBQ A La Carte (Minimum 2 order) / CHICKEN & SQUID"
+    },
+    {
+      "name": "Gamjatang Jeongol",
+      "aliases": [
+        "감자탕전골"
+      ],
+      "description": "Spicy pork neckbone soup w/potato & cabbage",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Budae Jeongol",
+      "aliases": [
+        "부대전골"
+      ],
+      "description": "Kimchi w/fish cake, bacon, sausage, tofu, spam & rice cake in spicy house broth. Served w/Ramen",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Kimchi Jeongol",
+      "aliases": [
+        "김치전골"
+      ],
+      "description": "Spicy kimchi soup w/pork & tofu",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Bulgogi Jeongol",
+      "aliases": [
+        "불고기전골"
+      ],
+      "description": "Beef bulgogi w/ glass noodle, rice cake, nappa cabbage, onion, topped w/ greenonion in sweet soy base soup",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Soondae Jeongol",
+      "aliases": [
+        "순대전골"
+      ],
+      "description": "Pork intestine soup w/Korean blood sausage topped w/perilla seeds & green onion",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Honghop Jeongol",
+      "aliases": [
+        "홍합전골"
+      ],
+      "description": "Mussel soup w/tofu & rice cake",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Kkochiodeng Jeongol",
+      "aliases": [
+        "꼬치오뎅전골"
+      ],
+      "description": "Skewered fish cake soup",
+      "section": "전골류 • KOREAN STYLE HOT POT"
+    },
+    {
+      "name": "Bibimbap",
+      "aliases": [
+        "비빔밥"
+      ],
+      "description": "Seasoned vegetables, w/beef topped w/fried egg",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Dolsot Bibimbap",
+      "aliases": [
+        "돌솥비빔밥"
+      ],
+      "description": "Seasoned vegetables, w/beef topped w/raw egg yolk Served on hot stone pot",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Godeungeo Gui",
+      "aliases": [
+        "고등어구이"
+      ],
+      "description": "Grilled mackerel",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Spicy Pork Bulgogi",
+      "aliases": [
+        "매운 돼지불고기"
+      ],
+      "description": "Charcoal grilled pork marinated in spicy house sauce.",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Pork Bulgogi",
+      "aliases": [
+        "돼지불고기"
+      ],
+      "description": "Charcoal grilled pork marinated in house sauce.",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Chicken Bulgogi",
+      "aliases": [
+        "닭불고기"
+      ],
+      "description": "Charcoal grilled chicken marinated in house sauce.",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Bulgogi",
+      "aliases": [
+        "불고기"
+      ],
+      "description": "Charcoal grilled thinly sliced ribeye beef marinated in house sauce.",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Galbi)",
+      "aliases": [
+        "LA 갈비",
+        "LA Galbi",
+        "Galbi"
+      ],
+      "description": "Charcoal grilled beef short ribs marinated in house sauce.",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Soondae Bokkeum",
+      "aliases": [
+        "순대볶음"
+      ],
+      "description": "Spicy stir fry Korean blood sausage & pork intestine w/vegetables topped w/perilla seeds",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Bossam",
+      "aliases": [
+        "보쌈"
+      ],
+      "description": "Steamed sliced pork belly served w/spicy seasoned shredded radish & Korean pickled cabbage",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Jokbal",
+      "aliases": [
+        "족발"
+      ],
+      "description": "Seasoned steamed sliced pork shank served cold",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Budae Jjigae",
+      "aliases": [
+        "부대찌개"
+      ],
+      "description": "Kimchi, w/spam, sausage, bacon, rice cake, fish cake & tofu in spicy house broth",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Kimchi Jjigae",
+      "aliases": [
+        "김치찌개"
+      ],
+      "description": "Spicy kimchi soup w/pork & tofu",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Gamjatang",
+      "aliases": [
+        "감자탕"
+      ],
+      "description": "Spicy pork neck bone soup w/potato & cabbage",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Mulnengmyun",
+      "aliases": [
+        "물냉면"
+      ],
+      "description": "Buckwheat noodles w/pickled vegetables, thin sliced beef & egg. Served in cold broth",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Makguksu",
+      "aliases": [
+        "막국수"
+      ],
+      "description": "Buckwheat noodles w/pickled vegetables, thin sliced beef & egg. Served in cold broth topped w/ house spicy sauce",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Chicken Udon Bokkeum",
+      "aliases": [
+        "치킨우동볶음"
+      ],
+      "description": "Stir fry chicken w/vegetables & udon",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Yukgaejang",
+      "aliases": [
+        "육계장"
+      ],
+      "description": "Spicy soup w/beef, vegetables, egg & glass noodle",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Ojingeo Bokkem",
+      "aliases": [
+        "오징어볶음"
+      ],
+      "description": "Spicy stir fry squid w/vegetable",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Maeun Chijeu Buldak",
+      "aliases": [
+        "매운치즈불닭"
+      ],
+      "description": "Spicy stir fry chicken w/vegetables topped w/cheese",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Jobchae",
+      "aliases": [
+        "잡채"
+      ],
+      "description": "Stir fry glass noodle w/beef, fish cake & vegetables",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Soondaeguk",
+      "aliases": [
+        "순대국"
+      ],
+      "description": "Pork intestine soup w/Korean blood sausage topped w/perilla seeds & green onion",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Sullungtang",
+      "aliases": [
+        "설렁탕"
+      ],
+      "description": "Deep boiled beef bone soup w/thinly sliced beef & glass noodle topped w/green onion",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Manduguk",
+      "aliases": [
+        "만두국"
+      ],
+      "description": "Dumpling soup w/ egg",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Ddukmanduguk",
+      "aliases": [
+        "떡만두국"
+      ],
+      "description": "Dumpling & rice cake soup w/ egg",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Soondubu",
+      "aliases": [
+        "순두부"
+      ],
+      "description": "Spicy soft tofu soup w/vegetables",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Haemulsoondubu",
+      "aliases": [
+        "해물순두부"
+      ],
+      "description": "Spicy soft tofu soup w/seafood, vegetables",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Kkochi Odeng",
+      "aliases": [
+        "꼬치오뎅"
+      ],
+      "description": "Skewered fish cake soup",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Dwenjang Jjigae",
+      "aliases": [
+        "된장찌개"
+      ],
+      "description": "Soy bean paste soup w/vegetable & tofu",
+      "section": "ENTREES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Honghaptang",
+      "aliases": [
+        "홍합탕"
+      ],
+      "description": "Mussel soup w/tofu & rice cake",
+      "section": "ENTREES"
+    },
+    {
+      "name": "Haemul Dwenjang Jjigae",
+      "aliases": [
+        "해물된장"
+      ],
+      "description": "Soy bean paste soup w/seafood, vegetable & tofu",
+      "section": "ENTREES"
+    }
+  ],
+  "optional": [
+    "w/Ramen",
+    "w/Cheese",
+    "Add Ramen",
+    "w/Udon",
+    "Soy bean paste soup",
+    "Beef Brisket",
+    "Pork Belly",
+    "Thinly sliced beef marinated in house sauce",
+    "BBQ A La Carte",
+    "Chicken Bulgogi"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

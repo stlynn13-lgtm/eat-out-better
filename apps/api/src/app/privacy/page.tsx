@@ -7,13 +7,14 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: October 1, 2026</p>
+      <p style={styles.meta}>Last Updated: October 6, 2026</p>
 
       <Section title="1. Overview">
         <p>
           <strong>Eat Out Better</strong> ("we," "us," or "our") is operated by{" "}
           <strong>Dine Right LLC</strong>. This Privacy Policy explains how we handle
-          information when you use our mobile application.
+          information when you use our mobile application and our website,{" "}
+          <a href="https://eatoutbetter.com">eatoutbetter.com</a>.
         </p>
         <p>
           You never need to sign in to scan a menu. When you first open the app we create an
@@ -110,6 +111,23 @@ export default function PrivacyPage() {
           and rating you submit, along with a random app identifier so we can spot repeat
           issues. Feedback is optional and never required to use the app.
         </p>
+        <h3 style={styles.subheading}>Our Website</h3>
+        <p>
+          <strong>Launch waitlist.</strong> If you join the waitlist on eatoutbetter.com, we
+          store the email address you enter, which button you used to sign up (for example,
+          the one at the top of the page), and when you signed up. We use it only to email you
+          when Eat Out Better is available on the App Store. We don&apos;t add it to any other
+          mailing list, and we don&apos;t link it to an app account.
+        </p>
+        <p>
+          <strong>Website analytics.</strong> We use Vercel Web Analytics and Speed Insights to
+          count page views and measure how fast pages load. They do not use cookies and do not
+          identify you: visits are counted using a short-lived, anonymized value that resets
+          every day, along with the page visited, the referring site, your browser, operating
+          system and device type, and a country derived from your IP address. Your IP address
+          itself is not stored by these tools. We also count which download or waitlist button
+          was used, without identifying who used it.
+        </p>
       </Section>
 
       <Section title="4. How We Use Your Information">
@@ -120,6 +138,8 @@ export default function PrivacyPage() {
             your devices
           </li>
           <li>To send you sign-in codes by email, when you choose email sign-in</li>
+          <li>To email you when the app launches, if you joined the waitlist on our website</li>
+          <li>To understand, in aggregate, how people find and use our website</li>
           <li>To maintain and improve app performance</li>
           <li>We do not use your information for advertising</li>
           <li>We do not sell your personal information to anyone, ever</li>
@@ -159,7 +179,8 @@ export default function PrivacyPage() {
           <li>
             <strong>Vercel Inc.</strong> — hosts the service that receives your menu photos
             and passes them to the analysis provider above. Photos are processed in memory and
-            are not written to storage. Standard server logs may include an IP address.
+            are not written to storage. Vercel also hosts our website and provides its
+            cookie-free analytics (see Section 3). Standard server logs may include an IP address.
             Privacy policy: <a href="https://vercel.com/legal/privacy-policy">vercel.com/legal/privacy-policy</a>.
           </li>
           <li>
@@ -169,9 +190,10 @@ export default function PrivacyPage() {
             <a href="https://expo.dev/privacy">expo.dev/privacy</a>.
           </li>
           <li>
-            <strong>Supabase, Inc.</strong> — stores your account and your saved scans, in the
-            United States. Each account can read only its own records, enforced by the database
-            itself. Privacy policy:{" "}
+            <strong>Supabase, Inc.</strong> — stores your account and your saved scans, and the
+            website waitlist, in the United States. Each account can read only its own records,
+            and the website can add to the waitlist but never read it, both enforced by the
+            database itself. Privacy policy:{" "}
             <a href="https://supabase.com/privacy">supabase.com/privacy</a>.
           </li>
           <li>
@@ -208,6 +230,11 @@ export default function PrivacyPage() {
           your health setting or your account. The install identifier described in Section 3 may
           remain in your device&apos;s keychain after you delete the app.
         </p>
+        <p>
+          Waitlist email addresses are kept until we send the launch announcement, then deleted
+          within 90 days. Website analytics are aggregated and kept by Vercel under its standard
+          retention policy.
+        </p>
         <h3 style={styles.subheading}>Deleting Your Data</h3>
         <p>
           <strong>In the app:</strong> Account → Delete account. This is immediate and permanent.
@@ -216,7 +243,8 @@ export default function PrivacyPage() {
         </p>
         <p>
           For anything else — a copy of your data, a correction, withdrawing consent for
-          analytics, or deleting feedback you sent — email{" "}
+          analytics, deleting feedback you sent, or removing your email from the waitlist —
+          email{" "}
           <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>. We respond
           within 45 days.
         </p>
