@@ -78,6 +78,16 @@ Product-improvement release on branch `release/v1.1.0`. These are **committed sc
 - Seasonal menu flagging (holiday menus are often worse — surface that)
 - Integration with wearables/health apps (Apple Health, etc.) — very long-term
 
+### Search / SEO growth (added 2026-10-09, from the eatoutbetter.com audit)
+
+Needs a spec (`write-spec`) before building. In priority order:
+
+1. **Named clinical reviewer on the guide** (registered dietitian or clinician): bio, `Person` author and `reviewedBy` in the Article schema. Highest-leverage ranking fix for health content (YMYL). Needs a real person; never invent one.
+2. **Keyword research** on cuisine + cholesterol terms ("high cholesterol Mexican restaurant", etc.) to decide which of the guide's seven cuisine sections earn their own spoke page.
+3. **Spoke pages** for the 3–4 highest-volume cuisines, linked from the guide hub.
+4. **Broader topics** (general healthy eating, trending diets): deliberately deferred. Head terms are owned by Mayo, Healthline and the AHA; a new domain can't win them, and new conditions need the knowledge-base architecture first (see `CLAUDE.md`). Revisit when a second condition ships.
+5. Check Search Console field data (Core Web Vitals, impressions per query) once the domain is verified; let real queries pick the next page.
+
 ---
 
 ## Scoring Notes & Assumptions

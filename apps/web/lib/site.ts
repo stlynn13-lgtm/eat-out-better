@@ -25,6 +25,14 @@ export const API_URL = "https://eat-out-better-api.vercel.app";
 
 export const SUPPORT_EMAIL = "support@eatoutbetter.com";
 
+/**
+ * Real content dates, read by the sitemap and the guide. Bump HOME_MODIFIED when
+ * homepage copy changes. Bump GUIDE_REVIEWED only when the guide's claims have
+ * actually been re-checked: the page publishes it as "Last reviewed".
+ */
+export const HOME_MODIFIED = "2026-10-09";
+export const GUIDE_REVIEWED = "2026-10-06";
+
 export const PRODUCT = {
   name: "Eat Out Better",
   tagline: "Know what to order before the server comes back.",
