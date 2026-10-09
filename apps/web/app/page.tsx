@@ -63,8 +63,8 @@ export default function Home() {
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl text-pretty">
-                Snap any restaurant menu. Eat Out Better scores every dish from 1 to 10 for your cholesterol,
-                tells you why in plain English, and shows you an easy swap. In about 30 seconds.
+                Eating out with high cholesterol? Snap any restaurant menu. Eat Out Better scores every dish from
+                1 to 10, tells you why in plain English, and shows you an easy swap. In about 30 seconds.
               </p>
 
               <div id="hero-cta" data-hide-sticky className="mt-8 max-w-lg">

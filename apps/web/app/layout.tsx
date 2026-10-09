@@ -39,7 +39,7 @@ const inter = Inter({
 
 const title = "Eat Out Better — Restaurant menus, scored for high cholesterol";
 const description =
-  "Snap any restaurant menu. Every dish gets a 1–10 score for your cholesterol, a plain-English reason, and an easy swap. iPhone app, coming soon.";
+  "Snap any restaurant menu. Every dish gets a 1–10 score for high cholesterol, a plain-English reason, and an easy swap. iPhone app, coming soon.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -47,14 +47,6 @@ export const metadata: Metadata = {
   description,
   applicationName: PRODUCT.name,
   alternates: { canonical: "/" },
-  keywords: [
-    "high cholesterol restaurant",
-    "eating out with high cholesterol",
-    "heart healthy restaurant menu",
-    "low saturated fat restaurant food",
-    "menu scanner app",
-    "cholesterol diet app",
-  ],
   openGraph: {
     type: "website",
     url: SITE_URL,
