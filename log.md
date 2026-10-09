@@ -6,6 +6,24 @@
 
 ---
 
+## 2026-10-09 — Search fixes on the marketing site
+
+**What changed** (all in `apps/web`)
+
+- **Guide title and description shortened** so Google doesn't cut them off. Title is now "How to Eat Out With High Cholesterol: Ordering Guide"; the description dropped from about 205 to about 150 characters.
+- **Homepage now says "high cholesterol" in the places search engines weigh most**: the page description and the first line under the headline. The brand headline is unchanged.
+- **Removed the `keywords` tag.** Google and Bing ignore it.
+- **Sitemap dates are now real.** They come from two constants in `lib/site.ts`, so they only change when content does. The guide's "Last reviewed" date was deliberately not bumped, because nobody re-checked its claims.
+
+**Not done, on purpose**
+
+- Ranking for broad terms (diets, "eating healthy") isn't realistic for a new site and conflicts with the one-condition v1 scope. Logged in `backlog.md` under "Search / SEO growth" with a recommended order.
+- A named dietitian or clinician reviewing the guide is the biggest remaining ranking lever for health content. It needs a real person; **Sean to decide who.**
+
+**Not verified live:** the live site couldn't be reached from the session. After the next deploy, view source on the live URLs to confirm the new title and description, and submit the sitemap in Search Console once the domain is verified.
+
+---
+
 ## 2026-10-06 (evening) — Security fixes #52 and #56 merged
 
 **What changed**

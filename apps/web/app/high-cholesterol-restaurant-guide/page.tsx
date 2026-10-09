@@ -4,7 +4,7 @@ import { SiteChrome } from "@/components/Chrome";
 import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
 import { JsonLd } from "@/lib/jsonld";
-import { PRODUCT, SITE_URL } from "@/lib/site";
+import { GUIDE_REVIEWED, PRODUCT, SITE_URL } from "@/lib/site";
 
 /**
  * The search / answer-engine page. Structure is deliberate:
@@ -12,13 +12,16 @@ import { PRODUCT, SITE_URL } from "@/lib/site";
  *  - the first paragraph under it is a direct 40–60 word answer an engine can
  *    quote on its own, then detail,
  *  - any number cites a primary source, linked in the page.
- * Bump REVIEWED whenever the content is checked again.
+ * Bump GUIDE_REVIEWED (lib/site.ts) whenever the content is checked again.
+ *
+ * TITLE stays under ~60 characters and DESCRIPTION under ~155 so neither is
+ * cut off in search results.
  */
-const REVIEWED = "2026-10-06";
+const REVIEWED = GUIDE_REVIEWED;
 const PATH = "/high-cholesterol-restaurant-guide";
-const TITLE = "How to Eat Out With High Cholesterol: A Restaurant Ordering Guide";
+const TITLE = "How to Eat Out With High Cholesterol: Ordering Guide";
 const DESCRIPTION =
-  "What to order at steakhouses, Italian, Mexican, Asian, burger and breakfast spots when you have high cholesterol: menu words that signal hidden saturated fat, the best cooking methods, and easy swaps.";
+  "What to order at steakhouses, Italian, Mexican, Asian and breakfast spots with high cholesterol: menu words that hide saturated fat, and easy swaps.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
