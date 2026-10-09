@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-10-09 — Website: slot for the demo video (not live yet)
+
+**What changed**
+
+- **Added a "See it for real" block under How it works** on the marketing site: a tap-to-play video of the app on a real menu, with a waitlist (later App Store) button beside it. It stays hidden until a video is configured, so nothing visible changes today.
+- **Videos are self-hosted, not YouTube or Vimeo.** A YouTube embed would be blocked by the site's security headers, and it would break the privacy policy's promise of no third-party cookies. The video never autoplays and doesn't download until someone taps it, so page speed is unaffected.
+- **Two new analytics events:** `video_play` and `video_complete`.
+
+**Why it mattered:** the hero loop and the try-it demo are both simulations. A recording of the real app is the proof that it works on an actual menu.
+
+**What it sets up next:** Sean drops the compressed video, a poster image and captions into `apps/web/public/video/` and fills in `DEMO_VIDEO` in `apps/web/lib/site.ts` (steps in `apps/web/README.md`). The App Store listing's App Preview is a separate, raw screen capture (15-30 s, exact device sizes) and isn't part of this change.
+
+---
+
 ## 2026-10-09 — Search fixes on the marketing site
 
 **What changed** (all in `apps/web`)
