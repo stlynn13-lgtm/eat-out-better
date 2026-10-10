@@ -5,7 +5,9 @@
  * them that way. Scores follow the app's real method (saturated fat against a
  * ~13g daily budget, a lift for unsaturated fat and fiber, a small penalty for
  * deep-frying) and its real bands (7+ green, 4–6.9 amber, under 4 red), and
- * the copy mirrors the app's DishCard: a reason, then "Make it better".
+ * the copy mirrors the app's DishCard: a reason, then "Make it better" when
+ * there is a swap. The scoring API returns no swaps yet, so no sample dish has
+ * one; adding `swap` back to a dish brings the box back.
  */
 
 export type Tier = "green" | "yellow" | "red";
@@ -43,7 +45,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     tag: "Best Main",
     reason:
       "Salmon's fat is mostly the heart-healthy omega-3 kind, and grilling adds little. The broccolini and wild rice bring fiber.",
-    swap: "Ask for the dill sauce on the side if it's cream-based.",
   },
   {
     id: "bean-burger",
@@ -53,7 +54,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     score: 7.2,
     reason:
       "Beans and avocado add fiber and unsaturated fat, which work in your favor. The brioche and fries pull it down a little.",
-    swap: "Swap the fries for a side salad to push it higher.",
   },
   {
     id: "fajitas",
@@ -63,7 +63,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     score: 5.8,
     reason:
       "The chicken and vegetables are a solid base. Most of the saturated fat comes from the cheese and sour cream on the side.",
-    swap: "Skip the cheese and sour cream; load up on pico and guacamole instead.",
   },
   {
     id: "caesar",
@@ -73,7 +72,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     score: 4.6,
     reason:
       "Sounds light, but creamy Caesar dressing, parmesan and buttery croutons add up to more saturated fat than the chicken.",
-    swap: "Get the dressing on the side and use about half.",
   },
   {
     id: "fish-chips",
@@ -84,7 +82,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     tag: "Enjoy Occasionally",
     reason:
       "The fish itself is lean, but deep-frying in batter and the fries add a lot of fat, and tartar sauce adds more.",
-    swap: "Ask if the cod can be grilled or blackened, with a side salad.",
   },
   {
     id: "alfredo",
@@ -95,7 +92,6 @@ export const SAMPLE_MENU: SampleDish[] = [
     tag: "Enjoy Occasionally",
     reason:
       "Cream, butter and parmesan make this likely more than a full day's saturated fat in one bowl.",
-    swap: "Same pasta with marinara or garlic and olive oil scores far higher.",
   },
 ];
 

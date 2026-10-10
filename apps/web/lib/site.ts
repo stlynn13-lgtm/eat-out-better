@@ -64,9 +64,9 @@ export const PRODUCT = {
   tagline: "Know what to order before the server comes back.",
   /** The one sentence an extractor should be able to lift verbatim. */
   definition:
-    "Eat Out Better is an iPhone app for people managing high cholesterol: photograph any restaurant menu and it scores every dish from 1 to 10 for its likely effect on your cholesterol, explains why in plain English, and suggests a simple swap to make a dish work better for you.",
+    "Eat Out Better is an iPhone app for people managing high cholesterol: photograph any restaurant menu and it scores every dish from 1 to 10 for its likely effect on your cholesterol, ranks them best to worst, and explains each score in plain English.",
   shortDescription:
-    "Snap a restaurant menu. Every dish gets a 1–10 cholesterol score, the reason why, and an easy swap.",
+    "Snap a restaurant menu. Every dish gets a 1–10 cholesterol score and the reason why.",
   platform: "iOS",
   category: "HealthApplication",
   publisher: "Dine Right LLC",
@@ -74,14 +74,14 @@ export const PRODUCT = {
 
 export const SCORE_BANDS = [
   { tier: "green", range: "7–10", label: "Top pick", body: "A great choice for your heart." },
-  { tier: "yellow", range: "4–6.9", label: "In moderation", body: "Okay now and then. Small swaps help." },
+  { tier: "yellow", range: "4–6.9", label: "In moderation", body: "Okay now and then." },
   { tier: "red", range: "1–3.9", label: "Enjoy occasionally", body: "Fine as a treat, not every day." },
 ] as const;
 
 export const FAQ = [
   {
     q: "What does Eat Out Better do?",
-    a: "You take a photo of a restaurant menu and the app reads every dish, scores each one from 1 to 10 for how it's likely to affect your cholesterol, ranks them best to worst, and tells you why in plain English. Where it helps, it suggests a swap, like dressing on the side or grilled instead of fried.",
+    a: "You take a photo of a restaurant menu and the app reads every dish, scores each one from 1 to 10 for how it's likely to affect your cholesterol, ranks them best to worst, and tells you why in plain English, so you can see what's driving each score.",
   },
   {
     q: "How is a dish scored?",

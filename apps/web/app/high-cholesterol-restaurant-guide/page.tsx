@@ -335,7 +335,7 @@ export default function Guide() {
           </p>
           <ul className="mt-5 space-y-2.5 leading-relaxed text-ink-2">
             <li><strong className="text-ink">7 to 10, top pick.</strong> Low in saturated fat, often with heart-healthy fats or fiber.</li>
-            <li><strong className="text-ink">4 to 6.9, in moderation.</strong> A reasonable choice, usually improved by one swap.</li>
+            <li><strong className="text-ink">4 to 6.9, in moderation.</strong> A reasonable choice, often helped by one of the <a href="#swaps" className="underline decoration-line underline-offset-4 hover:text-ink">swaps above</a>.</li>
             <li><strong className="text-ink">1 to 3.9, enjoy occasionally.</strong> Likely a large share of a day&rsquo;s saturated fat in one dish.</li>
             <li>Unsaturated fats (olive oil, avocado, omega-3s from fish) and fiber can lift a score. Deep-frying lowers it a little.</li>
             <li>Drinks and desserts are also checked for added sugar.</li>
@@ -349,7 +349,7 @@ export default function Guide() {
           <div className="mt-14 rounded-[28px] bg-forest-deep p-8 text-cream sm:p-10">
             <p className="font-display text-3xl font-semibold leading-tight">Do this for any menu in about 30 seconds.</p>
             <p className="mt-3 text-cream/75">
-              Snap the menu and {PRODUCT.name} ranks every dish for your cholesterol, with the reason and a swap.
+              Snap the menu and {PRODUCT.name} ranks every dish for your cholesterol and tells you what&rsquo;s driving each score.
             </p>
             <Cta placement="guide" tone="dark" className="mt-6" />
           </div>
