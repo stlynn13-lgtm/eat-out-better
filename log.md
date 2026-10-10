@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-10 — Website analytics: what's on and what isn't
+
+**What changed.** `plan.md` now has the Vercel Web Analytics step. No code changed: the analytics package and tag were already in `apps/web` from the original build. The only missing piece is the **Enable** click in the Vercel dashboard (Sean). An accidental `npm i @vercel/analytics` in the home folder (not the repo) was harmless clutter in `~`.
+
+**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag is still in `app/layout.tsx` and can be removed later if we don't plan to upgrade.
+
+---
+
 ## 2026-10-10 — Pre-mortem on the pricing strategy
 
 **What changed.** Ran the `kill-my-idea` skill against `pricing-strategy.md` and wrote the result into `plan.md` ("Pricing pre-mortem"). No code, and `pricing-strategy.md` itself is unchanged.
