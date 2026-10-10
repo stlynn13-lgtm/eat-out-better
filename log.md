@@ -6,6 +6,19 @@
 
 ---
 
+## 2026-10-10 — Website: the 20-second launch reel is live on the homepage
+
+**What changed**
+
+- **The brag video (`brag.mp4`, the 20-second launch reel) now plays under How it works.** It loops silently whenever it's on screen and pauses when you scroll past, so it works like a GIF but costs nothing off-screen. It doesn't download until it's close to the viewport, so page speed is unaffected.
+- **You can interact with it:** tap to pause, "Tap for sound" turns on the soundtrack, and a chapter rail under the video (The menu → Meet the app → Snap → Analyze → Scores → Order) fills as it plays and jumps to any scene on tap. People who've turned on reduced motion in their phone settings get a still poster and a play button instead.
+- **The file came from the repo's own history** (the `brag-output/` commit from 2026-10-03), not a re-render. It's now at `apps/web/public/video/brag.mp4` with a poster frame.
+- **Analytics:** `video_play`, `video_complete`, `video_unmute` and `video_chapter`, all tagged `id: brag`, so they don't mix with the future real-menu demo's numbers.
+
+**Why it mattered:** the How it works section was all static illustrations. The reel shows the whole flow, start to finish, in the app's real screens.
+
+**What it sets up next:** the "See it for real" slot (below) is still for an actual recording of the app on a printed menu. The reel is a rebuilt animation, so it isn't a substitute for that proof.
+
 ## 2026-10-09 — Website: slot for the demo video (not live yet)
 
 **What changed**

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BragReel from "@/components/BragReel";
 import { SiteChrome } from "@/components/Chrome";
 import Cta from "@/components/Cta";
 import DemoVideo from "@/components/DemoVideo";
@@ -237,6 +238,19 @@ export default function Home() {
                 </p>
               </li>
             </ol>
+
+            <div className="reveal mt-20">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                <div className="max-w-xl">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fd0b4]">The 20-second version</p>
+                  <h3 className="font-display text-3xl font-semibold leading-tight text-balance">
+                    One brunch menu. Every dish, ranked.
+                  </h3>
+                </div>
+                <p className="text-sm text-cream/60">Tap to pause. Jump to any scene.</p>
+              </div>
+              <BragReel />
+            </div>
 
             {DEMO_VIDEO && (
               <div className="reveal mt-20 grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
