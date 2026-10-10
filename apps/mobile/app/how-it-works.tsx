@@ -51,7 +51,7 @@ export default function HowItWorksScreen() {
         <Step
           n="3"
           title="We rank it for your heart"
-          body="Each dish is scored from 1 to 10 for its impact on cholesterol, then ordered best to worst. Every score comes with a plain-English reason and, where it helps, a simple swap to make a dish work better for you."
+          body="Each dish is scored from 1 to 10 for its impact on cholesterol, then ordered best to worst. Every score comes with a plain-English reason, so you can see exactly what's driving it."
         />
 
         <View className="bg-white rounded-2xl p-4 mt-2 mb-8 border border-gray-100">
@@ -59,7 +59,7 @@ export default function HowItWorksScreen() {
             How to read the scores
           </Text>
           <Legend color="#16a34a" label="7–10 · Top pick — a great choice for your heart" />
-          <Legend color="#d97706" label="4–6.9 · Okay in moderation — small swaps help" />
+          <Legend color="#d97706" label="4–6.9 · Okay in moderation" />
           <Legend color="#dc2626" label="1–3.9 · Enjoy occasionally, not every day" />
         </View>
 
