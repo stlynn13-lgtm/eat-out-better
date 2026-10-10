@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-10-10 — "Helpful swaps" feedback chip removed; photo limit corrected in the docs
+
+**What changed**
+
+- **The post-scan feedback sheet no longer offers a "Helpful swaps" chip** among the positive (4–5 star) options. The app never shows a swap, so anyone tapping it was rating a feature that doesn't exist, and that noise would have landed in the repeat-use test's feedback. The other four positive chips are unchanged. Old rows in the feedback sheet that carry the tag stay as they are.
+- **`CLAUDE.md` and `backlog.md` now say the photo limit is 10, not 12.** The app was lowered to 10 to match the server cap (see the earlier "Photo limit is now honestly 10" entry), but both docs still said 12.
+
+**Worth knowing**
+
+- **Ships with the next over-the-air update**, together with today's two copy changes.
+- **Nothing reads the chip names:** the feedback script stores tags as free text, so removing one needs no change to the sheet.
+
+---
+
 ## 2026-10-10 — How it works screen no longer promises swaps
 
 **What changed**
