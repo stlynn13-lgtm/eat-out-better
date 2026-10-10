@@ -12,7 +12,7 @@
 
 - **The brag video (`brag.mp4`, the 20-second launch reel) now plays under How it works.** It loops silently whenever it's on screen and pauses when you scroll past, so it works like a GIF but costs nothing off-screen. It doesn't download until it's close to the viewport, so page speed is unaffected.
 - **You can interact with it:** tap to pause, "Tap for sound" turns on the soundtrack, and a chapter rail under the video (The menu → Meet the app → Snap → Analyze → Scores → Order) fills as it plays and jumps to any scene on tap. People who've turned on reduced motion in their phone settings get a still poster and a play button instead.
-- **The file came from the repo's own history** (the `brag-output/` commit from 2026-10-03), not a re-render. It's now at `apps/web/public/video/brag.mp4` with a poster frame.
+- **The video is the 2026-10-03 reel with the "Free account" banner removed** from the app home screen. The banner contradicted the site's "No account needed" line. It was re-rendered from the reel's own source (`brag-output/work/video.html` in history, minus the banner block) with the original soundtrack, and re-encoded for the web: 2.7 MB, down from 4.1 MB. It's at `apps/web/public/video/brag.mp4` with a poster frame. The copies in `brag-output/` on the old branch (landscape and vertical) still show the banner, so don't post those.
 - **Analytics:** `video_play`, `video_complete`, `video_unmute` and `video_chapter`, all tagged `id: brag`, so they don't mix with the future real-menu demo's numbers.
 
 **Why it mattered:** the How it works section was all static illustrations. The reel shows the whole flow, start to finish, in the app's real screens.
