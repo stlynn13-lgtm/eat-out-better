@@ -6,6 +6,24 @@
 
 ---
 
+## 2026-10-10 — Website no longer promises swaps
+
+**What changed**
+
+- **Every place the website said the app suggests a swap now says what it does: a 1–10 score and the reason why.** That covers the homepage hero, the "Ranked for your heart" step, the "Not a list of things you can't have" section (now: every score tells you what's driving it, and the call is yours), the search-result description, the footer and AI-assistant descriptions, the FAQ, the yellow score band and the guide's closing call to action.
+- **The homepage demo dishes no longer show "Make it better" boxes**, and the floating "Make it better" note beside the hero phone is now a "Why it scored high" note. The demo was showing a feature the app doesn't have. The box comes back automatically if a sample dish is given a swap again.
+- **The ordering guide keeps its swap advice** (the "Easy swap" line per cuisine, the five-swaps list). That's general advice for the reader, not a claim about the app. The one guide line that sat under "How does Eat Out Better rate dishes" now points to those swaps instead of implying the app supplies one.
+
+**Why it matters.** The scoring API returns no swap for any dish. The app stopped promising swaps earlier today; the site was the last place still doing it, and the site is what waitlist signups and repeat-use test recruits see first.
+
+**Worth knowing**
+
+- **Goes live with the next production deploy of `eat-out-better-web` from `main`.**
+- **The launch reel on the site still shows the old step 3 line** ("Easy swaps to ask your server for") in its small home-screen card for about two seconds.
+- **CLAUDE.md still lists "Substitution-forward" as a product principle.** Nothing ships it now. See `plan.md`, NOW item 9.
+
+---
+
 ## 2026-10-10 — "Helpful swaps" feedback chip removed; photo limit corrected in the docs
 
 **What changed**
