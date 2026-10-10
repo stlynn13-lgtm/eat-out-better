@@ -2,6 +2,8 @@
 
 _2026-10-01. Replaces the 2026-09-30 version. Inputs: the repo's `monetization-strategy.md`, `cost-and-golive-requirements.md`, `GTM-strategy-phase1.md`. No `founder/` input files or `conventions.md` exist. Benchmarks and competitor prices checked 2026-09-30 / 10-01._
 
+> **Unvalidated: do not quote the profit table (section 5) or the break-even (section 4) as forecasts.** A pre-mortem on 2026-10-10 found that (1) the 2.1% baseline is the all-app median download-to-paid rate, not a freemium rate, so the "recommended" base case implies about 5.25% of installs paying, near the top-10% line; (2) break-even leaves out the cost of paid installs, which exceeds what an install returns at this doc's own numbers; and (3) Plus sells features that aren't built. No paywall or free-tier change until the tests in `plan.md` ("Pricing pre-mortem") come back. This document is otherwise unchanged.
+
 **Who pays:** an adult with a diet-affecting condition who eats out, buying through Apple IAP.
 
 **What changed from v1:** v1 kept a generous free tier (15 scans/month) and hoped ~4% would upgrade. That is the weakest option modelled here. The biggest lever is not price, it is **how early the paywall appears**. Ads do not work at all.

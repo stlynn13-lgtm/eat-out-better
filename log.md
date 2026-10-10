@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-10 — Warning added to the pricing strategy
+
+**What changed.** `pricing-strategy.md` now opens with a warning that its profit table and break-even are unvalidated, with the three reasons from the pricing pre-mortem in `plan.md`. The rest of the document is unchanged.
+
+**Why it matters.** The doc reads as a finished recommendation, and its numbers could get quoted (to a partner, in a deck) before the tests have run.
+
+---
+
 ## 2026-10-10 — Website analytics: what's on and what isn't
 
 **What changed.** `plan.md` now has the Vercel Web Analytics step. No code changed: the analytics package and tag were already in `apps/web` from the original build. The only missing piece is the **Enable** click in the Vercel dashboard (Sean). An accidental `npm i @vercel/analytics` in the home folder (not the repo) was harmless clutter in `~`.
