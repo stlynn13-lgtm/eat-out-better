@@ -19,6 +19,36 @@
 
 **What it sets up next:** the "See it for real" slot (below) is still for an actual recording of the app on a printed menu. The reel is a rebuilt animation, so it isn't a substitute for that proof.
 
+## 2026-10-10 — Waitlist: one list instead of an email per signup
+
+**What changed**
+
+- **Signups now live in one place only:** the `waitlist` table in Supabase, readable as `waitlist_signups` (newest first, numbered, CSV export). The per-signup alert emails from 2026-10-09 are removed: trigger, helper functions, the `notified_at` column and the `notify-waitlist` edge function. Sean's call: a list beats an inbox of alerts.
+- **Why Supabase, not a Google Sheet:** the table already held every signup. A Sheet would be a second copy that can drift, another company holding the addresses, and a new credential to manage, all to show the same rows.
+- **Privacy policy (Oct 10):** says the waitlist is one database table, never copied to spreadsheets or inboxes, no per-signup notifications, no name collected; Resend's line now covers the one launch email.
+- **Terms 1.1 (Oct 10):** one paragraph in Section 10: joining the waitlist creates no account or obligation, and you can be removed by email. App Store EULA text regenerated (`legal/eula-app-store.txt`); paste it into App Store Connect.
+- **Site copy:** the form's note now reads "One email when it launches, nothing else. We never sell or share your address."
+
+**Needs Sean**
+
+- The database change couldn't be applied from Claude's session (Supabase's tool timed out on every write). Paste `supabase/migrations/20261010000000_waitlist_single_list.sql` into Supabase → SQL Editor and run it. Until then the old trigger stays, but it sends nothing because `RESEND_API_KEY` was never set.
+- Then delete the `notify-waitlist` function in Supabase → Edge Functions, and don't add `RESEND_API_KEY` for it.
+
+---
+
+## 2026-10-09 — eatoutbetter.com is live; waitlist signups now email Sean
+
+**What changed**
+
+- **The site is live on eatoutbetter.com** with HTTPS. Namecheap DNS points at Vercel (apex A record, `www` CNAME); `www` redirects to the apex. The first visits showed an unstyled "not secure" page only because the SSL certificate hadn't been issued yet; it was issued automatically a few minutes later.
+- **Waitlist alerts:** each new signup emails eatoutbetter@gmail.com (the address, which button it came from, and the running total). A database trigger calls a small Supabase function (`notify-waitlist`), which sends through Resend from no-reply@eatoutbetter.com. The signup itself never waits on the email, and each address is reported once. Signups from before this change aren't re-sent.
+
+**Needs Sean**
+
+- Add the Resend API key as an Edge Function secret named `RESEND_API_KEY` (Supabase → Edge Functions → Secrets). Until then signups still save, but no alert goes out; they're sent with the first signup after the key is added.
+
+---
+
 ## 2026-10-09 — Website: slot for the demo video (not live yet)
 
 **What changed**
@@ -50,7 +80,6 @@
 **Not verified live:** the live site couldn't be reached from the session. After the next deploy, view source on the live URLs to confirm the new title and description, and submit the sitemap in Search Console once the domain is verified.
 
 ---
-
 ## 2026-10-06 (evening) — Security fixes #52 and #56 merged
 
 **What changed**
@@ -219,6 +248,16 @@
 **Not done**
 
 - After #56 merges, Sean pastes the new feedback script into the sheet (`scripts/feedback-sheet/README.md`).
+
+---
+
+## 2026-10-04 — Pre-mortem on the idea, and a repeat-use test written as a spec
+
+**What changed.** Added a Claude skill, `.claude/skills/kill-my-idea` (PR #55), that argues the case against an idea and designs the cheapest tests that could prove it wrong. We ran it on Eat Out Better. The sharpest finding: the repo has accounts, release lines, signed scans, pricing and a security backlog, but no evidence yet that anyone outside Sean and Ray comes back to the app a second time. A free general assistant can already answer "which of these dishes is better for my cholesterol" from a menu photo, so the app has to earn repeat use. The first of three proposed tests is now written in full in `plan.md` ("Test spec: does anyone come back?").
+
+**Why it matters.** It puts a pass/fail line in writing before any data exists, so the result can't be talked into a pass afterward.
+
+**What it sets up.** Recruit 20 people with high cholesterol, run three weeks, read out in week four. Paywall smoke test and a blind comparison against a free assistant follow only if it passes.
 
 ---
 

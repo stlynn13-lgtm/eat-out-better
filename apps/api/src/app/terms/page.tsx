@@ -23,8 +23,8 @@ export const metadata = {
  * EULA URL. If this path ever changes, all four have to change with it.
  */
 
-const EFFECTIVE_DATE = "September 9, 2026";
-const VERSION = "1.0";
+const EFFECTIVE_DATE = "October 10, 2026";
+const VERSION = "1.1";
 
 export default function TermsPage() {
   return (
@@ -322,6 +322,12 @@ export default function TermsPage() {
           analysis, and we do not sell personal information. Colorado residents have rights
           under the Colorado Privacy Act, and residents of other states may have comparable
           rights; the Privacy Policy explains how to exercise them.
+        </p>
+        <p>
+          Joining the launch waitlist on eatoutbetter.com does not create an account or any
+          obligation on either side. We use the address only to tell you once when the App is
+          available, and you can have it removed at any time by emailing{" "}
+          <a href="mailto:support@eatoutbetter.com">support@eatoutbetter.com</a>.
         </p>
       </Section>
 

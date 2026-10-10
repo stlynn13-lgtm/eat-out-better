@@ -47,4 +47,4 @@ Events: `video_play` and `video_complete` (once each per page view) in Vercel An
 
 ## Reading the waitlist
 
-Supabase dashboard → Table Editor → `waitlist` (or SQL: `select * from waitlist order by created_at`). The publishable key can only add rows, never read them.
+Supabase dashboard → Table Editor → `waitlist_signups` (newest first, numbered; "Export to CSV" in the same screen). That is the only copy: there are no per-signup emails. The publishable key can only add rows, never read them.
