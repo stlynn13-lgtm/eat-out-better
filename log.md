@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-10-10 — How it works screen no longer promises swaps
+
+**What changed**
+
+- **Step 3 ("We rank it for your heart") now ends "Every score comes with a plain-English reason, so you can see exactly what's driving it."** It used to promise "where it helps, a simple swap". Same reason as the home screen change below: the scoring API returns no swap for any dish.
+- **The yellow score line now reads "4–6.9 · Okay in moderation"**, dropping "small swaps help" for the same reason.
+
+**Worth knowing**
+
+- **Ships with the next over-the-air update**, together with the home screen change. Publishing both in one update keeps the app consistent with itself.
+- **Swaps are still promised on the website**, and the feedback sheet still offers a "Helpful swaps" chip. See `plan.md`, NOW item 9.
+
+---
+
 ## 2026-10-10 — Repeat-use test moved to the top of the plan
 
 **What changed.** The "Test spec: does anyone come back?" section in `plan.md` now sits first, above "Where we are right now". Its text is unchanged, and NOW item 8 now says "spec at the top of this file".
