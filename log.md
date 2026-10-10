@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-10-10 — Pre-mortem on the positioning
+
+**What changed.** Ran the `kill-my-idea` skill against the positioning (the app's home screen, the homepage, `landing-page-prompt.md`, and the product principles) and wrote the result into `plan.md` ("Positioning pre-mortem"). No code.
+
+**Why it matters.** The copy promises certainty ("know what to order", "order with confidence") that the product can't yet back: the site still promises a swap the app doesn't show, and the 75% match with one reviewer says nothing yet about how many errors are the dangerous kind (a red dish scored green). The lead claim, snap and score a menu, is also what competitors and a general assistant already do.
+
+**What it sets up.** Three cheap tests: a promise audit with a timed "30 seconds", a free recount of the eval misses by how serious they are, and a five-second message test with the repeat-use cohort.
+
+---
+
 ## 2026-10-10 — "Helpful swaps" feedback chip removed; photo limit corrected in the docs
 
 **What changed**
