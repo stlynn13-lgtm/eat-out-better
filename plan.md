@@ -175,6 +175,38 @@
 
 ---
 
+## Positioning pre-mortem: does the promise match what the product can prove? (2026-10-10)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the positioning as it stands in the app's home screen, the homepage (`apps/web/app/page.tsx`), `landing-page-prompt.md`, and the product principles in `CLAUDE.md`, with web research (links at the end).
+
+**The positioning, as reviewed.** For people managing high cholesterol, Eat Out Better lets you photograph any restaurant menu and get every dish scored, with plain-English reasons, in about 30 seconds. It's free, needs no account, and says menu photos are never stored. The homepage headline is "Know what to order before the server comes back" and the subhead adds "shows you an easy swap". The app says "Have high cholesterol?" and step 3 promises "Order with confidence".
+
+**Bottom line.** The positioning is specific and well aimed, but it promises more certainty than the product has earned, and the site still promises a swap the app doesn't show. The most likely failure is first-use disappointment: a false green, or a missing swap, and the user decides the app can't be trusted. Chance the copy holds up through the first 100 real users, unchanged: roughly even (a judgment). It turns on accuracy for the dishes people actually order.
+
+**The belief everything rests on.** That users will treat a colour as safe enough to order on, and will read errors as rare. "Know what to order" and "order with confidence" promise trust, not just information.
+
+**What could go wrong, most serious first.**
+1. **The site promises a swap the app doesn't show.** NOW item 9 already records this: the API returns no swaps, and the homepage hero, meta description and guide still promise them. `CLAUDE.md`'s "substitution-forward" principle no longer matches what ships. Apple also expects store listing text to match the app (guideline 2.3). Fixable by rewording or building the feature.
+2. **"Confidence" outruns the evidence.** The latest measurement is 75% agreement with one reviewer (Ray) on 202 dishes. Misses split 27 greener and 22 redder; the old prompt was greener on 41 and redder on only 11. One person's answer key is not clinical validation, and a clinical reviewer is still an open item. The planned trust block calls the key "human-validated", which is true but easy to over-read. For a health promise the costly error is a false green, and nothing yet says how many of the 27 are red-to-green, the dangerous kind.
+3. **The lead claim is the commodity one.** "Snap a menu, get dishes scored with reasons" is what Menu Scanner: Eat Healthy already does, and what a general assistant does for free. What is actually distinctive is published thresholds (green at 5g or less of saturated fat, red over 11g), the same menu giving the same answer, and focus on one condition. Those sit lower on the page under "why you can trust the rating".
+4. **The wedge may be narrower than it reads.** CDC's lab-based figure for high total cholesterol (240 mg/dL or more) was 11.3% of US adults in 2021 to 2023. That isn't comparable to self-reported rates, which measure something different. "Managing high cholesterol" is a smaller, self-identified group, and whether a statin user thinks "I need an app at dinner" is the repeat-use question again. People with high cholesterol often manage weight, blood pressure or diabetes as well, and the site says "more conditions later".
+5. **Smaller overpromises.** "Any menu" sits beside a known gap: menus over 100 dishes still lose their tail. "About 30 seconds" has not been timed. "Eat Out Better" is a generic phrase, weak for recall and search. "Menu photos never stored" is a trust claim that must stay exactly true as accounts and stored results evolve.
+
+**Three cheap tests, in this order.**
+1. **Promise audit (free, today).** List every claim on the site, in the app and in store copy against what ships, and time the "30 seconds" on 10 real menus. Pass: zero promises the app doesn't deliver and a median under 45 seconds.
+2. **Split the misses by consequence (free).** Recount the 27 greener-than-Ray misses from the existing eval data as one-step (red to yellow, or yellow to green) or two-step (red to green). Pass: two-step errors under 2% of dishes, about 4 of 202. Fail: lead with transparency instead of confidence.
+3. **Five-second message test (about 15 people).** Use people from the repeat-use cohort. Show the hero and ask what it does and who it's for. Then show your App Store listing beside a competitor's and ask which they'd download and why. Pass: at least 12 of 15 get it right, and at least 60% of the cholesterol-identified people choose yours.
+
+**What would change this verdict.** Few or no red-to-green errors, and the cohort choosing specificity over breadth.
+
+**The question to answer first.** Is the promise "tells you what's safe" or "helps you see why a dish scores the way it does"? The second is a weaker claim you can keep, and it leans on what you do differently. `CLAUDE.md`'s "confidence over perfection" is the stated premise, and confidence without calibration is the liability.
+
+**Don't do yet.** Spend on paid acquisition behind the current headline, or publish the "human-validated answer key" line in the trust block before a clinical reviewer has looked at the key.
+
+**Sources.** [CDC NCHS data brief on high cholesterol prevalence](https://www.cdc.gov/nchs/data/databriefs/db515.pdf) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503) · [Fig: Food Scanner](https://apps.apple.com/us/app/fig-food-scanner-recipes/id1564434726). The CDC figure is the lab-measured rate; the competitor pages are their own listings. Check before quoting externally.
+
+---
+
 ## Closed this week (so nobody chases them again)
 
 - **Hide My Email** — `eatoutbetter.com`, `send.eatoutbetter.com` and `no-reply@eatoutbetter.com` are registered as Sign in with Apple email sources (2026-10-01); Apple shows all three passing SPF. Delivery through Apple's relay has not been tested with a real Hide My Email account.
