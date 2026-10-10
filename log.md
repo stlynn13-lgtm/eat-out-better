@@ -20,6 +20,14 @@
 
 ---
 
+## 2026-10-10 — Repeat-use test moved to the top of the plan
+
+**What changed.** The "Test spec: does anyone come back?" section in `plan.md` now sits first, above "Where we are right now". Its text is unchanged, and NOW item 8 now says "spec at the top of this file".
+
+**Why it matters.** It's the test the rest of the plan waits on, so it shouldn't be buried below the status and task lists.
+
+---
+
 ## 2026-10-10 — Home screen step 3 no longer promises swaps
 
 **What changed**
@@ -47,7 +55,7 @@
 
 **What changed.** `plan.md` now has the Vercel Web Analytics step. No code changed: the analytics package and tag were already in `apps/web` from the original build. The only missing piece is the **Enable** click in the Vercel dashboard (Sean). An accidental `npm i @vercel/analytics` in the home folder (not the repo) was harmless clutter in `~`.
 
-**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag is still in `app/layout.tsx` and can be removed later if we don't plan to upgrade.
+**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag was then removed from `app/layout.tsx` so the site no longer requests a script that reports nothing. Vercel Analytics is unchanged. The unused `@vercel/speed-insights` dependency was left in `package.json`.
 
 ---
 
