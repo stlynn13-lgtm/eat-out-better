@@ -33,7 +33,7 @@
 
 **What changed.** `plan.md` now has the Vercel Web Analytics step. No code changed: the analytics package and tag were already in `apps/web` from the original build. The only missing piece is the **Enable** click in the Vercel dashboard (Sean). An accidental `npm i @vercel/analytics` in the home folder (not the repo) was harmless clutter in `~`.
 
-**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag was then removed from `app/layout.tsx` so the site no longer requests a script that reports nothing. Vercel Analytics is unchanged. The unused `@vercel/speed-insights` dependency was left in `package.json`.
+**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag was then removed from `app/layout.tsx` so the site no longer requests a script that reports nothing. Vercel Analytics is unchanged. The unused `@vercel/speed-insights` dependency was then removed from `package.json` and the lockfile in a follow-up.
 
 ---
 
