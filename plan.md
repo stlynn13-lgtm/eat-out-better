@@ -7,57 +7,6 @@
 
 ---
 
-## Where we are right now
-
-**Build 14 (v1.4.0) is on TestFlight, with sign-in live.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. A first-launch screen offers "Create free account" or "Continue without an account". Google and Apple sign-in are both confirmed on Sean's phone; Google now uses its own sheet and names "Eat Out Better". The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Library photo picks now show a loading tile the moment the picker closes (published to builds 13 and 14, not yet tried on a phone). Details: `log.md`, the 2026-10-01 entries.
-
-**Version 1.5.0 (1) is merged (PR #46), built, and submitted to TestFlight on 2026-10-01; nobody has tried it on a phone yet.** What's in it: restaurant names on saved scans with renaming, a redesigned Saved scans screen, category tabs on results, a redesigned account entry and account screen, a slower logo animation, and the "Analyze New Menu keeps the old photos" fix. Details: `log.md`, 2026-10-01 (night).
-
-**Five release lines.** Each build only accepts over-the-air updates published from its own version:
-- `ota/1.1.4` → build 9
-- `ota/1.2.0` → build 11
-- `ota/1.3.0` → build 13 (accounts, Google through the browser). Up to date: the account-screen label and photo-pick fixes were published 2026-10-01.
-- `ota/1.4.0` → build 14 (native Google sign-in).
-- `main` (1.5.0) → build 1.5.0 (1). **This is the build testers should move to once it has been tried on a phone.** From 1.5.0 on, a build is named by version and number together ("1.5.0 (1)"), because the number restarted at 1.
-
-**Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
-
-**Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
-
----
-
-## NOW
-
-**Marketing site (new, 2026-10-06):** built in `apps/web`, deploying to the Vercel project `eat-out-better-web`. To finish:
-- **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist_signups` (the one place signups live; no per-signup emails).
-- **Point eatoutbetter.com at it:** Vercel → eat-out-better-web → Settings → Domains → add `eatoutbetter.com` and `www.eatoutbetter.com`; then in Namecheap → Advanced DNS add exactly the A / CNAME records Vercel shows. **Don't delete the existing MX, TXT (SPF/DKIM) or `send` records**; those carry the sign-in code emails and Resend.
-- **Turn on Vercel Web Analytics:** the code is already in `apps/web` (`@vercel/analytics`, rendered in `app/layout.tsx`), so this is one click: Vercel → eat-out-better-web → **Analytics** tab → **Enable**, then let the next production deploy from `main` go out. It records nothing until enabled, and little until eatoutbetter.com points at the project.
-- **Speed Insights: deliberately skipped (2026-10-10).** It needs a paid Vercel plan, so it stays off. The `<SpeedInsights />` tag was removed from `app/layout.tsx` (2026-10-10); the unused `@vercel/speed-insights` dependency is still in `apps/web/package.json`, so removing it too is optional cleanup. To turn it on after a plan upgrade, re-add the tag. Use Search Console's Core Web Vitals report for free field data once the domain is verified.
-- **Privacy policy:** live; covers the waitlist (one database table, no copies) and the website's cookie-free analytics. **Run `supabase/migrations/20261010000000_waitlist_single_list.sql` in the Supabase SQL Editor** and delete the `notify-waitlist` edge function. **Paste the regenerated `legal/eula-app-store.txt` (Terms 1.1)** into App Store Connect. **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
-- **Pick a clinical reviewer for the guide** (registered dietitian or clinician). It's the biggest remaining ranking lever for the health guide; see `backlog.md` → "Search / SEO growth".
-- **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
-- **Demo video on the site:** the 20-second launch reel is live under How it works (2026-10-10). The separate real-menu recording slot is built and hidden. Compress the video, add a poster and captions, and fill in `DEMO_VIDEO` (`apps/web/README.md` → "Adding the demo video"). Cut a separate raw screen capture for the App Store App Preview.
-- **At App Store launch:** follow `apps/web/README.md` → "Going live" (two settings, the official Apple badge, the Smart App Banner).
-
-**Security follow-ups first:** the open items are tracked privately, outside this repo (the repo is public again since 2026-10-05, so open weaknesses aren't written down here). #52 (token required) and #56 (security quick fixes) merged 2026-10-06. **Next: one phone scan** to prove the Vercel token matches the app's (a failure means fix the token in Vercel, see `log.md` 2026-10-06 evening), check `/privacy` still shows, then paste the feedback script (item 4).
-
-0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
-1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
-2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
-3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
-4. **Paste the feedback script** (PR #56 merged 2026-10-06; the sheet still runs the old one until you do) — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. The new version also blocks spreadsheet-formula injection; then search the sheet for cells starting with `=` you didn't write.
-5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
-6. **Calibrate the zoom buttons** (30 seconds, real phone).
-7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
-8. **Run the repeat-use test** (spec below). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
-9. **Swaps: the app no longer promises them on the home screen, but other places still do.** Step 3 now reads "Know what drives each score" (ships with the next over-the-air update). Still promising a swap that the app never shows, because the API returns none: the in-app How it works screen (`apps/mobile/app/how-it-works.tsx`, step 3) and the website (homepage hero and feature copy, meta description, guide CTA). Decide: build swaps, or reword those too.
-
-**Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
-
-**Privacy label rule:** before shipping any build that collects something new (a location prompt, more analytics, a new SDK, a condition picker), update the App Store label and the policy first. Current answers: `privacy-policy-accounts-release.md`.
-
----
-
 ## Test spec: does anyone come back? (repeat-use test)
 
 **Status:** not started. Written 2026-10-04 after a pre-mortem on the idea (`.claude/skills/kill-my-idea`). Owner: Sean.
@@ -106,6 +55,57 @@
 **Needs to be true first.** 1.5.0 (1) tried on a phone (NOW item 0); the one-phone-scan sync check from `security-followups.md`; the usage query above works.
 
 **Not covered here (next tests, only if this one passes).** A paywall smoke test (about $300 of targeted ads to a page with the $39.99 annual price; specced in the pricing pre-mortem below). A blind comparison against a free assistant: 15 real menus, a registered dietitian rating which advice is safer and more useful.
+
+---
+
+## Where we are right now
+
+**Build 14 (v1.4.0) is on TestFlight, with sign-in live.** Everyone gets a silent account on first launch; Apple, Google or an emailed 6-digit code attaches a login so saved scans follow them to a new phone. A first-launch screen offers "Create free account" or "Continue without an account". Google and Apple sign-in are both confirmed on Sean's phone; Google now uses its own sheet and names "Eat Out Better". The $200/day spend cap is counting. The App Store privacy label and the matching privacy policy are published. Library photo picks now show a loading tile the moment the picker closes (published to builds 13 and 14, not yet tried on a phone). Details: `log.md`, the 2026-10-01 entries.
+
+**Version 1.5.0 (1) is merged (PR #46), built, and submitted to TestFlight on 2026-10-01; nobody has tried it on a phone yet.** What's in it: restaurant names on saved scans with renaming, a redesigned Saved scans screen, category tabs on results, a redesigned account entry and account screen, a slower logo animation, and the "Analyze New Menu keeps the old photos" fix. Details: `log.md`, 2026-10-01 (night).
+
+**Five release lines.** Each build only accepts over-the-air updates published from its own version:
+- `ota/1.1.4` → build 9
+- `ota/1.2.0` → build 11
+- `ota/1.3.0` → build 13 (accounts, Google through the browser). Up to date: the account-screen label and photo-pick fixes were published 2026-10-01.
+- `ota/1.4.0` → build 14 (native Google sign-in).
+- `main` (1.5.0) → build 1.5.0 (1). **This is the build testers should move to once it has been tried on a phone.** From 1.5.0 on, a build is named by version and number together ("1.5.0 (1)"), because the number restarted at 1.
+
+**Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
+
+**Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
+
+---
+
+## NOW
+
+**Marketing site (new, 2026-10-06):** built in `apps/web`, deploying to the Vercel project `eat-out-better-web`. To finish:
+- **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist_signups` (the one place signups live; no per-signup emails).
+- **Point eatoutbetter.com at it:** Vercel → eat-out-better-web → Settings → Domains → add `eatoutbetter.com` and `www.eatoutbetter.com`; then in Namecheap → Advanced DNS add exactly the A / CNAME records Vercel shows. **Don't delete the existing MX, TXT (SPF/DKIM) or `send` records**; those carry the sign-in code emails and Resend.
+- **Turn on Vercel Web Analytics:** the code is already in `apps/web` (`@vercel/analytics`, rendered in `app/layout.tsx`), so this is one click: Vercel → eat-out-better-web → **Analytics** tab → **Enable**, then let the next production deploy from `main` go out. It records nothing until enabled, and little until eatoutbetter.com points at the project.
+- **Speed Insights: deliberately skipped (2026-10-10).** It needs a paid Vercel plan, so it stays off. The `<SpeedInsights />` tag was removed from `app/layout.tsx` (2026-10-10); the unused `@vercel/speed-insights` dependency is still in `apps/web/package.json`, so removing it too is optional cleanup. To turn it on after a plan upgrade, re-add the tag. Use Search Console's Core Web Vitals report for free field data once the domain is verified.
+- **Privacy policy:** live; covers the waitlist (one database table, no copies) and the website's cookie-free analytics. **Run `supabase/migrations/20261010000000_waitlist_single_list.sql` in the Supabase SQL Editor** and delete the `notify-waitlist` edge function. **Paste the regenerated `legal/eula-app-store.txt` (Terms 1.1)** into App Store Connect. **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
+- **Pick a clinical reviewer for the guide** (registered dietitian or clinician). It's the biggest remaining ranking lever for the health guide; see `backlog.md` → "Search / SEO growth".
+- **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
+- **Demo video on the site:** the 20-second launch reel is live under How it works (2026-10-10). The separate real-menu recording slot is built and hidden. Compress the video, add a poster and captions, and fill in `DEMO_VIDEO` (`apps/web/README.md` → "Adding the demo video"). Cut a separate raw screen capture for the App Store App Preview.
+- **At App Store launch:** follow `apps/web/README.md` → "Going live" (two settings, the official Apple badge, the Smart App Banner).
+
+**Security follow-ups first:** the open items are tracked privately, outside this repo (the repo is public again since 2026-10-05, so open weaknesses aren't written down here). #52 (token required) and #56 (security quick fixes) merged 2026-10-06. **Next: one phone scan** to prove the Vercel token matches the app's (a failure means fix the token in Vercel, see `log.md` 2026-10-06 evening), check `/privacy` still shows, then paste the feedback script (item 4).
+
+0. **Try 1.5.0 (1) on a phone.** Check: a scan of a menu that prints the restaurant's name gets that name; renaming from Saved scans and from the results title; the tabs on results; the new Saved scans and account screens on a small phone; and that "Analyze New Menu" then Back no longer shows the old photos. If the TestFlight submission is stuck at "waiting for an available submitter", upload the build file with Transporter, as with build 14.
+1. **Finish the phone test of accounts** (build 14). Two things are still unproven: **restore after reinstall** (scan → sign in → delete the app → reinstall → sign in → the scan is back), and **Delete account after signing in with Apple**, the only way to prove the Apple key.
+2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
+3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
+4. **Paste the feedback script** (PR #56 merged 2026-10-06; the sheet still runs the old one until you do) — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. The new version also blocks spreadsheet-formula injection; then search the sheet for cells starting with `=` you didn't write.
+5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
+6. **Calibrate the zoom buttons** (30 seconds, real phone).
+7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
+8. **Run the repeat-use test** (spec at the top of this file). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
+9. **Swaps: the app no longer promises them on the home screen, but other places still do.** Step 3 now reads "Know what drives each score" (ships with the next over-the-air update). Still promising a swap that the app never shows, because the API returns none: the in-app How it works screen (`apps/mobile/app/how-it-works.tsx`, step 3) and the website (homepage hero and feature copy, meta description, guide CTA). Decide: build swaps, or reword those too.
+
+**Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
+
+**Privacy label rule:** before shipping any build that collects something new (a location prompt, more analytics, a new SDK, a condition picker), update the App Store label and the policy first. Current answers: `privacy-policy-accounts-release.md`.
 
 ---
 

@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-10 — Repeat-use test moved to the top of the plan
+
+**What changed.** The "Test spec: does anyone come back?" section in `plan.md` now sits first, above "Where we are right now". Its text is unchanged, and NOW item 8 now says "spec at the top of this file".
+
+**Why it matters.** It's the test the rest of the plan waits on, so it shouldn't be buried below the status and task lists.
+
+---
+
 ## 2026-10-10 — Home screen step 3 no longer promises swaps
 
 **What changed**
