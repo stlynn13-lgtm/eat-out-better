@@ -141,6 +141,40 @@
 
 ---
 
+## Go-to-market pre-mortem: why the launch sequence may not reach anyone (2026-10-10)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the launch sequence below, with web research (links at the end).
+
+**What was reviewed, and what wasn't.** The GTM Launch Tracker spreadsheet and `GTM-strategy-phase1.md` are not in the repo, so this reviews the sequence as `plan.md` states it (friends and family → App Store search → LinkedIn → condition communities → Product Hunt), the channel assumptions in `pricing-strategy.md`, the search plan in `backlog.md`, and the waitlist site. If the tracker says something different, this section needs correcting.
+
+**Bottom line.** The sequence is ordered by effort, not by evidence about where diagnosed high-cholesterol diners can be reached, and nothing in it has a target or a measurement. Chance that it delivers the 500-plus installs a month the pricing scenarios assume, unchanged: under 15%. That is a judgment, and the 500 has no channel behind it.
+
+**The belief everything rests on.** That a free sequence of low-effort channels reaches people with high cholesterol who eat out regularly, at close to zero acquisition cost and in volume. The plan never states an install target, so it can't be checked.
+
+**What could go wrong, most serious first.**
+1. **The channels reach the wrong people.** Friends and family and LinkedIn reach your own network, not the target user. They produce installs that look like traction but can't test the premise, and they muddy the repeat-use test, which caps your own network at 4 of 20 testers. Product Hunt is a credibility spike, as this file already says. Vendor blogs put it at roughly 10 to 30 signups per 1,000 visitors with weak retention, and I found no data on consumer health launches there.
+2. **The channel that fits is the one the plan rules out.** The pricing doc's only channel is "Reddit word of mouth". One guide says most app-related communities ban promotion, with scheduled self-promotion threads as the usual route, and Reddit's own help page says not to target support communities in paid promotion. I could not confirm the rules for any specific cholesterol community. The route with the most intent, dietitians and cardiology practices, sits under "test later" in the pricing doc with no numbers.
+3. **App Store search is unproven for a new, narrow app.** Blogs say search drives 59 to 70% of App Store downloads, but one guide says Health & Fitness leans more on brand and referral traffic. A new app has no ratings or rank, and menu-scanner competitors already hold "menu scanner". Cholesterol-specific keywords have not been researched, and I found no health-specific keyword data.
+4. **The waitlist funnel is unmeasured.** The site records the email and which button was clicked, but there is no waitlist-to-install target, and Vercel Web Analytics is still waiting on its one Enable click (see NOW), so search traffic can't be attributed.
+5. **The search plan finds planners, but the product is built for the table.** The guide would rank for people choosing a restaurant ("high cholesterol Mexican restaurant"), while the product is designed for the moment of ordering. If the best channel finds planners, either the product's moment is wrong or the funnel doesn't connect to it. This could be a finding rather than a flaw.
+
+**Also noted.** "Launch" currently runs before the repeat-use test result. If that test fails, install-chasing spend is wasted. The expanded TestFlight of 10 to 20 testers, filed under LATER, is in effect that test and belongs first.
+
+**Three cheap tests, in this order.**
+1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist already records. Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
+2. **Ask one extra question on the 15-minute calls (free):** "When did you decide what to order, before arriving or at the table?" Pass for the product as built: at least half say at the table. Otherwise the planning moment is the product, and the guide funnel fits better than the app.
+3. **Check keyword demand before building anything around App Store search (free).** Pull popularity scores for about 10 cholesterol and menu terms; I believe Apple's Search Ads keyword tool shows these without spending, but I haven't confirmed that. Set the pass threshold before looking.
+
+**What would change this verdict.** One source with 50% or more repeat users, or a partner who will refer patients in bulk.
+
+**The question to answer first.** Can you name your first 100 users and say which channel each came from? If not, "launch" is premature.
+
+**Don't do yet.** Spend on paid acquisition, or invest in Product Hunt or LinkedIn effort. Don't add a health question to the waitlist form to measure audience quality without updating the App Store label and privacy policy first; see the privacy rule in NOW.
+
+**Sources.** [Product Hunt launch statistics (vendor blog)](https://www.shno.co/marketing-statistics/product-hunt-launch-statistics) · [Reddit's promotion rules](https://support.reddithelp.com/hc/en-us/articles/22755369815700-Running-promotions-on-Reddit) · [promoting an app on Reddit (guide)](https://redditgrow.ai/use-cases/promote-app) · [App Store optimization statistics](https://www.digitalapplied.com/blog/app-store-optimization-aso-statistics-2026-data) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503). Mostly vendor blogs of uneven quality; check before quoting any number externally.
+
+---
+
 ## Closed this week (so nobody chases them again)
 
 - **Hide My Email** — `eatoutbetter.com`, `send.eatoutbetter.com` and `no-reply@eatoutbetter.com` are registered as Sign in with Apple email sources (2026-10-01); Apple shows all three passing SPF. Delivery through Apple's relay has not been tested with a real Hide My Email account.

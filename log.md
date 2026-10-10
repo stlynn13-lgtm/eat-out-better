@@ -20,6 +20,16 @@
 
 ---
 
+## 2026-10-10 — Pre-mortem on the go-to-market plan
+
+**What changed.** Ran the `kill-my-idea` skill against the launch sequence and wrote the result into `plan.md` ("Go-to-market pre-mortem"). No code. The GTM Launch Tracker and `GTM-strategy-phase1.md` aren't in the repo, so the review covers the sequence as `plan.md` states it plus the channel assumptions elsewhere.
+
+**Why it matters.** The sequence is ordered by effort, not evidence, has no install target, and runs before the repeat-use test result. The channels that reach your own network can't test the premise, and the channel that fits (dietitians and practices) is the one ruled out as "test later".
+
+**What it sets up.** Three free tests, folded into the repeat-use test: recruit from three sources and tag each, ask when people decide what to order, and check keyword demand before building around App Store search.
+
+---
+
 ## 2026-10-10 — How it works screen no longer promises swaps
 
 **What changed**
