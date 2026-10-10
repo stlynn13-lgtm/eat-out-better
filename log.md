@@ -271,6 +271,22 @@
 
 ---
 
+## 2026-10-03 — 20-second launch video (`brag-output/`)
+
+**What changed**
+
+- **A 20-second launch video, `brag-output/brag.mp4`**, with a poster frame (`brag.jpg`) and a ready-to-post caption (`share-copy.txt`). Made with the open-source `/brag` skill. The app's screens were rebuilt from the real code (same colours, wording and layout); the dish names and scores are the real recorded ones from the Edible Beats brunch test menu. The one-line explanations under each dish were written for the video, following the scoring rules, not produced by the AI.
+- **A vertical cut for Reels and TikTok, `brag-output/brag-vertical.mp4`** (1080×1920, same timing and soundtrack, poster `brag-vertical.jpg`). Text and the phone stay out of the areas those apps cover with their own buttons and captions.
+- **Nothing in the app changed.**
+
+**Worth knowing**
+
+- **The video leaves out swaps on purpose.** The home screen's step 3 promises "Easy swaps to ask your server for", but the API still returns no substitution for any dish, so the app never shows one. Either build swaps or reword step 3 before the App Store launch.
+- **The video ends on `eatoutbetter.com`**, which couldn't be checked from the build environment. Confirm it loads before posting, or swap the ending.
+- **To re-make it:** `brag-output/work/` has the page that draws each frame (`video.html`), the frame renderer (`render.mjs`; run with `FORMAT=vertical` for the vertical cut) and the music generator (`audio.py`).
+
+---
+
 ## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
 
 **Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Open items are tracked privately, outside the repo.
