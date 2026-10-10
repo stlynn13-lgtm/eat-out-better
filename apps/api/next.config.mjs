@@ -21,7 +21,21 @@ const nextConfig = {
   // deterministic regardless of what else exists on the machine.
   outputFileTracingRoot: path.join(__dirname, "../.."),
 
-  // Security headers
+  // Security headers. The API serves JSON plus three static pages (/privacy,
+  // /terms, /support) that need no JavaScript at all, so the CSP blocks
+  // scripts outright (script-src 'none'): XSS is then impossible on these
+  // pages whatever ends up in them.
+  //   - Verified 2026-10-04 in Chromium: all three pages render fully. The
+  //     console shows "Refused to load the script" for Next's runtime chunks;
+  //     that is expected and harmless — the HTML is already server-rendered.
+  //   - Do NOT use the plain `default-src 'self'` here: it lets Next's runtime
+  //     load but blocks its inline RSC payload, and the page then hydrates to
+  //     a BLANK screen (tested). Either no scripts, or nonces via middleware.
+  //   - If a page ever needs client JS, move to per-request nonces rather
+  //     than adding 'unsafe-inline' to script-src.
+  //   - style-src allows inline styles: the pages use React style={{}} props.
+  // X-XSS-Protection is gone on purpose: browsers removed the XSS auditor and
+  // "1; mode=block" could itself be abused for cross-site leaks.
   async headers() {
     return [
       {
@@ -30,7 +44,16 @@ const nextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; " +
+              "frame-ancestors 'none'; base-uri 'none'; form-action 'none'; object-src 'none'",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
         ],
       },
     ];

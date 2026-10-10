@@ -13,24 +13,27 @@
     "test:dishmatch": "npx --yes tsx scripts/dishmatch-test.ts",
     "test:categories": "npx --yes tsx scripts/categories-test.ts",
     "test:spend": "npx --yes tsx scripts/spend-test.ts",
+    "test:imagetype": "npx --yes tsx scripts/imagetype-test.ts",
+    "test:cache": "npx --yes tsx scripts/analysis-cache-test.ts",
     "eval": "npx --yes tsx evals/run.ts",
     "eula": "npx --yes tsx --tsconfig scripts/tsconfig.json scripts/generate-eula-text.tsx",
-    "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts"
+    "replay:eat19": "npx --yes tsx scripts/description-echo-replay.ts",
+    "test:scoring": "npx --yes tsx scripts/scoring-test.ts",
+    "eval:calibrate": "npx --yes tsx evals/calibrate.ts",
+    "eval:context": "npx --yes tsx evals/context.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
     "@supabase/supabase-js": "^2.117.2",
-    "next": "^15.5.19",
+    "next": "^15.5.27",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "uuid": "^10.0.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
-    "@types/uuid": "^10.0.0",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^15.5.19",
+    "eslint-config-next": "^15.5.27",
     "typescript": "^5.5.3"
   }
 }

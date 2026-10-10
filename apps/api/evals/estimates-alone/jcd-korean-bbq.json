@@ -1,0 +1,163 @@
+{
+ "menu": "jcd-korean-bbq",
+ "recordedAt": "2026-10-05T11:41:46.754Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 4,
+   "key": "Tteokbokki",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "Haemul Pajeon",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "Bossam",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "Galbi",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "Bulgogi",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "Samgyupsal",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "Bibimbap",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "Godeungeo Gui",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "Kimchi Jjigae",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "Jobchae",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "Soondubu",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 69,
+   "key": "Dwenjang Jjigae",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

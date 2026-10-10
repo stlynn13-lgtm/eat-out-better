@@ -1,0 +1,541 @@
+{
+  "id": "o-mandarin",
+  "label": "O Mandarin (Sichuan / Mandarin Chinese)",
+  "note": "Five portrait pages (p1–5 of the PDF; p6 is a separate lunch menu, excluded). Every dish is printed in English with its Chinese name underneath in red; descriptions are pipe-separated ingredient lists. Section headings are bilingual ('Dim Sum 点心'). The restaurant name appears once, as the title over the Peking Duck panel on p2. Traps: the Chinese line under each dish is a translation, not a description and not a second dish; 'History and Serving' is prose, not a dish; Peking Duck has Half/Whole size lines; 'Or choice of …' protein lines are variants. The PDF text layer scrambles columns badly — pairings were taken from the rendered pages. Names and sections keep any Chinese as printed; the matcher compares Latin text only.",
+  "source": {
+    "restaurant": "O Mandarin",
+    "url": "https://omandarin.com/wp-content/uploads/2025/11/dinein.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 4, 5] of the original"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg",
+    "p3.jpg",
+    "p4.jpg",
+    "p5.jpg"
+  ],
+  "restaurantName": "O Mandarin",
+  "dishes": [
+    {
+      "name": "Shanghai Spring Rolls (3)",
+      "description": "Mixed Vegetables",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Dumplings (6)",
+      "description": "Steamed or Pan-fried Choice of Pork & Shrimp & Leek ; or Mixed Vegetable",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Soup Dumplings (6)",
+      "description": "Minced Pork & Ginger",
+      "section": "Dim Sum 点心",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Sichuan Wontons (6)",
+      "description": "Pork & Shrimp Wonton | Sichuan Chili broth | Served Warm",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Mild Sesame Noodle",
+      "description": "Cilantro | Scallion | Pickled Radish",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Dan Dan Noodle",
+      "description": "Minced Beef | Sichuan Chili Oil | Scallion | Cilantro",
+      "section": "Dim Sum 点心",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Scallion Bubble Pancake (2)",
+      "description": "w/Red Curry Dip",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Shumai (5)",
+      "description": "Berkshire Pork | Rock Shrimp",
+      "section": "Dim Sum 点心"
+    },
+    {
+      "name": "Hot & Sour Soup",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Wonton Soup",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Egg Drop Soup",
+      "section": "Soups 汤",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Famous Chengdu Fish Soup",
+      "description": "Flounder | Chinese Mustard Cabbage",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Wild Mushroom & Riblets Soup",
+      "description": "Pork Ribs | Asian Wild Mushrooms",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Cilantro Tofu Soup",
+      "description": "Soft Tofu | Cilantro",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Chicken & Corn Soup",
+      "description": "Minced Chicken | Sweet Corn",
+      "section": "Soups 汤"
+    },
+    {
+      "name": "Sichuan Peppercorn Beef Shank & Tendon",
+      "description": "Crushed Peanut | Scallions | Cilantro | Sesame",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Sichuan Chili Oil Edamame",
+      "description": "Garlic | Chinese Aged Vinegar | Chili Oil",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Sichuan Peppercorn Tofu Skin",
+      "description": "Sichuan Peppercorn Oil | Cilantro *Non-spicy Available",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Wild Peppercorn & Wood-ear Mushroom",
+      "description": "Garlic | Wild Peppercorn | Fermented Chili",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Cucumber Salad",
+      "description": "Choice of Garlic or Spicy Chili Oil",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Sichuan Pickled Cabbage",
+      "description": "Authentic Sichuan Style Fermented Cabbage",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Chengdu Mouthwatering Chicken",
+      "description": "Sesame Chili Oil or Ginger Scallion Oil",
+      "section": "Cold Appetizers 头台(冷）",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Jelly Fish",
+      "description": "Garlic | vinaigrette | Sesame",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Century Egg & Soft Tofu",
+      "description": "Avocado | Jalapeno | Ginger Soy | Green Chili",
+      "section": "Cold Appetizers 头台(冷）"
+    },
+    {
+      "name": "Peking Duck",
+      "aliases": [
+        "Half Duck",
+        "Whole Duck",
+        "Half Duck (Serves 2-3 people )",
+        "Whole Duck (Serves 3-5 People )"
+      ],
+      "description": "O Mandarins Peking organic duck is served with scallion, cucumber, flour crepes, and the chef’s special hoisin sauce.",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken Lettuce Wraps",
+      "description": "Minced Chicken or Shrimp | Scallions | Onion",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Shrimp Lettuce Wraps",
+      "description": "Minced Chicken or Shrimp | Scallions | Onion",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Honey Cucumber Rock Shrimp",
+      "description": "Organic Honey | Sesame",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Wild Mushroom & Sichuan Chili",
+      "description": "Scallion | Cilantro | Sichuan Peppercorn",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Ma-La Beef Jerky",
+      "description": "Sesame Seeds | Cilantro | Sichuan Peppercorn Oil & Chili",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Mandarin BBQ Pork",
+      "description": "Roasted Berkshire Pork",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Mandarin Glazed Spare Ribs",
+      "description": "Sweet Soy Glazed | Osmanthus Flower Sugar",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Sichuan Storm Fish",
+      "description": "Fluke Filet | Cilantro | Sichuan Peppercorn | Scallion",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Grandma’s Steam Bun",
+      "description": "w/Choice of Beef or Chicken Cucumber | Tomato | Jalapeno",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Sichuan Eggplant",
+      "description": "Scallion | Cilantro | Sichuan Peppercorn",
+      "section": "Hot Appetizers 头台(热）"
+    },
+    {
+      "name": "Thousand layer Tofu",
+      "description": "Pork Belly | Chinese Celery | Chili Pepper",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Sichuan Lamb Chop",
+      "description": "Onion | Celery | Cilantro | Jalapeno",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Mandarin Pork Shank",
+      "description": "Wild Peppercorn | Onion | Scallion | Potato",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Garlic Dry-Rub Ribs",
+      "description": "Scallion | Red Chili Pepper",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Beef Short Ribs",
+      "description": "Red Wine Reduction | Ginger | Anise | Taro",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Wild Pepper Shrimp & Crispy Rice",
+      "description": "Celery | Cilantro | Jalapeno | Scallion",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Smoked Bamboo & Pork Belly",
+      "description": "Jalapeno",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Fluke Filet in Rice Wine Sauce",
+      "description": "Asparagus | Wood-ear Mushroom Red Bell Pepper",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Prime Rib Sichuan Hot Pot",
+      "description": "Bamboo | Jalapeno | Mushroom",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Lion Head Meat Balls",
+      "description": "Pork Tenderloin | Bok Choy",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Triple Delight & Pine Nut",
+      "description": "Broccoli | Red Bell Pepper | Onion | Black Bean Sauce Chicken & Beef & Shrimp",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Organic Cauliflower",
+      "description": "Choice of Regular Stir-fry Or Wok-fry with Pork Belly",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Crispy Whole Fish",
+      "description": "Choice of Chef Special Sweet & Sour Sauce Or Chef Special Black Bean Sauce",
+      "section": "Chef’s Signature 大厨推荐"
+    },
+    {
+      "name": "Shredded Pork with Bamboo",
+      "description": "Smoked Bean Curd | Leeks | Baby Bamboo",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Wild Pepper Beef",
+      "description": "Or choice of Chicken $23 or Shrimp $27 Bell Peppers | Jalapeno | Basil | Onion",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Sichuan Seafood Clay Pot",
+      "description": "Fish Fillet | Jumbo Shrimp | Scallop | Wild Mushroom",
+      "section": "Mandarin Classics 传统佳肴",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Sweet Pea Prawns",
+      "description": "Or choice of Beef $25 or Chicken $22 Sweet Peas | Asparagus",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Sichuan Hot Pot",
+      "description": "Fish | Shrimp | Chicken | Beef | Mixed Vegetable",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Kung Pao Shrimp & Scallop",
+      "description": "Or choice of Beef $25 or Chicken $23 or Shrimp $27 Asparagus | Bell Pepper | Peanut",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Chongqing Chili Chicken",
+      "description": "Sichuan Dry Chili | Celery | Cilantro | Sesame",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Braised Beef Brisket Clay Pot",
+      "description": "Potato | Carrot | Scallion",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Sichuan Basil Chicken",
+      "description": "Or choice of Beef $25 or Shrimp $27 Leeks | Celery | Jalapeno | Thai Basil",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Twice Cooked Pork Belly",
+      "description": "Leeks | Jalapeno",
+      "section": "Mandarin Classics 传统佳肴",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Spicy Fermented Bens & Minced Pork",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Cabbage & Pork Belly",
+      "description": "Scallion | Jalapeno",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Sichuan Chili Oil Stew",
+      "description": "Choice of Beef or Fluke Fillet Napa Cabbage | Leek | Celery",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Garlic Pepper Shrimp",
+      "description": "Or choice of Beef $25 or Chicken $23 Leeks | Red Bell Pepper | Celery",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Tea Smoked Duck",
+      "description": "Jasmine Tea Smoked",
+      "section": "Mandarin Classics 传统佳肴",
+      "expected": {
+        "category": "drink_non_alcoholic",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Prime Rib In Sour Broth",
+      "description": "Wild Mushroom | Vermicelli",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Toothpick Lamb",
+      "description": "Celery | Cumin Chili Spices | Cilantro | Sesame",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Yu Xiang Pork",
+      "description": "Or choice of Chicken $22 or Beef $24 or Shrimp $27 Bamboo | Celery | Bell Pepper | Mushroom",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Lotus Root Stir-fry With Pork",
+      "description": "Or Choice of Beef $24 or Shrimp $26 Bell Peppers",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Shredded Duck in Sweet Bean Sauce",
+      "description": "Or choice of Shredded Pork $23 / Duck $25 Cucumber | Scallion | Steamed Buns",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Chili Onion Hot Pot",
+      "description": "Lotus | Bell Pepper | Cucumber | Celery | Cilantro Fish | Shrimp | Chicken | Beef",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Scallion & Steak",
+      "description": "Onion | Scallion",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Country Style Pork & Chili",
+      "description": "Green Chili Pepper | Garlic | Ginger | Chinese Black Bean",
+      "section": "Mandarin Classics 传统佳肴"
+    },
+    {
+      "name": "Mapo Tofu",
+      "description": "Soft Tofu | Sichuan Bean Sauce",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Tofu Skin & Napa Cabbage",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Dry Stir-fry String Bean",
+      "description": "Sichuan Chili Pepper & Peppercorn",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Asparagus & Sweet Pea",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Tomato & Egg",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Vegetable & Tofu Clay Pot",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Yu Xiang Eggplant",
+      "description": "Spicy Garlic Sauce",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Mixed Wild Mushroom",
+      "description": "Spicy Bean Paste",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Bok Choy & Mushroom",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chinese Pea Leaves",
+      "description": "Stir-fry or Garlic Stir-fry",
+      "section": "Healthy Vegetable & Tofu 菜园&豆腐"
+    },
+    {
+      "name": "Chengdu Fried Rice",
+      "description": "Bean sprout | Scallion | Egg",
+      "section": "Rice & Noodle 炒饭 & 炒面",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Smoked Duck Fried Rice",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Chao Mein",
+      "description": "Choice of Chicken, Beef, Vegetable; Shrimp or Combo $2 extra",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Mandarin Riblet Noodle Soup",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Pineapple Fried Rice",
+      "description": "Choice of Chicken, Beef, Vegetable; Shrimp or Combo $2 extra",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Vegetable & Egg Fried Rice",
+      "description": "Choice of Chicken, Beef, Vegetable; Shrimp or Combo $2 extra",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Braised Beef Noodle Soup",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Mixed Seafood Noodle Soup",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    },
+    {
+      "name": "Shanghainese Rice Cake Stir-fry",
+      "description": "Choice of Shredded Pork, Chicken, Beef, Vegetable; Shrimp or Combo $2 extra",
+      "section": "Rice & Noodle 炒饭 & 炒面"
+    }
+  ],
+  "optional": [
+    "History and Serving",
+    "Shanghainese Broth",
+    "Stir-fry",
+    "Garlic Stir-fry"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

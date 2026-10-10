@@ -1,0 +1,1712 @@
+{
+ "menu": "benvenutos",
+ "recordedAt": "2026-10-05T11:32:54.078Z",
+ "runs": 3,
+ "dishes": [
+  {
+   "index": 0,
+   "key": "SEAFOOD STUFFED MUSHROOMS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "key": "SPINACH ARTICHOKE DIP",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "key": "CHEESE BREAD",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "key": "RISOTTO BALLS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "key": "BRUSCHETTA",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "key": "WINGS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "key": "ITALIAN NACHOS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "key": "SIRLOIN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "key": "RIBEYE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "LEMON BASIL SALMON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 4,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "key": "COD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "key": "SICILIAN CHICKEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "key": "SPAGHETTI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 3,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 1.5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "key": "CHEESE RAVIOLI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "key": "MEAT LASAGNA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 4,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "FETTUCCINE ALFREDO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 24,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "key": "CAJUN GRILL",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "key": "CHICKEN CARBONARA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "CHICKEN PARMIGIANA [PASTAS]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 3,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "key": "CHICKEN TETRAZZINI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 13,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 15,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "key": "SEAFOOD CANNELLONI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 13,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "key": "CRISPY BRUSSELS SPROUTS",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": true
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "key": "FRIES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "key": "GARLIC MASHED POTATOES",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "key": "PARMESAN RISOTTO",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "GARLIC BROCCOLI",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "MINESTRONE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "key": "SOUP OF THE DAY",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "key": "BAKED FRENCH ONION SOUP",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "key": "MIXED GREENS W/ DRESSING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 4,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "key": "CAESAR W/ DRESSING",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 9,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "key": "ENDLESS SOUP & SALAD",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "CAPRESE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 2,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "COBB",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "key": "CHICKEN CAESAR",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "key": "FORMAGGIO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 11,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 11,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "MARGHERITA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 6,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "key": "BENVENUTO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "key": "FOUR MEAT COMBO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 20,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "key": "ROASTED ASPARAGUS",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "key": "BUILD YOUR OWN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 10,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "key": "FOUR MEAT",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 22,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "key": "CHICKEN BROCCOLI",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "key": "HOT SUPREME",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "key": "GRILLED SALMON BLT",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    },
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "key": "CHICKEN PARMIGIANA [SANDWICHES]",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "GRILLED CHICKEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 5,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "key": "PRIME RIB MELT",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "key": "Classic Burger",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 17,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "TIRAMISU",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 12,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "key": "CHEESECAKE",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 16,
+     "addedSugarG": 28,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "key": "FLOURLESS CHOCOLATE TORTE",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 16,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 14,
+     "addedSugarG": 22,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "key": "BROWNIE SKILLET",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 22,
+     "addedSugarG": 48,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 18,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "key": "AFFOGATO",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 7,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 16,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 7,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "key": "BOURBON MAPLE OLD FASHIONED",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 55,
+   "key": "ULTIMATE BLOODY MARY",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 56,
+   "key": "ROSEMARY LEMON-TINI",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "key": "WISCOLD FASHIONED",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 8,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 6,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 5,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "key": "VERY BERRY MARTINI",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 59,
+   "key": "MEMPHIS BLUES",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 16,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 14,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 12,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "key": "COFFEE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "key": "HOT TEA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "key": "HAND SQUEEZED LEMONADE",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 20,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 16,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "key": "FOUNTAIN SODAS",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 39,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "ITALIAN SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 65,
+   "key": "ITALIAN CREAM SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 35,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 66,
+   "key": "STRAWBERRY BASIL SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 32,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 67,
+   "key": "SPRECHER ORANGE & CREAM",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 38,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2,
+     "addedSugarG": 38,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 2.5,
+     "addedSugarG": 48,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 68,
+   "key": "SPRECHER ROOT BEER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 69,
+   "key": "SPRECHER LO-CAL ROOT BEER",
+   "category": "drink_alcoholic",
+   "runs": []
+  },
+  {
+   "index": 70,
+   "key": "CLUB SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 71,
+   "key": "ICED TEA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 24,
+     "protective": "some",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    },
+    {
+     "satFatG": 0,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

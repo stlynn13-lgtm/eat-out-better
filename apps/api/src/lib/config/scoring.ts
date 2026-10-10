@@ -37,6 +37,113 @@ export const SCORE_MIN = 1.0;
 export const SCORE_MAX = 10.0;
 
 // -----------------------------------------------------------
+// Score from estimates (2026-10-05)
+// -----------------------------------------------------------
+//
+// The model no longer picks a 1–10 score. It estimates what it actually knows
+// about — grams of saturated fat and added sugar in a typical restaurant
+// portion — and this function turns those into the score.
+//
+// Why: when the model chose the score itself, it graded on a curve. The same
+// dish scored alone vs. inside its full menu changed colour 46 times in 194
+// (carnitas 2.0 alone, 4.0 next to cheese curds), and its band table put
+// "12–20g" at 3.0–4.5, straddling the red/yellow line, so a cluster of dishes
+// sat at exactly 4.0. Here the curve is fixed, visible, and its knots land on
+// the tier boundaries by construction. It is also tunable against the answer
+// key offline (npm run eval:calibrate) instead of by rewording a prompt.
+
+/** What the model estimates for one dish. */
+export interface DishEstimates {
+  /** Saturated fat, grams, typical restaurant portion. */
+  satFatG: number;
+  /** Added sugar, grams (not sugar naturally in fruit or milk). */
+  addedSugarG: number;
+  /** How much the dish's fat/fibre actively helps: mostly unsaturated fat
+   * (oily fish, olive oil, nuts, avocado), soluble fibre, plant sterols. */
+  protective: "none" | "some" | "strong";
+  /** Deep-fried, battered or breaded. */
+  fried: boolean;
+}
+
+/** A piecewise-linear curve: [input, score] knots, input ascending. */
+export type Curve = readonly (readonly [number, number])[];
+
+/**
+ * Saturated fat → score. Knots sit on the tier lines: 5g is the green edge,
+ * 11g — most of the AHA's ~13g daily budget in one dish — is the red edge.
+ * 11g rather than 13g was calibrated against Ray's answer key (2026-10-05).
+ */
+export const SAT_FAT_CURVE: Curve = [
+  [0, 10], [2, 8.5], [5, GREEN_MIN], [11, YELLOW_MIN], [18, 2.5], [30, SCORE_MIN],
+];
+
+/**
+ * Added sugar → score, for drinks and desserts only (Ray, 2026-10-04: sugar
+ * counts there; a sweet glaze on a main stays a saturated-fat call). 15g —
+ * over half the AHA's ~25g daily limit in one item — is the red edge; 25g put
+ * gulab jamun, donut holes and Thai iced tea (18–24g) in yellow where Ray
+ * called them red.
+ */
+export const ADDED_SUGAR_CURVE: Curve = [
+  [0, 10], [5, GREEN_MIN], [15, YELLOW_MIN], [40, SCORE_MIN],
+];
+
+/**
+ * Deep-fried food loses a point beyond its saturated fat. The old rubric did
+ * this ("about half a band"); dropping it assumed the gram estimate already
+ * carried the frying, but egg rolls, onion rings and fish & chips came out at
+ * 8–10g — yellow — where Ray called them red.
+ */
+export const FRIED_PENALTY = 1.0;
+
+/** Credit for protective fat/fibre — the old rubric's +0.5 to +1.5. */
+export const PROTECTIVE_BONUS: Record<DishEstimates["protective"], number> = {
+  none: 0,
+  some: 0.75,
+  strong: 1.5,
+};
+
+/** Categories where added sugar counts against the score. */
+const SUGAR_COUNTS_FOR = new Set(["dessert", "drink_non_alcoholic"]);
+
+function onCurve(curve: Curve, x: number): number {
+  if (x <= curve[0][0]) return curve[0][1];
+  for (let i = 1; i < curve.length; i++) {
+    const [x1, y1] = curve[i];
+    if (x <= x1) {
+      const [x0, y0] = curve[i - 1];
+      return y0 + ((x - x0) / (x1 - x0)) * (y1 - y0);
+    }
+  }
+  return curve[curve.length - 1][1];
+}
+
+/**
+ * The score for one dish. The worse of the two factors decides — a fat-free
+ * sweet drink is judged on its sugar, a cream dessert on whichever is worse.
+ * Curves are parameters so the calibration script can try alternatives against
+ * the answer key without touching this file.
+ */
+export function scoreFromEstimates(
+  est: DishEstimates,
+  category: string | undefined,
+  curves: { satFat?: Curve; sugar?: Curve; bonus?: Record<DishEstimates["protective"], number> } = {}
+): number {
+  const fat = Math.min(
+    onCurve(curves.satFat ?? SAT_FAT_CURVE, Math.max(0, est.satFatG)) +
+      (curves.bonus ?? PROTECTIVE_BONUS)[est.protective] -
+      (est.fried ? FRIED_PENALTY : 0),
+    SCORE_MAX
+  );
+  const sugar =
+    category && SUGAR_COUNTS_FOR.has(category)
+      ? onCurve(curves.sugar ?? ADDED_SUGAR_CURVE, Math.max(0, est.addedSugarG))
+      : SCORE_MAX;
+  const score = Math.min(fat, sugar);
+  return Number(Math.min(Math.max(score, SCORE_MIN), SCORE_MAX).toFixed(1));
+}
+
+// -----------------------------------------------------------
 // Derived helpers
 // -----------------------------------------------------------
 

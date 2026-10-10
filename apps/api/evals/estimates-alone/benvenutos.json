@@ -1,0 +1,163 @@
+{
+ "menu": "benvenutos",
+ "recordedAt": "2026-10-05T11:40:55.113Z",
+ "runs": 1,
+ "dishes": [
+  {
+   "index": 3,
+   "key": "RISOTTO BALLS",
+   "category": "appetizer",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "key": "LEMON BASIL SALMON",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 3,
+     "addedSugarG": 0,
+     "protective": "strong",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "key": "FETTUCCINE ALFREDO",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 28,
+     "addedSugarG": 0,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "key": "CHICKEN PARMIGIANA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 18,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": true
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "key": "GARLIC BROCCOLI",
+   "category": "side",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 0,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "key": "MINESTRONE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 2,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "key": "CAPRESE",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 6,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "key": "COBB",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 14,
+     "addedSugarG": 2,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "key": "MARGHERITA",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 8,
+     "addedSugarG": 1,
+     "protective": "some",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "key": "GRILLED CHICKEN",
+   "category": "main",
+   "runs": [
+    {
+     "satFatG": 5,
+     "addedSugarG": 1,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "key": "TIRAMISU",
+   "category": "dessert",
+   "runs": [
+    {
+     "satFatG": 12,
+     "addedSugarG": 18,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  },
+  {
+   "index": 64,
+   "key": "ITALIAN SODA",
+   "category": "drink_non_alcoholic",
+   "runs": [
+    {
+     "satFatG": 0,
+     "addedSugarG": 24,
+     "protective": "none",
+     "fried": false
+    }
+   ]
+  }
+ ]
+}

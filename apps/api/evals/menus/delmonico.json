@@ -1,0 +1,362 @@
+{
+  "id": "delmonico",
+  "label": "Delmonico Steakhouse (steakhouse, fine dining)",
+  "note": "Two pages, three-column grids with dot leaders and names that wrap onto two lines ('EMERIL’S NEW ORLEANS / BARBECUE SHRIMP'). The restaurant name is a logo, not body text. Traps: dish names split across lines must not become two dishes; the boxed EXTRAS (steak toppings, sauces) are add-ons, not dishes; Wagyu has two size lines that are variants of one dish; SEAFOOD TOWER/CAVIAR SERVICE sit in a box between APPETIZERS and SOUPS & SALADS — APPETIZERS is the truth but a missing section is acceptable. Wording from the PDF text layer, layout checked against the rendered pages.",
+  "source": {
+    "restaurant": "Delmonico Steakhouse",
+    "url": "https://delmonicosteakhouse.com/wp-content/uploads/2024/08/Steakhouse-Dinner-Menu-Master-5-22-24-New-Logo.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "DELMONICO STEAKHOUSE",
+  "dishes": [
+    {
+      "name": "SELECTED ARTISANAL CHEESES",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "EMERIL’S NEW ORLEANS BARBECUE SHRIMP",
+      "description": "petite rosemary buttermilk biscuit",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "ALASKAN RED KING CRAB LEGS",
+      "description": "clarified butter",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CREOLE BOILED GULF SHRIMP COCKTAIL",
+      "description": "tomato horseradish dipping sauce",
+      "section": "APPETIZERS",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "note": "boiled in water. most negatives will probably come from the sauce",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "EMERIL’S RESERVE STURGEON CAVIAR DEVILED EGGS*",
+      "description": "remoulade sauce, teardrop tomatoes",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "HALF DOZEN RAW OYSTERS ON THE HALF SHELL*",
+      "description": "chef’s daily selection with ver jus mignonette",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CLASSIC STEAK TARTARE*",
+      "description": "traditional garnishes, toasted baguette",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PAN SEARED FOIE GRAS",
+      "description": "folded pistachio baklava, seasonal fruit compote, honey grand marnier",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "CHARRED SHISHITO PEPPERS",
+      "description": "citrus sea salt",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "TRUFFLE AND PARMESAN POTATO CHIPS",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "APPLE CURED KUROBUTA BONE-IN BACON",
+      "description": "pickled watermelon rind, abita root beer glaze",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "BEEF CARPACCIO*",
+      "description": "parmesan reggiano, wild arugula, crispy capers, roasted garlic emulsion",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "HOUSEMADE GNOCCHI POMODORO",
+      "description": "blistered baby heirloom tomatoes, parmesan reggiano cheese, fresh basil",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "PROSCIUTTO WRAPPED BLUE CHEESE",
+      "description": "stuffed dates, aged balsamic, marcona almonds",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "SEAFOOD TOWER*",
+      "description": "red king crab legs, poached shrimp, lobster tails and oysters on the half shell with assorted sauces",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "EMERIL’S RESERVE STURGEON CAVIAR SERVICE*",
+      "description": "traditional garnishes, toast points, citrus crème fraîche",
+      "section": "APPETIZERS"
+    },
+    {
+      "name": "TRADITIONAL NEW ORLEANS GUMBO",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "LOBSTER BISQUE",
+      "description": "maine lobster garnish",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "FRENCH ONION SOUP",
+      "description": "gruyere cheese crouton, chives",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "CAESAR SALAD",
+      "description": "prepared tableside for two",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "WILTED SPINACH*",
+      "description": "caramelized pecan bacon, fried poached egg, red onions, warm sherry-bacon vinaigrette",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "ORGANIC BABY MIXED GREENS SALAD",
+      "description": "creole spiced croutons, sherry vinaigrette, teardrop tomatoes, shaved manchego cheese, red onion",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "VINE-RIPENED HEIRLOOM TOMATO SALAD",
+      "description": "burrata cheese, red onion, extra virgin olive oil, balsamic vinegar, fresh basil",
+      "section": "SOUPS & SALADS"
+    },
+    {
+      "name": "ICEBERG LETTUCE WEDGE",
+      "description": "smoked apple bacon, red onions, buttermilk blue cheese dressing",
+      "section": "SOUPS & SALADS",
+      "expected": {
+        "category": "side",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "PRIME BONE-IN RIBEYE*",
+      "description": "20oz Creekstone Farms naturally raised, dry-aged on premises",
+      "section": "STEAKS & ENTRÉES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "PRIME BONELESS RIBEYE*",
+      "description": "16oz Creekstone Farms naturally raised, dry-aged on premises",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "PRIME BONELESS NEW YORK STRIP*",
+      "description": "16oz Creekstone Farms naturally raised Angus, wet-aged on premises",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "FILET MIGNON*",
+      "description": "9oz Creekstone Farms naturally raised Angus",
+      "section": "STEAKS & ENTRÉES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHATEAUBRIAND*",
+      "description": "20oz Creekstone Farms naturally raised Angus, carved tableside for two, fondant potatoes, buttered hericot vert, red wine reduction, béarnaise sauce",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "100% JAPANESE WAGYU*",
+      "description": "tiny radishes, crispy garlic, wasabi vinaigrette",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "CERTIFIED PIEDMONTESE PETITE FILET MIGNON*",
+      "description": "6oz, olive oil, sea salt, confit garlic, rosemary",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "GRILLED BUFFALO RIBEYE*",
+      "description": "14oz, chimichurri sauce, smoked sea salt",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "KUROBUTA PORK CHOP*",
+      "description": "20oz, herb jus",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "GRILLED JIDORI AIRLINE CHICKEN BREAST",
+      "description": "fingerling potatoes, garlic swiss chard, roasted tomato vinaigrette, aged balsamic",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "FRESH SPINACH SPAGHETTI",
+      "description": "wild mushrooms, parmesan reggiano cheese, basil pesto",
+      "section": "STEAKS & ENTRÉES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "NEW ZEALAND KING SALMON*",
+      "description": "beluga lentils, english peas, roasted pepper amarillo sauce",
+      "section": "STEAKS & ENTRÉES",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "MISO GLAZED GLACIER 51 CHILEAN SEA BASS",
+      "description": "okinawa sweet potatoe purée, bok choy",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "ROASTED MAINE LOBSTER TAIL",
+      "description": "grilled lemon, clarified butter",
+      "section": "STEAKS & ENTRÉES"
+    },
+    {
+      "name": "PAN SEARED SCALLOPS",
+      "description": "soft potato leek purée, wild mushrooms",
+      "section": "STEAKS & ENTRÉES",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "COUNTRY SMASHED POTATOES",
+      "section": "SIDES"
+    },
+    {
+      "name": "BAKED IDAHO POTATO",
+      "section": "SIDES",
+      "expected": {
+        "category": "side",
+        "tier": "yellow",
+        "note": "the sides, butter, bacon, sour cream are not good options",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "FINGERLING POTATOES",
+      "description": "salt boiled with confit garlic, fresh herbs",
+      "section": "SIDES"
+    },
+    {
+      "name": "POTATO CROQUETTES",
+      "description": "cheddar cheese, sour cream, smoked apple bacon",
+      "section": "SIDES"
+    },
+    {
+      "name": "POTATO AU GRATIN",
+      "section": "SIDES"
+    },
+    {
+      "name": "HAND CUT SEA SALT STEAK FRIES",
+      "section": "SIDES"
+    },
+    {
+      "name": "ANSON MILLS GRITS",
+      "description": "smoked apple bacon jam, cheddar cheese",
+      "section": "SIDES"
+    },
+    {
+      "name": "LOBSTER MAC & CHEESE FRESH CRESTE DI GALLO PASTA",
+      "aliases": [
+        "LOBSTER MAC & CHEESE"
+      ],
+      "description": "fontina fondue, butter poached lobster, toasted bread crumbs",
+      "section": "SIDES",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "CHARRED BRUSSELS SPROUTS",
+      "description": "garlic honey mustard",
+      "section": "SIDES"
+    },
+    {
+      "name": "CREAM CORN GRATIN",
+      "description": "roasted poblano peppers, panko, parmesan cheese",
+      "section": "SIDES"
+    },
+    {
+      "name": "SAUTÉED GARLIC MUSHROOMS",
+      "section": "SIDES"
+    },
+    {
+      "name": "DELMONICO CREAMED SPINACH",
+      "section": "SIDES",
+      "expected": {
+        "category": "side",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BUTTERED FRESH BROCCOLI",
+      "section": "SIDES",
+      "expected": {
+        "category": "side",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "BUTTERED FRESH ASPARAGUS",
+      "section": "SIDES"
+    }
+  ],
+  "optional": [
+    "6oz filet mignon",
+    "6oz ribeye",
+    "“AU POIVRE STYLE”",
+    "“OSCAR STYLE”",
+    "FOIE GRAS",
+    "FOIE GRAS “BUTTER”*",
+    "SCALLOPS",
+    "BRANDY PEPPERCORN REDUCTION",
+    "CHIMICHURRI SAUCE",
+    "RED WINE REDUCTION",
+    "DELMONICO"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}

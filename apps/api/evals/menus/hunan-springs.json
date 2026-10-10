@@ -1,0 +1,555 @@
+{
+  "id": "hunan-springs",
+  "label": "Hunan Springs (Chinese-American)",
+  "note": "Two pages, three centred columns with script-font section headings. The hardest structure in the corpus: Fried Rice / Lo Mein / Pad Thai / Pan-fried Noodles / Mei Fun / Chow Fun each list sub-items printed only as 'Choice of Chicken, Beef, Shrimp, OR Roast Pork', 'House', 'Vegetable' — the dish is only identifiable WITH its section. Those carry aliases. The PDF text layer scrambles which description belongs to which noodle dish (Mei Fun/Chow Fun swapped), so pairings were taken from the rendered page, wording from the text layer.",
+  "source": {
+    "restaurant": "Hunan Springs",
+    "url": "https://hunansprings.net/wp-content/uploads/2024/04/HS-Main-Menu_January-2023.pdf",
+    "fetched": "2026-10-04",
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+  },
+  "photos": [
+    "p1.jpg",
+    "p2.jpg"
+  ],
+  "restaurantName": "HUNAN SPRINGS",
+  "dishes": [
+    {
+      "name": "Wonton Soup",
+      "description": "*Contains pork",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Egg Drop Soup",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Hot & Sour Soup",
+      "description": "*Contains pork",
+      "section": "Soups and Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "House Wonton Soup for Two",
+      "description": "(Our wonton soup with shrimp, chicken, roast pork, and vegetables)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Chicken Corn Soup for Two",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Pork with Hot Cabbage Soup for Two",
+      "description": "(w/ Clear vermicelli noodles)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Bean curd Vegetable Soup for Two",
+      "description": "(Soft tofu with vegetables)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Teriyaki Beef (4)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Cheese Puffs (6)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Cold Noodles w/ Sesame Sauce",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "House made Dumplings (6)",
+      "description": "(Choice of Pork, Chicken, OR Vegetable / Steamed OR Pan-fried)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Bar B-Q Spare Ribs",
+      "description": "(Small 15. / Large 22.)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Minced Chicken Lettuce Wraps",
+      "description": "(Minced chicken, with peas, carrots, water chestnuts, puffy cellophane noodles, and *crushed peanuts)",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Egg Roll",
+      "description": "*Contains pork",
+      "section": "Soups and Appetizers",
+      "expected": {
+        "category": "appetizer",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Shrimp Roll",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Vegetable Roll",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Chicken Wings (8)",
+      "description": "Choice of Chef’s Specialty (Tossed in a blend of salt, pepper, garlic, and scallions) OR Tossed in our General Tso’s Sauce",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "House made Sweet Pickled Cucumber",
+      "section": "Soups and Appetizers"
+    },
+    {
+      "name": "Chef’s Specialty Shrimp",
+      "description": "Crispy shrimp tossed in a salt & pepper blend with fresh garlic and scallion.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Seafood Delight",
+      "description": "Shrimp, scallops, and lobster sautéed with mixed vegetables in a white wine sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Kung Po Delight",
+      "description": "Shrimp, chicken, and beef sautéed with peanuts in a spicy hoisin sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Thai Delight",
+      "description": "Chicken, beef, shrimp sautéed with fresh pineapple, snow peas, mushrooms, basil and bell peppers in a spicy sha-cha sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Dragon & Phoenix",
+      "description": "Chicken and shrimp sautéed with mixed vegetables in a delicious white wine sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Golden Shrimp",
+      "description": "Crispy jumbo shrimp tossed in a honey brown sauce with steamed broccoli.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Half Rack of Lamb",
+      "description": "New Zealand lamb chops grilled to choice then tossed in a blend of salt, pepper, garlic, and scallions.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "House Duck Spectacular",
+      "description": "Pulled duck breast sauteed with bell peppers and mushrooms in a brown sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Happy Family",
+      "description": "Shrimp, roast pork, chicken, and beef sautéed with mixed vegetables in a brown sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Basil Delight",
+      "description": "Chicken, beef, shrimp sauteed with snow peas, mushrooms, and bell peppers in a brown sauce with fresh basil.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Chef’s Specialty Steak",
+      "description": "12 oz. NY striploin grilled to choice with a blend of salt, pepper, garlic, and scallions.",
+      "section": "Chef Specialties",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Taiwanese Steak",
+      "description": "12 oz. NY striploin grilled to choice then topped with a black pepper sauce with mushrooms, onions, and bell peppers.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Sizzling Steak",
+      "description": "12 oz. NY striploin grilled to choice, sliced and tossed with bell peppers and onions in a brown sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Yu-Sheng Delight",
+      "description": "Shrimp, chicken, and beef sauteed with bell peppers, onions, and string mushrooms in a sweet and spicy garlic sauce.",
+      "section": "Chef Specialties"
+    },
+    {
+      "name": "Beef with Broccoli",
+      "description": "Sliced beef sautéed with broccoli in a brown sauce.",
+      "section": "Beef",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Pepper Steak",
+      "description": "Sliced beef sautéed with bell peppers and onions in a brown sauce.",
+      "section": "Beef"
+    },
+    {
+      "name": "Beef with Mixed Vegetables",
+      "description": "Sliced beef sautéed with broccoli, carrots, snow peas, Napa cabbage, baby corn, onions, mushrooms in our brown sauce.",
+      "section": "Beef"
+    },
+    {
+      "name": "Orange Beef",
+      "description": "Crispy fried beef tossed in a sweet and spicy brown citrus sauce.",
+      "section": "Beef"
+    },
+    {
+      "name": "Beef with Asparagus",
+      "description": "Sliced beef sautéed in a brown sauce.",
+      "section": "Beef"
+    },
+    {
+      "name": "Jalapeno Pepper Beef",
+      "description": "Sliced beef sautéed with jalapeño and bell peppers.",
+      "section": "Beef"
+    },
+    {
+      "name": "Moo-Shu Pork",
+      "description": "Pork with shredded cabbage, egg, mushrooms, scallions. Served with 4 homemade pancakes and hoisin sauce.",
+      "section": "Pork",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Pork with Specialty Dried Bean curd",
+      "description": "Pork with bell peppers, garlic, and firm dried bean curd.",
+      "section": "Pork"
+    },
+    {
+      "name": "Double Sautéed Sliced Pork",
+      "description": "Pork sautéed with cabbage, bell peppers, and Chinese black mushrooms in a spicy brown hoisin sauce.",
+      "section": "Pork"
+    },
+    {
+      "name": "Pork with Garlic Sauce",
+      "description": "Pork sautéed with bell peppers, onions, string mushrooms in a sweet and spicy garlic sauce.",
+      "section": "Pork"
+    },
+    {
+      "name": "Kan Ben String bean with Pork",
+      "description": "Minced pork sauteed with string beans, pickled cabbage, and fresh garlic.",
+      "section": "Pork"
+    },
+    {
+      "name": "Chuang Seung Tofu with Pork",
+      "description": "Soft tofu with pork, fresh sliced jalapenos, and Fresh garlic in a black bean sauce.",
+      "section": "Pork"
+    },
+    {
+      "name": "Sautéed Broccoli in Garlic Sauce",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Sautéed Mixed Vegetables",
+      "description": "Broccoli, carrots, snow peas, Napa cabbage, baby corn, onions, mushrooms in our white wine sauce.",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Eggplant in Garlic Sauce",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "General Tso’s Tofu",
+      "description": "Fried tofu tossed in a sweet and spicy General Tso's sauce on a bed of steamed broccoli.",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Bean curd Homestyle",
+      "description": "Lightly fried tofu with Napa cabbage, carrots, snow peas, water chestnuts, and Chinese black mushrooms in a brown sauce.",
+      "section": "Vegetarian"
+    },
+    {
+      "name": "Ma-Po Tofu",
+      "description": "Soft tofu tossed in a spicy black bean sauce.",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Shanghai Bok Choy",
+      "description": "Sautéed with fresh garlic.",
+      "section": "Vegetarian",
+      "expected": {
+        "category": "main",
+        "tier": "green",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Chicken with Broccoli",
+      "description": "White meat chicken sautéed with broccoli in a white wine sauce.",
+      "section": "Chicken"
+    },
+    {
+      "name": "General Tso’s Chicken",
+      "description": "Crispy chicken thigh meat tossed in our famous sweet and spicy General Tso's sauce.",
+      "section": "Chicken",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Sesame Chicken",
+      "description": "Crispy white meat chicken tossed in a sweet sesame sauce.",
+      "section": "Chicken"
+    },
+    {
+      "name": "Sweet & Sour Chicken",
+      "description": "Crispy battered white meat chicken with a red sweet and sour sauce.",
+      "section": "Chicken",
+      "expected": {
+        "category": "main",
+        "tier": "red",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Kung Po Chicken",
+      "description": "Diced chicken thigh meat tossed in a spicy brown hoisin sauce with peanuts.",
+      "section": "Chicken"
+    },
+    {
+      "name": "Chicken w/ Asparagus",
+      "description": "White meat chicken sautéed with asparagus in our white wine sauce.",
+      "section": "Chicken"
+    },
+    {
+      "name": "Cilantro Chicken",
+      "description": "Shredded chicken sauteed with red and green peppers with minced garlic, fresh cilantro on a bed of crispy cellophane noodles.",
+      "section": "Chicken"
+    },
+    {
+      "name": "Shrimp with Broccoli",
+      "description": "Shrimp sautéed with broccoli in a white wine sauce.",
+      "section": "Shrimp",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Shrimp with Mixed Vegetables",
+      "description": "Shrimp sautéed with broccoli, carrots, snow peas, Napa cabbage, baby corn, onions, mushrooms in our white wine sauce.",
+      "section": "Shrimp"
+    },
+    {
+      "name": "Shrimp with Lobster Sauce",
+      "description": "Shrimp with peas, carrots, water chestnuts, and baby corn in an egg sauce.",
+      "section": "Shrimp"
+    },
+    {
+      "name": "Shrimp with Garlic Sauce",
+      "description": "Shrimp sautéed with bell peppers, onions, string mushrooms in our sweet and spicy garlic sauce.",
+      "section": "Shrimp"
+    },
+    {
+      "name": "Shrimp w/ Asparagus",
+      "description": "Shrimp sautéed with asparagus in a white wine sauce.",
+      "section": "Shrimp"
+    },
+    {
+      "name": "Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Fried Rice"
+      ],
+      "description": "With peas, carrots, onions, scallions, and egg.",
+      "section": "Fried Rice"
+    },
+    {
+      "name": "House",
+      "aliases": [
+        "House Fried Rice"
+      ],
+      "description": "Beef, chicken, shrimp, and roast pork with peas, carrots, onions, and egg.",
+      "section": "Fried Rice"
+    },
+    {
+      "name": "Vegetable",
+      "aliases": [
+        "Vegetable Fried Rice"
+      ],
+      "description": "Peas, carrots, onions, scallions, egg, baby corn, snow peas, beansprouts.",
+      "section": "Fried Rice"
+    },
+    {
+      "name": "Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Lo Mein"
+      ],
+      "description": "With onions, scallions, and Napa cabbage.",
+      "section": "Lo Mein"
+    },
+    {
+      "name": "House",
+      "aliases": [
+        "House Lo Mein"
+      ],
+      "description": "Chicken, beef, shrimp, and roast pork with onions, scallions, and Napa cabbage.",
+      "section": "Lo Mein",
+      "expected": {
+        "category": "main",
+        "tier": "yellow",
+        "by": "ray",
+        "set": "2026-10-04"
+      }
+    },
+    {
+      "name": "Vegetable",
+      "aliases": [
+        "Vegetable Lo Mein"
+      ],
+      "description": "With snow peas, carrots, onions, Napa cabbage, and scallions.",
+      "section": "Lo Mein"
+    },
+    {
+      "name": "*Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Pad Thai"
+      ],
+      "description": "with onions, scallions, bell peppers, and egg.",
+      "section": "Pad Thai*"
+    },
+    {
+      "name": "*House",
+      "aliases": [
+        "House Pad Thai",
+        "House"
+      ],
+      "description": "Chicken, beef, pork, and shrimp with onions, scallions, bell peppers, and egg.",
+      "section": "Pad Thai*"
+    },
+    {
+      "name": "*Vegetable",
+      "aliases": [
+        "Vegetable Pad Thai",
+        "Vegetable"
+      ],
+      "description": "Onions, scallions, bell peppers, snow peas, carrots and egg.",
+      "section": "Pad Thai*"
+    },
+    {
+      "name": "Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Pan-fried Noodles"
+      ],
+      "description": "With mixed vegetables.",
+      "section": "Pan-fried Noodles"
+    },
+    {
+      "name": "House",
+      "aliases": [
+        "House Pan-fried Noodles"
+      ],
+      "description": "Chicken, beef, shrimp, and roast pork with mixed vegetables.",
+      "section": "Pan-fried Noodles"
+    },
+    {
+      "name": "Vegetable",
+      "aliases": [
+        "Vegetable Pan-fried Noodles"
+      ],
+      "description": "Broccoli, carrots, snow peas, Napa cabbage, baby corn, onions, mushrooms.",
+      "section": "Pan-fried Noodles"
+    },
+    {
+      "name": "Seafood",
+      "aliases": [
+        "Seafood Pan-fried Noodles"
+      ],
+      "description": "Shrimp, scallops, and lobster with mixed vegetables.",
+      "section": "Pan-fried Noodles"
+    },
+    {
+      "name": "Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Mei Fun"
+      ],
+      "description": "with onions, scallions, and Napa cabbage",
+      "section": "Mei Fun"
+    },
+    {
+      "name": "House",
+      "aliases": [
+        "House Mei Fun"
+      ],
+      "description": "Chicken, beef, shrimp, roast pork with onions, scallions, and Napa cabbage.",
+      "section": "Mei Fun"
+    },
+    {
+      "name": "Vegetable",
+      "aliases": [
+        "Vegetable Mei Fun"
+      ],
+      "description": "with carrots, snow peas, onions, scallions, Napa cabbage.",
+      "section": "Mei Fun"
+    },
+    {
+      "name": "Choice of Chicken, Beef, Shrimp, OR Roast Pork",
+      "aliases": [
+        "Chow Fun"
+      ],
+      "description": "With onions, scallions, Napa cabbage, snow peas, bean sprouts",
+      "section": "Chow Fun"
+    },
+    {
+      "name": "House",
+      "aliases": [
+        "House Chow Fun"
+      ],
+      "description": "Chicken, beef, shrimp, and roast pork with onions, scallions, Napa cabbage, snow peas, bean sprouts",
+      "section": "Chow Fun"
+    },
+    {
+      "name": "Vegetable",
+      "aliases": [
+        "Vegetable Chow Fun"
+      ],
+      "description": "With snow peas, carrots, bell peppers, onions, scallions, Napa cabbage, and bean sprouts.",
+      "section": "Chow Fun"
+    }
+  ],
+  "optional": [
+    "Add Scallops",
+    "Try it Singapore Style!",
+    "Try it Black bean Style!",
+    "White Rice"
+  ],
+  "expected": {},
+  "answerKey": {
+    "by": "Ray",
+    "date": "2026-10-04",
+    "how": "Blind tier calls on a sample via the Menu Tier Calls page (app score revealed only after each pick). Sugar counts for drinks and desserts (Ray's call, 2026-10-04). Mango sticky rice was revised after the reveal and restored to Ray's first call; near-identical Thai dishes unified on Ray's instruction."
+  }
+}
