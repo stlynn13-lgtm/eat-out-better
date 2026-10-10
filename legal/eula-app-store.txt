@@ -1,7 +1,7 @@
 Terms of Service
 ============================================================
-Effective Date: September 9, 2026
-Version 1.0
+Effective Date: October 10, 2026
+Version 1.1
 Read Section 3 before you use this app. It explains what Eat Out Better does
 and — just as importantly — what it does not do. In particular, this app does
 not detect food allergens, and it is not a substitute for advice from your
@@ -189,6 +189,10 @@ photographs are not retained after analysis, and we do not sell personal
 information. Colorado residents have rights under the Colorado Privacy Act,
 and residents of other states may have comparable rights; the Privacy Policy
 explains how to exercise them.
+Joining the launch waitlist on eatoutbetter.com does not create an account or
+any obligation on either side. We use the address only to tell you once when
+the App is available, and you can have it removed at any time by emailing
+support@eatoutbetter.com.
 
 11. Third Parties, Restaurants, and Links
 ------------------------------------------------------------
@@ -433,4 +437,4 @@ For privacy questions and requests, see our Privacy Policy
 (https://eat-out-better-api.vercel.app/privacy).
 
 Eat Out Better is operated by Dine Right LLC, a Colorado limited liability
-company. Version 1.0, effective September 9, 2026.
+company. Version 1.1, effective October 10, 2026.

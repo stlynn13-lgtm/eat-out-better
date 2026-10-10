@@ -98,7 +98,7 @@ export default function WaitlistForm({
         role={error ? "alert" : undefined}
         className={`mt-2.5 text-sm ${error ? (dark ? "text-red-200" : "text-red-ink") : dark ? "text-cream/70" : "text-ink-2"}`}
       >
-        {error ?? "One email when it launches. That's it."}
+        {error ?? "One email when it launches, nothing else. We never sell or share your address."}
       </p>
     </form>
   );
