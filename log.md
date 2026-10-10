@@ -209,6 +209,16 @@
 
 ---
 
+## 2026-10-04 — Pre-mortem on the idea, and a repeat-use test written as a spec
+
+**What changed.** Added a Claude skill, `.claude/skills/kill-my-idea` (PR #55), that argues the case against an idea and designs the cheapest tests that could prove it wrong. We ran it on Eat Out Better. The sharpest finding: the repo has accounts, release lines, signed scans, pricing and a security backlog, but no evidence yet that anyone outside Sean and Ray comes back to the app a second time. A free general assistant can already answer "which of these dishes is better for my cholesterol" from a menu photo, so the app has to earn repeat use. The first of three proposed tests is now written in full in `plan.md` ("Test spec: does anyone come back?").
+
+**Why it matters.** It puts a pass/fail line in writing before any data exists, so the result can't be talked into a pass afterward.
+
+**What it sets up.** Recruit 20 people with high cholesterol, run three weeks, read out in week four. Paywall smoke test and a blind comparison against a free assistant follow only if it passes.
+
+---
+
 ## 2026-10-03 — Security fixes: signed scans, a required API token, patched dependencies
 
 **Status (updated 2026-10-03 evening):** signed scans (PR #53) is merged and live. Its migration was applied to the live database and verified: all existing scans signed; unsigned and forged scans refused. The repo was made private the same day. The token PR (#52) and dependency PR (#51) are open and green, waiting on Sean's steps. Open items are tracked privately, outside the repo.
