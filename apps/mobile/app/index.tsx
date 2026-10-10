@@ -117,7 +117,7 @@ export default function WelcomeScreen() {
             <Step
               n={3}
               title="Order with confidence"
-              body="Easy swaps to ask your server for."
+              body="Know what drives each score."
               last
             />
           </View>

@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-10-10 — Home screen step 3 no longer promises swaps
+
+**What changed**
+
+- **Step 3 on the app's home screen now reads "Order with confidence · Know what drives each score."** It used to say "Easy swaps to ask your server for", but the app never shows a swap: the scoring API still returns no substitution for any dish. Sean's call, to stop promising something the app doesn't do.
+
+**Worth knowing**
+
+- **It reaches phones with the next over-the-air update** (`npm run update:production`, which Sean runs). Nothing else in the app changed.
+- **Step 2 already says "Green, yellow or red, and what drives it."**, so steps 2 and 3 now say much the same thing. Worth a second look the next time the home screen is touched.
+- **Swaps are still promised elsewhere:** the in-app How it works screen and the website. See `plan.md`, NOW item 9.
+- **The launch video (`brag-output/`) still shows the old step 3 line** in its small home-screen card. It's tiny and on screen for about two seconds. Re-render it from `brag-output/work/` if it matters.
+
+---
+
 ## 2026-10-10 — Warning added to the pricing strategy
 
 **What changed.** `pricing-strategy.md` now opens with a warning that its profit table and break-even are unvalidated, with the three reasons from the pricing pre-mortem in `plan.md`. The rest of the document is unchanged.
