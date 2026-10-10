@@ -102,7 +102,39 @@
 
 **Needs to be true first.** 1.5.0 (1) tried on a phone (NOW item 0); the one-phone-scan sync check from `security-followups.md`; the usage query above works.
 
-**Not covered here (next tests, only if this one passes).** A paywall smoke test (about $300 of targeted ads to a page with the $39.99 annual price). A blind comparison against a free assistant: 15 real menus, a registered dietitian rating which advice is safer and more useful.
+**Not covered here (next tests, only if this one passes).** A paywall smoke test (about $300 of targeted ads to a page with the $39.99 annual price; specced in the pricing pre-mortem below). A blind comparison against a free assistant: 15 real menus, a registered dietitian rating which advice is safer and more useful.
+
+---
+
+## Pricing pre-mortem: why `pricing-strategy.md` may not pay (2026-10-10)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against `pricing-strategy.md`, with web research (links at the end).
+
+**Bottom line.** Treat the profit table in `pricing-strategy.md` as an unvalidated sketch, not a forecast. Chance that the recommended structure reaches its own base case: under 10%, perhaps 25% if organic installs prove out. The single variable that moves it most is how many installs arrive for free.
+
+**The belief everything rests on.** The doc assumes a tight free tier plus a trial-led paywall converts at 2.5× the 2.1% median, about 5.25% of installs. The doc itself calls this multiplier its biggest assumption, and every row of the scenario table is built on it.
+
+**What could go wrong, most serious first.**
+1. **The baseline is mislabeled.** The 2.0–2.1% figure is the median download-to-paid rate across all apps and all pricing models, not the rate for generous freemium. Multiplying it by 2.5 puts the base case at about 5.25%, and the high case (3.5% × 2.5 = 8.75%) at the top-10% line, which one summary puts at 9.1%. The "hard paywall converts about 5× freemium" claim comes from that same secondary summary and is unchecked against RevenueCat's own report.
+2. **Break-even leaves out the cost of getting the install.** "About 0.9% of installs paying" counts only what it costs to serve the user. Paid US iPhone install costs for health and nutrition apps range from about $2.51 (one vendor's median) to $3–8 (another's). At the doc's own $28 year-one return per payer and 5.25% conversion, an install returns about $1.47. That loses money against any paid install in the range. Only the high case roughly breaks even. So the plan works only if installs are essentially free, which means word of mouth carries the whole business.
+3. **The paywall may rarely appear.** One scan covers a whole menu, so one scan is one restaurant visit. Two free scans a month forever covers anyone who eats out twice a month, and the risk rating and one substitution are never gated. Only heavy restaurant-goers ever hit the wall.
+4. **The paid tier sells things that don't exist yet.** Three conditions, trends, doctor PDF and Family's caregiver view aren't built, and v1 is cholesterol only. Today "Plus" means "more scans".
+5. **The trial is the whole product.** A 14-day trial holds about two meals, which is all the value a user needs before the first charge. RevenueCat's coverage says over half of trial cancellations happen on day one.
+
+**Smaller things to fix in the doc.** The 15% Apple cut assumes enrolment in the Small Business Program; without it, it's 30%. The "no paywall until day-30 retention is above 20%" gate is probably unreachable for an app people use now and then, so either charging never starts or the gate quietly goes. That second point is my inference; I found no retention benchmark.
+
+**Three cheap tests, in this order.**
+1. **Paywall frequency, free.** Use the repeat-use test's data (above): count how many testers would reach scan 4 within 30 days. Pass: 40% or more. Under 20% means the paywall almost never fires and the free tier is too generous.
+2. **Real acquisition cost, about $300.** Run targeted Apple Search Ads to a page showing the $39.99 annual price with a checkout. Pass: implied cost per paying customer under $20, about 70% of the $28 return. Fail: the plan only works with free installs, and we know that before building a paywall.
+3. **Money on the table, free.** At the end of the repeat-use test, offer the founding annual at $29.99 as a refundable pre-order that unlocks nothing (check Apple's rules on outside purchases first). Pass: 3 of the 20. Fail: 0 or 1. At the doc's base case you'd expect about 1.
+
+**What would change this verdict.** Real traffic showing more than 5% of installs starting a trial, testers using it weekly, or a near-free channel such as a dietitian who recommends it to patients.
+
+**The question to answer first.** The doc files the dietitian seat under "test later" with no numbers. If use is occasional and the person who benefits is the patient, a clinician who recommends the app to many patients may fit better than a consumer subscription. Put a number on it before committing to consumer pricing.
+
+**Don't do yet.** Build a paywall, set up RevenueCat, or change the free tier. All three wait on test 2 and the repeat-use result.
+
+**Sources.** [RevenueCat State of Subscription Apps 2026](https://www.revenuecat.com/state-of-subscription-apps) · [summary of its benchmarks](https://arpubrothers.com/blog/revenuecat-subscription-app-report-2026/) · [Adapty Apple Ads benchmarks](https://adapty.io/apple-ads-for-subscription-apps/) · [Idea Equity install-cost benchmarks](https://ideaequity.ai/blog/cost-per-install-benchmarks-2026). Vendor blogs, and they disagree widely; check before quoting any number externally.
 
 ---
 

@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-10-10 — Pre-mortem on the pricing strategy
+
+**What changed.** Ran the `kill-my-idea` skill against `pricing-strategy.md` and wrote the result into `plan.md` ("Pricing pre-mortem"). No code, and `pricing-strategy.md` itself is unchanged.
+
+**Why it matters.** The profit table rests on one assumption, that the recommended structure converts at 2.5× the 2.1% median. That median is an all-app, all-model figure, not a freemium rate, so the base case implies about 5.25% of installs paying. The break-even also leaves out the cost of paid installs, which exceeds what an install returns at the doc's own numbers. The conclusion: don't build a paywall or change the free tier until the tests in `plan.md` come back.
+
+**What it sets up.** Three cheap tests: how often testers would reach the paywall (free, from the repeat-use test data), a $300 ad test for real acquisition cost, and a refundable pre-order at the end of the repeat-use test.
+
+---
+
 ## 2026-10-10 — Website: the 20-second launch reel is live on the homepage
 
 **What changed**
