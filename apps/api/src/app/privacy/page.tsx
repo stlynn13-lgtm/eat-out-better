@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <main style={styles.main}>
       <h1 style={styles.title}>Privacy Policy</h1>
       <p style={styles.meta}>Effective Date: June 25, 2026</p>
-      <p style={styles.meta}>Last Updated: October 6, 2026</p>
+      <p style={styles.meta}>Last Updated: October 10, 2026</p>
 
       <Section title="1. Overview">
         <p>
@@ -116,8 +116,11 @@ export default function PrivacyPage() {
           <strong>Launch waitlist.</strong> If you join the waitlist on eatoutbetter.com, we
           store the email address you enter, which button you used to sign up (for example,
           the one at the top of the page), and when you signed up. We use it only to email you
-          when Eat Out Better is available on the App Store. We don&apos;t add it to any other
-          mailing list, and we don&apos;t link it to an app account.
+          when Eat Out Better is available on the App Store. It is kept in one place: a single
+          table in our database. We don&apos;t copy it into spreadsheets, inboxes or other
+          mailing lists, we don&apos;t send ourselves a notification for each signup, and we
+          don&apos;t link it to an app account. We don&apos;t collect your name or anything
+          else on the waitlist form.
         </p>
         <p>
           <strong>Website analytics.</strong> We use Vercel Web Analytics and Speed Insights to
@@ -197,8 +200,9 @@ export default function PrivacyPage() {
             <a href="https://supabase.com/privacy">supabase.com/privacy</a>.
           </li>
           <li>
-            <strong>Resend</strong> — delivers sign-in code emails. It receives your email address
-            and the code, nothing else. Privacy policy:{" "}
+            <strong>Resend</strong> — delivers sign-in code emails and, once, the launch
+            announcement to waitlist addresses. It receives the email address and the message,
+            nothing else. Privacy policy:{" "}
             <a href="https://resend.com/legal/privacy-policy">resend.com/legal/privacy-policy</a>.
           </li>
           <li>

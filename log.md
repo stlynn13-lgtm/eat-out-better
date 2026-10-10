@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-10-10 — Waitlist: one list instead of an email per signup
+
+**What changed**
+
+- **Signups now live in one place only:** the `waitlist` table in Supabase, readable as `waitlist_signups` (newest first, numbered, CSV export). The per-signup alert emails from 2026-10-09 are removed: trigger, helper functions, the `notified_at` column and the `notify-waitlist` edge function. Sean's call: a list beats an inbox of alerts.
+- **Why Supabase, not a Google Sheet:** the table already held every signup. A Sheet would be a second copy that can drift, another company holding the addresses, and a new credential to manage, all to show the same rows.
+- **Privacy policy (Oct 10):** says the waitlist is one database table, never copied to spreadsheets or inboxes, no per-signup notifications, no name collected; Resend's line now covers the one launch email.
+- **Terms 1.1 (Oct 10):** one paragraph in Section 10: joining the waitlist creates no account or obligation, and you can be removed by email. App Store EULA text regenerated (`legal/eula-app-store.txt`); paste it into App Store Connect.
+- **Site copy:** the form's note now reads "One email when it launches, nothing else. We never sell or share your address."
+
+**Needs Sean**
+
+- The database change couldn't be applied from Claude's session (Supabase's tool timed out on every write). Paste `supabase/migrations/20261010000000_waitlist_single_list.sql` into Supabase → SQL Editor and run it. Until then the old trigger stays, but it sends nothing because `RESEND_API_KEY` was never set.
+- Then delete the `notify-waitlist` function in Supabase → Edge Functions, and don't add `RESEND_API_KEY` for it.
+
+---
+
 ## 2026-10-09 — eatoutbetter.com is live; waitlist signups now email Sean
 
 **What changed**

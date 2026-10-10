@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-09
+**Last updated:** 2026-10-10
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -29,9 +29,9 @@
 ## NOW
 
 **Marketing site (new, 2026-10-06):** built in `apps/web`, deploying to the Vercel project `eat-out-better-web`. To finish:
-- **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist`.
+- **Review the preview** (Vercel dashboard → eat-out-better-web → latest deployment; previews ask you to log in to Vercel). Submit one real email to the waitlist and check it appears in Supabase → Table Editor → `waitlist_signups` (the one place signups live; no per-signup emails).
 - **Point eatoutbetter.com at it:** Vercel → eat-out-better-web → Settings → Domains → add `eatoutbetter.com` and `www.eatoutbetter.com`; then in Namecheap → Advanced DNS add exactly the A / CNAME records Vercel shows. **Don't delete the existing MX, TXT (SPF/DKIM) or `send` records**; those carry the sign-in code emails and Resend.
-- **Privacy policy:** updated on this branch to cover waitlist emails and the website's cookie-free analytics; goes live when the PR merges (the API project serves `/privacy`). **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
+- **Privacy policy:** live; covers the waitlist (one database table, no copies) and the website's cookie-free analytics. **Run `supabase/migrations/20261010000000_waitlist_single_list.sql` in the Supabase SQL Editor** and delete the `notify-waitlist` edge function. **Paste the regenerated `legal/eula-app-store.txt` (Terms 1.1)** into App Store Connect. **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
 - **Pick a clinical reviewer for the guide** (registered dietitian or clinician). It's the biggest remaining ranking lever for the health guide; see `backlog.md` → "Search / SEO growth".
 - **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
 - **Demo video on the site:** the slot is built and hidden. Compress the video, add a poster and captions, and fill in `DEMO_VIDEO` (`apps/web/README.md` → "Adding the demo video"). Cut a separate raw screen capture for the App Store App Preview.
