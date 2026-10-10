@@ -14,6 +14,21 @@
 
 ---
 
+## 2026-10-10 — Home screen step 3 no longer promises swaps
+
+**What changed**
+
+- **Step 3 on the app's home screen now reads "Order with confidence · Know what drives each score."** It used to say "Easy swaps to ask your server for", but the app never shows a swap: the scoring API still returns no substitution for any dish. Sean's call, to stop promising something the app doesn't do.
+
+**Worth knowing**
+
+- **It reaches phones with the next over-the-air update** (`npm run update:production`, which Sean runs). Nothing else in the app changed.
+- **Step 2 already says "Green, yellow or red, and what drives it."**, so steps 2 and 3 now say much the same thing. Worth a second look the next time the home screen is touched.
+- **Swaps are still promised elsewhere:** the in-app How it works screen and the website. See `plan.md`, NOW item 9.
+- **The launch video (`brag-output/`) still shows the old step 3 line** in its small home-screen card. It's tiny and on screen for about two seconds. Re-render it from `brag-output/work/` if it matters.
+
+---
+
 ## 2026-10-10 — Warning added to the pricing strategy
 
 **What changed.** `pricing-strategy.md` now opens with a warning that its profit table and break-even are unvalidated, with the three reasons from the pricing pre-mortem in `plan.md`. The rest of the document is unchanged.
@@ -26,7 +41,7 @@
 
 **What changed.** `plan.md` now has the Vercel Web Analytics step. No code changed: the analytics package and tag were already in `apps/web` from the original build. The only missing piece is the **Enable** click in the Vercel dashboard (Sean). An accidental `npm i @vercel/analytics` in the home folder (not the repo) was harmless clutter in `~`.
 
-**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag is still in `app/layout.tsx` and can be removed later if we don't plan to upgrade.
+**Decision: Speed Insights stays off.** It needs a paid Vercel plan. The `<SpeedInsights />` tag was then removed from `app/layout.tsx` so the site no longer requests a script that reports nothing. Vercel Analytics is unchanged. The unused `@vercel/speed-insights` dependency was left in `package.json`.
 
 ---
 
