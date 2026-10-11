@@ -65,7 +65,7 @@ export default function Home() {
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl text-pretty">
                 Eating out with high cholesterol? Snap any restaurant menu. Eat Out Better scores every dish from
-                1 to 10, tells you why in plain English, and shows you an easy swap. In about 30 seconds.
+                1 to 10 and tells you why in plain English. In about 30 seconds.
               </p>
 
               <div id="hero-cta" data-hide-sticky className="mt-8 max-w-lg">
@@ -97,8 +97,8 @@ export default function Home() {
                   <p className="mt-0.5 max-w-[190px] text-sm leading-snug">Cream, butter &amp; parmesan: likely a full day&rsquo;s saturated fat.</p>
                 </div>
                 <div className="parallax-slow absolute -right-10 bottom-[8%] xl:-right-16 rounded-2xl bg-card px-4 py-3 shadow-[0_20px_40px_-20px_rgb(0_0_0/0.35)] ring-1 ring-line [animation-direction:reverse]">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Make it better</p>
-                  <p className="mt-0.5 max-w-[180px] text-sm leading-snug">Dressing on the side, use about half.</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Why it scored high</p>
+                  <p className="mt-0.5 max-w-[180px] text-sm leading-snug">Salmon&rsquo;s fat is mostly omega-3, the kind that helps.</p>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@ export default function Home() {
                 <p className="font-display text-5xl font-semibold italic text-[#8fd0b4]">3</p>
                 <h3 className="mt-3 font-display text-2xl font-semibold">Ranked for your heart</h3>
                 <p className="mt-2 leading-relaxed text-cream/75">
-                  Every dish scored 1–10, best to worst, each with a plain-English reason and a swap where one helps.
+                  Every dish scored 1–10, best to worst, each with a plain-English reason for its score.
                 </p>
               </li>
             </ol>
@@ -349,7 +349,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ------------------------------------------------------------- SWAPS */}
+        {/* --------------------------------------------------------- TRADE-OFFS */}
         <section className="mx-auto max-w-6xl overflow-x-clip px-4 py-24 sm:px-6 sm:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-2">
             <div className="reveal order-2 lg:order-1">
@@ -364,9 +364,9 @@ export default function Home() {
                 Not a list of things you can&rsquo;t have.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-2">
-                You don&rsquo;t need the perfect order. You need one you feel good about. So most scores come with a
-                swap that keeps the dish you wanted and makes it work better for you: sauce on the side, grilled
-                instead of fried, salad instead of fries.
+                You don&rsquo;t need the perfect order. You need one you feel good about. So every score tells you
+                what&rsquo;s driving it, whether that&rsquo;s the cream sauce, the fryer or the cheese on the side, and
+                the call is yours.
               </p>
               <ul className="mt-8 space-y-3">
                 {[
