@@ -87,6 +87,8 @@ Needs a spec (`write-spec`) before building. In priority order:
 3. **Spoke pages** for the 3–4 highest-volume cuisines, linked from the guide hub.
 4. **Broader topics** (general healthy eating, trending diets): deliberately deferred. Head terms are owned by Mayo, Healthline and the AHA; a new domain can't win them, and new conditions need the knowledge-base architecture first (see `CLAUDE.md`). Revisit when a second condition ships.
 5. Check Search Console field data (Core Web Vitals, impressions per query) once the domain is verified; let real queries pick the next page.
+6. **Off-site mentions for AI answers (AEO)** (added 2026-10-11). Answer engines mostly recommend products that other sites talk about, not ones that only describe themselves. Use the same one-sentence definition (`apps/web/lib/site.ts` → `PRODUCT.definition`) everywhere: App Store listing, Product Hunt, LinkedIn, condition-community posts, any press. A real App Store listing with reviews will likely do more for AI recommendations than any on-site change.
+7. **Per-condition landing pages when each condition ships** (e.g. eating out with high blood pressure), built like the cholesterol guide. Not before: a page for a condition the app can't score yet would invite recommendations it can't deliver.
 
 ---
 

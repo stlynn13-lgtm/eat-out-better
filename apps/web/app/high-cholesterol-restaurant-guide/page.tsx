@@ -338,7 +338,7 @@ export default function Guide() {
             <li><strong className="text-ink">4 to 6.9, in moderation.</strong> A reasonable choice, often helped by one of the <a href="#swaps" className="underline decoration-line underline-offset-4 hover:text-ink">swaps above</a>.</li>
             <li><strong className="text-ink">1 to 3.9, enjoy occasionally.</strong> Likely a large share of a day&rsquo;s saturated fat in one dish.</li>
             <li>Unsaturated fats (olive oil, avocado, omega-3s from fish) and fiber can lift a score. Deep-frying lowers it a little.</li>
-            <li>Drinks and desserts are also checked for added sugar.</li>
+            <li>Desserts and non-alcoholic drinks are also scored on added sugar. Alcoholic drinks are listed but not scored.</li>
             <li>The AI estimates the grams; it does not pick the score. The same scan always gives the same result.</li>
           </ul>
           <p className="mt-5 leading-relaxed text-ink-2">
