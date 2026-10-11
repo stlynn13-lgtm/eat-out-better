@@ -2,8 +2,9 @@ import { tierOf, TIER_LABEL, type SampleDish, type Tier } from "@/lib/sample-men
 
 /**
  * Web twin of the app's DishCard (apps/mobile/app/results.tsx): rank, badge,
- * name, score out of 10, the reason, then "Make it better". Color is never the
- * only signal: every card also carries the tier's words.
+ * name, score out of 10, the reason, then "Make it better" if the dish has a
+ * swap (none do yet; see lib/sample-menu.ts). Color is never the only signal:
+ * every card also carries the tier's words.
  */
 export const TIER_STYLES: Record<Tier, { card: string; ink: string; dot: string; chip: string }> = {
   green: { card: "bg-green-bg", ink: "text-green-ink", dot: "bg-green-dot", chip: "bg-green-dot/15 text-green-ink" },
