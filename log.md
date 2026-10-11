@@ -8,7 +8,7 @@
 
 ## 2026-10-11 — API moved to Next 16; linting works again
 
-**What changed.** The API (`apps/api`) now runs on Next 16 with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
+**What changed.** The API (`apps/api`) now runs on Next 16 (pinned to 16.3.8, the version Dependabot's preview deployed cleanly; the first push on 16.4.0 failed its Vercel preview for a reason not yet known) with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
 
 - `npm run lint` now runs `eslint .` with a new `eslint.config.mjs`. Next 16 removed the old `next lint` command, and the API never had a lint config anyway, so lint hasn't actually run on it before. It now passes.
 - The privacy and terms pages are exempt from the "escape every apostrophe" rule (it's legal prose). Offline eval scripts may use loose types.
