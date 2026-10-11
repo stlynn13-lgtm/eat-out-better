@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-11 — Website: IndexNow pings search engines on every deploy
+
+**What changed.** eatoutbetter.com now tells Bing (which feeds ChatGPT search and Copilot), Yandex, Seznam and Naver the moment the website changes, instead of waiting for them to recrawl. A GitHub Action runs after each successful production deploy of the website, reads the sitemap and submits every URL. The ownership key is a public file at `eatoutbetter.com/<key>.txt` (public by design). Google doesn't use IndexNow; Search Console and the sitemap cover it.
+
+**Not verified yet:** it depends on Vercel reporting deploys to GitHub, which couldn't be checked from the session. If Actions → IndexNow never shows a run after the next website deploy, run it by hand from that page.
+
+---
+
 ## 2026-10-11 — Website: written for AI assistants, with an honest roadmap
 
 **What changed** (all in `apps/web`, generated from `lib/site.ts`)
