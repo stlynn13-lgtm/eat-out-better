@@ -36,7 +36,8 @@ async function main() {
     console.error("ANTHROPIC_API_KEY is not set — this test makes real API calls.");
     process.exit(1);
   }
-  let compared = 0, flips = 0, gramDiffs: number[] = [];
+  let compared = 0, flips = 0;
+  const gramDiffs: number[] = [];
   const flipLines: string[] = [];
 
   for (const file of readdirSync(join(HERE, "menus")).filter((f) => f.endsWith(".json"))) {
