@@ -2,8 +2,20 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-11
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
+
+---
+
+## Growth plan (proposed 2026-10-11, not decided)
+
+`growth-plan.md` turns the three pre-mortems below into one dated plan with pass/fail gates: prove repeat use by **Fri 13 Nov** (Gate 1, the repeat-use test below), launch **Tue 8 Dec**, paywall live **Mon 4 Jan** for the resolution wave, American Heart Month push in **February**, 10,000 installs by **30 Apr 2027**, 100,000 by **end of 2027** on "heart health". Each phase starts only if the gate before it passes. It also lists what the plan was missing.
+
+Two things it found that block the repeat-use test as written:
+- **The waitlist doesn't record `?src=`.** `/get?src=X` redirects to `/?ref=X`, but the form saves only the button (`hero` or `final`), so the three-source channel test can't attribute signups. Fix before any tagged link goes out.
+- **This file says there is no analytics, but the app already sends PostHog funnel events** (`apps/mobile/lib/analytics.ts`). Check they arrive and use them as a second usage source.
+
+And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
 
 ---
 

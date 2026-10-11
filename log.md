@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-10-11 — Growth plan drafted from the three pre-mortems
+
+**What changed.** New file `growth-plan.md`, with a short summary at the top of `plan.md`. No code. It combines the idea, pricing and go-to-market pre-mortems into one plan with dates, owners and pass/fail gates from 2 users to 1 million, plus timing (day and hour) for each channel, a cash budget through January (about $2,700), and ready-to-paste templates. An interactive checklist version lives in a private claude.ai artifact (link in the file).
+
+**Why it matters.** None of the three pre-mortems set a single number to hit, and all three found the same constraint: repeat use, a paywall that rarely appears, and paid installs that lose money, not a lack of interest. The plan puts the repeat-use test first, moves the paywall to day 0 by gating how much of each menu is free rather than how many scans, and grows through clinicians, chain-menu search pages and short video before any paid scaling.
+
+**Found along the way**
+
+- **The waitlist doesn't record the `?src=` campaign tag.** It saves which button was clicked, so the three-source channel test can't be read from it as planned.
+- **`plan.md` said there was no analytics**, but the app already sends PostHog funnel events.
+- **The pricing pre-mortem's $300 Apple Ads test can't run before launch:** Apple Ads only lead to a live App Store listing.
+- **1 million users isn't reachable on cholesterol-only iPhone.** The plan targets 100,000 on "heart health" (adding blood pressure) by the end of 2027.
+
+**Not decided.** Sean hasn't agreed to any of it. Nothing is built.
+
+---
+
 ## 2026-10-10 — Marketing site pinned to Node 22
 
 **What changed.** `apps/web/package.json` now says `"node": "22.x"` instead of `">=20"` (lockfile updated to match). No code change.
