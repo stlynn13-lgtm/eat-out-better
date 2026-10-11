@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-11
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -100,6 +100,7 @@
 5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
 7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
+7a. **Check the capture-screen layout fix on two phones before publishing it** (PR #93 plus the review follow-up, `log.md` 2026-10-11). On an SE-size phone at the largest text size: the Analyze button is always visible, the camera doesn't change size when you take a photo or open and cancel the picker, a pinch on the camera zooms without moving the page, and the scroll bar flashes when a photo is added. On a regular phone at default text: nothing scrolls and the camera fills the spare space. If the empty screen on the SE feels cramped with the always-on photo strip, say so; that's the one trade-off made.
 8. **Run the repeat-use test** (spec at the top of this file). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
 9. **Swaps: the app's explainer copy no longer promises them, but the website still does.** Home screen step 3 now reads "Know what drives each score", and the How it works screen dropped "a simple swap" from step 3 and "small swaps help" from the yellow score line (both ship with the next over-the-air update). Still promising a swap the app never shows, because the API returns none: the website (homepage hero and feature copy, meta description in `apps/web/app/layout.tsx`, guide CTA). The "Helpful swaps" chip is gone from the post-scan feedback sheet too (same update). Decide: build swaps, or reword the site. Either way, CLAUDE.md's "Substitution-forward" principle no longer matches what ships.
 

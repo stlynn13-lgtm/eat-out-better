@@ -6,6 +6,25 @@
 
 ---
 
+## 2026-10-11 — Capture screen: the Analyze button stays on screen, and the camera no longer jumps
+
+**What changed**
+
+- **The Analyze button now sits in a footer that never moves (PR #93).** Ray, on a regular iPhone with a larger text size, added photos and the Analyze button disappeared off the bottom: the screen couldn't scroll, and the photo tray appearing under the camera left no room. Now the camera preview shrinks to make room (between 220pt and 360pt tall), and if even that isn't enough the rest of the screen scrolls. This replaces the 2026-08-10 approach, where the viewfinder took a fixed 38% of the screen.
+- **The camera preview no longer changes size while you're using it (review follow-up).** After PR #93 the preview shrank the moment the first photo landed, just as you were framing page 2, and grew back if you opened and cancelled the photo picker. The "Added photos" strip is now always shown, empty at first with the "+" tile and "Up to 10 photos per scan", so the screen's layout doesn't change when photos arrive.
+- **Dragging or pinching on the camera never scrolls the page.** When everything fits, scrolling is off entirely. When it doesn't (small phone, large text), touching the camera locks scrolling until your fingers lift, so pinch-to-zoom and framing aren't fighting the page. You scroll from the buttons or the photo strip instead.
+- **When the screen does scroll, the scroll bar flashes** when that first happens and each time a photo is added, so a strip below the fold isn't invisible. It deliberately doesn't jump down to the new photo, because that would slide the camera up mid-framing. The Analyze button's "(3 pages)" count, which is always visible, confirms the photo was added.
+- **The footer's text grows with the phone's text size only up to 1.3×.** At the largest accessibility sizes the pinned footer was on track to take ~200pt, squeezing the camera into a small scrolling window again. The label still gets bigger than default and stays on one line.
+
+**Worth knowing**
+
+- **Trade-off on a small phone (iPhone SE size):** because the photo strip is now always there, the empty screen may already need a little scrolling and the camera starts at its 220pt minimum. That's the price of the camera never resizing mid-use. Not yet checked on a real SE.
+- **Not tried on a phone yet.** This was written and type-checked in a cloud session with no iOS simulator. It's plain app code, so it ships with the next over-the-air update, no new build needed.
+
+**What it sets up next.** A phone check (in `plan.md`): an SE-size phone at the largest text size, and a regular phone at default text, before publishing the update.
+
+---
+
 ## 2026-10-10 — "Helpful swaps" feedback chip removed; photo limit corrected in the docs
 
 **What changed**
