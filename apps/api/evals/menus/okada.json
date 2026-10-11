@@ -6,7 +6,15 @@
     "restaurant": "Okada Japanese Restaurant",
     "url": "https://okadajapaneserestaurant.com/wp-content/uploads/2023/05/OkadaDinnerMenu-5-9-23.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 4, 5, 6] of the original"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1, 2, 3, 4, 5, 6] of the original",
+    "pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   "photos": [
     "p1.jpg",

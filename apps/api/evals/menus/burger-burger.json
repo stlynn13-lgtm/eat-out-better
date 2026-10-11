@@ -6,7 +6,11 @@
     "restaurant": "Burger Burger",
     "url": "https://eatburgerburger.com/wp-content/uploads/2022/07/Burger-Burger-Menu_7-11-22-1.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px",
+    "pages": [
+      1,
+      2
+    ]
   },
   "photos": [
     "p1.jpg",

@@ -6,7 +6,10 @@
     "restaurant": "Matunuck Oyster Bar",
     "url": "https://rhodyoysters.com/wp-content/uploads/mob-dinner-menu-web.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1] of the original"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [1] of the original",
+    "pages": [
+      1
+    ]
   },
   "photos": [
     "p1.jpg"

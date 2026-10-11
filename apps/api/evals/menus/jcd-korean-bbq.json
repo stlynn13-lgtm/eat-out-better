@@ -6,7 +6,14 @@
     "restaurant": "JCD K-Barbecue",
     "url": "https://www.jcdbbq.com/images/pdf/JCD_BBQ_Menu.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [3, 4, 5, 6, 7] of the original"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px; pages [3, 4, 5, 6, 7] of the original",
+    "pages": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
   },
   "photos": [
     "p1.jpg",
