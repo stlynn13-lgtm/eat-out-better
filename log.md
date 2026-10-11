@@ -20,7 +20,7 @@
 
 **Still blocking all of this:** eatoutbetter.com doesn't resolve yet (DNS step in `plan.md`). Nothing here gets crawled, cited or learned until it does.
 
-**Roadmap conflict to resolve:** `plan.md` says high blood pressure is next; `backlog.md` item #8 says gluten-free is the second condition. The site follows `plan.md`.
+**Roadmap conflict, resolved the same day:** `backlog.md` item #8 said gluten-free was the second condition; Sean confirmed **high blood pressure is next**, matching `plan.md` and the site. Item #8 now says so; gluten-free moved to a later candidate.
 
 ---
 
