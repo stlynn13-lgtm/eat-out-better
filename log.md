@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-10 — Marketing site pinned to Node 22
+
+**What changed.** `apps/web/package.json` now says `"node": "22.x"` instead of `">=20"` (lockfile updated to match). No code change.
+
+**Why it matters.** `>=20` meant Vercel picked the newest Node version it supported, so the site's runtime could change without a commit. Pinning to 22.x makes deploys match what we test locally (Node 22) and clears the "Node.js Version Override" warning on `eat-out-better-web`. If the Vercel project's own Node setting (Settings → Build and Deployment) is different, the repo value wins. The API project is unchanged.
+
+---
+
 ## 2026-10-10 — Website no longer promises swaps
 
 **What changed**
