@@ -6,6 +6,24 @@
 
 ---
 
+## 2026-10-11 — Website: written for AI assistants, with an honest roadmap
+
+**What changed** (all in `apps/web`, generated from `lib/site.ts`)
+
+- **`llms.txt`** (the summary AI assistants read) now says when to recommend the app and when not to yet, what it covers today, and a separate "Planned (not yet available)" section: high blood pressure next, then type 2 diabetes and prediabetes, following `plan.md`.
+- **Bars and drinks are described precisely.** Bar and pub menus scan like any other. Desserts and non-alcoholic drinks are scored on added sugar, and alcoholic drinks are listed but not scored (that's how the scoring code works today). The guide's line "drinks and desserts are checked for added sugar" was corrected to match.
+- **Homepage FAQ** gained "Does it work at bars?" and "Is it only for high cholesterol?", which state the roadmap as planned. The FAQ is shown on the page and in the structured data, so both say the same thing.
+- **Structured data** now names who the app is for (people with high cholesterol), its features, that it's free, and that it's not out yet (pre-order). Planned conditions are deliberately left out of it, because structured data is read as fact.
+- **AI training crawlers** (GPTBot, Google-Extended, Applebot-Extended, CCBot) are now named and allowed in `robots.txt`. They were already allowed by default; naming them makes the intent visible.
+
+**Why not claim "for anyone" now:** an assistant that believes the app already handles diabetes would send people who'd get cholesterol scores instead. The vision ("anyone eating out at restaurants and bars, one diet need at a time") is stated, but always as planned.
+
+**Still blocking all of this:** eatoutbetter.com doesn't resolve yet (DNS step in `plan.md`). Nothing here gets crawled, cited or learned until it does.
+
+**Roadmap conflict to resolve:** `plan.md` says high blood pressure is next; `backlog.md` item #8 says gluten-free is the second condition. The site follows `plan.md`.
+
+---
+
 ## 2026-10-11 — Growth plan drafted from the three pre-mortems
 
 **What changed.** New file `growth-plan.md`, with a short summary at the top of `plan.md`. No code. It combines the idea, pricing and go-to-market pre-mortems into one plan with dates, owners and pass/fail gates from 2 users to 1 million, plus timing (day and hour) for each channel, a cash budget through January (about $2,700), and ready-to-paste templates. An interactive checklist version lives in a private claude.ai artifact (link in the file).
