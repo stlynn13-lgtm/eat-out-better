@@ -82,7 +82,7 @@ Do not keep a task list here — it goes stale (this section used to, which is w
 - [x] App logo (1024×1024) → `apps/mobile/assets/icon.png`
 - [x] Remove white square in camera view (`app/capture.tsx`)
 - [x] Native pinch-to-zoom + zoom pills in camera (expo-camera `zoom` + gesture-handler)
-- [x] 12-photo-per-scan limit + UI messaging (per Figma)
+- [x] 10-photo-per-scan limit + UI messaging (shipped as 12 per Figma, lowered to 10 to match the server cap; `MAX_PHOTOS` in `app/capture.tsx`)
 - [x] Rotating "fun facts" on processing screen (8s auto-cycle, cross-fade)
 - [x] Privacy policy screen + entry point — DRAFT copy; needs final text + hosted URL
 - [x] "How it works" slide-up

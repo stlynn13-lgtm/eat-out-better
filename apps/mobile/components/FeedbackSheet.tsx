@@ -68,7 +68,6 @@ const LOW_TAGS = [
 const HIGH_TAGS = [
   "Accurate scores",
   "Caught everything",
-  "Helpful swaps",
   "Fast",
   "Clear explanations",
 ];

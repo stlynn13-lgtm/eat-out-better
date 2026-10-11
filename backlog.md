@@ -21,7 +21,7 @@ Product-improvement release on branch `release/v1.1.0`. These are **committed sc
 | A | App logo (1024×1024) | Real brand icon for App Store + home screen; replaces placeholder. Store submission requirement. |
 | B | Remove camera white square | Stray overlay reads as a bug; restores clean full-frame capture. |
 | C | Native pinch-to-zoom | Sharper menu photos (small print, across a table) → better OCR/analysis, fewer retakes. |
-| D | 12-photo-per-scan limit | Caps cost/latency/quality degradation; limit communicated clearly in UI per Figma. |
+| D | 10-photo-per-scan limit (was 12; lowered to match the server cap) | Caps cost/latency/quality degradation; limit communicated clearly in UI per Figma. |
 | E | Rotating "fun facts" (processing screen) | Auto-cycles every 8s; makes the wait feel productive and reinforces the health mission. |
 | F | Privacy policy + in-app entry point | Trust + App Store requirement for handling camera/photo data. |
 | G | "How it works" slide-up | Surfaces the reasoning behind scores → builds trust vs. a black-box verdict. |

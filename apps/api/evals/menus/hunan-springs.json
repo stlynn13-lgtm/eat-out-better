@@ -6,7 +6,11 @@
     "restaurant": "Hunan Springs",
     "url": "https://hunansprings.net/wp-content/uploads/2024/04/HS-Main-Menu_January-2023.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px",
+    "pages": [
+      1,
+      2
+    ]
   },
   "photos": [
     "p1.jpg",
