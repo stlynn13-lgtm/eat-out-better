@@ -47,8 +47,8 @@ const MAX_PHOTOS = 10;
 // the tray appeared below it, there was no room, and the Analyze button was
 // pushed off the bottom of a screen that couldn't scroll (Ray, 2026-10-12, a
 // regular iPhone with a larger text size). Now the viewfinder shrinks to make
-// room, the body scrolls if even the minimum doesn't fit, and the Analyze
-// button sits in a footer that never moves.
+// room, the controls and tray below it scroll if even the minimum doesn't fit,
+// and the Analyze button sits in a footer that never moves.
 const VIEWFINDER_MIN = 220;
 const VIEWFINDER_MAX = 360;
 
@@ -100,26 +100,28 @@ export default function CaptureScreen() {
   // moving the button inside the photo, where it would cover the menu.
   const trayOverhang = Math.ceil(removeBtnSize / 2) + 2;
 
-  // The body only scrolls when it overflows (small phone, large text). When it
-  // fits, scrolling is switched off outright, so a drag or pinch on the camera
-  // can never move the page. When it does overflow, a touch on the viewfinder
-  // still locks scrolling until the last finger lifts: framing and pinch-to-zoom
-  // happen there, and the page sliding under them shifts the shot mid-frame.
-  // Scroll from the controls or tray instead.
-  const bodyScrollRef = useRef<ScrollView>(null);
-  const [bodyHeight, setBodyHeight] = useState(0);
-  const [bodyContentHeight, setBodyContentHeight] = useState(0);
-  const bodyOverflows = bodyContentHeight > bodyHeight + 1;
-  const [viewfinderTouched, setViewfinderTouched] = useState(false);
+  // Only the controls and photo tray scroll, and only when they don't fit
+  // (small phone, large text). The camera sits outside the scroll area, so a
+  // drag or pinch on it can never move the page.
+  const trayScrollRef = useRef<ScrollView>(null);
+  const [trayViewportHeight, setTrayViewportHeight] = useState(0);
+  const [trayContentHeight, setTrayContentHeight] = useState(0);
+  const trayOverflows = trayContentHeight > trayViewportHeight + 1;
 
-  // An overflowing body hides part of the tray below the fold, and nothing
-  // else says the page scrolls. Flash the indicator when overflow starts and
-  // when a photo lands, rather than auto-scrolling: scrolling to the new
-  // thumbnail would slide the viewfinder up just as the next page is framed.
-  // The Analyze button's page count, which never scrolls, confirms the add.
+  // An overflowing tray area hides part of the tray below the fold, and
+  // nothing else says it scrolls. Flash the indicator when overflow starts and
+  // when a photo is added (not removed), rather than auto-scrolling to the new
+  // thumbnail, which would pull the shutter out of reach mid-scan. The
+  // Analyze button's page count, which never scrolls, confirms the add.
+  const prevPhotoCountRef = useRef(0);
   useEffect(() => {
-    if (bodyOverflows) bodyScrollRef.current?.flashScrollIndicators();
-  }, [bodyOverflows, localPhotos.length]);
+    const added = localPhotos.length > prevPhotoCountRef.current;
+    prevPhotoCountRef.current = localPhotos.length;
+    if (trayOverflows && added) trayScrollRef.current?.flashScrollIndicators();
+  }, [localPhotos.length, trayOverflows]);
+  useEffect(() => {
+    if (trayOverflows) trayScrollRef.current?.flashScrollIndicators();
+  }, [trayOverflows]);
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -399,18 +401,13 @@ export default function CaptureScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Body scrolls only when it can't fit (small phone, large text); the
-          footer below stays put, so Analyze is always on screen. flexGrow lets
-          the viewfinder expand into spare height when everything fits. */}
-      <ScrollView
-        ref={bodyScrollRef}
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingTop: 16 }}
-        alwaysBounceVertical={false}
-        scrollEnabled={bodyOverflows && !viewfinderTouched}
-        onLayout={(e) => setBodyHeight(e.nativeEvent.layout.height)}
-        onContentSizeChange={(_, h) => setBodyContentHeight(h)}
-      >
+      {/* Body: header and camera are fixed; the controls and tray below them
+          scroll only if they can't fit; the footer under the body never
+          moves, so Analyze is always on screen. Height goes to the tray area
+          first (at its full content height), then the viewfinder takes what's
+          left between its bounds. If even the minimum doesn't fit, the tray
+          area shrinks and scrolls instead of the camera. */}
+      <View className="flex-1 px-5 pt-4">
         {/* Header */}
         <View className="flex-row items-center gap-3 mb-5">
           <TouchableOpacity
@@ -429,275 +426,287 @@ export default function CaptureScreen() {
           One photo per page. Wide menu? Turn your phone sideways.
         </Text>
 
-        {/* Camera viewfinder. The outer View holds the size and the scroll
-            lock; TouchableOpacity doesn't pass raw touch events through. */}
-        <View
+        {/* Camera viewfinder */}
+        <TouchableOpacity
+          className="w-full rounded-2xl overflow-hidden bg-gray-900"
           style={{ flex: 1, minHeight: VIEWFINDER_MIN, maxHeight: VIEWFINDER_MAX }}
-          onTouchStart={() => setViewfinderTouched(true)}
-          // Fires per finger; unlock only once the last one is up, or a pinch
-          // that lifts one finger early would hand the page back.
-          onTouchEnd={(e) => {
-            if (e.nativeEvent.touches.length === 0) setViewfinderTouched(false);
-          }}
-          onTouchCancel={() => setViewfinderTouched(false)}
+          onPress={handleViewfinderPress}
+          activeOpacity={status === "active" ? 1 : 0.8}
         >
-          <TouchableOpacity
-            className="w-full rounded-2xl overflow-hidden bg-gray-900"
-            style={{ flex: 1 }}
-            onPress={handleViewfinderPress}
-            activeOpacity={status === "active" ? 1 : 0.8}
-          >
-            {status === "active" ? (
-              <GestureDetector gesture={pinchGesture}>
-                <CameraView
-                  ref={cameraRef}
-                  style={{ flex: 1 }}
-                  facing={facing}
-                  zoom={zoom}
-                  responsiveOrientationWhenOrientationLocked
-                  onResponsiveOrientationChanged={({ orientation }) =>
-                    setCameraOrientation(orientation)
-                  }
-                >
-                  {/* Confirms the sideways hold took: this photo will be wide. */}
-                  {isLandscape && (
-                    <View
-                      className="absolute top-2 left-2 flex-row items-center rounded-full px-2.5 py-1"
-                      style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-                      accessibilityLiveRegion="polite"
-                      accessibilityLabel="Landscape photo"
-                    >
-                      <Ionicons name="phone-landscape-outline" size={14} color="#FFFFFF" />
-                      <Text className="text-white text-xs font-semibold ml-1">Landscape</Text>
-                    </View>
-                  )}
-                  {/* Zoom readout. Shown for preset taps as well as pinch (it
-                      used to appear only for pinch), so the viewfinder always
-                      says whether it is zoomed — and so the presets above can be
-                      calibrated by pinching to the right framing and reading the
-                      number off the screen. */}
-                  {zoom > 0.001 && (
-                    <View
-                      className="absolute top-2 right-2 rounded-full px-2.5 py-1"
-                      style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
-                    >
-                      <Text className="text-white text-xs font-semibold">
-                        {Math.round(zoom * 100)}%
-                      </Text>
-                    </View>
-                  )}
-
-                  {/* `StyleSheet.absoluteFillObject` was removed in React Native
-                      0.85 — from the runtime, not just the types. It evaluated to
-                      `undefined`, and a falsy entry in a style array is silently
-                      ignored, so this overlay lost its absolute positioning and
-                      collapsed to 0×0: the shutter flash has not been visible
-                      since the SDK bump. `absoluteFill` is the same object
-                      ({ position: "absolute", top/left/right/bottom: 0 }) and is
-                      the supported name. */}
-                  <Animated.View
-                    pointerEvents="none"
-                    style={[
-                      StyleSheet.absoluteFill,
-                      { backgroundColor: "#ffffff", opacity: flashOpacity },
-                    ]}
-                  />
-                </CameraView>
-              </GestureDetector>
-            ) : (
-              <View className="flex-1 items-center justify-center">
-                {status === "denied" ? (
-                  <Text className="text-white text-sm text-center px-8">
-                    Camera access denied.{"\n"}Tap to open Settings, or use the
-                    upload option below.
-                  </Text>
-                ) : (
-                  <>
-                    <Ionicons name="camera-outline" size={40} color="#FFFFFF" style={{ marginBottom: 12 }} />
-                    <Text className="text-white text-sm">
-                      Tap to enable camera
+          {status === "active" ? (
+            <GestureDetector gesture={pinchGesture}>
+              <CameraView
+                ref={cameraRef}
+                style={{ flex: 1 }}
+                facing={facing}
+                zoom={zoom}
+                responsiveOrientationWhenOrientationLocked
+                onResponsiveOrientationChanged={({ orientation }) =>
+                  setCameraOrientation(orientation)
+                }
+              >
+                {/* Confirms the sideways hold took: this photo will be wide. */}
+                {isLandscape && (
+                  <View
+                    className="absolute top-2 left-2 flex-row items-center rounded-full px-2.5 py-1"
+                    style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+                    accessibilityLiveRegion="polite"
+                    accessibilityLabel="Landscape photo"
+                  >
+                    <Ionicons name="phone-landscape-outline" size={14} color="#FFFFFF" />
+                    <Text className="text-white text-xs font-semibold ml-1">Landscape</Text>
+                  </View>
+                )}
+                {/* Zoom readout. Shown for preset taps as well as pinch (it
+                    used to appear only for pinch), so the viewfinder always
+                    says whether it is zoomed — and so the presets above can be
+                    calibrated by pinching to the right framing and reading the
+                    number off the screen. */}
+                {zoom > 0.001 && (
+                  <View
+                    className="absolute top-2 right-2 rounded-full px-2.5 py-1"
+                    style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+                  >
+                    <Text className="text-white text-xs font-semibold">
+                      {Math.round(zoom * 100)}%
                     </Text>
-                  </>
+                  </View>
+                )}
+
+                {/* `StyleSheet.absoluteFillObject` was removed in React Native
+                    0.85 — from the runtime, not just the types. It evaluated to
+                    `undefined`, and a falsy entry in a style array is silently
+                    ignored, so this overlay lost its absolute positioning and
+                    collapsed to 0×0: the shutter flash has not been visible
+                    since the SDK bump. `absoluteFill` is the same object
+                    ({ position: "absolute", top/left/right/bottom: 0 }) and is
+                    the supported name. */}
+                <Animated.View
+                  pointerEvents="none"
+                  style={[
+                    StyleSheet.absoluteFill,
+                    { backgroundColor: "#ffffff", opacity: flashOpacity },
+                  ]}
+                />
+              </CameraView>
+            </GestureDetector>
+          ) : (
+            <View className="flex-1 items-center justify-center">
+              {status === "denied" ? (
+                <Text className="text-white text-sm text-center px-8">
+                  Camera access denied.{"\n"}Tap to open Settings, or use the
+                  upload option below.
+                </Text>
+              ) : (
+                <>
+                  <Ionicons name="camera-outline" size={40} color="#FFFFFF" style={{ marginBottom: 12 }} />
+                  <Text className="text-white text-sm">
+                    Tap to enable camera
+                  </Text>
+                </>
+              )}
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <ScrollView
+          ref={trayScrollRef}
+          // RN's ScrollView defaults to flexGrow 1; 0 makes it take its
+          // content height and give spare room to the viewfinder instead.
+          style={{ flexGrow: 0, flexShrink: 1 }}
+          alwaysBounceVertical={false}
+          onLayout={(e) => setTrayViewportHeight(e.nativeEvent.layout.height)}
+          onContentSizeChange={(_, h) => setTrayContentHeight(h)}
+        >
+          {/* Camera controls live BELOW the viewfinder so they never block the
+              menu being framed (EAT-16). Split across two rows: the zoom and
+              gallery controls both grew in this pass and no longer fit either
+              side of the shutter on a 390pt-wide phone without shrinking back
+              down to the sizes this change exists to fix. */}
+          {status === "active" ? (
+            <>
+              <View className="flex-row items-center justify-between mt-3">
+                <View className="flex-row gap-2">
+                  {ZOOM_LEVELS.map((lvl) => {
+                    const active = activeZoomLabel === lvl.label;
+                    return (
+                      <TouchableOpacity
+                        key={lvl.label}
+                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                        className={`px-4 py-2.5 rounded-full ${
+                          active ? "bg-brand-900" : "bg-gray-100"
+                        }`}
+                        accessibilityLabel={`Zoom ${lvl.label}`}
+                      >
+                        <Text
+                          className={`text-sm font-bold ${
+                            active ? "text-white" : "text-gray-600"
+                          }`}
+                        >
+                          {lvl.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <TouchableOpacity
+                  className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
+                  onPress={handleGalleryPick}
+                  accessibilityLabel="Add your photos from your library"
+                >
+                  <Text className="text-sm font-semibold text-green-700">
+                    Add your photos
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View className="items-center mt-3">
+                <TouchableOpacity
+                  className="rounded-full bg-white items-center justify-center border-4 border-brand-900"
+                  style={{ width: 68, height: 68 }}
+                  onPress={handleCapture}
+                  accessibilityLabel="Take photo"
+                />
+              </View>
+            </>
+          ) : (
+            <TouchableOpacity
+              className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
+              onPress={handleGalleryPick}
+            >
+              <Text className="text-center text-base font-semibold text-green-700">
+                Add your photos
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {/* The tray is always shown, empty or not. It used to appear with the
+              first photo (or the picker opening), and since the viewfinder takes
+              the body's leftover height, that shrank the live preview by up to
+              140pt just as the user lined up page 2 — and grew it back if the
+              picker was cancelled. Always-present means the camera never
+              resizes while it's in use, and the photo limit is stated up front. */}
+          <View className="mt-4">
+            <View className="flex-row items-center justify-between mb-2">
+              <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Added photos
+              </Text>
+              <View className="flex-row items-center gap-3">
+                <Text className="text-xs font-semibold text-green-700">
+                  {localPhotos.length} / {MAX_PHOTOS}
+                </Text>
+                {localPhotos.length > 0 && (
+                  <TouchableOpacity
+                    onPress={clearAllPhotos}
+                    accessibilityLabel="Remove all photos"
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  >
+                    <Text className="text-xs font-semibold text-red-600">
+                      Clear all
+                    </Text>
+                  </TouchableOpacity>
                 )}
               </View>
-            )}
-          </TouchableOpacity>
-        </View>
-
-        {/* Camera controls live BELOW the viewfinder so they never block the
-            menu being framed (EAT-16). Split across two rows: the zoom and
-            gallery controls both grew in this pass and no longer fit either
-            side of the shutter on a 390pt-wide phone without shrinking back
-            down to the sizes this change exists to fix. */}
-        {status === "active" ? (
-          <>
-            <View className="flex-row items-center justify-between mt-3">
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              // Without this the ScrollView clips the remove buttons hanging off
+              // each thumbnail's top-right corner (and the last one's right edge).
+              contentContainerStyle={{
+                paddingTop: trayOverhang,
+                paddingRight: trayOverhang,
+              }}
+            >
               <View className="flex-row gap-2">
-                {ZOOM_LEVELS.map((lvl) => {
-                  const active = activeZoomLabel === lvl.label;
-                  return (
+                {localPhotos.map((uri, i) => (
+                  <View key={`${uri}-${i}`} className="relative">
+                    {/* Tap to inspect full-screen — a 64pt thumbnail can't tell
+                        you whether the page is actually legible (EAT-13). */}
                     <TouchableOpacity
-                      key={lvl.label}
-                      onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                      className={`px-4 py-2.5 rounded-full ${
-                        active ? "bg-brand-900" : "bg-gray-100"
-                      }`}
-                      accessibilityLabel={`Zoom ${lvl.label}`}
+                      onPress={() => setViewerIndex(i)}
+                      activeOpacity={0.7}
+                      accessibilityLabel={`View photo ${i + 1} full screen`}
+                    >
+                      <Image
+                        source={{ uri }}
+                        className="rounded-xl"
+                        style={{ width: thumbSize, height: thumbSize }}
+                        resizeMode="cover"
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="absolute rounded-full bg-gray-800 items-center justify-center border-2 border-gray-50"
+                      style={{
+                        width: removeBtnSize,
+                        height: removeBtnSize,
+                        // Offsets are derived from the button size rather than
+                        // fixed, so the overhang and the ScrollView padding
+                        // reserved for it stay in step at any text scale.
+                        top: -Math.round(removeBtnSize / 3),
+                        right: -Math.round(removeBtnSize / 3),
+                      }}
+                      onPress={() => removePhoto(i)}
+                      accessibilityLabel={`Remove photo ${i + 1}`}
+                      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                     >
                       <Text
-                        className={`text-sm font-bold ${
-                          active ? "text-white" : "text-gray-600"
-                        }`}
+                        className="text-white font-semibold leading-none"
+                        style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
                       >
-                        {lvl.label}
+                        ×
                       </Text>
                     </TouchableOpacity>
-                  );
-                })}
+                  </View>
+                ))}
+                {/* Stands in for the photos being fetched, so the tray reacts
+                    as soon as the picker closes. */}
+                {isPicking && (
+                  <View
+                    className="rounded-xl bg-gray-200 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
+                    accessibilityLiveRegion="polite"
+                    accessibilityLabel="Adding your photos"
+                  >
+                    <ActivityIndicator color="#4B5563" />
+                    <Text className="text-xs text-gray-600 mt-1.5">Adding…</Text>
+                  </View>
+                )}
+                {/* Empty tray: a plain placeholder, not a second "add from
+                    library" button right under "Add your photos". It keeps
+                    the tray at its full height so the camera doesn't resize
+                    when the first photo lands. */}
+                {localPhotos.length === 0 && !isPicking && (
+                  <View
+                    className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
+                    accessibilityElementsHidden
+                    importantForAccessibility="no-hide-descendants"
+                  >
+                    <Ionicons name="images-outline" size={24} color="#9CA3AF" />
+                  </View>
+                )}
+                {localPhotos.length > 0 && localPhotos.length < MAX_PHOTOS && !isPicking && (
+                  <TouchableOpacity
+                    className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
+                    style={{ width: thumbSize, height: thumbSize }}
+                    onPress={handleGalleryPick}
+                    accessibilityLabel="Add photos from your library"
+                  >
+                    <Text className="text-gray-500 text-2xl">+</Text>
+                  </TouchableOpacity>
+                )}
               </View>
-              <TouchableOpacity
-                className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
-                onPress={handleGalleryPick}
-                accessibilityLabel="Add your photos from your library"
-              >
-                <Text className="text-sm font-semibold text-green-700">
-                  Add your photos
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="items-center mt-3">
-              <TouchableOpacity
-                className="rounded-full bg-white items-center justify-center border-4 border-brand-900"
-                style={{ width: 68, height: 68 }}
-                onPress={handleCapture}
-                accessibilityLabel="Take photo"
-              />
-            </View>
-          </>
-        ) : (
-          <TouchableOpacity
-            className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
-            onPress={handleGalleryPick}
-          >
-            <Text className="text-center text-base font-semibold text-green-700">
-              Add your photos
+            </ScrollView>
+            <Text className="text-xs text-gray-500 mt-2">
+              {localPhotos.length >= MAX_PHOTOS
+                ? `Maximum of ${MAX_PHOTOS} photos reached`
+                : `Up to ${MAX_PHOTOS} photos per scan`}
             </Text>
-          </TouchableOpacity>
-        )}
-
-        {/* The tray is always shown, empty or not. It used to appear with the
-            first photo (or the picker opening), and since the viewfinder takes
-            the body's leftover height, that shrank the live preview by up to
-            140pt just as the user lined up page 2 — and grew it back if the
-            picker was cancelled. Always-present means the camera never
-            resizes while it's in use, and the photo limit is stated up front. */}
-        <View className="mt-4">
-          <View className="flex-row items-center justify-between mb-2">
-            <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Added photos
-            </Text>
-            <View className="flex-row items-center gap-3">
-              <Text className="text-xs font-semibold text-green-700">
-                {localPhotos.length} / {MAX_PHOTOS}
-              </Text>
-              {localPhotos.length > 0 && (
-                <TouchableOpacity
-                  onPress={clearAllPhotos}
-                  accessibilityLabel="Remove all photos"
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                >
-                  <Text className="text-xs font-semibold text-red-600">
-                    Clear all
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </View>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            // Without this the ScrollView clips the remove buttons hanging off
-            // each thumbnail's top-right corner (and the last one's right edge).
-            contentContainerStyle={{
-              paddingTop: trayOverhang,
-              paddingRight: trayOverhang,
-            }}
-          >
-            <View className="flex-row gap-2">
-              {localPhotos.map((uri, i) => (
-                <View key={`${uri}-${i}`} className="relative">
-                  {/* Tap to inspect full-screen — a 64pt thumbnail can't tell
-                      you whether the page is actually legible (EAT-13). */}
-                  <TouchableOpacity
-                    onPress={() => setViewerIndex(i)}
-                    activeOpacity={0.7}
-                    accessibilityLabel={`View photo ${i + 1} full screen`}
-                  >
-                    <Image
-                      source={{ uri }}
-                      className="rounded-xl"
-                      style={{ width: thumbSize, height: thumbSize }}
-                      resizeMode="cover"
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="absolute rounded-full bg-gray-800 items-center justify-center border-2 border-gray-50"
-                    style={{
-                      width: removeBtnSize,
-                      height: removeBtnSize,
-                      // Offsets are derived from the button size rather than
-                      // fixed, so the overhang and the ScrollView padding
-                      // reserved for it stay in step at any text scale.
-                      top: -Math.round(removeBtnSize / 3),
-                      right: -Math.round(removeBtnSize / 3),
-                    }}
-                    onPress={() => removePhoto(i)}
-                    accessibilityLabel={`Remove photo ${i + 1}`}
-                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                  >
-                    <Text
-                      className="text-white font-semibold leading-none"
-                      style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
-                    >
-                      ×
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-              {/* Stands in for the photos being fetched, so the tray reacts
-                  as soon as the picker closes. */}
-              {isPicking && (
-                <View
-                  className="rounded-xl bg-gray-200 items-center justify-center"
-                  style={{ width: thumbSize, height: thumbSize }}
-                  accessibilityLiveRegion="polite"
-                  accessibilityLabel="Adding your photos"
-                >
-                  <ActivityIndicator color="#4B5563" />
-                  <Text className="text-xs text-gray-600 mt-1.5">Adding…</Text>
-                </View>
-              )}
-              {localPhotos.length < MAX_PHOTOS && !isPicking && (
-                <TouchableOpacity
-                  className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
-                  style={{ width: thumbSize, height: thumbSize }}
-                  onPress={handleGalleryPick}
-                  accessibilityLabel="Add photos from your library"
-                >
-                  <Text className="text-gray-500 text-2xl">+</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          </ScrollView>
-          <Text className="text-xs text-gray-500 mt-2">
-            {localPhotos.length >= MAX_PHOTOS
-              ? `Maximum of ${MAX_PHOTOS} photos reached`
-              : `Up to ${MAX_PHOTOS} photos per scan`}
-          </Text>
-        </View>
-        <View className="h-2" />
-      </ScrollView>
+          <View className="h-2" />
+        </ScrollView>
+      </View>
 
       {/* Footer: never scrolls, never gets pushed off screen. */}
       <View className="px-5">
