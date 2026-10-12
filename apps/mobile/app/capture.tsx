@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   Image,
@@ -22,7 +21,10 @@ import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
 import PhotoViewer from "../components/menu/PhotoViewer";
-import { useAssetScale } from "../lib/utils/scale";
+// Every label on this screen is a CappedText (imported as Text so a new label
+// can't skip the cap by accident): see MAX_FONT_SCALE below.
+import Text from "../components/CappedText";
+import { useAssetScale, MAX_FONT_SCALE } from "../lib/utils/scale";
 import {
   getScanQuota,
   QUOTA_ALERT_TITLE,
@@ -52,14 +54,12 @@ const MAX_PHOTOS = 10;
 const VIEWFINDER_MIN = 220;
 const VIEWFINDER_MAX = 360;
 
-// Cap on how far this screen's text follows the phone's text-size setting.
-// Everything here except the controls/tray strip is fixed in place: header,
-// camera and footer never scroll. Uncapped, at the largest accessibility sizes
-// the header text alone took most of a small phone, squeezing the scrolling
-// strip (shutter, "Add your photos") to nothing so no photo could be added.
-// One cap for every label, rather than per-region ones, so nothing is left to
-// grow unbounded. 1.3x is still well past default.
-const MAX_FONT_SCALE = 1.3;
+// Text on this screen follows the phone's text-size setting only up to
+// MAX_FONT_SCALE (1.3x), via CappedText. Everything here except the
+// controls/tray strip is fixed in place: header, camera and footer never
+// scroll. Uncapped, at the largest accessibility sizes the header text alone
+// took most of a small phone, squeezing the scrolling strip (shutter, "Add
+// your photos") to nothing so no photo could be added.
 
 export default function CaptureScreen() {
   const router = useRouter();
@@ -89,11 +89,14 @@ export default function CaptureScreen() {
   // null until the first read resolves — the Analyze button must not flash
   // "limit reached" for a frame before we actually know.
   const [quota, setQuota] = useState<ScanQuota | null>(null);
+  const showQuotaWarning = !!quota && !quota.exhausted && quota.remaining <= 2;
 
   // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
   // scales on its own; fixed-point images and their controls don't, so without
   // this the thumbnails stay small while their caption grows past them.
-  const assetScale = useAssetScale();
+  // Same cap as the text, so thumbnails don't outgrow their captions and
+  // take height from the camera.
+  const assetScale = useAssetScale(MAX_FONT_SCALE);
   const thumbSize = Math.round(96 * assetScale);
   const removeBtnSize = Math.round(26 * assetScale);
   // The remove button hangs off the thumbnail's top-right corner, which the
@@ -420,15 +423,15 @@ export default function CaptureScreen() {
             className="w-8 h-8 items-center justify-center rounded-full bg-gray-100"
             onPress={() => router.back()}
           >
-            <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-gray-600 text-base">←</Text>
+            <Text className="text-gray-600 text-base">←</Text>
           </TouchableOpacity>
-          <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-lg font-bold text-gray-900">Scan Menu</Text>
+          <Text className="text-lg font-bold text-gray-900">Scan Menu</Text>
         </View>
 
-        <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xl font-bold text-gray-900 mb-1">
+        <Text className="text-xl font-bold text-gray-900 mb-1">
           Photograph the menu
         </Text>
-        <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-base text-gray-500 mb-4">
+        <Text className="text-base text-gray-500 mb-4">
           One photo per page. Wide menu? Turn your phone sideways.
         </Text>
 
@@ -460,7 +463,7 @@ export default function CaptureScreen() {
                     accessibilityLabel="Landscape photo"
                   >
                     <Ionicons name="phone-landscape-outline" size={14} color="#FFFFFF" />
-                    <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-white text-xs font-semibold ml-1">Landscape</Text>
+                    <Text className="text-white text-xs font-semibold ml-1">Landscape</Text>
                   </View>
                 )}
                 {/* Zoom readout. Shown for preset taps as well as pinch (it
@@ -473,7 +476,7 @@ export default function CaptureScreen() {
                     className="absolute top-2 right-2 rounded-full px-2.5 py-1"
                     style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
                   >
-                    <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-white text-xs font-semibold">
+                    <Text className="text-white text-xs font-semibold">
                       {Math.round(zoom * 100)}%
                     </Text>
                   </View>
@@ -499,14 +502,14 @@ export default function CaptureScreen() {
           ) : (
             <View className="flex-1 items-center justify-center">
               {status === "denied" ? (
-                <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-white text-sm text-center px-8">
+                <Text className="text-white text-sm text-center px-8">
                   Camera access denied.{"\n"}Tap to open Settings, or use the
                   upload option below.
                 </Text>
               ) : (
                 <>
                   <Ionicons name="camera-outline" size={40} color="#FFFFFF" style={{ marginBottom: 12 }} />
-                  <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-white text-sm">
+                  <Text className="text-white text-sm">
                     Tap to enable camera
                   </Text>
                 </>
@@ -544,7 +547,7 @@ export default function CaptureScreen() {
                         }`}
                         accessibilityLabel={`Zoom ${lvl.label}`}
                       >
-                        <Text maxFontSizeMultiplier={MAX_FONT_SCALE}
+                        <Text
                           className={`text-sm font-bold ${
                             active ? "text-white" : "text-gray-600"
                           }`}
@@ -560,7 +563,7 @@ export default function CaptureScreen() {
                   onPress={handleGalleryPick}
                   accessibilityLabel="Add your photos from your library"
                 >
-                  <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-sm font-semibold text-green-700">
+                  <Text className="text-sm font-semibold text-green-700">
                     Add your photos
                   </Text>
                 </TouchableOpacity>
@@ -580,7 +583,7 @@ export default function CaptureScreen() {
               className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
               onPress={handleGalleryPick}
             >
-              <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-center text-base font-semibold text-green-700">
+              <Text className="text-center text-base font-semibold text-green-700">
                 Add your photos
               </Text>
             </TouchableOpacity>
@@ -594,11 +597,11 @@ export default function CaptureScreen() {
               resizes while it's in use, and the photo limit is stated up front. */}
           <View className="mt-4">
             <View className="flex-row items-center justify-between mb-2">
-              <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Added photos
               </Text>
               <View className="flex-row items-center gap-3">
-                <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xs font-semibold text-green-700">
+                <Text className="text-xs font-semibold text-green-700">
                   {localPhotos.length} / {MAX_PHOTOS}
                 </Text>
                 {localPhotos.length > 0 && (
@@ -607,7 +610,7 @@ export default function CaptureScreen() {
                     accessibilityLabel="Remove all photos"
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                   >
-                    <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xs font-semibold text-red-600">
+                    <Text className="text-xs font-semibold text-red-600">
                       Clear all
                     </Text>
                   </TouchableOpacity>
@@ -656,7 +659,7 @@ export default function CaptureScreen() {
                       accessibilityLabel={`Remove photo ${i + 1}`}
                       hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                     >
-                      <Text maxFontSizeMultiplier={MAX_FONT_SCALE}
+                      <Text
                         className="text-white font-semibold leading-none"
                         style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
                       >
@@ -675,7 +678,7 @@ export default function CaptureScreen() {
                     accessibilityLabel="Adding your photos"
                   >
                     <ActivityIndicator color="#4B5563" />
-                    <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xs text-gray-600 mt-1.5">Adding…</Text>
+                    <Text className="text-xs text-gray-600 mt-1.5">Adding…</Text>
                   </View>
                 )}
                 {/* One tile, two states, so its size can't drift between them
@@ -698,13 +701,13 @@ export default function CaptureScreen() {
                     {localPhotos.length === 0 ? (
                       <Ionicons name="images-outline" size={24} color="#9CA3AF" />
                     ) : (
-                      <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-gray-500 text-2xl">+</Text>
+                      <Text className="text-gray-500 text-2xl">+</Text>
                     )}
                   </TouchableOpacity>
                 )}
               </View>
             </ScrollView>
-            <Text maxFontSizeMultiplier={MAX_FONT_SCALE} className="text-xs text-gray-500 mt-2">
+            <Text className="text-xs text-gray-500 mt-2">
               {localPhotos.length >= MAX_PHOTOS
                 ? `Maximum of ${MAX_PHOTOS} photos reached`
                 : `Up to ${MAX_PHOTOS} photos per scan`}
@@ -717,14 +720,21 @@ export default function CaptureScreen() {
       {/* Footer: never scrolls, never gets pushed off screen. */}
       <View className="px-5">
         {/* Warn only when the allowance is nearly gone. Showing a counter from
-            the first scan makes a generous limit feel like a meter running. */}
-        {quota && !quota.exhausted && quota.remaining <= 2 ? (
-          <Text maxFontSizeMultiplier={MAX_FONT_SCALE}
-            className="text-xs text-amber-700 text-center mt-3"
-          >
-            {quota.remaining} scan{quota.remaining === 1 ? "" : "s"} left today
-          </Text>
-        ) : null}
+            the first scan makes a generous limit feel like a meter running.
+            The row is always there and only its text appears: the quota loads
+            after the screen opens and again after each scan, and a row that
+            appeared then would grow the footer and shrink the camera while
+            the user is framing. */}
+        <Text
+          className="text-xs text-amber-700 text-center mt-3"
+          numberOfLines={1}
+          accessibilityElementsHidden={!showQuotaWarning}
+          importantForAccessibility={showQuotaWarning ? "auto" : "no-hide-descendants"}
+        >
+          {showQuotaWarning && quota
+            ? `${quota.remaining} scan${quota.remaining === 1 ? "" : "s"} left today`
+            : " "}
+        </Text>
 
         <TouchableOpacity
           className={`rounded-xl py-4 items-center mt-3 mb-2 ${
@@ -739,8 +749,12 @@ export default function CaptureScreen() {
           disabled={localPhotos.length === 0 || isProcessing}
           activeOpacity={0.85}
         >
-          <Text maxFontSizeMultiplier={MAX_FONT_SCALE}
+          <Text
             numberOfLines={1}
+            // Shrink rather than truncate on narrow phones: the page count is
+            // what confirms a photo was added.
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
             className={`font-semibold text-base ${
               localPhotos.length === 0 || isProcessing || quota?.exhausted
                 ? "text-gray-500"
@@ -766,7 +780,7 @@ export default function CaptureScreen() {
             focused on the task. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
-            <Text maxFontSizeMultiplier={MAX_FONT_SCALE}
+            <Text
               className="text-xs text-gray-600 underline"
             >
               Feedback
