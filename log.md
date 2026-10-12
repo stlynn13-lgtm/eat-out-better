@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-12 — CI now checks the API
+
+**What changed.** A new GitHub Actions check, "API checks", runs on every pull request that touches the API, the shared package or the lockfile. It runs lint, typecheck, build and the seven offline test suites. None of them need an API key.
+
+**Why it matters.** Until now the only check on API changes was Vercel's preview deploy, so a broken upgrade showed up only after it was pushed. That's how the Next 16.4.0 failure was found.
+
+---
+
 ## 2026-10-12 — Anthropic SDK updated to 0.131
 
 **What changed.** The API's Anthropic SDK went from 0.100.1 to 0.131.0, the version Sean scan-tested on Dependabot's #62 preview. Only the SDK moved. Dependabot's replacement (#100) also pushes Next.js back to 16.4.0, which failed to deploy on Vercel on 2026-10-11, so it wasn't merged.

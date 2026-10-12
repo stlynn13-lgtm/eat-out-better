@@ -242,7 +242,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 - **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), age rating, App Privacy questionnaire (answers drafted in `privacy-policy-accounts-release.md`). ✅ Support URL exists (`/support`). `legal/eula-app-store.txt` is the text to paste as the custom EULA.
 - **UI transparency**: per-dish reasons ("High — fried + cream sauce. Try grilled.").
 - **Basic analytics**: the core funnel events, so we can see whether people complete a scan.
-- **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime). CI also needs to run the API's lint, typecheck and build: today only the database tests run there, and Vercel's preview is the only check on API changes.
+- **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime). ✅ CI now runs the API's lint, typecheck, build and offline tests on every API change (`.github/workflows/api-checks.yml`, 2026-10-12).
 
 ➡️ GTM Launch Tracker, filter Priority = P1.
 

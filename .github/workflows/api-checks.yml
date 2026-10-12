@@ -1,0 +1,55 @@
+# Lint, typecheck, build and the offline test suites for the API (apps/api).
+#
+# Before this, the Vercel preview was the only check on API changes, so a
+# broken dependency bump showed up only after it was pushed (Next 16.4.0 on
+# PR #97). None of these steps need an API key or make network calls.
+name: API checks
+
+on:
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/api-checks.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+        working-directory: .
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run type-check
+      - name: Build
+        run: npm run build
+      - name: Offline tests
+        run: |
+          npm run test:dedupe
+          npm run test:dishmatch
+          npm run test:categories
+          npm run test:spend
+          npm run test:imagetype
+          npm run test:cache
+          npm run test:scoring
