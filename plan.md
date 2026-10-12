@@ -85,7 +85,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 **Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
 
-**API dependencies (2026-10-12).** The API now runs Next.js 16.3.8 with a working lint step (`npm run lint`, ESLint 9; PR #97). Lint had never run on the API before, because there was no config. **Don't move Next to 16.4.0:** its Vercel preview failed in seconds and the cause is unknown. Dependabot will keep proposing it, so close those PRs or pin past it. The Anthropic SDK goes from 0.100 to 0.131 in PR #103, which merges once its preview is green.
+**API dependencies (2026-10-12).** The API now runs Next.js 16.3.8 with a working lint step (`npm run lint`, ESLint 9; PR #97). Lint had never run on the API before, because there was no config. **Don't move Next to 16.4.0:** its Vercel preview failed in seconds and the cause is unknown. Dependabot is told to skip the 16.4 line (`.github/dependabot.yml`); 16.5 and later will still be proposed, and the new API check tests them. The Anthropic SDK goes from 0.100 to 0.131 in PR #103, which merges once its preview is green.
 
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 

@@ -28,7 +28,14 @@ updates:
       api-minor-and-patch:
         update-types: [minor, patch]
     ignore:
-      # Next 15 is on React 18; React 19 comes with a deliberate Next upgrade.
+      # Next 16.4.0 failed its Vercel deploy within seconds (PR #97, cause
+      # unknown), so the API is pinned to 16.3.8. Skip the whole 16.4 line;
+      # 16.5 and later still get proposed, and their PR runs the API checks.
+      - dependency-name: next
+        versions: ["16.4.x"]
+      - dependency-name: eslint-config-next
+        versions: ["16.4.x"]
+      # The API is on React 18; React 19 comes with a deliberate Next upgrade.
       - dependency-name: react
         update-types: [version-update:semver-major]
       - dependency-name: react-dom
