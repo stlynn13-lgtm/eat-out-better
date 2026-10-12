@@ -61,6 +61,23 @@
 
 ---
 
+## 2026-10-11 — API moved to Next 16; linting works again
+
+**What changed.** The API (`apps/api`) now runs on Next 16 (pinned to 16.3.8, the version Dependabot's preview deployed cleanly; the first push on 16.4.0 failed its Vercel preview for a reason not yet known) with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
+
+- `npm run lint` now runs `eslint .` with a new `eslint.config.mjs`. Next 16 removed the old `next lint` command, and the API never had a lint config anyway, so lint hasn't actually run on it before. It now passes.
+- The privacy and terms pages are exempt from the "escape every apostrophe" rule (it's legal prose). Offline eval scripts may use loose types.
+- The root `zod` pin to 3.22.4 now applies only to the Anthropic SDK. Applied everywhere, it broke the new lint tooling, which needs zod 4.
+- Next 16 rewrote `apps/api/tsconfig.json` on first build (JSX setting and a new types path). That is committed so builds don't keep changing it.
+
+**Why it matters.** Keeps the API on a supported framework version and gives it a working lint step. No change to what the app or the API does.
+
+**Worth knowing.**
+- Checked here: clean `npm ci`, lint, typecheck, `next build`, and all seven offline test suites pass. **Not checked:** a real scan against the Vercel preview, since this session has no API key. Do one scan on the PR's preview before merging.
+- ESLint 10 (#63) is not used: the React, import and accessibility lint plugins don't support it yet.
+
+---
+
 ## 2026-10-10 — Marketing site pinned to Node 22
 
 **What changed.** `apps/web/package.json` now says `"node": "22.x"` instead of `">=20"` (lockfile updated to match). No code change.
