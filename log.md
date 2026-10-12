@@ -6,6 +6,26 @@
 
 ---
 
+## 2026-10-12 — Waitlist now records which link a signup came from
+
+**What changed**
+
+- **A signup now stores the campaign tag as well as the button.** Links like `eatoutbetter.com/get?src=rd-smith` (or a direct `/?src=rd-smith`) now show up in `waitlist_signups` as `final__rd-smith` instead of just `final`. Before this, `/get` passed the tag along as `?ref=` but the form never read it, so every signup looked the same whichever link sent it. The repeat-use test's three-source channel test depends on telling those apart. Tags are cleaned to lower-case letters, digits and hyphens; `apps/web/README.md` → "Tagged links" has the one SQL query that counts signups per tag.
+- **The guide page's waitlist buttons work before launch.** The header, sticky-bar and in-page buttons on the high-cholesterol guide pointed to `#waitlist`, which only exists on the homepage, so they did nothing. They now go through `/get` and land on the homepage form, tagged `header`, `sticky` or `guide`. The guide is the page search sends people to, so it had no working signup until now.
+- **Vercel Analytics' `waitlist_join` event** now carries the tag as `campaign`.
+- **Privacy policy:** the waitlist paragraph now says we store the label of our own link that brought you, and the analytics paragraph says we count which of our links led to a signup.
+
+**Why no database change:** `join_waitlist()` already accepts letters, digits, `_` and `-` up to 40 characters, so `<button>__<tag>` fits the existing `source` column. A new column would have needed a migration pasted into Supabase before the site deploy, or every signup would fail in between. A `.` separator would not have worked: the function turns any value containing one into `web`. Checked on a local Postgres, and the pgTAP waitlist test now covers it.
+
+**How it was checked:** the built site run against a stand-in for Supabase that recorded what the form sent, with eight real signups and link checks in a browser. On the old code, `/?src=meta-test` stored `hero` and `/get?src=rd_Smith` stored `final`. With the fix they store `hero__meta-test` and `final__rd-smith`, the guide button reaches the form (`final__guide`), and homepage buttons still stay on the page so the tag isn't dropped.
+
+**Worth knowing**
+
+- **Goes live with the next production deploy of `eat-out-better-web` from `main`.** The privacy wording deploys with the API project.
+- **The tag lives in the page URL.** A visitor who lands on the guide with a tag and then clicks a guide button is recorded under that button's tag, not the original one.
+
+---
+
 ## 2026-10-11 — Website: written for AI assistants, with an honest roadmap
 
 **What changed** (all in `apps/web`, generated from `lib/site.ts`)
