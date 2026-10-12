@@ -1,0 +1,13 @@
+{
+  "id": "P012",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "My first thought is that I can just ask ChatGPT for free. I already snap pictures of things and ask an assistant what's in them, so a separate iPhone app that does one narrow job feels like paying for something I can get elsewhere.",
+  "objection": "Why would I pay $39.99 a year for an app when a free AI assistant can already tell me which dishes are fried or creamy? I'm not sure this app is any more accurate than what I'd get by asking it myself.",
+  "would_change_my_mind": "Proof that it's clearly more accurate than a general AI assistant on real restaurant menus, for example a side-by-side test showing it catches cream sauces and frying that ChatGPT misses.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 45
+}

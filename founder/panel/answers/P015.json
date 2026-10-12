@@ -1,0 +1,13 @@
+{
+  "id": "P015",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I eat out with friends and clients, and I am not going to pull out my phone to photograph a menu in front of them. I've managed my cholesterol for years by ordering the grilled fish and asking for sauce on the side, and I can do that without an app.",
+  "objection": "I'm not going to scan the menu in front of people. It would make me the one at the table fiddling with my phone, and I'd feel like I was making a fuss about my health.",
+  "would_change_my_mind": "If I could check the menu on my phone at home before I go out, without having to scan anything at the table.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

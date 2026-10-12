@@ -1,0 +1,13 @@
+{
+  "id": "P019",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I already ask ChatGPT or Google when I'm unsure about a dish, and I can snap a photo of a menu and ask it there too. I don't see what a separate app adds that I can't already do for free, and my doctor's advice to cut saturated fat is simple enough that I mostly just order grilled and skip the fries.",
+  "objection": "It's another subscription for something I can already do with a tool I already have, and I'm not sure a color-coded app would be more accurate than an AI that reads the whole menu.",
+  "would_change_my_mind": "If it showed me something ChatGPT can't, like a verified list of cholesterol numbers for each dish from the restaurant itself, I'd try it for a month.",
+  "price_too_cheap": 5,
+  "price_cheap": 12,
+  "price_expensive": 20,
+  "price_too_expensive": 25
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I already photograph menus and ask an AI assistant what's in a dish, and that's free. I don't see why I'd pay for a narrower app that promises to rate every dish, when I'd have to trust its guess about how a restaurant cooks.",
+  "objection": "How accurate is an AI guess about how a restaurant cooks? Restaurants use butter, oil and cream I can't see from a photo, and a green or red label could easily be wrong.",
+  "would_change_my_mind": "Proof that its ratings match real restaurant recipes or lab-tested nutrition data, for example a published accuracy check against dishes that were actually measured.",
+  "price_too_cheap": 3,
+  "price_cheap": 12,
+  "price_expensive": 25,
+  "price_too_expensive": 35
+}

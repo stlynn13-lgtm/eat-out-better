@@ -1,0 +1,7 @@
+{
+  "id": "P001",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 40,
+  "price_too_expensive": 60
+}

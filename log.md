@@ -6,6 +6,31 @@
 
 ---
 
+## 2026-10-12 — Pre-launch plan added to plan.md
+
+**What changed.** `plan.md` now opens with a prioritized pre-launch plan: Priority 0 (this week's foundation), Priority 1 (the repeat-use test, through Gate 1 on Fri 13 Nov), Priority 2 (after Gate 1, before App Store submission) and Priority 3 (launch week). Each item has an owner, a date and a kill rule. It folds in the founder-pack findings (the dietitian advisor, the ChatGPT head-to-head, backlog #21, the $29.99 vs $39.99 pre-order test) and replaces the short "Founder pack readout" section. No code changed.
+
+**Why.** `growth-plan.md` has the dates and gates, but nothing said what comes first this week. The plan ranks work by whether it can be measured and whether it tests demand, since demand is the binding risk.
+
+**Not decided.** The plan is a recommendation. One decision is flagged as Sean's alone: bring swaps back or rewrite CLAUDE.md's "substitution-forward" principle.
+
+---
+
+## 2026-10-12 — Founder pack run: competitors, buyer panel, CFO, pricing, marketing, launch
+
+**What changed.** Six founder skills were added to `.claude/skills/` and run. Their outputs are in `founder/`. The visual summary is a private claude.ai artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab. No app code changed.
+
+**What it found**
+- **0 of 20 simulated buyers would pay.** Their reasons were habit (7), trust (5), "ChatGPT does it free" (4) and convenience (2). Only 2 mentioned price. The buyers are simulated, so these are objections to test, not a forecast.
+- **New finding: people don't want to scan the menu at the table.** Six buyers asked to check the menu at home, from a link or PDF, before going. That isn't in `backlog.md` yet.
+- **No price recommendation (withdrawn the same day).** The first version said $39.99 was above an acceptable range of $5.08 to $34.97 and proposed testing $24.99 against $34.99. Review found the buyers had answered the price questions right after reading "$39.99 a year", so half of them gave the same round numbers around it; the range measured the price back. The price questions are now a separate brief built from a pitch with no price, and the pricing tool labels anchored answers. Re-run them before choosing the November test prices.
+- **The CFO numbers:** $20.69 contribution per $29.99 annual. Apple's 15% is now modelled as a share of the price (it was a fixed $4.50, which overstated the gap between prices). Break-even is about 18 annual subscriptions a month with Apple Ads, about 3 without. The risk is the volume assumption, not the margin.
+- **At least 9 direct menu-scanner competitors exist,** with no leader and none built for a specific condition. The real competitor is a free chatbot.
+
+**Not decided.** None of the pricing or positioning changes has been agreed.
+
+---
+
 ## 2026-10-12 — Pre-mortem on the product itself
 
 **What changed.** Ran the `kill-my-idea` skill against the product as built and wrote the result into `plan.md` ("Product pre-mortem"). No code. A formatted private page of the same findings was also made.

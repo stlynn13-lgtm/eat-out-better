@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I'd run the free scan out of curiosity, but I won't pay a yearly fee for ratings from an app with no doctor or dietitian behind them. I also cancel anything that auto-renews after a trial, so this would be a no from me.",
+  "objection": "Is this advice from an actual doctor or dietitian?",
+  "would_change_my_mind": "A named clinician or registered dietitian standing behind the ratings, plus a plan that does not auto-renew after the trial.",
+  "price_too_cheap": 2,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

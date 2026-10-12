@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My statin handles my cholesterol and I already know to order the grilled fish or the salad. I don't need a phone app to tell me what I already do on autopilot.",
+  "objection": "If I'm honest, I don't trust a photo of a menu to catch what matters, like butter or cream hidden in a sauce, and I'd still be guessing whether the app is right.",
+  "would_change_my_mind": "If it showed me that the grilled fish I always order is actually cooked in butter or cream, something I had no idea about, and I could fix it with one swap.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 45
+}

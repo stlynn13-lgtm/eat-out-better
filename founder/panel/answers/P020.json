@@ -1,0 +1,13 @@
+{
+  "id": "P020",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I eat takeaway on Friday nights and mostly do what my cardiologist and dietitian tell me, so I'm not going to pay for another subscription for something I use once or twice a month. The free scan might be worth a try, but I wouldn't pay for it.",
+  "objection": "Whether the green, yellow and red ratings are actually right, and whether they tell me anything my dietitian hasn't already told me about fried food and cream sauces.",
+  "would_change_my_mind": "My cardiologist or dietitian recommending it to me, or the free top-3 picks proving accurate enough that I don't feel I need to pay to see the rest of the menu.",
+  "price_too_cheap": 5,
+  "price_cheap": 19.99,
+  "price_expensive": 34.99,
+  "price_too_expensive": 49.99
+}
