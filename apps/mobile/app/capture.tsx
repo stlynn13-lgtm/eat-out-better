@@ -25,7 +25,7 @@ import PhotoViewer from "../components/menu/PhotoViewer";
 // Every label on this screen is a CappedText (imported as Text so a new label
 // can't skip the cap by accident): see MAX_FONT_SCALE below.
 import Text from "../components/CappedText";
-import { useAssetScale, MAX_FONT_SCALE } from "../lib/utils/scale";
+import { useScaledSize, MAX_FONT_SCALE } from "../lib/utils/scale";
 import {
   getScanQuota,
   QUOTA_ALERT_TITLE,
@@ -100,9 +100,8 @@ export default function CaptureScreen() {
   // this the thumbnails stay small while their caption grows past them.
   // Same cap as the text, so thumbnails don't outgrow their captions and
   // take height from the camera.
-  const assetScale = useAssetScale(MAX_FONT_SCALE);
-  const thumbSize = Math.round(96 * assetScale);
-  const removeBtnSize = Math.round(26 * assetScale);
+  const thumbSize = useScaledSize(96, MAX_FONT_SCALE);
+  const removeBtnSize = useScaledSize(26, MAX_FONT_SCALE);
   // The remove button hangs off the thumbnail's top-right corner, which the
   // horizontal ScrollView clips at its content bounds — the reported "top of
   // the circle is cut off". Reserve the overhang as content padding instead of
@@ -227,8 +226,13 @@ export default function CaptureScreen() {
       await requestPermission();
     } else if (status === "denied") {
       // The viewfinder says "Tap to open Settings"; iOS won't show the
-      // permission prompt again once it has been refused.
-      await Linking.openSettings();
+      // permission prompt again once it has been refused. openSettings can
+      // reject; nothing useful to show, and the upload option still works.
+      try {
+        await Linking.openSettings();
+      } catch (error) {
+        console.error("Open Settings failed:", error);
+      }
     }
   }, [status, requestPermission]);
 
@@ -540,59 +544,78 @@ export default function CaptureScreen() {
               gallery controls both grew in this pass and no longer fit either
               side of the shutter on a 390pt-wide phone without shrinking back
               down to the sizes this change exists to fix. */}
-          {/* Same controls whatever the camera's status, so their height never
-              changes. Status reads "idle" for a moment on every open (while
-              the permission check resolves) and then "active"; when these
-              rows only appeared once active, the camera shrank ~90pt just
-              after the screen opened. Zoom and shutter are disabled until the
-              camera is live; "Add your photos" always works. */}
-          <View className="flex-row items-center justify-between mt-3">
-            <View className="flex-row gap-2">
-              {ZOOM_LEVELS.map((lvl) => {
-                const active = activeZoomLabel === lvl.label;
-                return (
-                  <TouchableOpacity
-                    key={lvl.label}
-                    onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                    disabled={status !== "active"}
-                    className={`px-4 py-2.5 rounded-full ${
-                      active ? "bg-brand-900" : "bg-gray-100"
-                    } ${status === "active" ? "" : "opacity-40"}`}
-                    accessibilityLabel={`Zoom ${lvl.label}`}
-                  >
-                    <Text
-                      className={`text-sm font-bold ${
-                        active ? "text-white" : "text-gray-600"
-                      }`}
-                    >
-                      {lvl.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+          {/* Same controls while the camera is "idle" or "active", so their
+              height doesn't change between them. Status reads "idle" for a
+              moment on every open (while the permission check resolves) and
+              then "active"; when these rows only appeared once active, the
+              camera shrank ~90pt just after the screen opened. Zoom is
+              disabled until the camera is live; the shutter does what tapping
+              the viewfinder does until then (asks for camera access), so it
+              is never a dead button. "Denied" is settled for the session (iOS
+              restarts the app when the permission changes in Settings), so
+              nothing resizes mid-use there: it gets the single large upload
+              button the viewfinder's "use the upload option below" points to,
+              instead of controls that can never work. */}
+          {status === "denied" ? (
             <TouchableOpacity
-              className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
+              className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
               onPress={handleGalleryPick}
               accessibilityLabel="Add your photos from your library"
             >
-              <Text className="text-sm font-semibold text-green-700">
+              <Text className="text-center text-base font-semibold text-green-700">
                 Add your photos
               </Text>
             </TouchableOpacity>
-          </View>
+          ) : (
+            <>
+              <View className="flex-row items-center justify-between mt-3">
+                <View className="flex-row gap-2">
+                  {ZOOM_LEVELS.map((lvl) => {
+                    const active = activeZoomLabel === lvl.label;
+                    return (
+                      <TouchableOpacity
+                        key={lvl.label}
+                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                        disabled={status !== "active"}
+                        className={`px-4 py-2.5 rounded-full ${
+                          active ? "bg-brand-900" : "bg-gray-100"
+                        } ${status === "active" ? "" : "opacity-40"}`}
+                        accessibilityLabel={`Zoom ${lvl.label}`}
+                      >
+                        <Text
+                          className={`text-sm font-bold ${
+                            active ? "text-white" : "text-gray-600"
+                          }`}
+                        >
+                          {lvl.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <TouchableOpacity
+                  className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
+                  onPress={handleGalleryPick}
+                  accessibilityLabel="Add your photos from your library"
+                >
+                  <Text className="text-sm font-semibold text-green-700">
+                    Add your photos
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-          <View className="items-center mt-3">
-            <TouchableOpacity
-              className={`rounded-full bg-white items-center justify-center border-4 border-brand-900 ${
-                status === "active" ? "" : "opacity-40"
-              }`}
-              style={{ width: 68, height: 68 }}
-              onPress={handleCapture}
-              disabled={status !== "active"}
-              accessibilityLabel="Take photo"
-            />
-          </View>
+              <View className="items-center mt-3">
+                <TouchableOpacity
+                  className={`rounded-full bg-white items-center justify-center border-4 border-brand-900 ${
+                    status === "active" ? "" : "opacity-40"
+                  }`}
+                  style={{ width: 68, height: 68 }}
+                  onPress={status === "active" ? handleCapture : handleViewfinderPress}
+                  accessibilityLabel={status === "active" ? "Take photo" : "Enable camera"}
+                />
+              </View>
+            </>
+          )}
 
           <Text className="text-sm text-gray-500 text-center mt-3">
             One photo per page. Wide menu? Turn your phone sideways.
