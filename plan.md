@@ -23,7 +23,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 `founder/` holds the results of six founder skills (summary artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab). Three asks for Sean:
 - **Add two questions to the repeat-use exit calls:** "Did you scan at the table or before you went?" and "Would a dietitian's name on it change anything?"
-- **Decide whether "scan a menu from a link or PDF at home" goes into `backlog.md`.** Six of 20 simulated buyers asked for it.
+- **Added to `backlog.md` as #21 (2026-10-12):** "Check the menu before you go". The v0 (tell people screenshots work) costs nothing; ship it with the next over-the-air copy update.
 - **Run the November pre-order test at $24.99 and $34.99,** not $39.99.
 
 ---
