@@ -10,8 +10,8 @@ that leaves the fewest people unhappy.
     python3 van_westendorp.py prices.csv --out founder/pricing-curve.md
     python3 van_westendorp.py founder/panel/answers --json
 
-Input is either the panel's answers folder (one JSON per buyer, written by
-founder-consumer) or a CSV with the columns too_cheap, cheap, expensive,
+Input is either the panel's answers folder (one <id>.price.json per buyer, written
+by founder-consumer's price briefs) or a CSV with the columns too_cheap, cheap, expensive,
 too_expensive (one row per respondent; extra columns are ignored). A respondent
 missing any of the four numbers, or giving them out of order (too cheap must be
 the lowest, too expensive the highest), is dropped and counted.
@@ -25,6 +25,11 @@ The four points it reports:
 
 PMC to PME is the acceptable range. These are answers from simulated buyers:
 use the range to choose what to TEST, then test it with real ones.
+
+The questions only work if the buyer has not been told a price. A panel dealt
+before founder-consumer had --price-pitch asked them right after showing the
+price, so its answers cluster around that price; the tool still reads them (from
+<id>.json) but labels the result ANCHORED, and it should not be used to choose one.
 """
 
 import argparse
@@ -50,17 +55,24 @@ def _f(v):
 
 
 def read(path):
-    """Return (rows, dropped) where rows are (too_cheap, cheap, expensive, too_expensive)."""
+    """Return (rows, dropped, anchored); rows are (too_cheap, cheap, expensive, too_expensive).
+
+    anchored is True when the answers came from buyers who had seen a price."""
     raw = []
+    anchored = False
     if os.path.isdir(path):
-        for fp in sorted(glob.glob(os.path.join(path, "*.json"))):
+        files = sorted(glob.glob(os.path.join(path, "*.price.json")))
+        if not files:
+            files = sorted(glob.glob(os.path.join(path, "*.json")))
+            anchored = bool(files)
+        for fp in files:
             try:
                 with open(fp, encoding="utf-8") as fh:
                     a = json.load(fh)
             except (json.JSONDecodeError, UnicodeDecodeError):
                 raw.append(None)
                 continue
-            raw.append(tuple(_f(a.get("price_" + k)) for k in KEYS))
+            raw.append(tuple(_f(a.get("price_" + k)) for k in KEYS) if isinstance(a, dict) else None)
     elif path.endswith(".csv"):
         with open(path, newline="", encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
@@ -73,7 +85,7 @@ def read(path):
             dropped += 1
             continue
         rows.append(r)
-    return rows, dropped
+    return rows, dropped, anchored
 
 
 def curves(rows, grid):
@@ -85,17 +97,34 @@ def curves(rows, grid):
     return tc, ch, ex, te
 
 
-def cross(grid, falling, rising):
-    """First price where the rising curve meets the falling one (linear interpolation)."""
+def _first(grid, d, test):
+    """First price where test(d) holds, interpolated within the grid step."""
+    if test(d[0]):
+        return grid[0]
     for i in range(1, len(grid)):
-        d0 = rising[i - 1] - falling[i - 1]
-        d1 = rising[i] - falling[i]
-        if d0 <= 0 <= d1 and d1 != d0:
-            t = -d0 / (d1 - d0)
-            return grid[i - 1] + t * (grid[i] - grid[i - 1])
-        if d0 == 0:
-            return grid[i - 1]
+        if test(d[i]):
+            if d[i] == d[i - 1]:
+                return grid[i]
+            t = -d[i - 1] / (d[i] - d[i - 1])
+            return grid[i - 1] + min(max(t, 0.0), 1.0) * (grid[i] - grid[i - 1])
     return None
+
+
+def cross(grid, falling, rising):
+    """Price where the rising curve meets the falling one (linear interpolation).
+
+    When the two curves touch along a stretch instead of crossing at a point
+    (typically both at zero: nobody's "too cheap" is above anybody's "too
+    expensive"), every price in that stretch is a crossing. Returning its first
+    price made the answer just the highest "too cheap" anyone gave; the middle of
+    the stretch is the honest single number.
+    """
+    d = [r - f for r, f in zip(rising, falling)]
+    start = _first(grid, d, lambda v: v >= 0)
+    if start is None:
+        return None
+    end = _first(grid, d, lambda v: v > 0)
+    return start if end is None else (start + end) / 2
 
 
 def analyse(rows, step=None):
@@ -121,12 +150,16 @@ def analyse(rows, step=None):
             "median": {k: sorted(r[i] for r in rows)[len(rows) // 2] for i, k in enumerate(KEYS)}}
 
 
-def report(res, dropped, price=None):
+def report(res, dropped, price=None, anchored=False):
     m = lambda v: "n/a" if v is None else "$%.2f" % v
     p = res["points"]
     L = ["# Price sensitivity", "",
          "%d complete answers%s. Simulated buyers: use this to pick what to test, not as the final word." % (
              res["n"], (", %d dropped (incomplete or out of order)" % dropped) if dropped else ""), "",
+         ] + ([
+         "**ANCHORED: do not use this range to choose a price.** These buyers were shown a price before"
+         " they answered, so the range mostly measures that price back. Re-deal the panel with"
+         " founder-consumer's --price-pitch (the pitch with every price taken out).", ""] if anchored else []) + [
          "| point | price | what it means |", "| --- | ---: | --- |",
          "| PMC | %s | below this, too many think it is too cheap to be good |" % m(p["PMC"]),
          "| OPP | %s | as many say too cheap as too expensive: the least resistance |" % m(p["OPP"]),
@@ -150,15 +183,15 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
     try:
-        rows, dropped = read(a.source)
+        rows, dropped, anchored = read(a.source)
         res = analyse(rows)
     except (PricingError, FileNotFoundError) as e:
         print("error: %s" % e, file=sys.stderr)
         return 2
     if a.json:
-        print(json.dumps(dict(res, dropped=dropped), indent=1))
+        print(json.dumps(dict(res, dropped=dropped, anchored=anchored), indent=1))
         return 0
-    text = report(res, dropped, a.price)
+    text = report(res, dropped, a.price, anchored)
     if a.out:
         with open(a.out, "w", encoding="utf-8") as fh:
             fh.write(text)

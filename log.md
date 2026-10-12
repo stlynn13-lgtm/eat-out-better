@@ -13,8 +13,8 @@
 **What it found**
 - **0 of 20 simulated buyers would pay.** Their reasons were habit (7), trust (5), "ChatGPT does it free" (4) and convenience (2). Only 2 mentioned price. The buyers are simulated, so these are objections to test, not a forecast.
 - **New finding: people don't want to scan the menu at the table.** Six buyers asked to check the menu at home, from a link or PDF, before going. That isn't in `backlog.md` yet.
-- **$39.99 a year is above the acceptable range** ($5.08 to $34.97). The proposal is to test a $24.99 founding price against $34.99 in the November pre-order test.
-- **The CFO numbers:** $20.69 contribution per $29.99 annual. Break-even is about 18 annual subscriptions a month with Apple Ads, about 3 without. The risk is the volume assumption, not the margin.
+- **No price recommendation (withdrawn the same day).** The first version said $39.99 was above an acceptable range of $5.08 to $34.97 and proposed testing $24.99 against $34.99. Review found the buyers had answered the price questions right after reading "$39.99 a year", so half of them gave the same round numbers around it; the range measured the price back. The price questions are now a separate brief built from a pitch with no price, and the pricing tool labels anchored answers. Re-run them before choosing the November test prices.
+- **The CFO numbers:** $20.69 contribution per $29.99 annual. Apple's 15% is now modelled as a share of the price (it was a fixed $4.50, which overstated the gap between prices). Break-even is about 18 annual subscriptions a month with Apple Ads, about 3 without. The risk is the volume assumption, not the margin.
 - **At least 9 direct menu-scanner competitors exist,** with no leader and none built for a specific condition. The real competitor is a free chatbot.
 
 **Not decided.** None of the pricing or positioning changes has been agreed.

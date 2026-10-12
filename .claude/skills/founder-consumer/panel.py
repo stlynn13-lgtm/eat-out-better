@@ -6,7 +6,8 @@ per buyer from your target-customer profile (income, age, behaviour, objection),
 writes one brief per buyer for a sub-agent to answer, checks the answers, and
 tallies who buys, who doesn't, and why.
 
-    python3 panel.py init --customer founder/customer.json --pitch founder/pitch.md [--n 100] [--seed 7]
+    python3 panel.py init --customer founder/customer.json --pitch founder/pitch.md \
+        [--price-pitch founder/pitch-no-price.md] [--n 100] [--seed 7]
     python3 panel.py prompts [--wave 10]     # one brief per buyer still to run, listed in waves
     python3 panel.py check                   # which answers are missing or broken
     python3 panel.py save P003 < reply.txt   # file a buyer's own JSON that it printed instead of writing
@@ -15,6 +16,13 @@ tallies who buys, who doesn't, and why.
 
 State lives in founder/panel/ (--dir to change it): panel.json, personas.json,
 briefs/<id>.md, answers/<id>.json, results.md, results.json.
+
+Price questions are a separate brief per buyer (briefs/<id>.price.md, answered in
+answers/<id>.price.json), and only exist when init is given --price-pitch: the
+pitch with every price taken out. A buyer who has just read "$39.99 a year"
+answers the four price questions around $39.99, so asking them in the same brief
+as the buy decision measures the founder's own price back. Run each price brief
+in its own sub-agent, never the one that answered the buy brief.
 
 The tool never answers for a buyer. Every number in results.md is counted from
 the answer files the sub-agents wrote. Simulated buyers are a fast, cheap way to
@@ -26,6 +34,7 @@ import argparse
 import json
 import os
 import random
+import re
 import sys
 
 FIRST_NAMES = [
@@ -42,6 +51,10 @@ FIRST_NAMES = [
 ]
 REASONS = ["price", "habit", "need", "trust", "quality", "convenience", "timing", "values", "other"]
 ANSWER_FIELDS = {"id", "buys", "reason_code", "reason"}
+PRICE_FIELDS = ("price_too_cheap", "price_cheap", "price_expensive", "price_too_expensive")
+PRICE_SUFFIX = ".price"
+# A currency sign next to a number, or a number with a currency word after it.
+PRICE_IN_TEXT = re.compile(r"[$€£¥]\s*\d|\d\s*(dollars?|usd|eur|euros?|pounds?|gbp)\b", re.I)
 WAVE = 10
 
 
@@ -129,7 +142,7 @@ def _write_json(path, obj):
         fh.write("\n")
 
 
-def init(d, customer_path, pitch_path, n=100, seed=None):
+def init(d, customer_path, pitch_path, n=100, seed=None, price_pitch_path=None):
     try:
         customer = _read_json(customer_path)
     except FileNotFoundError:
@@ -141,10 +154,24 @@ def init(d, customer_path, pitch_path, n=100, seed=None):
         raise PanelError("no such file: %s (write the pitch first: what you sell, the price, where)" % pitch_path)
     if not pitch:
         raise PanelError("the pitch is empty")
+    price_pitch = None
+    if price_pitch_path:
+        try:
+            with open(price_pitch_path, encoding="utf-8") as fh:
+                price_pitch = fh.read().strip()
+        except FileNotFoundError:
+            raise PanelError("no such file: %s" % price_pitch_path)
+        if not price_pitch:
+            raise PanelError("the price pitch is empty")
+        hit = PRICE_IN_TEXT.search(price_pitch)
+        if hit:
+            raise PanelError("the price pitch shows a price (%r): take every price out, or the price"
+                             " answers will just echo it back" % hit.group(0))
     if seed is None:
         seed = random.SystemRandom().randrange(1, 10 ** 6)
     cards = deal(customer, n, seed)
-    _write_json(_path(d, "panel.json"), {"n": n, "seed": seed, "customer": customer, "pitch": pitch})
+    _write_json(_path(d, "panel.json"), {"n": n, "seed": seed, "customer": customer, "pitch": pitch,
+                                         "price_pitch": price_pitch})
     _write_json(_path(d, "personas.json"), cards)
     os.makedirs(_path(d, "briefs"), exist_ok=True)
     os.makedirs(_path(d, "answers"), exist_ok=True)
@@ -181,7 +208,28 @@ Create the file {out} with your file-writing tool (do not just print the answer 
   "reason_code": one of {reasons},
   "reason": "why, in one or two sentences, in your own voice",
   "objection": "the doubt that weighs most for you, in your own words",
-  "would_change_my_mind": "the one thing that would flip your answer, or empty",
+  "would_change_my_mind": "the one thing that would flip your answer, or empty"
+}}
+"""
+
+PRICE_BRIEF = """You are a simulated buyer on a consumer panel. A founder wants to know what people like you think this is worth, before setting a price. Nobody has told you the price, and you should not guess what the founder has in mind: answer from what it is worth to you.
+
+=== WHO YOU ARE ===
+{name}, {age}. {segment}. You earn about ${income:,} a year.
+How you buy: {behaviour}. {behaviour_how}
+{habit_line}The first thing that comes to mind when you hear an offer like this: "{objection}"
+You are one of these people: {target}.
+=== END ===
+
+=== WHAT IS BEING OFFERED (you see it for the first time) ===
+{pitch}
+=== END ===
+
+Answer as {name} would, with {name}'s money and habits. Give prices in the same terms the offer is sold in (for example per year, if it is a yearly subscription). Each price must be higher than the one before it.
+
+Create the file {out} with your file-writing tool (do not just print the answer in your reply) containing ONLY this JSON, no markdown fence, nothing else:
+{{
+  "id": "{id}",
   "price_too_cheap": the price at which it would seem too cheap to be any good (a number),
   "price_cheap": the price at which it would feel like a bargain (a number),
   "price_expensive": the price at which it starts to feel expensive but you might still buy (a number),
@@ -193,30 +241,46 @@ Create the file {out} with your file-writing tool (do not just print the answer 
 def write_briefs(d, wave=WAVE):
     state, cards = load_state(d)
     target = state["customer"]["target"]
+    jobs = [("", BRIEF, state["pitch"])]
+    if state.get("price_pitch"):
+        jobs.append((PRICE_SUFFIX, PRICE_BRIEF, state["price_pitch"]))
     todo = []
     for c in cards:
-        out = _path(d, "answers", c["id"] + ".json")
-        if _answer_ok(out, c["id"]) is None:
-            continue
-        brief = BRIEF.format(pitch=state["pitch"], target=target, out=os.path.abspath(out),
-                             habit_line=("Your day: %s.\n" % c["habit"]) if c.get("habit") else "",
-                             reasons=" / ".join(REASONS), **c)
-        bp = _path(d, "briefs", c["id"] + ".md")
-        with open(bp, "w", encoding="utf-8") as fh:
-            fh.write(brief)
-        todo.append((c["id"], os.path.abspath(bp)))
+        for suffix, template, pitch in jobs:
+            job = c["id"] + suffix
+            out = _path(d, "answers", job + ".json")
+            if _answer_ok(out, job) is None:
+                continue
+            brief = template.format(pitch=pitch, target=target, out=os.path.abspath(out),
+                                    habit_line=("Your day: %s.\n" % c["habit"]) if c.get("habit") else "",
+                                    reasons=" / ".join(REASONS), **c)
+            bp = _path(d, "briefs", job + ".md")
+            with open(bp, "w", encoding="utf-8") as fh:
+                fh.write(brief)
+            todo.append((job, os.path.abspath(bp)))
     waves = [todo[i:i + wave] for i in range(0, len(todo), wave)]
     return waves
 
 
 def _answer_ok(path, pid):
-    """None if the answer file is good, else a short problem string."""
+    """None if the answer file is good, else a short problem string.
+
+    pid is a buyer id (the buy answer) or <id>.price (the price answer)."""
     if not os.path.exists(path):
         return "missing"
     try:
         a = _read_json(path)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return "not valid JSON"
+    if not isinstance(a, dict):
+        return "not a JSON object"
+    if pid.endswith(PRICE_SUFFIX):
+        if a.get("id") != pid[: -len(PRICE_SUFFIX)]:
+            return "id is %r, expected %s" % (a.get("id"), pid[: -len(PRICE_SUFFIX)])
+        vals = [_num(a.get(k)) for k in PRICE_FIELDS]
+        if any(v is None or v <= 0 for v in vals):
+            return "needs four prices above zero: " + ", ".join(PRICE_FIELDS)
+        return None
     missing = ANSWER_FIELDS - set(a)
     if missing:
         return "missing " + ", ".join(sorted(missing))
@@ -231,9 +295,12 @@ def _answer_ok(path, pid):
 
 def save(d, pid, text):
     """File a buyer's OWN answer that it printed instead of writing. Never used to answer for a buyer."""
-    _, cards = load_state(d)
-    if pid not in {c["id"] for c in cards}:
-        raise PanelError("no buyer %s on this panel" % pid)
+    state, cards = load_state(d)
+    buyer = pid[: -len(PRICE_SUFFIX)] if pid.endswith(PRICE_SUFFIX) else pid
+    if buyer not in {c["id"] for c in cards}:
+        raise PanelError("no buyer %s on this panel" % buyer)
+    if buyer != pid and not state.get("price_pitch"):
+        raise PanelError("this panel has no price briefs (init without --price-pitch)")
     start = text.find("{")
     if start < 0:
         raise PanelError("no JSON object in the reply")
@@ -251,12 +318,15 @@ def save(d, pid, text):
 
 
 def check(d):
-    _, cards = load_state(d)
+    state, cards = load_state(d)
+    suffixes = [""] + ([PRICE_SUFFIX] if state.get("price_pitch") else [])
     probs = []
     for c in cards:
-        p = _answer_ok(_path(d, "answers", c["id"] + ".json"), c["id"])
-        if p:
-            probs.append((c["id"], p))
+        for suffix in suffixes:
+            job = c["id"] + suffix
+            p = _answer_ok(_path(d, "answers", job + ".json"), job)
+            if p:
+                probs.append((job, p))
     return probs
 
 
@@ -283,7 +353,9 @@ def tally(d):
             skipped.append((c["id"], p))
             continue
         a = _read_json(path)
-        rows.append(dict(by_id[c["id"]], **{k: v for k, v in a.items() if k != "id"}, id=c["id"]))
+        # The card wins: an answer that adds its own "income" or "segment"
+        # must not change which group the buyer is counted in.
+        rows.append(dict({k: v for k, v in a.items() if k != "id"}, **by_id[c["id"]]))
     if not rows:
         raise PanelError("no valid answers yet: run the briefs first (panel.py prompts)")
 
@@ -322,8 +394,8 @@ def tally(d):
         "why_yes": [(k, len(v), [r["reason"] for r in v[:2]], [r["id"] for r in v[:2]]) for k, v in reasons(yes)],
         "flip": [r["would_change_my_mind"] for r in no if (r.get("would_change_my_mind") or "").strip()],
         "purchases_first_month_per_buyer": mean([_num(r.get("purchases_first_month")) for r in yes]),
-        "price_answers": sum(1 for r in rows if all(_num(r.get(k)) is not None for k in
-                                                     ("price_too_cheap", "price_cheap", "price_expensive", "price_too_expensive"))),
+        "price_answers": sum(1 for c in cards if _answer_ok(_path(d, "answers", c["id"] + PRICE_SUFFIX + ".json"),
+                                                           c["id"] + PRICE_SUFFIX) is None),
     }
     return res
 
@@ -357,7 +429,10 @@ def results_md(res):
     if res["purchases_first_month_per_buyer"] is not None:
         L += ["", "Buyers say they would buy **%.1f times** in the first month on average." % res["purchases_first_month_per_buyer"]]
     if res["price_answers"]:
-        L += ["", "%d buyers gave all four price answers. Run founder-pricing's van_westendorp.py on the answers folder." % res["price_answers"]]
+        L += ["", "%d buyers gave all four price answers, without seeing a price. Run founder-pricing's"
+              " van_westendorp.py on the answers folder." % res["price_answers"]]
+    else:
+        L += ["", "No price answers: this panel was dealt without --price-pitch."]
     return "\n".join(L) + "\n"
 
 
@@ -368,20 +443,21 @@ def main(argv=None):
     i = sub.add_parser("init")
     i.add_argument("--customer", required=True)
     i.add_argument("--pitch", required=True)
+    i.add_argument("--price-pitch", help="the pitch with every price taken out, for the price questions")
     i.add_argument("--n", type=int, default=100)
     i.add_argument("--seed", type=int)
     p = sub.add_parser("prompts")
     p.add_argument("--wave", type=int, default=WAVE)
     sub.add_parser("check")
     sv = sub.add_parser("save")
-    sv.add_argument("id")
+    sv.add_argument("id", help="a buyer id, or <id>.price for its price answer")
     t = sub.add_parser("tally")
     t.add_argument("--out")
     sub.add_parser("status")
     a = ap.parse_args(argv)
     try:
         if a.cmd == "init":
-            cards = init(a.dir, a.customer, a.pitch, a.n, a.seed)
+            cards = init(a.dir, a.customer, a.pitch, a.n, a.seed, a.price_pitch)
             st, _ = load_state(a.dir)
             print("dealt %d buyers (seed %s) into %s. Next: panel.py prompts" % (len(cards), st["seed"], a.dir))
         elif a.cmd == "prompts":
@@ -413,7 +489,9 @@ def main(argv=None):
         elif a.cmd == "status":
             st, cards = load_state(a.dir)
             probs = check(a.dir)
-            print("%d buyers dealt (seed %s), %d answered, %d to go" % (len(cards), st["seed"], len(cards) - len(probs), len(probs)))
+            jobs = len(cards) * (2 if st.get("price_pitch") else 1)
+            print("%d buyers dealt (seed %s), %d of %d briefs answered, %d to go" % (
+                len(cards), st["seed"], jobs - len(probs), jobs, len(probs)))
     except PanelError as e:
         print("error: %s" % e, file=sys.stderr)
         return 2

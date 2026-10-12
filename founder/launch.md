@@ -26,7 +26,7 @@ Target: **public App Store release Tue 8 Dec 2026**, conditional on Gate 1 (Fri 
 | 9 Nov | Exit calls + pre-order offer | Sean | 9–12 Nov |
 | 9 Nov | **GATE 1** | Sean | **Fri 13 Nov** |
 | 16 Nov | **Launch build** (What to ask for, share card, sample menu, rating prompt, `ct=` links) | Claude | Fri 27 Nov |
-| 16 Nov | Google pre-order test, $24.99 vs $34.99 | Sean | 16–29 Nov |
+| 16 Nov | Google pre-order test at two prices (not set yet: re-run the price questions first, see pricing.md) | Sean | 16–29 Nov |
 | 16 Nov | Apple Developer → Organization; App Store screenshots, listing, keywords | Sean | Fri 27 Nov |
 | 23 Nov | 10 chain pages live | Sean + RD | Tue 24 Nov |
 | 30 Nov | **Submit to App Store (manual release)** | Sean | Mon 30 Nov |

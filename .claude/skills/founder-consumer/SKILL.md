@@ -55,15 +55,25 @@ Write `founder/pitch.md`: what a buyer would actually see. The product, the pric
 where and how to get it, any opening offer. Three to six plain lines, no
 superlatives, nothing the business cannot deliver. Every buyer sees exactly this.
 
+Then write `founder/pitch-no-price.md`: the same pitch with every price and
+discount taken out, but still saying how it is sold ("a yearly subscription", "per
+cup"). The four price questions are asked from this one, in a separate brief, so
+a buyer is never asked what the product is worth right after being told its
+price: the answers would cluster around that price and measure it back. `init`
+refuses a price pitch that still shows a price.
+
 ## Step 3: deal and run
 
 ```bash
-PANEL init --customer founder/customer.json --pitch founder/pitch.md --n 100
+PANEL init --customer founder/customer.json --pitch founder/pitch.md \
+  --price-pitch founder/pitch-no-price.md --n 100
 PANEL prompts
 ```
 
 `init` deals the persona cards (same seed, same cards; the seed is recorded).
-`prompts` writes one brief per buyer and lists them in waves of 10. For each wave,
+`prompts` writes two briefs per buyer, `<id>` (would they buy) and `<id>.price`
+(the price questions), and lists them in waves of 10. Every brief gets its own
+sub-agent: never give one sub-agent both briefs for the same buyer. For each wave,
 send ONE message with one Agent tool call per buyer in that wave (the Agent tool
 is called Task in older Claude Code versions):
 
@@ -72,7 +82,7 @@ is called Task in older Claude Code versions):
 - `prompt`: `Read <brief path> and follow it exactly. It is your whole brief.`
 
 Wait for the whole wave before the next one. Claude Code runs about 10 tool calls
-at once by default, so 100 buyers is 10 waves. After the last wave:
+at once by default, so 100 buyers is 20 waves (10 without price briefs). After the last wave:
 
 ```bash
 PANEL check      # lists missing or broken answers
@@ -85,7 +95,7 @@ file its own reply with `PANEL save <id>` and the reply on stdin; `save` refuses
 anything that is not a valid answer. A buyer that fails twice is left out and
 counted in the results. Never write an answer for a buyer yourself.
 
-Before a 100-buyer run, tell the user it is 100 sub-agent calls and suggest
+Before a 100-buyer run, tell the user it is 200 sub-agent calls and suggest
 `--quick` (20 buyers) for a first look. Sub-agents write one file each into
 `founder/panel/answers/`; in the default permission mode that is one approval per
 file, so suggest accept-edits mode (Shift+Tab) for the run.
@@ -115,9 +125,10 @@ before signing anything. Do not present panel quotes as customer testimonials.
 the buyer is (name, age, segment, income, buying behaviour, a habit, the doubt
 that comes to mind), the pitch word for word, an instruction not to be agreeable
 and not to invent facts, and the exact JSON to write: buys, purchases in the first
-month, a reason code, the reason in their own voice, their main objection, what
-would change their mind, and four price answers (too cheap, a bargain, getting
-expensive, too expensive). Never edit a brief for one buyer.
+month, a reason code, the reason in their own voice, their main objection, and
+what would change their mind. The price brief (`PRICE_BRIEF`) has the same buyer
+and the price-free pitch, and asks the four price answers (too cheap, a bargain,
+getting expensive, too expensive). Never edit a brief for one buyer.
 
 ## Output
 

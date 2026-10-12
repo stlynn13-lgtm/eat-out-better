@@ -24,7 +24,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 `founder/` holds the results of six founder skills (summary artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab). Three asks for Sean:
 - **Add two questions to the repeat-use exit calls:** "Did you scan at the table or before you went?" and "Would a dietitian's name on it change anything?"
 - **Added to `backlog.md` as #21 (2026-10-12):** "Check the menu before you go". The v0 (tell people screenshots work) costs nothing; ship it with the next over-the-air copy update.
-- **Run the November pre-order test at $24.99 and $34.99,** not $39.99.
+- **No pricing recommendation from this pack.** Its price range ($5 to $35, and "test $24.99 against $34.99") was withdrawn: the simulated buyers answered the price questions right after reading "$39.99 a year", so the range measured that price back. Before choosing the November pre-order test prices, re-run the price questions on a pitch with no price (`founder-consumer --price-pitch`).
 
 ---
 

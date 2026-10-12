@@ -32,7 +32,7 @@ matcha café). It needs:
 | --- | --- |
 | `unit` | what one sale is: a cup, an order, a client-month, a seat |
 | `price` | price per unit before tax |
-| `variable` | the cost of ONE unit: ingredients, packaging, shipping, card fees, per-sale commissions |
+| `variable` | the cost of ONE unit: ingredients, packaging, shipping. A cost that is a share of the price (app store cut, card fees, commission) is `{label, pct}` with e.g. `0.15`, so it follows `--price` |
 | `fixed_monthly` | what you pay every month regardless: rent, salaries, software, insurance |
 | `startup` | one-off spend before opening: deposits, build-out, equipment, first inventory, launch ads |
 | `plan_per_day` | the volume once it is up and running |
