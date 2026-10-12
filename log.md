@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-10-12 — Anthropic SDK updated to 0.131
+
+**What changed.** The API's Anthropic SDK went from 0.100.1 to 0.131.0, the version Sean scan-tested on Dependabot's #62 preview. Only the SDK moved. Dependabot's replacement (#100) also pushes Next.js back to 16.4.0, which failed to deploy on Vercel on 2026-10-11, so it wasn't merged.
+
+**Why it matters.** Stays on a supported SDK. Nothing the app does changes.
+
+**Worth knowing.** The root `package.json` pin of `zod` 3.22.4 under the SDK no longer has any effect: the SDK only lists zod as optional and now gets zod 4, and the API code doesn't use zod. It can be removed in a later cleanup.
+
+---
+
 ## 2026-10-12 — Fewer "couldn't fully assess" dishes
 
 **What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
