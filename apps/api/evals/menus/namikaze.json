@@ -6,7 +6,13 @@
     "restaurant": "Namikaze",
     "url": "https://namikazerestaurant.com/wp-content/uploads/2023/07/namikaze-menu-2023.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px",
+    "pages": [
+      1,
+      2,
+      3,
+      4
+    ]
   },
   "photos": [
     "p1.jpg",

@@ -6,7 +6,11 @@
     "restaurant": "Ruan Thai",
     "url": "https://ruanthaiwheaton.com/wp-content/uploads/2022/02/RuanThai-Restaurant-Menu.pdf",
     "fetched": "2026-10-04",
-    "kind": "restaurant website PDF, rendered to JPEG at 1600px"
+    "kind": "restaurant website PDF, rendered to JPEG at 1600px",
+    "pages": [
+      1,
+      2
+    ]
   },
   "photos": [
     "p1.jpg",

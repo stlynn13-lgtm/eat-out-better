@@ -56,7 +56,7 @@ export const SUPPORT_EMAIL = "support@eatoutbetter.com";
  * homepage copy changes. Bump GUIDE_REVIEWED only when the guide's claims have
  * actually been re-checked: the page publishes it as "Last reviewed".
  */
-export const HOME_MODIFIED = "2026-10-09";
+export const HOME_MODIFIED = "2026-10-11";
 export const GUIDE_REVIEWED = "2026-10-06";
 
 export const PRODUCT = {
@@ -64,24 +64,51 @@ export const PRODUCT = {
   tagline: "Know what to order before the server comes back.",
   /** The one sentence an extractor should be able to lift verbatim. */
   definition:
-    "Eat Out Better is an iPhone app for people managing high cholesterol: photograph any restaurant menu and it scores every dish from 1 to 10 for its likely effect on your cholesterol, explains why in plain English, and suggests a simple swap to make a dish work better for you.",
+    "Eat Out Better is an iPhone app for people managing high cholesterol: photograph any restaurant menu and it scores every dish from 1 to 10 for its likely effect on your cholesterol, ranks them best to worst, and explains each score in plain English.",
   shortDescription:
-    "Snap a restaurant menu. Every dish gets a 1–10 cholesterol score, the reason why, and an easy swap.",
+    "Snap a restaurant menu. Every dish gets a 1–10 cholesterol score and the reason why.",
   platform: "iOS",
   category: "HealthApplication",
   publisher: "Dine Right LLC",
 } as const;
 
+/**
+ * What the app covers today, one plain line each, for answer engines to quote.
+ * Same rule as above: only what ships. Alcohol is read off the menu but not
+ * scored (EAT-20); desserts and non-alcoholic drinks are scored on added sugar.
+ */
+export const COVERAGE = [
+  "Restaurant food: every dish on a photographed menu, scored 1–10 and ranked best to worst.",
+  "Desserts and non-alcoholic drinks (sodas, shakes, sweet coffee drinks, mocktails): scored too, with added sugar counting against them.",
+  "Alcoholic drinks: listed from the menu but not scored yet.",
+  "Any cuisine and any printed or posted menu, including bar and pub menus.",
+] as const;
+
+/**
+ * Where the product is going. Planned, NOT available: every surface must say so,
+ * or an answer engine will tell someone with diabetes to download an app that
+ * can't help them yet. Order follows plan.md ("More conditions"); keep in sync.
+ */
+export const ROADMAP = {
+  vision:
+    "Eat Out Better is built to help anyone eat better at restaurants and bars, one diet need at a time. Each condition is added as its own scoring rules on the same engine, so the next ones don't need a new app.",
+  conditions: [
+    "High blood pressure (sodium)",
+    "Type 2 diabetes and prediabetes (carbohydrates and added sugar)",
+  ],
+  note: "Planned, not yet available. Today the app scores for high cholesterol only.",
+} as const;
+
 export const SCORE_BANDS = [
   { tier: "green", range: "7–10", label: "Top pick", body: "A great choice for your heart." },
-  { tier: "yellow", range: "4–6.9", label: "In moderation", body: "Okay now and then. Small swaps help." },
+  { tier: "yellow", range: "4–6.9", label: "In moderation", body: "Okay now and then." },
   { tier: "red", range: "1–3.9", label: "Enjoy occasionally", body: "Fine as a treat, not every day." },
 ] as const;
 
 export const FAQ = [
   {
     q: "What does Eat Out Better do?",
-    a: "You take a photo of a restaurant menu and the app reads every dish, scores each one from 1 to 10 for how it's likely to affect your cholesterol, ranks them best to worst, and tells you why in plain English. Where it helps, it suggests a swap, like dressing on the side or grilled instead of fried.",
+    a: "You take a photo of a restaurant menu and the app reads every dish, scores each one from 1 to 10 for how it's likely to affect your cholesterol, ranks them best to worst, and tells you why in plain English, so you can see what's driving each score.",
   },
   {
     q: "How is a dish scored?",
@@ -104,7 +131,15 @@ export const FAQ = [
     a: "No. Scores are informed estimates from a dish's name and description, not lab measurements, and they're general dietary information. Talk to your doctor about your own needs.",
   },
   {
-    q: "Is it on Android? What about other conditions?",
-    a: "iPhone first. High cholesterol is the first condition; others are planned, but we'd rather do one well before adding more. Join the list and we'll tell you when they arrive.",
+    q: "Does it work at bars?",
+    a: "Yes for food and soft drinks: bar and pub menus scan like any other, and non-alcoholic drinks and desserts are scored with added sugar counting against them. Alcoholic drinks are listed but not scored yet.",
+  },
+  {
+    q: "Is it only for high cholesterol?",
+    a: "For now, yes. High cholesterol is the first condition. High blood pressure (sodium) is planned next, then type 2 diabetes and prediabetes, on the same scoring engine. They aren't available yet; join the list and we'll tell you when they arrive.",
+  },
+  {
+    q: "Is it on Android?",
+    a: "Not yet. Eat Out Better is iPhone first.",
   },
 ] as const;

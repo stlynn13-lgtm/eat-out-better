@@ -1,5 +1,7 @@
 "use server";
 
+import { waitlistSource } from "@/lib/campaign";
+
 export type WaitlistState = { status: "idle" | "ok" | "invalid" | "busy" | "error"; email?: string };
 
 /**
@@ -14,7 +16,7 @@ export async function joinWaitlist(_prev: WaitlistState, form: FormData): Promis
   if (String(form.get("company") ?? "").trim()) return { status: "ok" };
 
   const email = String(form.get("email") ?? "").trim();
-  const source = String(form.get("source") ?? "web").slice(0, 40);
+  const source = waitlistSource(String(form.get("source") ?? "web"), String(form.get("campaign") ?? ""));
   if (!email || email.length > 254 || !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) {
     return { status: "invalid", email };
   }

@@ -9,7 +9,6 @@ import {
   Animated,
   ActivityIndicator,
   StyleSheet,
-  useWindowDimensions,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { CameraView, type CameraOrientation } from "expo-camera";
@@ -83,14 +82,16 @@ export default function CaptureScreen() {
   // moving the button inside the photo, where it would cover the menu.
   const trayOverhang = Math.ceil(removeBtnSize / 2) + 2;
 
-  // Viewfinder height scales with the screen instead of a fixed 280pt. The
-  // controls and tray below grew in this pass, and on a short phone (SE) a
-  // fixed height pushed the Analyze button off the bottom — this screen has no
-  // ScrollView, so the flex spacer just collapsed and content was cut.
-  const { height: screenHeight } = useWindowDimensions();
-  const viewfinderHeight = Math.round(
-    Math.min(360, Math.max(240, screenHeight * 0.38))
-  );
+  // The viewfinder takes whatever height is left after the header, controls
+  // and photo tray, between these bounds. It used to be a fixed share of the
+  // screen (38%), which fit an empty screen but not one with photos added: the
+  // tray appeared below it, there was no room, and the Analyze button was
+  // pushed off the bottom of a screen that couldn't scroll (Ray, 2026-10-12, a
+  // regular iPhone with a larger text size). Now the viewfinder shrinks to make
+  // room, the body scrolls if even the minimum doesn't fit, and the Analyze
+  // button sits in a footer that never moves.
+  const VIEWFINDER_MIN = 220;
+  const VIEWFINDER_MAX = 360;
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -370,7 +371,15 @@ export default function CaptureScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="flex-1 px-5 pt-4">
+      {/* Body scrolls only when it can't fit (small phone, large text); the
+          footer below stays put, so Analyze is always on screen. flexGrow lets
+          the viewfinder expand into spare height when everything fits. */}
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingTop: 16 }}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
         <View className="flex-row items-center gap-3 mb-5">
           <TouchableOpacity
@@ -392,7 +401,7 @@ export default function CaptureScreen() {
         {/* Camera viewfinder */}
         <TouchableOpacity
           className="w-full rounded-2xl overflow-hidden bg-gray-900"
-          style={{ height: viewfinderHeight }}
+          style={{ flex: 1, minHeight: VIEWFINDER_MIN, maxHeight: VIEWFINDER_MAX }}
           onPress={handleViewfinderPress}
           activeOpacity={status === "active" ? 1 : 0.8}
         >
@@ -638,9 +647,11 @@ export default function CaptureScreen() {
             </Text>
           </View>
         )}
+        <View className="h-2" />
+      </ScrollView>
 
-        <View className="flex-1" />
-
+      {/* Footer: never scrolls, never gets pushed off screen. */}
+      <View className="px-5">
         {/* Warn only when the allowance is nearly gone. Showing a counter from
             the first scan makes a generous limit feel like a meter running. */}
         {quota && !quota.exhausted && quota.remaining <= 2 ? (
@@ -650,7 +661,7 @@ export default function CaptureScreen() {
         ) : null}
 
         <TouchableOpacity
-          className={`rounded-xl py-4 items-center mt-4 mb-2 ${
+          className={`rounded-xl py-4 items-center mt-3 mb-2 ${
             localPhotos.length === 0 || isProcessing || quota?.exhausted
               ? "bg-gray-300"
               : "bg-brand-900"

@@ -6,6 +6,119 @@
 
 ---
 
+## 2026-10-12 — Fewer "couldn't fully assess" dishes
+
+**What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
+
+- **A failed batch now gets one retry**, inside the same 30-second budget scoring already had, so a scan still fits Vercel's 60-second limit. A batch that failed fast (busy API, rate limit, an unreadable reply) gets a second try. One that used up the whole 30 seconds still falls back as before.
+- **A reply with a sentence of text around the scores is now read correctly.** Before, any text outside the list made the whole batch unreadable.
+
+**Why it matters.** Each failed batch put several real dishes at a meaningless neutral 5.0. A retry costs about a cent and only happens when something already went wrong.
+
+**Worth knowing.**
+- Not confirmed which of the two causes hit that scan: the Vercel logs weren't readable from the session. Search the logs for `[Ranking]` on the next bad scan. `Retrying` means the retry fired, and `Chunk … failed` after it means the retry failed too.
+- The retry itself has no automated test (it would need a fake Claude client). The reading fix is covered in `npm run test:dishmatch`.
+
+---
+
+## 2026-10-12 — Waitlist now records which link a signup came from
+
+**What changed**
+
+- **A signup now stores the campaign tag as well as the button.** Links like `eatoutbetter.com/get?src=rd-smith` (or a direct `/?src=rd-smith`) now show up in `waitlist_signups` as `final__rd-smith` instead of just `final`. Before this, `/get` passed the tag along as `?ref=` but the form never read it, so every signup looked the same whichever link sent it. The repeat-use test's three-source channel test depends on telling those apart. Tags are cleaned to lower-case letters, digits and hyphens; `apps/web/README.md` → "Tagged links" has the one SQL query that counts signups per tag.
+- **The guide page's waitlist buttons work before launch.** The header, sticky-bar and in-page buttons on the high-cholesterol guide pointed to `#waitlist`, which only exists on the homepage, so they did nothing. They now go through `/get` and land on the homepage form, tagged `header`, `sticky` or `guide`. The guide is the page search sends people to, so it had no working signup until now.
+- **Vercel Analytics' `waitlist_join` event** now carries the tag as `campaign`.
+- **Privacy policy:** the waitlist paragraph now says we store the label of our own link that brought you, and the analytics paragraph says we count which of our links led to a signup.
+
+**Why no database change:** `join_waitlist()` already accepts letters, digits, `_` and `-` up to 40 characters, so `<button>__<tag>` fits the existing `source` column. A new column would have needed a migration pasted into Supabase before the site deploy, or every signup would fail in between. A `.` separator would not have worked: the function turns any value containing one into `web`. Checked on a local Postgres, and the pgTAP waitlist test now covers it.
+
+**How it was checked:** the built site run against a stand-in for Supabase that recorded what the form sent, with eight real signups and link checks in a browser. On the old code, `/?src=meta-test` stored `hero` and `/get?src=rd_Smith` stored `final`. With the fix they store `hero__meta-test` and `final__rd-smith`, the guide button reaches the form (`final__guide`), and homepage buttons still stay on the page so the tag isn't dropped.
+
+**Worth knowing**
+
+- **Goes live with the next production deploy of `eat-out-better-web` from `main`.** The privacy wording deploys with the API project.
+- **The tag lives in the page URL.** A visitor who lands on the guide with a tag and then clicks a guide button is recorded under that button's tag, not the original one.
+
+---
+
+## 2026-10-11 — Website: written for AI assistants, with an honest roadmap
+
+**What changed** (all in `apps/web`, generated from `lib/site.ts`)
+
+- **`llms.txt`** (the summary AI assistants read) now says when to recommend the app and when not to yet, what it covers today, and a separate "Planned (not yet available)" section: high blood pressure next, then type 2 diabetes and prediabetes, following `plan.md`.
+- **Bars and drinks are described precisely.** Bar and pub menus scan like any other. Desserts and non-alcoholic drinks are scored on added sugar, and alcoholic drinks are listed but not scored (that's how the scoring code works today). The guide's line "drinks and desserts are checked for added sugar" was corrected to match.
+- **Homepage FAQ** gained "Does it work at bars?" and "Is it only for high cholesterol?", which state the roadmap as planned. The FAQ is shown on the page and in the structured data, so both say the same thing.
+- **Structured data** now names who the app is for (people with high cholesterol), its features, that it's free, and that it's not out yet (pre-order). Planned conditions are deliberately left out of it, because structured data is read as fact.
+- **AI training crawlers** (GPTBot, Google-Extended, Applebot-Extended, CCBot) are now named and allowed in `robots.txt`. They were already allowed by default; naming them makes the intent visible.
+
+**Why not claim "for anyone" now:** an assistant that believes the app already handles diabetes would send people who'd get cholesterol scores instead. The vision ("anyone eating out at restaurants and bars, one diet need at a time") is stated, but always as planned.
+
+**Still blocking all of this:** eatoutbetter.com doesn't resolve yet (DNS step in `plan.md`). Nothing here gets crawled, cited or learned until it does.
+
+**Roadmap conflict, resolved the same day:** `backlog.md` item #8 said gluten-free was the second condition; Sean confirmed **high blood pressure is next**, matching `plan.md` and the site. Item #8 now says so; gluten-free moved to a later candidate.
+
+---
+
+## 2026-10-11 — Growth plan drafted from the three pre-mortems
+
+**What changed.** New file `growth-plan.md`, with a short summary at the top of `plan.md`. No code. It combines the idea, pricing and go-to-market pre-mortems into one plan with dates, owners and pass/fail gates from 2 users to 1 million, plus timing (day and hour) for each channel, a cash budget through January (about $2,700), and ready-to-paste templates. An interactive checklist version lives in a private claude.ai artifact (link in the file).
+
+**Why it matters.** None of the three pre-mortems set a single number to hit, and all three found the same constraint: repeat use, a paywall that rarely appears, and paid installs that lose money, not a lack of interest. The plan puts the repeat-use test first, moves the paywall to day 0 by gating how much of each menu is free rather than how many scans, and grows through clinicians, chain-menu search pages and short video before any paid scaling.
+
+**Found along the way**
+
+- **The waitlist doesn't record the `?src=` campaign tag.** It saves which button was clicked, so the three-source channel test can't be read from it as planned.
+- **`plan.md` said there was no analytics**, but the app already sends PostHog funnel events.
+- **The pricing pre-mortem's $300 Apple Ads test can't run before launch:** Apple Ads only lead to a live App Store listing.
+- **1 million users isn't reachable on cholesterol-only iPhone.** The plan targets 100,000 on "heart health" (adding blood pressure) by the end of 2027.
+
+**Not decided.** Sean hasn't agreed to any of it. Nothing is built.
+
+---
+
+## 2026-10-11 — API moved to Next 16; linting works again
+
+**What changed.** The API (`apps/api`) now runs on Next 16 (pinned to 16.3.8, the version Dependabot's preview deployed cleanly; the first push on 16.4.0 failed its Vercel preview for a reason not yet known) with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
+
+- `npm run lint` now runs `eslint .` with a new `eslint.config.mjs`. Next 16 removed the old `next lint` command, and the API never had a lint config anyway, so lint hasn't actually run on it before. It now passes.
+- The privacy and terms pages are exempt from the "escape every apostrophe" rule (it's legal prose). Offline eval scripts may use loose types.
+- The root `zod` pin to 3.22.4 now applies only to the Anthropic SDK. Applied everywhere, it broke the new lint tooling, which needs zod 4.
+- Next 16 rewrote `apps/api/tsconfig.json` on first build (JSX setting and a new types path). That is committed so builds don't keep changing it.
+
+**Why it matters.** Keeps the API on a supported framework version and gives it a working lint step. No change to what the app or the API does.
+
+**Worth knowing.**
+- Checked here: clean `npm ci`, lint, typecheck, `next build`, and all seven offline test suites pass. **Not checked:** a real scan against the Vercel preview, since this session has no API key. Do one scan on the PR's preview before merging.
+- ESLint 10 (#63) is not used: the React, import and accessibility lint plugins don't support it yet.
+
+---
+
+## 2026-10-10 — Marketing site pinned to Node 22
+
+**What changed.** `apps/web/package.json` now says `"node": "22.x"` instead of `">=20"` (lockfile updated to match). No code change.
+
+**Why it matters.** `>=20` meant Vercel picked the newest Node version it supported, so the site's runtime could change without a commit. Pinning to 22.x makes deploys match what we test locally (Node 22) and clears the "Node.js Version Override" warning on `eat-out-better-web`. If the Vercel project's own Node setting (Settings → Build and Deployment) is different, the repo value wins. The API project is unchanged.
+
+---
+
+## 2026-10-10 — Website no longer promises swaps
+
+**What changed**
+
+- **Every place the website said the app suggests a swap now says what it does: a 1–10 score and the reason why.** That covers the homepage hero, the "Ranked for your heart" step, the "Not a list of things you can't have" section (now: every score tells you what's driving it, and the call is yours), the search-result description, the footer and AI-assistant descriptions, the FAQ, the yellow score band and the guide's closing call to action.
+- **The homepage demo dishes no longer show "Make it better" boxes**, and the floating "Make it better" note beside the hero phone is now a "Why it scored high" note. The demo was showing a feature the app doesn't have. The box comes back automatically if a sample dish is given a swap again.
+- **The ordering guide keeps its swap advice** (the "Easy swap" line per cuisine, the five-swaps list). That's general advice for the reader, not a claim about the app. The one guide line that sat under "How does Eat Out Better rate dishes" now points to those swaps instead of implying the app supplies one.
+
+**Why it matters.** The scoring API returns no swap for any dish. The app stopped promising swaps earlier today; the site was the last place still doing it, and the site is what waitlist signups and repeat-use test recruits see first.
+
+**Worth knowing**
+
+- **Goes live with the next production deploy of `eat-out-better-web` from `main`.**
+- **The launch reel on the site still shows the old step 3 line** ("Easy swaps to ask your server for") in its small home-screen card for about two seconds.
+- **CLAUDE.md still lists "Substitution-forward" as a product principle.** Nothing ships it now. See `plan.md`, NOW item 9.
+
+---
+
 ## 2026-10-10 — Pre-mortem on the positioning
 
 **What changed.** Ran the `kill-my-idea` skill against the positioning (the app's home screen, the homepage, `landing-page-prompt.md`, and the product principles) and wrote the result into `plan.md` ("Positioning pre-mortem"). No code.

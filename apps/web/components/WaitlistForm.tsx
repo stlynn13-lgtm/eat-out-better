@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useEffect, useId } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
 import { track } from "@vercel/analytics";
 import { joinWaitlist, type WaitlistState } from "@/app/actions";
+import { campaignFromSearch } from "@/lib/campaign";
 
 const MESSAGES: Record<Exclude<WaitlistState["status"], "idle" | "ok">, string> = {
   invalid: "That email doesn't look right. Check it and try again.",
@@ -21,10 +22,14 @@ export default function WaitlistForm({
   const [state, action, pending] = useActionState(joinWaitlist, { status: "idle" });
   const id = useId();
   const dark = tone === "dark";
+  // Read after mount: the page is static, so the server never sees the query string.
+  // Without JavaScript the form still works, just without the tag.
+  const [campaign, setCampaign] = useState("");
+  useEffect(() => setCampaign(campaignFromSearch(window.location.search)), []);
 
   useEffect(() => {
-    if (state.status === "ok") track("waitlist_join", { placement: source });
-  }, [state.status, source]);
+    if (state.status === "ok") track("waitlist_join", campaign ? { placement: source, campaign } : { placement: source });
+  }, [state.status, source, campaign]);
 
   if (state.status === "ok") {
     return (
@@ -50,6 +55,7 @@ export default function WaitlistForm({
   return (
     <form action={action} className="w-full" noValidate>
       <input type="hidden" name="source" value={source} />
+      <input type="hidden" name="campaign" value={campaign} />
       {/* Honeypot */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>

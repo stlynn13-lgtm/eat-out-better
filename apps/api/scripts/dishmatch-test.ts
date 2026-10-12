@@ -15,7 +15,7 @@
  *   npm run test:dishmatch
  */
 
-import { parseRankingResponse } from "../src/lib/claude/ranking";
+import { parseRankingResponse, extractRankingArray } from "../src/lib/claude/ranking";
 import {
   normalizeDishName,
   namesPlausiblyMatch,
@@ -209,6 +209,26 @@ check(
 check(
   "an undescribed dish never matches the description rule",
   !matchesNameWithDescription(d("HALF AVOCADO"), "HALF AVOCADO — anything at all")
+);
+
+// ---------------------------------------------------------------
+// 6. A reply with prose around the JSON must not lose the whole batch
+// ---------------------------------------------------------------
+console.log("\n6. Prose around the JSON array");
+const proseMenu = [d("Grilled Salmon"), d("Fried Chicken")];
+const arr = '[{"item":1,"name":"Grilled Salmon","satFatG":2,"explanation":"x"},{"item":2,"name":"Fried Chicken","satFatG":9,"explanation":"y"}]';
+const prose = parseRankingResponse(`Here are the scores:\n${arr}\nLet me know if you need more.`, proseMenu);
+check(
+  "both dishes scored when the array is wrapped in prose",
+  prose.every((r) => r.estimates !== undefined),
+  JSON.stringify(prose.map((r) => r.explanation))
+);
+check("fenced JSON still parses", extractRankingArray("```json\n" + arr + "\n```")?.length === 2);
+check("truncated JSON is rejected, not half-read", extractRankingArray(arr.slice(0, 60)) === null);
+check("a JSON object instead of an array is rejected", extractRankingArray('{"name":"x"}') === null);
+check(
+  "an unusable reply still falls back to neutral for every dish",
+  parseRankingResponse("sorry, I can't help", proseMenu).every((r) => r.score === 5.0 && !r.estimates)
 );
 
 // ---------------------------------------------------------------

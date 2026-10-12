@@ -9,7 +9,7 @@
     "type-check": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

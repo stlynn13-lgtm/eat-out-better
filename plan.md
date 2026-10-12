@@ -2,8 +2,20 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-11
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
+
+---
+
+## Growth plan (proposed 2026-10-11, not decided)
+
+`growth-plan.md` turns the three pre-mortems below into one dated plan with pass/fail gates: prove repeat use by **Fri 13 Nov** (Gate 1, the repeat-use test below), launch **Tue 8 Dec**, paywall live **Mon 4 Jan** for the resolution wave, American Heart Month push in **February**, 10,000 installs by **30 Apr 2027**, 100,000 by **end of 2027** on "heart health". Each phase starts only if the gate before it passes. It also lists what the plan was missing.
+
+Two things it found that block the repeat-use test as written:
+- **Fixed 2026-10-12 (live after the next deploy of `eat-out-better-web` from `main`): the waitlist now records the `?src=` tag.** It used to save only the button (`hero` or `final`). A signup now reads `<button>__<tag>`, e.g. `final__rd-smith`; the per-tag query is in `apps/web/README.md` → "Tagged links". The guide page's three waitlist buttons, which led nowhere before launch, now reach the waitlist too.
+- **This file says there is no analytics, but the app already sends PostHog funnel events** (`apps/mobile/lib/analytics.ts`). Check they arrive and use them as a second usage source.
+
+And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
 
 ---
 
@@ -101,7 +113,7 @@
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
 7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
 8. **Run the repeat-use test** (spec at the top of this file). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
-9. **Swaps: the app's explainer copy no longer promises them, but the website still does.** Home screen step 3 now reads "Know what drives each score", and the How it works screen dropped "a simple swap" from step 3 and "small swaps help" from the yellow score line (both ship with the next over-the-air update). Still promising a swap the app never shows, because the API returns none: the website (homepage hero and feature copy, meta description in `apps/web/app/layout.tsx`, guide CTA). The "Helpful swaps" chip is gone from the post-scan feedback sheet too (same update). Decide: build swaps, or reword the site. Either way, CLAUDE.md's "Substitution-forward" principle no longer matches what ships.
+9. **Swaps: no longer promised in the app or on the website.** App: home screen step 3, the How it works screen and the "Helpful swaps" feedback chip (ship with the next over-the-air update). Website: hero, feature copy, the trade-offs section, the meta and footer descriptions, the FAQ, the score bands and the guide CTA; the homepage demo dishes no longer show "Make it better" boxes (goes live on the next deploy from `main`). The ordering guide keeps its swap advice, because that is general dietary guidance, not a claim about the app. Two loose ends: the launch reel on the site still shows the old step 3 line for about two seconds (re-render from `brag-output/work/`), and CLAUDE.md's "Substitution-forward" principle no longer matches what ships. Decide whether swaps get built (then restore the copy) or the principle gets rewritten.
 
 **Don't undo:** scoring runs at `temperature: 0`. Don't raise it without re-running `npm run test:repeatability`.
 
@@ -161,7 +173,7 @@
 **Also noted.** "Launch" currently runs before the repeat-use test result. If that test fails, install-chasing spend is wasted. The expanded TestFlight of 10 to 20 testers, filed under LATER, is in effect that test and belongs first.
 
 **Three cheap tests, in this order.**
-1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist already records. Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
+1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist records (since the 2026-10-12 fix; see the growth-plan summary above). Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
 2. **Ask one extra question on the 15-minute calls (free):** "When did you decide what to order, before arriving or at the table?" Pass for the product as built: at least half say at the table. Otherwise the planning moment is the product, and the guide funnel fits better than the app.
 3. **Check keyword demand before building anything around App Store search (free).** Pull popularity scores for about 10 cholesterol and menu terms; I believe Apple's Search Ads keyword tool shows these without spending, but I haven't confirmed that. Set the pass threshold before looking.
 
