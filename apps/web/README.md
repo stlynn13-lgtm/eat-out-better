@@ -48,3 +48,19 @@ Events: `video_play` and `video_complete` (once each per page view) in Vercel An
 ## Reading the waitlist
 
 Supabase dashboard → Table Editor → `waitlist_signups` (newest first, numbered; "Export to CSV" in the same screen). That is the only copy: there are no per-signup emails. The publishable key can only add rows, never read them.
+
+## Tagged links (which channel a signup came from)
+
+Give every outside link its own tag: `https://eatoutbetter.com/get?src=rd-smith`. Use lower-case letters, digits and hyphens (underscores are turned into hyphens). Before launch `/get` redirects to `/?ref=rd-smith#waitlist`; a direct `/?src=rd-smith` link works too. After launch the same link sends iPhones to the App Store with `ct=rd-smith`, so App Store Connect counts installs per tag and nothing needs reprinting.
+
+The signup's `signed_up_from` then reads `<button>__<tag>`, for example `final__rd-smith`; an untagged visit is just `hero` or `final`. Signups per tag, in Supabase → SQL Editor:
+
+```sql
+select coalesce(nullif(split_part(signed_up_from, '__', 2), ''), '(untagged)') as tag,
+       count(*) as signups
+from public.waitlist_signups
+group by 1
+order by 2 desc;
+```
+
+The tag lives in the page URL, so it's lost if the visitor clicks through to another page first; the guide's buttons pass their own tag (`header`, `sticky`, `guide`) so those signups still show where they came from. Vercel Analytics' `waitlist_join` event carries the same `campaign`. Code: `lib/campaign.ts`.
