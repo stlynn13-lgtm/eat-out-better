@@ -18,6 +18,9 @@
 - **At least 9 direct menu-scanner competitors exist,** with no leader and none built for a specific condition. The real competitor is a free chatbot.
 
 **Not decided.** None of the pricing or positioning changes has been agreed.
+
+---
+
 ## 2026-10-12 — Fewer "couldn't fully assess" dishes
 
 **What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
