@@ -2,8 +2,76 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-11
+**Last updated:** 2026-10-12
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
+
+---
+
+## Pre-launch plan (2026-10-12, recommended, not yet decided)
+
+**The call.** Treat the next four weeks as one test, not as marketing. Recruit 21 strangers from three tagged sources and run the repeat-use test. Which source brings people who come back decides every channel after that. Product Hunt, LinkedIn as a route to users, paid acquisition and the paywall build all wait until **Gate 1 (Fri 13 Nov)**.
+**The biggest risk is demand, not awareness.** Nobody outside Sean and Ray has shown they come back, and 0 of 20 simulated buyers would pay (`founder/`). A launch that brings in installs from people who use it once burns the ratings window and the January and February calendar moments.
+Sources: `growth-plan.md` (dates and gates), `founder/` (competitors, buyer panel, pricing), and the `eob-launch-plan` skill run on 2026-10-12.
+
+### Priority 0: this week. Nothing downstream can be measured without these.
+
+| # | Do this | Why | Owner | Due |
+|---|---|---|---|---|
+| 1 | Try 1.5.0 (1) on a phone; confirm PostHog shows `menu_analysis_completed` | Testers move to this build; activation is measured from this event | Sean | Mon 12 Oct |
+| 2 | Point eatoutbetter.com at Vercel (DNS) and click Enable on Web Analytics | Tagged signups and search traffic count for nothing until the domain resolves | Sean | Wed 14 Oct |
+| 3 | Run `20261010000000_waitlist_single_list.sql`, delete the `notify-waitlist` edge function, paste the Terms 1.1 EULA into App Store Connect | The privacy policy already promises the single-list behaviour; Apple's default EULA has no medical or AI-accuracy disclaimer | Sean | Wed 14 Oct |
+| 4 | Create the external TestFlight group and submit for Beta App Review | Takes about 5 working days, and the test can't start without it | Sean | Tue 13 Oct |
+| 5 | Request a D-U-N-S number; enroll in the Small Business Program | Guideline 5.1.1(ix): health apps should come from a legal entity. Without the program Apple's cut is 30%, not 15% | Sean | Tue 13 Oct |
+| 6 | Check that `menu_photo_captured` records camera vs library | It is the cheapest real answer to "do people scan at the table?" | Claude | Wed 14 Oct |
+| 7 | Backlog #21 v0: tell users that screenshots of a restaurant site or delivery app work | Costs nothing; tests the "check before you go" finding | Claude, then Sean publishes | next over-the-air update |
+
+### Priority 1: the test itself (through Gate 1)
+
+| # | Do this | Why | Owner | Due |
+|---|---|---|---|---|
+| 8 | Recruit 21 testers, 7 per source: a dietitian or cardiology practice (`rd-*`), a community that allows it, a $150 ad (`meta-test`). At most 4 from Sean's network | The test doubles as the channel test. Friends' installs can't test the premise | Sean | Sun 18 Oct |
+| 9 | Sign a dietitian advisor (about $500 or a small equity grant); show their name in the app and on the guide | Trust was the second-largest objection (5 of 20). Same person as the guide's clinical reviewer | Sean | Fri 30 Oct |
+| 10 | Blind head-to-head: 15 real menus, the app vs ChatGPT, scored by the dietitian | "ChatGPT does it free" is the real competitor. Publish the result only if the app wins | Sean + dietitian | Fri 13 Nov |
+| 11 | Exit calls with the five questions in `backlog.md` → "Exit-call questions" | Each question decides a backlog item: table vs planning, #21, the dietitian's name, the head-to-head | Sean | 9–12 Nov |
+| 12 | Apple featuring nomination for Heart Month (February) | Apple asks for up to three months' notice | Sean | Mon 2 Nov |
+| 13 | Specs for "What to ask for" (#9), the share card and the free-tier depth gate | Ready to build the day Gate 1 passes | Sean + Claude | Fri 23 Oct |
+
+**Gate 1, Fri 13 Nov.** Pass: 8 or more of 20 are repeat users, at least one source reaches 50% repeat, and at least 3 pre-orders. 5 to 7: fix the top complaint, re-run with 10 new testers, and launch moves to January. 4 or fewer: stop feature work.
+
+### Priority 2: after Gate 1 passes, before submission (16–30 Nov)
+
+| # | Do this | Kill it if |
+|---|---|---|
+| 14 | Pre-order test on Google Search at **$29.99 vs $39.99**. Pick $39.99 if it converts at least 75% as well | Cost per pre-order over $20 at both prices: the plan only works with free installs |
+| 15 | Clinic QR cards to 5 practices (`/get?src=rd-<name>`) | Fewer than 5 installs per practice after 3 weeks |
+| 16 | 10 dietitian-reviewed "What to order at [chain]" pages by Tue 24 Nov | Fewer than 50 visits a page by January |
+| 17 | App Store page: subtitle, keywords and screenshots that show the *reason* for each rating | Under 25% page conversion after 2 weeks of Apple Ads data (estimate; check Apple's benchmark) |
+| 18 | Switch the Apple account to Organization; submit by Mon 30 Nov with manual release | — |
+
+### Priority 3: launch week and after (from Tue 8 Dec)
+
+Soft open with friends and family first, then release. Waitlist email on Thu 10 Dec at 10:00 ET. Apple Ads at $10/day, exact match. Three short videos a week ("I checked the [chain] menu"). Have the dietitian check every dish shown on camera first. Product Hunt once, for credibility. LinkedIn only for partners and press. **No paid social** until a channel shows a cost per payer under $20.
+
+### Not doing before Gate 1
+
+Product Hunt; LinkedIn posts aimed at users; Meta conversion ads (health ad rules); building the paywall or RevenueCat; any copy that promises swaps or says "lowers cholesterol".
+
+### Decisions only Sean can make
+
+- **Swaps.** They were removed from the app and the site, but CLAUDE.md's "substitution-forward" principle still promises them. Either build them back or rewrite the principle. Until then, no marketing mentions swaps, and the "saw a substitution" activation metric can't be measured.
+- **Whether to adopt this plan and `growth-plan.md`.** Both are proposals until Sean agrees.
+
+### Numbers to watch (Mondays 09:00)
+
+Waitlist signups by tag (Supabase; 300 by 7 Dec) · completed scan within 7 days of install (PostHog; 60%) · scans again on days 8–30 (20% after launch, 40% in the test) · camera vs library scans (PostHog) · Claude API cost per completed scan (Vercel; at most $0.05) · cost per payer by source (under $20) · App Store page conversion (App Store Connect).
+
+### Risks, worst first
+
+1. Launching with no repeat use. Gate 1 is the guard.
+2. A wrong rating shown in public, for example in a video. The dietitian checks every dish on camera first.
+3. Rejection under 5.1.1(ix) because the account is Individual. Start the D-U-N-S request now.
+4. Health-claim language in the App Store listing or ads. Use "informed choices", never "lowers cholesterol" or "Do you have high cholesterol?".
+5. The privacy label falling out of date. Any new data (share card, push, a waitlist question) updates the policy and the label first.
 
 ---
 
@@ -19,14 +87,6 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 ---
 
-## Founder pack readout (2026-10-12, not decided)
-
-`founder/` holds the results of six founder skills (summary artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab). Three asks for Sean:
-- **Add two questions to the repeat-use exit calls:** "Did you scan at the table or before you went?" and "Would a dietitian's name on it change anything?"
-- **Added to `backlog.md` as #21 (2026-10-12):** "Check the menu before you go". The v0 (tell people screenshots work) costs nothing; ship it with the next over-the-air copy update.
-- **November pre-order test: $29.99 vs $39.99.** The re-run price questions, with no price shown, give an acceptable range of $12 to $59 and least resistance at about $30 (`founder/pricing.md`). The earlier $24.99/$34.99 suggestion was anchored and is withdrawn.
-
----
 
 ## Test spec: does anyone come back? (repeat-use test)
 

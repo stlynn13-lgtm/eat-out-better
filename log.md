@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-10-12 — Pre-launch plan added to plan.md
+
+**What changed.** `plan.md` now opens with a prioritized pre-launch plan: Priority 0 (this week's foundation), Priority 1 (the repeat-use test, through Gate 1 on Fri 13 Nov), Priority 2 (after Gate 1, before App Store submission) and Priority 3 (launch week). Each item has an owner, a date and a kill rule. It folds in the founder-pack findings (the dietitian advisor, the ChatGPT head-to-head, backlog #21, the $29.99 vs $39.99 pre-order test) and replaces the short "Founder pack readout" section. No code changed.
+
+**Why.** `growth-plan.md` has the dates and gates, but nothing said what comes first this week. The plan ranks work by whether it can be measured and whether it tests demand, since demand is the binding risk.
+
+**Not decided.** The plan is a recommendation. One decision is flagged as Sean's alone: bring swaps back or rewrite CLAUDE.md's "substitution-forward" principle.
+
+---
+
 ## 2026-10-12 — Founder pack run: competitors, buyer panel, CFO, pricing, marketing, launch
 
 **What changed.** Six founder skills were added to `.claude/skills/` and run. Their outputs are in `founder/`. The visual summary is a private claude.ai artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab. No app code changed.
