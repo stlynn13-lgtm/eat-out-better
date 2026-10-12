@@ -2,8 +2,76 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-11
+**Last updated:** 2026-10-12
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
+
+---
+
+## Pre-launch plan (2026-10-12, recommended, not yet decided)
+
+**The call.** Treat the next four weeks as one test, not as marketing. Recruit 21 strangers from three tagged sources and run the repeat-use test. Which source brings people who come back decides every channel after that. Product Hunt, LinkedIn as a route to users, paid acquisition and the paywall build all wait until **Gate 1 (Fri 13 Nov)**.
+**The biggest risk is demand, not awareness.** Nobody outside Sean and Ray has shown they come back, and 0 of 20 simulated buyers would pay (`founder/`). A launch that brings in installs from people who use it once burns the ratings window and the January and February calendar moments.
+Sources: `growth-plan.md` (dates and gates), `founder/` (competitors, buyer panel, pricing), and the `eob-launch-plan` skill run on 2026-10-12.
+
+### Priority 0: this week. Nothing downstream can be measured without these.
+
+| # | Do this | Why | Owner | Due |
+|---|---|---|---|---|
+| 1 | Try 1.5.0 (1) on a phone; confirm PostHog shows `menu_analysis_completed` | Testers move to this build; activation is measured from this event | Sean | Mon 12 Oct |
+| 2 | Point eatoutbetter.com at Vercel (DNS) and click Enable on Web Analytics | Tagged signups and search traffic count for nothing until the domain resolves | Sean | Wed 14 Oct |
+| 3 | Run `20261010000000_waitlist_single_list.sql`, delete the `notify-waitlist` edge function, paste the Terms 1.1 EULA into App Store Connect | The privacy policy already promises the single-list behaviour; Apple's default EULA has no medical or AI-accuracy disclaimer | Sean | Wed 14 Oct |
+| 4 | Create the external TestFlight group and submit for Beta App Review | Takes about 5 working days, and the test can't start without it | Sean | Tue 13 Oct |
+| 5 | Request a D-U-N-S number; enroll in the Small Business Program | Guideline 5.1.1(ix): health apps should come from a legal entity. Without the program Apple's cut is 30%, not 15% | Sean | Tue 13 Oct |
+| 6 | Check that `menu_photo_captured` records camera vs library | It is the cheapest real answer to "do people scan at the table?" | Claude | Wed 14 Oct |
+| 7 | Backlog #21 v0: tell users that screenshots of a restaurant site or delivery app work | Costs nothing; tests the "check before you go" finding | Claude, then Sean publishes | next over-the-air update |
+
+### Priority 1: the test itself (through Gate 1)
+
+| # | Do this | Why | Owner | Due |
+|---|---|---|---|---|
+| 8 | Recruit 21 testers, 7 per source: a dietitian or cardiology practice (`rd-*`), a community that allows it, a $150 ad (`meta-test`). At most 4 from Sean's network | The test doubles as the channel test. Friends' installs can't test the premise | Sean | Sun 18 Oct |
+| 9 | Sign a dietitian advisor (about $500 or a small equity grant); show their name in the app and on the guide | Trust was the second-largest objection (5 of 20). Same person as the guide's clinical reviewer | Sean | Fri 30 Oct |
+| 10 | Blind head-to-head: 15 real menus, the app vs ChatGPT, scored by the dietitian | "ChatGPT does it free" is the real competitor. Publish the result only if the app wins | Sean + dietitian | Fri 13 Nov |
+| 11 | Exit calls with the five questions in `backlog.md` → "Exit-call questions" | Each question decides a backlog item: table vs planning, #21, the dietitian's name, the head-to-head | Sean | 9–12 Nov |
+| 12 | Apple featuring nomination for Heart Month (February) | Apple asks for up to three months' notice | Sean | Mon 2 Nov |
+| 13 | Specs for "What to ask for" (#9), the share card and the free-tier depth gate | Ready to build the day Gate 1 passes | Sean + Claude | Fri 23 Oct |
+
+**Gate 1, Fri 13 Nov.** Pass: 8 or more of 20 are repeat users, at least one source reaches 50% repeat, and at least 3 pre-orders. 5 to 7: fix the top complaint, re-run with 10 new testers, and launch moves to January. 4 or fewer: stop feature work.
+
+### Priority 2: after Gate 1 passes, before submission (16–30 Nov)
+
+| # | Do this | Kill it if |
+|---|---|---|
+| 14 | Pre-order test on Google Search at **$29.99 vs $39.99**. Pick $39.99 if it converts at least 75% as well | Cost per pre-order over $20 at both prices: the plan only works with free installs |
+| 15 | Clinic QR cards to 5 practices (`/get?src=rd-<name>`) | Fewer than 5 installs per practice after 3 weeks |
+| 16 | 10 dietitian-reviewed "What to order at [chain]" pages by Tue 24 Nov | Fewer than 50 visits a page by January |
+| 17 | App Store page: subtitle, keywords and screenshots that show the *reason* for each rating | Under 25% page conversion after 2 weeks of Apple Ads data (estimate; check Apple's benchmark) |
+| 18 | Switch the Apple account to Organization; submit by Mon 30 Nov with manual release | — |
+
+### Priority 3: launch week and after (from Tue 8 Dec)
+
+Soft open with friends and family first, then release. Waitlist email on Thu 10 Dec at 10:00 ET. Apple Ads at $10/day, exact match. Three short videos a week ("I checked the [chain] menu"). Have the dietitian check every dish shown on camera first. Product Hunt once, for credibility. LinkedIn only for partners and press. **No paid social** until a channel shows a cost per payer under $20.
+
+### Not doing before Gate 1
+
+Product Hunt; LinkedIn posts aimed at users; Meta conversion ads (health ad rules); building the paywall or RevenueCat; any copy that promises swaps or says "lowers cholesterol".
+
+### Decisions only Sean can make
+
+- **Swaps.** They were removed from the app and the site, but CLAUDE.md's "substitution-forward" principle still promises them. Either build them back or rewrite the principle. Until then, no marketing mentions swaps, and the "saw a substitution" activation metric can't be measured.
+- **Whether to adopt this plan and `growth-plan.md`.** Both are proposals until Sean agrees.
+
+### Numbers to watch (Mondays 09:00)
+
+Waitlist signups by tag (Supabase; 300 by 7 Dec) · completed scan within 7 days of install (PostHog; 60%) · scans again on days 8–30 (20% after launch, 40% in the test) · camera vs library scans (PostHog) · Claude API cost per completed scan (Vercel; at most $0.05) · cost per payer by source (under $20) · App Store page conversion (App Store Connect).
+
+### Risks, worst first
+
+1. Launching with no repeat use. Gate 1 is the guard.
+2. A wrong rating shown in public, for example in a video. The dietitian checks every dish on camera first.
+3. Rejection under 5.1.1(ix) because the account is Individual. Start the D-U-N-S request now.
+4. Health-claim language in the App Store listing or ads. Use "informed choices", never "lowers cholesterol" or "Do you have high cholesterol?".
+5. The privacy label falling out of date. Any new data (share card, push, a waitlist question) updates the policy and the label first.
 
 ---
 
@@ -18,6 +86,7 @@ Two things it found that block the repeat-use test as written:
 And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
 
 ---
+
 
 ## Test spec: does anyone come back? (repeat-use test)
 
@@ -39,7 +108,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 **What we collect.**
 1. App usage from the database: saved scans per account, with dates. Everyone gets a silent account, so this works even for people who skip sign-in. To check before we start: that every saved scan carries a timestamp and the restaurant name where one was printed. There is no analytics yet (it's in NEXT), so this is the only usage source.
 2. A two-question text or form each Sunday, the same for everyone: "How many times did you eat at a restaurant or order takeaway this week?" and "At how many of those did you use the app?" This gives the denominator. Raw scan counts alone can't tell "uses it every time" from "tried it once and forgot".
-3. A 15-minute call at the end of week three with everyone who used it at least twice, and with up to five who didn't. For the non-users the questions are what they did instead and when the app would have helped. Ask what they did last time, not what they'd do in future.
+3. A 15-minute call at the end of week three with everyone who used it at least twice, and with up to five who didn't. For the non-users the questions are what they did instead and when the app would have helped. Ask what they did last time, not what they'd do in future. Also ask the five exit-call questions in `backlog.md` → "Exit-call questions" (table vs before, social scanning, dietitian name, ChatGPT use).
 
 **Dates.** Week 0: recruit, screen, start Beta App Review (about 5 working days). Weeks 1 to 3: run. Week 4: readout.
 
@@ -99,6 +168,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 - **Privacy policy:** live; covers the waitlist (one database table, no copies) and the website's cookie-free analytics. **Run `supabase/migrations/20261010000000_waitlist_single_list.sql` in the Supabase SQL Editor** and delete the `notify-waitlist` edge function. **Paste the regenerated `legal/eula-app-store.txt` (Terms 1.1)** into App Store Connect. **One promise to keep:** the policy says waitlist emails are deleted within 90 days of the launch announcement.
 - **Pick a clinical reviewer for the guide** (registered dietitian or clinician). It's the biggest remaining ranking lever for the health guide; see `backlog.md` → "Search / SEO growth".
 - **After the domain is live:** verify it in Google Search Console and Bing Webmaster Tools and submit `https://eatoutbetter.com/sitemap.xml` (Bing also feeds several AI assistants).
+- **IndexNow is automatic (2026-10-11):** every successful production deploy of the website pings Bing and other IndexNow engines (`.github/workflows/indexnow.yml`). After the first deploy, open Actions → IndexNow and check it ran green; if it never runs, start it by hand there ("Run workflow") and tell Claude.
 - **Demo video on the site:** the 20-second launch reel is live under How it works (2026-10-10). The separate real-menu recording slot is built and hidden. Compress the video, add a poster and captions, and fill in `DEMO_VIDEO` (`apps/web/README.md` → "Adding the demo video"). Cut a separate raw screen capture for the App Store App Preview.
 - **At App Store launch:** follow `apps/web/README.md` → "Going live" (two settings, the official Apple badge, the Smart App Banner).
 
@@ -185,6 +255,73 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 **Don't do yet.** Spend on paid acquisition, or invest in Product Hunt or LinkedIn effort. Don't add a health question to the waitlist form to measure audience quality without updating the App Store label and privacy policy first; see the privacy rule in NOW.
 
 **Sources.** [Product Hunt launch statistics (vendor blog)](https://www.shno.co/marketing-statistics/product-hunt-launch-statistics) · [Reddit's promotion rules](https://support.reddithelp.com/hc/en-us/articles/22755369815700-Running-promotions-on-Reddit) · [promoting an app on Reddit (guide)](https://redditgrow.ai/use-cases/promote-app) · [App Store optimization statistics](https://www.digitalapplied.com/blog/app-store-optimization-aso-statistics-2026-data) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503). Mostly vendor blogs of uneven quality; check before quoting any number externally.
+
+---
+
+## Positioning pre-mortem: does the promise match what the product can prove? (2026-10-10)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the positioning as it stands in the app's home screen, the homepage (`apps/web/app/page.tsx`), `landing-page-prompt.md`, and the product principles in `CLAUDE.md`, with web research (links at the end).
+
+**The positioning, as reviewed.** For people managing high cholesterol, Eat Out Better lets you photograph any restaurant menu and get every dish scored, with plain-English reasons, in about 30 seconds. It's free, needs no account, and says menu photos are never stored. The homepage headline is "Know what to order before the server comes back" and the subhead adds "shows you an easy swap". The app says "Have high cholesterol?" and step 3 promises "Order with confidence".
+
+**Bottom line.** The positioning is specific and well aimed, but it promises more certainty than the product has earned, and the site still promises a swap the app doesn't show. The most likely failure is first-use disappointment: a false green, or a missing swap, and the user decides the app can't be trusted. Chance the copy holds up through the first 100 real users, unchanged: roughly even (a judgment). It turns on accuracy for the dishes people actually order.
+
+**The belief everything rests on.** That users will treat a colour as safe enough to order on, and will read errors as rare. "Know what to order" and "order with confidence" promise trust, not just information.
+
+**What could go wrong, most serious first.**
+1. **The site promises a swap the app doesn't show.** NOW item 9 already records this: the API returns no swaps, and the homepage hero, meta description and guide still promise them. `CLAUDE.md`'s "substitution-forward" principle no longer matches what ships. Apple also expects store listing text to match the app (guideline 2.3). Fixable by rewording or building the feature.
+2. **"Confidence" outruns the evidence.** The latest measurement is 75% agreement with one reviewer (Ray) on 202 dishes. Misses split 27 greener and 22 redder; the old prompt was greener on 41 and redder on only 11. One person's answer key is not clinical validation, and a clinical reviewer is still an open item. The planned trust block calls the key "human-validated", which is true but easy to over-read. For a health promise the costly error is a false green, and nothing yet says how many of the 27 are red-to-green, the dangerous kind.
+3. **The lead claim is the commodity one.** "Snap a menu, get dishes scored with reasons" is what Menu Scanner: Eat Healthy already does, and what a general assistant does for free. What is actually distinctive is published thresholds (green at 5g or less of saturated fat, red over 11g), the same menu giving the same answer, and focus on one condition. Those sit lower on the page under "why you can trust the rating".
+4. **The wedge may be narrower than it reads.** CDC's lab-based figure for high total cholesterol (240 mg/dL or more) was 11.3% of US adults in 2021 to 2023. That isn't comparable to self-reported rates, which measure something different. "Managing high cholesterol" is a smaller, self-identified group, and whether a statin user thinks "I need an app at dinner" is the repeat-use question again. People with high cholesterol often manage weight, blood pressure or diabetes as well, and the site says "more conditions later".
+5. **Smaller overpromises.** "Any menu" sits beside a known gap: menus over 100 dishes still lose their tail. "About 30 seconds" has not been timed. "Eat Out Better" is a generic phrase, weak for recall and search. "Menu photos never stored" is a trust claim that must stay exactly true as accounts and stored results evolve.
+
+**Three cheap tests, in this order.**
+1. **Promise audit (free, today).** List every claim on the site, in the app and in store copy against what ships, and time the "30 seconds" on 10 real menus. Pass: zero promises the app doesn't deliver and a median under 45 seconds.
+2. **Split the misses by consequence (free).** Recount the 27 greener-than-Ray misses from the existing eval data as one-step (red to yellow, or yellow to green) or two-step (red to green). Pass: two-step errors under 2% of dishes, about 4 of 202. Fail: lead with transparency instead of confidence.
+3. **Five-second message test (about 15 people).** Use people from the repeat-use cohort. Show the hero and ask what it does and who it's for. Then show your App Store listing beside a competitor's and ask which they'd download and why. Pass: at least 12 of 15 get it right, and at least 60% of the cholesterol-identified people choose yours.
+
+**What would change this verdict.** Few or no red-to-green errors, and the cohort choosing specificity over breadth.
+
+**The question to answer first.** Is the promise "tells you what's safe" or "helps you see why a dish scores the way it does"? The second is a weaker claim you can keep, and it leans on what you do differently. `CLAUDE.md`'s "confidence over perfection" is the stated premise, and confidence without calibration is the liability.
+
+**Don't do yet.** Spend on paid acquisition behind the current headline, or publish the "human-validated answer key" line in the trust block before a clinical reviewer has looked at the key.
+
+**Sources.** [CDC NCHS data brief on high cholesterol prevalence](https://www.cdc.gov/nchs/data/databriefs/db515.pdf) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503) · [Fig: Food Scanner](https://apps.apple.com/us/app/fig-food-scanner-recipes/id1564434726). The CDC figure is the lab-measured rate; the competitor pages are their own listings. Check before quoting externally.
+
+---
+
+## Product pre-mortem: is the product itself defensible? (2026-10-12)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the product as built (the scan-and-score pipeline, `scoring.ts`, the eval results in `log.md`, the legal checklist), with web research (links at the end). A formatted copy exists as a private page: https://claude.ai/artifact/DGk332XDbFde3cWaiSzunm
+
+**The product, as reviewed.** An iPhone app that reads a restaurant menu photo, has Claude estimate grams of saturated fat and added sugar per dish, and turns those estimates into a 1 to 10 score and a colour using published rules. One universal cholesterol profile for everyone. No per-user profile and no swaps yet.
+
+**Bottom line.** An honest, well-instrumented early product that is thin where it matters: the scoring rules are public, the vision model is a commodity, nothing is personalized, and one person validated the result at 75% agreement. The most likely failure is that it never separates from "ask a chatbot", while carrying health-advice liability and App Review friction. Chance it holds a defensible position 12 months out, unchanged: under 15% (a judgment). It turns on whether clinicians come to trust and endorse the published method.
+
+**The belief everything rests on.** That transparent, rule-based scoring is something people, and the clinicians they listen to, trust and prefer over a chatbot's judgment. Nothing so far tests it.
+
+**What could go wrong, most serious first.**
+1. **The moat is close to zero.** The scoring code, thresholds, prompts and the 202-dish eval are in the repo, and this file says the repo has been public since 2026-10-05. Anyone can paste the rubric (green at 5g or less of saturated fat, red over 11g) into a general assistant and get most of the product. Transparency only works as a trust strategy if someone credible stands behind it, and no clinician does yet. Right now the public repo is both the moat and the leak.
+2. **Validation is one rater, with launch consequences.** 75% agreement with Ray on 202 dishes is not clinical validation, and a clinical reviewer is still an open item. Apple's guideline 1.4.1 says health apps must disclose the data and methodology behind accuracy claims, and unvalidated accuracy can mean rejection. Guideline 5.1.1(ix) points health apps to a legal entity, and the Individual-to-Organization switch is already pending (see NEXT). Reports of 5.1.1(ix) rejections are anecdotal, so read the guidelines directly.
+3. **One score for everyone.** `CLAUDE.md` says users enter a health profile; v1 has none. A single threshold ignores LDL level, medication, portion, sodium and fibre. Nothing accumulates per user, so switching costs are low. Related drift: `CLAUDE.md` still describes no accounts, a health profile and substitutions, none of which match what ships.
+4. **The same dish can change colour.** For 30 of 196 dishes the colour depends on what else is on the menu (down from 46). OCR made four transcription errors on a clean menu, and menus over 100 dishes still lose their tail. A user who re-scans a favourite restaurant and sees a different colour will notice.
+5. **Accuracy depends on one pinned model.** It lives in a prompt plus a model version (`claude-haiku-4-5-20251001`), so a model change reopens the 75%. The eval tooling softens this. Cost per scan rises with usage, and a competitor on the same API pays the same.
+6. **Regulatory framing is unchecked.** The FDA updated its general wellness and clinical decision support guidance in January 2026. The guidance text has not been read, and the commentary found does not settle patient-facing diet apps. The condition-specific line "For people managing high cholesterol" is the kind of claim worth checking, and Sean has decided against outside lawyer review.
+
+**Three cheap tests, in this order.**
+1. **Rubric-prompted chatbot against the app (a few dollars).** Put the public thresholds in a plain assistant's prompt, run it on the 16 eval menus, and compare to the answer key. Pass: the app beats it by 10 points or more, or on consistency. Fail: the product is the interface.
+2. **Dietitian review (your time).** Send the thresholds and 20 dishes to three registered dietitians and ask whether they would recommend it to a patient and what they would change. Pass: two say yes with minor edits and one agrees to be named. That also fills the open clinical-reviewer item. Fail: transparency is not yet a trust asset.
+3. **Stability across photos (an afternoon).** Scan five restaurants three times each, with different angles and lighting, and count dishes that change colour. Pass: 5% or fewer. Fail: re-scans erode trust.
+
+A free Apple check: the external TestFlight Beta App Review shows how reviewers react to the health framing before the real submission.
+
+**What would change this verdict.** The app clearly beating the rubric-prompted chatbot, and a clinician publicly standing behind the method.
+
+**The question to answer first.** Is the public repo a deliberate strategy or an accident? Either commit to transparency as the product, by publishing the method and getting clinicians to endorse it, or stop publishing the parts a competitor needs. Right now the project pays for both.
+
+**Don't do yet.** Describe the scoring as "validated" in the app, the listing or the site until a clinician has reviewed the thresholds.
+
+**Sources.** [Apple App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) · [Ropes & Gray on the FDA's January 2026 general wellness and CDS updates](https://www.ropesgray.com/en/insights/alerts/2026/01/fda-adapts-with-the-times-on-digital-health-updated-guidances-on-general-wellness-products). Commentary on the FDA guidance, not the guidance itself; read the FDA text before relying on it.
 
 ---
 

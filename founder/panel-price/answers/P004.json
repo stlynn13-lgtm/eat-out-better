@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already know what to order after twenty years on a statin, and I'm not going to hold my phone up over a menu in front of my wife or clients. The free scan is nice, but I'd delete it after the first use because I'd never use it at the table.",
+  "objection": "I'm not going to scan the menu in front of people. It would feel awkward and I'd be the guy photographing his dinner.",
+  "would_change_my_mind": "If I could scan the menu at home before going out and show the top picks on my phone at the table, without taking a photo in the restaurant.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

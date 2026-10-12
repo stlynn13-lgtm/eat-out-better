@@ -6,6 +6,56 @@
 
 ---
 
+## 2026-10-12 — Pre-launch plan added to plan.md
+
+**What changed.** `plan.md` now opens with a prioritized pre-launch plan: Priority 0 (this week's foundation), Priority 1 (the repeat-use test, through Gate 1 on Fri 13 Nov), Priority 2 (after Gate 1, before App Store submission) and Priority 3 (launch week). Each item has an owner, a date and a kill rule. It folds in the founder-pack findings (the dietitian advisor, the ChatGPT head-to-head, backlog #21, the $29.99 vs $39.99 pre-order test) and replaces the short "Founder pack readout" section. No code changed.
+
+**Why.** `growth-plan.md` has the dates and gates, but nothing said what comes first this week. The plan ranks work by whether it can be measured and whether it tests demand, since demand is the binding risk.
+
+**Not decided.** The plan is a recommendation. One decision is flagged as Sean's alone: bring swaps back or rewrite CLAUDE.md's "substitution-forward" principle.
+
+---
+
+## 2026-10-12 — Founder pack run: competitors, buyer panel, CFO, pricing, marketing, launch
+
+**What changed.** Six founder skills were added to `.claude/skills/` and run. Their outputs are in `founder/`. The visual summary is a private claude.ai artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab. No app code changed.
+
+**What it found**
+- **0 of 20 simulated buyers would pay.** Their reasons were habit (7), trust (5), "ChatGPT does it free" (4) and convenience (2). Only 2 mentioned price. The buyers are simulated, so these are objections to test, not a forecast.
+- **New finding: people don't want to scan the menu at the table.** Six buyers asked to check the menu at home, from a link or PDF, before going. That isn't in `backlog.md` yet.
+- **No price recommendation (withdrawn the same day).** The first version said $39.99 was above an acceptable range of $5.08 to $34.97 and proposed testing $24.99 against $34.99. Review found the buyers had answered the price questions right after reading "$39.99 a year", so half of them gave the same round numbers around it; the range measured the price back. The price questions are now a separate brief built from a pitch with no price, and the pricing tool labels anchored answers. Re-run them before choosing the November test prices.
+- **The CFO numbers:** $20.69 contribution per $29.99 annual. Apple's 15% is now modelled as a share of the price (it was a fixed $4.50, which overstated the gap between prices). Break-even is about 18 annual subscriptions a month with Apple Ads, about 3 without. The risk is the volume assumption, not the margin.
+- **At least 9 direct menu-scanner competitors exist,** with no leader and none built for a specific condition. The real competitor is a free chatbot.
+
+**Not decided.** None of the pricing or positioning changes has been agreed.
+
+---
+
+## 2026-10-12 — Pre-mortem on the product itself
+
+**What changed.** Ran the `kill-my-idea` skill against the product as built and wrote the result into `plan.md` ("Product pre-mortem"). No code. A formatted private page of the same findings was also made.
+
+**Why it matters.** The product's real asset is its disciplined, published scoring and eval harness, but that is also the weakness: the rules are public, the model is a commodity, the result is validated by one person at 75%, and nothing is personalized. Apple's health-app rules (accuracy disclosure, and submission by a legal entity) are a launch risk that a clinician reviewer would help with.
+
+**What it sets up.** Three cheap tests: the public rubric in a plain chatbot against the app, a review of the thresholds by three dietitians, and a same-restaurant stability check across photos.
+
+---
+
+## 2026-10-12 — Fewer "couldn't fully assess" dishes
+
+**What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
+
+- **A failed batch now gets one retry**, inside the same 30-second budget scoring already had, so a scan still fits Vercel's 60-second limit. A batch that failed fast (busy API, rate limit, an unreadable reply) gets a second try. One that used up the whole 30 seconds still falls back as before.
+- **A reply with a sentence of text around the scores is now read correctly.** Before, any text outside the list made the whole batch unreadable.
+
+**Why it matters.** Each failed batch put several real dishes at a meaningless neutral 5.0. A retry costs about a cent and only happens when something already went wrong.
+
+**Worth knowing.**
+- Not confirmed which of the two causes hit that scan: the Vercel logs weren't readable from the session. Search the logs for `[Ranking]` on the next bad scan. `Retrying` means the retry fired, and `Chunk … failed` after it means the retry failed too.
+- The retry itself has no automated test (it would need a fake Claude client). The reading fix is covered in `npm run test:dishmatch`.
+
+---
+
 ## 2026-10-12 — Waitlist now records which link a signup came from
 
 **What changed**
@@ -46,6 +96,14 @@
 - **Not tried on a phone yet.** This was written and type-checked in a cloud session with no iOS simulator. It's plain app code, so it ships with the next over-the-air update, no new build needed.
 
 **What it sets up next.** A phone check (in `plan.md`): an SE-size phone at the largest text size, and a regular phone at default text, before publishing the update.
+
+---
+
+## 2026-10-11 — Website: IndexNow pings search engines on every deploy
+
+**What changed.** eatoutbetter.com now tells Bing (which feeds ChatGPT search and Copilot), Yandex, Seznam and Naver the moment the website changes, instead of waiting for them to recrawl. A GitHub Action runs after each successful production deploy of the website, reads the sitemap and submits every URL. The ownership key is a public file at `eatoutbetter.com/<key>.txt` (public by design). Google doesn't use IndexNow; Search Console and the sitemap cover it.
+
+**Not verified yet:** it depends on Vercel reporting deploys to GitHub, which couldn't be checked from the session. If Actions → IndexNow never shows a run after the next website deploy, run it by hand from that page.
 
 ---
 
@@ -124,6 +182,16 @@
 - **Goes live with the next production deploy of `eat-out-better-web` from `main`.**
 - **The launch reel on the site still shows the old step 3 line** ("Easy swaps to ask your server for") in its small home-screen card for about two seconds.
 - **CLAUDE.md still lists "Substitution-forward" as a product principle.** Nothing ships it now. See `plan.md`, NOW item 9.
+
+---
+
+## 2026-10-10 — Pre-mortem on the positioning
+
+**What changed.** Ran the `kill-my-idea` skill against the positioning (the app's home screen, the homepage, `landing-page-prompt.md`, and the product principles) and wrote the result into `plan.md` ("Positioning pre-mortem"). No code.
+
+**Why it matters.** The copy promises certainty ("know what to order", "order with confidence") that the product can't yet back: the site still promises a swap the app doesn't show, and the 75% match with one reviewer says nothing yet about how many errors are the dangerous kind (a red dish scored green). The lead claim, snap and score a menu, is also what competitors and a general assistant already do.
+
+**What it sets up.** Three cheap tests: a promise audit with a timed "30 seconds", a free recount of the eval misses by how serious they are, and a five-second message test with the repeat-use cohort.
 
 ---
 

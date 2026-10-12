@@ -43,6 +43,8 @@ const MAX_DISHES = 100;
 // run in parallel, so a scan isn't slower.
 const RANKING_CHUNK_SIZE = 12;
 const RANKING_TIMEOUT_MS = 30_000; // per chunk — OCR (≤25s) + ranking (≤30s) fits maxDuration 60
+// A retry with less than this left would almost certainly time out too.
+const RANKING_MIN_RETRY_MS = 8_000;
 const RANKING_MAX_TOKENS = 8_192; // per chunk: 35 dishes × ~80 tokens ≈ 3k, ample headroom
 
 // -----------------------------------------------------------
@@ -86,9 +88,28 @@ export async function rankDishes(
     chunks.push(dishesToRank.slice(i, i + RANKING_CHUNK_SIZE));
   }
 
-  const settled = await Promise.allSettled(
-    chunks.map((chunk) => callRankingAPI(chunk, conditionId))
-  );
+  // A failed batch gets one retry, but only inside the same 30s ranking
+  // budget: OCR (≤25s) + ranking (≤30s) is what fits maxDuration 60, so the
+  // retry gets whatever time the first attempt left. A batch that timed out
+  // has none left and falls back as before; one that failed fast (rate limit,
+  // overload, an unparseable reply) gets a second try, which is what turned a
+  // third of a real 17-dish menu into "couldn't fully assess" (2026-10-12).
+  const startedAt = Date.now();
+  const rankChunk = async (chunk: ExtractedDish[]): Promise<RawRankedDish[]> => {
+    try {
+      return await callRankingAPI(chunk, conditionId);
+    } catch (error) {
+      const remaining = RANKING_TIMEOUT_MS - (Date.now() - startedAt);
+      if (remaining < RANKING_MIN_RETRY_MS) throw error;
+      console.warn(
+        `[Ranking] Retrying a ${chunk.length}-dish batch with ${remaining}ms left:`,
+        error instanceof Error ? error.message : error
+      );
+      return callRankingAPI(chunk, conditionId, remaining);
+    }
+  };
+
+  const settled = await Promise.allSettled(chunks.map(rankChunk));
 
   const merged: RawRankedDish[] = [];
   // One entry per dish, in input order; `estimates` is absent where the dish
@@ -188,7 +209,8 @@ type RankedRawDish = RawRankedDish & { rank: number; category: DishCategory };
 
 async function callRankingAPI(
   dishes: ExtractedDish[],
-  conditionId: HealthConditionId
+  conditionId: HealthConditionId,
+  timeoutMs: number = RANKING_TIMEOUT_MS
 ): Promise<RawRankedDish[]> {
   const client = getAnthropicClient();
 
@@ -218,7 +240,7 @@ async function callRankingAPI(
           },
         ],
       },
-      { timeout: RANKING_TIMEOUT_MS }
+      { timeout: timeoutMs }
     );
 
     // Counted before the response is inspected: a malformed answer still
@@ -243,7 +265,51 @@ async function callRankingAPI(
     );
   }
 
+  // An unusable reply (truncated, or not an array) is thrown rather than
+  // turned into fallbacks here, so rankDishes can retry the batch.
+  if (!extractRankingArray(rawText)) {
+    throw new Error("Claude ranking API returned no usable JSON array");
+  }
+
   return parseRankingResponse(rawText, dishes);
+}
+
+/**
+ * Pulls the JSON array out of the ranker's reply, or `null` if there isn't a
+ * usable one. Tolerates markdown fences and a sentence of prose before or
+ * after the array: either used to fail the parse and send every dish in the
+ * batch to the neutral fallback.
+ */
+export function extractRankingArray(rawText: string): unknown[] | null {
+  const cleaned = rawText
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+
+  const attempt = (text: string): unknown => {
+    try {
+      return JSON.parse(text);
+    } catch {
+      return undefined;
+    }
+  };
+
+  let parsed = attempt(cleaned);
+  if (parsed === undefined) {
+    const start = cleaned.indexOf("[");
+    const end = cleaned.lastIndexOf("]");
+    if (start !== -1 && end > start) parsed = attempt(cleaned.slice(start, end + 1));
+  }
+
+  if (parsed === undefined) {
+    console.error("[Ranking] Failed to parse JSON:", cleaned.slice(0, 300));
+    return null;
+  }
+  if (!Array.isArray(parsed)) {
+    console.error("[Ranking] Expected array, got:", typeof parsed);
+    return null;
+  }
+  return parsed;
 }
 
 /**
@@ -275,24 +341,8 @@ export function parseRankingResponse(
   rawText: string,
   originalDishes: ExtractedDish[]
 ): RawRankedDish[] {
-  // Strip markdown fences
-  const cleaned = rawText
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/i, "")
-    .trim();
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(cleaned);
-  } catch {
-    console.error("[Ranking] Failed to parse JSON:", cleaned.slice(0, 300));
-    return generateFallbackRankings(originalDishes);
-  }
-
-  if (!Array.isArray(parsed)) {
-    console.error("[Ranking] Expected array, got:", typeof parsed);
-    return generateFallbackRankings(originalDishes);
-  }
+  const parsed = extractRankingArray(rawText);
+  if (!parsed) return generateFallbackRankings(originalDishes);
 
   // Fallback lookup: normalized input name → its position in the input list.
   // Used only when the item number is missing or untrustworthy. Exact-match

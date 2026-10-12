@@ -1,0 +1,56 @@
+# Tells search engines (Bing, Yandex, Seznam, Naver; Bing feeds ChatGPT search
+# and Copilot) that eatoutbetter.com changed, so they recrawl in minutes
+# instead of whenever they next get around to it. Google doesn't use IndexNow;
+# it reads the sitemap via Search Console.
+#
+# Runs after every successful production deploy of the eat-out-better-web
+# Vercel project (Vercel reports deploys to GitHub as deployment statuses).
+# Deploys that don't touch apps/web are skipped by Vercel, so they don't ping.
+#
+# The key is public by design: IndexNow proves you own the site by fetching
+# https://eatoutbetter.com/<key>.txt. The file in apps/web/public/ is the
+# single source of the key; this workflow reads its name.
+name: IndexNow
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       contains(github.event.deployment.environment, 'Production') &&
+       contains(github.event.deployment.environment, 'eat-out-better-web'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://eatoutbetter.com
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Find the key
+        run: |
+          key_file=$(find apps/web/public -maxdepth 1 -regextype posix-extended -regex '.*/[0-9a-f]{32}\.txt' | head -n 1)
+          if [ -z "$key_file" ]; then echo "No IndexNow key file in apps/web/public"; exit 1; fi
+          echo "KEY=$(basename "$key_file" .txt)" >> "$GITHUB_ENV"
+
+      - name: Check the live key file matches
+        run: |
+          live=$(curl -fsS --retry 3 --retry-delay 10 "$SITE/$KEY.txt")
+          if [ "$live" != "$KEY" ]; then echo "Live key file doesn't match the repo"; exit 1; fi
+
+      - name: Submit every URL in the sitemap
+        run: |
+          urls=$(curl -fsS --retry 3 --retry-delay 10 "$SITE/sitemap.xml" | grep -o '<loc>[^<]*</loc>' | sed -e 's/<loc>//' -e 's/<\/loc>//')
+          if [ -z "$urls" ]; then echo "Sitemap had no URLs"; exit 1; fi
+          echo "$urls"
+          payload=$(jq -n --arg host "${SITE#https://}" --arg key "$KEY" --arg loc "$SITE/$KEY.txt" \
+            --argjson urls "$(printf '%s\n' "$urls" | jq -R . | jq -s .)" \
+            '{host: $host, key: $key, keyLocation: $loc, urlList: $urls}')
+          status=$(curl -sS -o response.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' -d "$payload")
+          echo "IndexNow responded $status"; cat response.txt
+          # 200 = accepted, 202 = accepted, key check pending. Anything else is a real failure.
+          if [ "$status" != "200" ] && [ "$status" != "202" ]; then exit 1; fi

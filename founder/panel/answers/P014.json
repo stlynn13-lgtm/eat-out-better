@@ -1,0 +1,13 @@
+{
+  "id": "P014",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I cancel subscriptions on principle, and I eat out maybe twice a week, so paying $39.99 a year for something I'd open a few times a month feels like a lot. I'd use the free scans and the top 3 picks and see if that's enough.",
+  "objection": "Why pay a yearly fee for an app I'd use twice a month, when a trial can quietly turn into a charge I forget to cancel?",
+  "would_change_my_mind": "A one-time price with no renewal, or proof over a few free scans that it catches the dishes I actually order and isn't just flagging everything red.",
+  "price_too_cheap": 4.99,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

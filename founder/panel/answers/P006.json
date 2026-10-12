@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I'd just ask ChatGPT for free, and I'm not going to pull my phone out at dinner with my wife or friends to photograph a menu. Scanning a menu is the opposite of how I like to eat out.",
+  "objection": "Why pay for an app when a free chatbot can tell me what's healthy on a menu, and why would I hold my phone up at the table like a tourist?",
+  "would_change_my_mind": "If I could get the answer without taking out my phone at the table, and it were clearly better than what I get from asking ChatGPT for free.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 50
+}

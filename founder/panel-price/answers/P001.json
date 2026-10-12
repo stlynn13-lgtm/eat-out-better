@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "My statin already handles my cholesterol, and I don't stress about restaurants. I'd try the free first scan out of curiosity, but I wouldn't pay $39.99 a year for something I can mostly get by asking ChatGPT with a photo of the menu.",
+  "objection": "Why pay for a narrow app when a general AI assistant can already look at a photo of the menu and tell me what's fried or creamy for free?",
+  "would_change_my_mind": "If my doctor told me my numbers were still high despite the statin and I needed to change how I eat out, and the app's ratings matched what my doctor and dietitian would say.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I eat out with my wife on weekends, so maybe twice a month, and I'd rather ask my dietitian what to order than pay a subscription to guess from a menu photo. The free scan is interesting, but I'm not paying a yearly fee for something I use twice a month.",
+  "objection": "Would a photo of a menu really tell me the cholesterol story of each dish, or is it a guess that could send me the wrong way? And another subscription for something I use twice a month is hard to justify.",
+  "would_change_my_mind": "My dietitian or cardiologist recommending it, plus proof that the ratings match what the kitchen actually cooks.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 45
+}
