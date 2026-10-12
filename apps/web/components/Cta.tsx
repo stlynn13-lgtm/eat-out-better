@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { track } from "@vercel/analytics";
 import { LAUNCH_STATE } from "@/lib/site";
 
@@ -7,6 +8,10 @@ import { LAUNCH_STATE } from "@/lib/site";
  * The one primary action, wherever it appears. Pre-launch it jumps to the
  * waitlist; once live it goes through /get?src=<placement> (never straight to
  * the store) so every placement's conversions are countable.
+ *
+ * The waitlist form is only on the homepage, so there a bare "#waitlist" (which
+ * also keeps any ?ref= tag in the URL). Elsewhere, such as the guide, it goes
+ * through /get too, which pre-launch lands on /?ref=<placement>#waitlist.
  *
  * TODO(launch): Apple requires its official "Download on the App Store" badge
  * artwork (developer.apple.com/app-store/marketing/guidelines). Drop the SVG
@@ -24,7 +29,8 @@ export default function Cta({
   className?: string;
 }) {
   const live = LAUNCH_STATE === "live";
-  const href = live ? `/get?src=${placement}` : "#waitlist";
+  const onHome = usePathname() === "/";
+  const href = live || !onHome ? `/get?src=${placement}` : "#waitlist";
   const pad = size === "sm" ? "min-h-11 px-4 text-sm" : "min-h-13 px-6 text-[15px]";
   const colors =
     tone === "dark"

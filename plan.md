@@ -2,8 +2,20 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-11
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
+
+---
+
+## Growth plan (proposed 2026-10-11, not decided)
+
+`growth-plan.md` turns the three pre-mortems below into one dated plan with pass/fail gates: prove repeat use by **Fri 13 Nov** (Gate 1, the repeat-use test below), launch **Tue 8 Dec**, paywall live **Mon 4 Jan** for the resolution wave, American Heart Month push in **February**, 10,000 installs by **30 Apr 2027**, 100,000 by **end of 2027** on "heart health". Each phase starts only if the gate before it passes. It also lists what the plan was missing.
+
+Two things it found that block the repeat-use test as written:
+- **Fixed 2026-10-12 (live after the next deploy of `eat-out-better-web` from `main`): the waitlist now records the `?src=` tag.** It used to save only the button (`hero` or `final`). A signup now reads `<button>__<tag>`, e.g. `final__rd-smith`; the per-tag query is in `apps/web/README.md` → "Tagged links". The guide page's three waitlist buttons, which led nowhere before launch, now reach the waitlist too.
+- **This file says there is no analytics, but the app already sends PostHog funnel events** (`apps/mobile/lib/analytics.ts`). Check they arrive and use them as a second usage source.
+
+And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
 
 ---
 
@@ -162,7 +174,7 @@
 **Also noted.** "Launch" currently runs before the repeat-use test result. If that test fails, install-chasing spend is wasted. The expanded TestFlight of 10 to 20 testers, filed under LATER, is in effect that test and belongs first.
 
 **Three cheap tests, in this order.**
-1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist already records. Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
+1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist records (since the 2026-10-12 fix; see the growth-plan summary above). Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
 2. **Ask one extra question on the 15-minute calls (free):** "When did you decide what to order, before arriving or at the table?" Pass for the product as built: at least half say at the table. Otherwise the planning moment is the product, and the guide funnel fits better than the app.
 3. **Check keyword demand before building anything around App Store search (free).** Pull popularity scores for about 10 cholesterol and menu terms; I believe Apple's Search Ads keyword tool shows these without spending, but I haven't confirmed that. Set the pass threshold before looking.
 
@@ -173,6 +185,38 @@
 **Don't do yet.** Spend on paid acquisition, or invest in Product Hunt or LinkedIn effort. Don't add a health question to the waitlist form to measure audience quality without updating the App Store label and privacy policy first; see the privacy rule in NOW.
 
 **Sources.** [Product Hunt launch statistics (vendor blog)](https://www.shno.co/marketing-statistics/product-hunt-launch-statistics) · [Reddit's promotion rules](https://support.reddithelp.com/hc/en-us/articles/22755369815700-Running-promotions-on-Reddit) · [promoting an app on Reddit (guide)](https://redditgrow.ai/use-cases/promote-app) · [App Store optimization statistics](https://www.digitalapplied.com/blog/app-store-optimization-aso-statistics-2026-data) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503). Mostly vendor blogs of uneven quality; check before quoting any number externally.
+
+---
+
+## Positioning pre-mortem: does the promise match what the product can prove? (2026-10-10)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the positioning as it stands in the app's home screen, the homepage (`apps/web/app/page.tsx`), `landing-page-prompt.md`, and the product principles in `CLAUDE.md`, with web research (links at the end).
+
+**The positioning, as reviewed.** For people managing high cholesterol, Eat Out Better lets you photograph any restaurant menu and get every dish scored, with plain-English reasons, in about 30 seconds. It's free, needs no account, and says menu photos are never stored. The homepage headline is "Know what to order before the server comes back" and the subhead adds "shows you an easy swap". The app says "Have high cholesterol?" and step 3 promises "Order with confidence".
+
+**Bottom line.** The positioning is specific and well aimed, but it promises more certainty than the product has earned, and the site still promises a swap the app doesn't show. The most likely failure is first-use disappointment: a false green, or a missing swap, and the user decides the app can't be trusted. Chance the copy holds up through the first 100 real users, unchanged: roughly even (a judgment). It turns on accuracy for the dishes people actually order.
+
+**The belief everything rests on.** That users will treat a colour as safe enough to order on, and will read errors as rare. "Know what to order" and "order with confidence" promise trust, not just information.
+
+**What could go wrong, most serious first.**
+1. **The site promises a swap the app doesn't show.** NOW item 9 already records this: the API returns no swaps, and the homepage hero, meta description and guide still promise them. `CLAUDE.md`'s "substitution-forward" principle no longer matches what ships. Apple also expects store listing text to match the app (guideline 2.3). Fixable by rewording or building the feature.
+2. **"Confidence" outruns the evidence.** The latest measurement is 75% agreement with one reviewer (Ray) on 202 dishes. Misses split 27 greener and 22 redder; the old prompt was greener on 41 and redder on only 11. One person's answer key is not clinical validation, and a clinical reviewer is still an open item. The planned trust block calls the key "human-validated", which is true but easy to over-read. For a health promise the costly error is a false green, and nothing yet says how many of the 27 are red-to-green, the dangerous kind.
+3. **The lead claim is the commodity one.** "Snap a menu, get dishes scored with reasons" is what Menu Scanner: Eat Healthy already does, and what a general assistant does for free. What is actually distinctive is published thresholds (green at 5g or less of saturated fat, red over 11g), the same menu giving the same answer, and focus on one condition. Those sit lower on the page under "why you can trust the rating".
+4. **The wedge may be narrower than it reads.** CDC's lab-based figure for high total cholesterol (240 mg/dL or more) was 11.3% of US adults in 2021 to 2023. That isn't comparable to self-reported rates, which measure something different. "Managing high cholesterol" is a smaller, self-identified group, and whether a statin user thinks "I need an app at dinner" is the repeat-use question again. People with high cholesterol often manage weight, blood pressure or diabetes as well, and the site says "more conditions later".
+5. **Smaller overpromises.** "Any menu" sits beside a known gap: menus over 100 dishes still lose their tail. "About 30 seconds" has not been timed. "Eat Out Better" is a generic phrase, weak for recall and search. "Menu photos never stored" is a trust claim that must stay exactly true as accounts and stored results evolve.
+
+**Three cheap tests, in this order.**
+1. **Promise audit (free, today).** List every claim on the site, in the app and in store copy against what ships, and time the "30 seconds" on 10 real menus. Pass: zero promises the app doesn't deliver and a median under 45 seconds.
+2. **Split the misses by consequence (free).** Recount the 27 greener-than-Ray misses from the existing eval data as one-step (red to yellow, or yellow to green) or two-step (red to green). Pass: two-step errors under 2% of dishes, about 4 of 202. Fail: lead with transparency instead of confidence.
+3. **Five-second message test (about 15 people).** Use people from the repeat-use cohort. Show the hero and ask what it does and who it's for. Then show your App Store listing beside a competitor's and ask which they'd download and why. Pass: at least 12 of 15 get it right, and at least 60% of the cholesterol-identified people choose yours.
+
+**What would change this verdict.** Few or no red-to-green errors, and the cohort choosing specificity over breadth.
+
+**The question to answer first.** Is the promise "tells you what's safe" or "helps you see why a dish scores the way it does"? The second is a weaker claim you can keep, and it leans on what you do differently. `CLAUDE.md`'s "confidence over perfection" is the stated premise, and confidence without calibration is the liability.
+
+**Don't do yet.** Spend on paid acquisition behind the current headline, or publish the "human-validated answer key" line in the trust block before a clinical reviewer has looked at the key.
+
+**Sources.** [CDC NCHS data brief on high cholesterol prevalence](https://www.cdc.gov/nchs/data/databriefs/db515.pdf) · [Menu Scanner: Eat Healthy](https://apps.apple.com/us/app/menu-scanner-eat-healthy/id6758915503) · [Fig: Food Scanner](https://apps.apple.com/us/app/fig-food-scanner-recipes/id1564434726). The CDC figure is the lab-measured rate; the competitor pages are their own listings. Check before quoting externally.
 
 ---
 
