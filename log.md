@@ -6,6 +6,26 @@
 
 ---
 
+## 2026-10-12 — Waitlist now records which link a signup came from
+
+**What changed**
+
+- **A signup now stores the campaign tag as well as the button.** Links like `eatoutbetter.com/get?src=rd-smith` (or a direct `/?src=rd-smith`) now show up in `waitlist_signups` as `final__rd-smith` instead of just `final`. Before this, `/get` passed the tag along as `?ref=` but the form never read it, so every signup looked the same whichever link sent it. The repeat-use test's three-source channel test depends on telling those apart. Tags are cleaned to lower-case letters, digits and hyphens; `apps/web/README.md` → "Tagged links" has the one SQL query that counts signups per tag.
+- **The guide page's waitlist buttons work before launch.** The header, sticky-bar and in-page buttons on the high-cholesterol guide pointed to `#waitlist`, which only exists on the homepage, so they did nothing. They now go through `/get` and land on the homepage form, tagged `header`, `sticky` or `guide`. The guide is the page search sends people to, so it had no working signup until now.
+- **Vercel Analytics' `waitlist_join` event** now carries the tag as `campaign`.
+- **Privacy policy:** the waitlist paragraph now says we store the label of our own link that brought you, and the analytics paragraph says we count which of our links led to a signup.
+
+**Why no database change:** `join_waitlist()` already accepts letters, digits, `_` and `-` up to 40 characters, so `<button>__<tag>` fits the existing `source` column. A new column would have needed a migration pasted into Supabase before the site deploy, or every signup would fail in between. A `.` separator would not have worked: the function turns any value containing one into `web`. Checked on a local Postgres, and the pgTAP waitlist test now covers it.
+
+**How it was checked:** the built site run against a stand-in for Supabase that recorded what the form sent, with eight real signups and link checks in a browser. On the old code, `/?src=meta-test` stored `hero` and `/get?src=rd_Smith` stored `final`. With the fix they store `hero__meta-test` and `final__rd-smith`, the guide button reaches the form (`final__guide`), and homepage buttons still stay on the page so the tag isn't dropped.
+
+**Worth knowing**
+
+- **Goes live with the next production deploy of `eat-out-better-web` from `main`.** The privacy wording deploys with the API project.
+- **The tag lives in the page URL.** A visitor who lands on the guide with a tag and then clicks a guide button is recorded under that button's tag, not the original one.
+
+---
+
 ## 2026-10-11 — Capture screen: the Analyze button stays on screen, and the camera no longer jumps
 
 **What changed**
@@ -43,6 +63,40 @@
 **Still blocking all of this:** eatoutbetter.com doesn't resolve yet (DNS step in `plan.md`). Nothing here gets crawled, cited or learned until it does.
 
 **Roadmap conflict, resolved the same day:** `backlog.md` item #8 said gluten-free was the second condition; Sean confirmed **high blood pressure is next**, matching `plan.md` and the site. Item #8 now says so; gluten-free moved to a later candidate.
+
+---
+
+## 2026-10-11 — Growth plan drafted from the three pre-mortems
+
+**What changed.** New file `growth-plan.md`, with a short summary at the top of `plan.md`. No code. It combines the idea, pricing and go-to-market pre-mortems into one plan with dates, owners and pass/fail gates from 2 users to 1 million, plus timing (day and hour) for each channel, a cash budget through January (about $2,700), and ready-to-paste templates. An interactive checklist version lives in a private claude.ai artifact (link in the file).
+
+**Why it matters.** None of the three pre-mortems set a single number to hit, and all three found the same constraint: repeat use, a paywall that rarely appears, and paid installs that lose money, not a lack of interest. The plan puts the repeat-use test first, moves the paywall to day 0 by gating how much of each menu is free rather than how many scans, and grows through clinicians, chain-menu search pages and short video before any paid scaling.
+
+**Found along the way**
+
+- **The waitlist doesn't record the `?src=` campaign tag.** It saves which button was clicked, so the three-source channel test can't be read from it as planned.
+- **`plan.md` said there was no analytics**, but the app already sends PostHog funnel events.
+- **The pricing pre-mortem's $300 Apple Ads test can't run before launch:** Apple Ads only lead to a live App Store listing.
+- **1 million users isn't reachable on cholesterol-only iPhone.** The plan targets 100,000 on "heart health" (adding blood pressure) by the end of 2027.
+
+**Not decided.** Sean hasn't agreed to any of it. Nothing is built.
+
+---
+
+## 2026-10-11 — API moved to Next 16; linting works again
+
+**What changed.** The API (`apps/api`) now runs on Next 16 (pinned to 16.3.8, the version Dependabot's preview deployed cleanly; the first push on 16.4.0 failed its Vercel preview for a reason not yet known) with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
+
+- `npm run lint` now runs `eslint .` with a new `eslint.config.mjs`. Next 16 removed the old `next lint` command, and the API never had a lint config anyway, so lint hasn't actually run on it before. It now passes.
+- The privacy and terms pages are exempt from the "escape every apostrophe" rule (it's legal prose). Offline eval scripts may use loose types.
+- The root `zod` pin to 3.22.4 now applies only to the Anthropic SDK. Applied everywhere, it broke the new lint tooling, which needs zod 4.
+- Next 16 rewrote `apps/api/tsconfig.json` on first build (JSX setting and a new types path). That is committed so builds don't keep changing it.
+
+**Why it matters.** Keeps the API on a supported framework version and gives it a working lint step. No change to what the app or the API does.
+
+**Worth knowing.**
+- Checked here: clean `npm ci`, lint, typecheck, `next build`, and all seven offline test suites pass. **Not checked:** a real scan against the Vercel preview, since this session has no API key. Do one scan on the PR's preview before merging.
+- ESLint 10 (#63) is not used: the React, import and accessibility lint plugins don't support it yet.
 
 ---
 

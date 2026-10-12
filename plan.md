@@ -7,6 +7,18 @@
 
 ---
 
+## Growth plan (proposed 2026-10-11, not decided)
+
+`growth-plan.md` turns the three pre-mortems below into one dated plan with pass/fail gates: prove repeat use by **Fri 13 Nov** (Gate 1, the repeat-use test below), launch **Tue 8 Dec**, paywall live **Mon 4 Jan** for the resolution wave, American Heart Month push in **February**, 10,000 installs by **30 Apr 2027**, 100,000 by **end of 2027** on "heart health". Each phase starts only if the gate before it passes. It also lists what the plan was missing.
+
+Two things it found that block the repeat-use test as written:
+- **Fixed 2026-10-12 (live after the next deploy of `eat-out-better-web` from `main`): the waitlist now records the `?src=` tag.** It used to save only the button (`hero` or `final`). A signup now reads `<button>__<tag>`, e.g. `final__rd-smith`; the per-tag query is in `apps/web/README.md` → "Tagged links". The guide page's three waitlist buttons, which led nowhere before launch, now reach the waitlist too.
+- **This file says there is no analytics, but the app already sends PostHog funnel events** (`apps/mobile/lib/analytics.ts`). Check they arrive and use them as a second usage source.
+
+And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
+
+---
+
 ## Test spec: does anyone come back? (repeat-use test)
 
 **Status:** not started. Written 2026-10-04 after a pre-mortem on the idea (`.claude/skills/kill-my-idea`). Owner: Sean.
@@ -162,7 +174,7 @@
 **Also noted.** "Launch" currently runs before the repeat-use test result. If that test fails, install-chasing spend is wasted. The expanded TestFlight of 10 to 20 testers, filed under LATER, is in effect that test and belongs first.
 
 **Three cheap tests, in this order.**
-1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist already records. Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
+1. **Make recruitment the channel test (free).** For the repeat-use test, recruit about 7 people from each of three sources: a dietitian or practice, a community that allows it, and a small targeted ad. Tag each with its own `?src=` value, which the site's waitlist records (since the 2026-10-12 fix; see the growth-plan summary above). Pass: one source yields at least 50% repeat users and can scale, for example a partner with 100 or more patients a month. Fail: nothing scales, so the launch needs a different idea, not more effort.
 2. **Ask one extra question on the 15-minute calls (free):** "When did you decide what to order, before arriving or at the table?" Pass for the product as built: at least half say at the table. Otherwise the planning moment is the product, and the guide funnel fits better than the app.
 3. **Check keyword demand before building anything around App Store search (free).** Pull popularity scores for about 10 cholesterol and menu terms; I believe Apple's Search Ads keyword tool shows these without spending, but I haven't confirmed that. Set the pass threshold before looking.
 
