@@ -1,4 +1,4 @@
-import { FAQ, PRODUCT, SITE_URL, SUPPORT_EMAIL, APP_STORE_URL } from "./site";
+import { COVERAGE, FAQ, LAUNCH_STATE, PRODUCT, SITE_URL, SUPPORT_EMAIL, APP_STORE_URL } from "./site";
 
 /** Rendered as <script type="application/ld+json">. Never mark up ratings we don't have. */
 export function homeJsonLd() {
@@ -22,7 +22,20 @@ export function homeJsonLd() {
     url: SITE_URL,
     image: `${SITE_URL}/icon-512.png`,
     publisher: { "@id": `${SITE_URL}/#org` },
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    isAccessibleForFree: true,
+    featureList: COVERAGE,
+    // Who it's for today. Planned conditions are deliberately absent: structured
+    // data is read as fact, so it only names what ships.
+    audience: {
+      "@type": "PeopleAudience",
+      healthCondition: { "@type": "MedicalCondition", name: "Hypercholesterolemia", alternateName: "High cholesterol" },
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: LAUNCH_STATE === "live" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+    },
   };
   if (APP_STORE_URL) app.installUrl = APP_STORE_URL;
 
