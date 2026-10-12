@@ -3,7 +3,7 @@
   "unit": "annual subscription",
   "price": 29.99,
   "variable": [
-    {"label": "Apple commission (15%, Small Business Program)", "cost": 4.50},
+    {"label": "Apple commission (15%, Small Business Program)", "pct": 0.15},
     {"label": "Payer's own scans, ~24/yr x $0.04", "cost": 0.96},
     {"label": "Free users carried per payer (~24 installs x $0.16 lifetime usage)", "cost": 3.84}
   ],

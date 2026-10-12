@@ -17,7 +17,9 @@ The input (see example.json in this folder):
     unit              what you sell one of: "cup", "order", "client-month"
     price             price per unit, before tax
     variable          [{label, cost}]  cost of ONE unit: ingredients, packaging,
-                      shipping, card fees, a per-unit commission
+                      shipping. A cost that is a share of the price (an app
+                      store's cut, a card fee, a commission) is {label, pct}
+                      instead, e.g. 0.15, so it moves with --price.
     fixed_monthly     [{label, cost}]  costs you pay every month whatever you sell:
                       rent, salaries, software, insurance
     startup           [{label, cost}]  one-off spend before you open
@@ -54,16 +56,22 @@ def _whole(v):
     return "%s$%s" % (sign, "{:,.0f}".format(abs(round(v))))
 
 
-def _sum(items, field):
-    total = 0.0
-    for i, it in enumerate(items or []):
-        if not isinstance(it, dict) or "cost" not in it:
-            raise NumbersError("%s[%d] needs a 'cost'" % (field, i))
-        try:
-            total += float(it["cost"])
-        except (TypeError, ValueError):
-            raise NumbersError("%s[%d].cost is not a number: %r" % (field, i, it["cost"]))
-    return total
+def _cost(it, field, i, price=None):
+    """One item's cost. {pct} items (variable only) are a share of the price."""
+    if not isinstance(it, dict) or ("cost" not in it and "pct" not in it):
+        raise NumbersError("%s[%d] needs a 'cost'%s" % (field, i, " or a 'pct'" if price is not None else ""))
+    key = "cost" if "cost" in it else "pct"
+    if key == "pct" and price is None:
+        raise NumbersError("%s[%d]: 'pct' only works for variable costs" % (field, i))
+    try:
+        v = float(it[key])
+    except (TypeError, ValueError):
+        raise NumbersError("%s[%d].%s is not a number: %r" % (field, i, key, it[key]))
+    return v * price if key == "pct" else v
+
+
+def _sum(items, field, price=None):
+    return sum(_cost(it, field, i, price) for i, it in enumerate(items or []))
 
 
 def load(path):
@@ -84,7 +92,7 @@ def analyse(spec, price=None, volume=1.0):
     if p <= 0:
         raise NumbersError("price must be above zero")
     days = float(spec.get("days_per_month", 30))
-    var = _sum(spec.get("variable"), "variable")
+    var = _sum(spec.get("variable"), "variable", p)
     fixed = _sum(spec.get("fixed_monthly"), "fixed_monthly")
     startup = _sum(spec.get("startup"), "startup")
 
@@ -148,7 +156,8 @@ def analyse(spec, price=None, volume=1.0):
         "capacity_per_day": capacity, "year1_revenue": year_revenue, "year1_profit": year_profit,
         "year1_after_startup": year_profit - startup, "payback_month": payback_month,
         "cash_needed": cash_needed, "months": months, "flags": flags,
-        "variable_items": spec.get("variable", []), "fixed_items": spec.get("fixed_monthly", []),
+        "variable_items": [dict(it, cost=_cost(it, "variable", i, p))
+                           for i, it in enumerate(spec.get("variable") or [])], "fixed_items": spec.get("fixed_monthly", []),
         "startup_items": spec.get("startup", []),
     }
 
@@ -161,7 +170,8 @@ def sensitivity(spec):
     rows.append(("Volume -20%", analyse(spec, volume=0.8)))
     worse = json.loads(json.dumps(spec))
     for it in worse.get("variable", []):
-        it["cost"] = float(it["cost"]) * 1.15
+        if "cost" in it:  # a share of the price doesn't rise with unit costs
+            it["cost"] = float(it["cost"]) * 1.15
     rows.append(("Unit costs +15%", analyse(worse)))
     return rows
 

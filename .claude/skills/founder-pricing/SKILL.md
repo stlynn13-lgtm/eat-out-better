@@ -25,8 +25,9 @@ python3 "${CLAUDE_SKILL_DIR}/van_westendorp.py" founder/panel/answers --price 6.
 
 ## Step 1: what buyers said
 
-If `/founder-consumer` ran, every buyer answered four price questions. Run the
-tool on `founder/panel/answers` (or a CSV with the columns `too_cheap, cheap,
+If `/founder-consumer` ran with `--price-pitch`, every buyer answered four price
+questions without having seen a price (`<id>.price.json`). Run the tool on
+`founder/panel/answers` (or a CSV with the columns `too_cheap, cheap,
 expensive, too_expensive` from real surveys, which beat simulated answers every
 time). It reports:
 
@@ -39,6 +40,10 @@ time). It reports:
 
 PMC to PME is the acceptable range. If the panel has not run, say so and offer to
 run `/founder-consumer --quick` first. Do not invent a range.
+
+If the tool labels the result **ANCHORED** (a panel dealt without `--price-pitch`,
+whose buyers saw the price first), do not set a price from it: say so, and offer
+to re-deal the panel with a price-free pitch.
 
 ## Step 2: what competitors charge
 

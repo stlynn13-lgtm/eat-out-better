@@ -53,7 +53,7 @@ Rules: no health-condition targeting in ad copy ("Do you have high cholesterol?"
 | Tue 24 Nov | Site | 10 chain pages live, each with a dietitian byline |
 | Thu 26 Nov | Video | Thanksgiving: "What to eat at the family table" (hook 8) |
 | Tue 1 Dec | Clinics | QR cards to the 5 partner practices |
-| Thu 3 Dec | Waitlist email | "5 days": the founding price $24.99 is locked for you |
+| Thu 3 Dec | Waitlist email | "5 days": the founding price is locked for you (price not set yet; see pricing.md) |
 | Sat 5 Dec | Video | Hook 1, the hidden butter |
 | **Tue 8 Dec** | App Store, all channels | Launch. Apple Ads $10/day, exact match |
 | Thu 10 Dec, 10:00 ET | Waitlist email | "It's live. Try it on this weekend's restaurant." |
