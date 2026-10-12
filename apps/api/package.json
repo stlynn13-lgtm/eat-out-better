@@ -23,9 +23,9 @@
     "eval:context": "npx --yes tsx evals/context.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.100.1",
-    "@supabase/supabase-js": "^2.117.2",
-    "next": "16.3.8",
+    "@anthropic-ai/sdk": "^0.132.1",
+    "@supabase/supabase-js": "^2.117.3",
+    "next": "16.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -33,7 +33,7 @@
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.3.8",
+    "eslint-config-next": "16.4.0",
     "typescript": "^5.5.3"
   }
 }
