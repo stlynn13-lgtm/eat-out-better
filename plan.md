@@ -288,6 +288,41 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 ---
 
+## Product pre-mortem: is the product itself defensible? (2026-10-12)
+
+**Status:** findings written, tests not started. Owner: Sean. Source: the `kill-my-idea` skill run against the product as built (the scan-and-score pipeline, `scoring.ts`, the eval results in `log.md`, the legal checklist), with web research (links at the end). A formatted copy exists as a private page: https://claude.ai/artifact/DGk332XDbFde3cWaiSzunm
+
+**The product, as reviewed.** An iPhone app that reads a restaurant menu photo, has Claude estimate grams of saturated fat and added sugar per dish, and turns those estimates into a 1 to 10 score and a colour using published rules. One universal cholesterol profile for everyone. No per-user profile and no swaps yet.
+
+**Bottom line.** An honest, well-instrumented early product that is thin where it matters: the scoring rules are public, the vision model is a commodity, nothing is personalized, and one person validated the result at 75% agreement. The most likely failure is that it never separates from "ask a chatbot", while carrying health-advice liability and App Review friction. Chance it holds a defensible position 12 months out, unchanged: under 15% (a judgment). It turns on whether clinicians come to trust and endorse the published method.
+
+**The belief everything rests on.** That transparent, rule-based scoring is something people, and the clinicians they listen to, trust and prefer over a chatbot's judgment. Nothing so far tests it.
+
+**What could go wrong, most serious first.**
+1. **The moat is close to zero.** The scoring code, thresholds, prompts and the 202-dish eval are in the repo, and this file says the repo has been public since 2026-10-05. Anyone can paste the rubric (green at 5g or less of saturated fat, red over 11g) into a general assistant and get most of the product. Transparency only works as a trust strategy if someone credible stands behind it, and no clinician does yet. Right now the public repo is both the moat and the leak.
+2. **Validation is one rater, with launch consequences.** 75% agreement with Ray on 202 dishes is not clinical validation, and a clinical reviewer is still an open item. Apple's guideline 1.4.1 says health apps must disclose the data and methodology behind accuracy claims, and unvalidated accuracy can mean rejection. Guideline 5.1.1(ix) points health apps to a legal entity, and the Individual-to-Organization switch is already pending (see NEXT). Reports of 5.1.1(ix) rejections are anecdotal, so read the guidelines directly.
+3. **One score for everyone.** `CLAUDE.md` says users enter a health profile; v1 has none. A single threshold ignores LDL level, medication, portion, sodium and fibre. Nothing accumulates per user, so switching costs are low. Related drift: `CLAUDE.md` still describes no accounts, a health profile and substitutions, none of which match what ships.
+4. **The same dish can change colour.** For 30 of 196 dishes the colour depends on what else is on the menu (down from 46). OCR made four transcription errors on a clean menu, and menus over 100 dishes still lose their tail. A user who re-scans a favourite restaurant and sees a different colour will notice.
+5. **Accuracy depends on one pinned model.** It lives in a prompt plus a model version (`claude-haiku-4-5-20251001`), so a model change reopens the 75%. The eval tooling softens this. Cost per scan rises with usage, and a competitor on the same API pays the same.
+6. **Regulatory framing is unchecked.** The FDA updated its general wellness and clinical decision support guidance in January 2026. The guidance text has not been read, and the commentary found does not settle patient-facing diet apps. The condition-specific line "For people managing high cholesterol" is the kind of claim worth checking, and Sean has decided against outside lawyer review.
+
+**Three cheap tests, in this order.**
+1. **Rubric-prompted chatbot against the app (a few dollars).** Put the public thresholds in a plain assistant's prompt, run it on the 16 eval menus, and compare to the answer key. Pass: the app beats it by 10 points or more, or on consistency. Fail: the product is the interface.
+2. **Dietitian review (your time).** Send the thresholds and 20 dishes to three registered dietitians and ask whether they would recommend it to a patient and what they would change. Pass: two say yes with minor edits and one agrees to be named. That also fills the open clinical-reviewer item. Fail: transparency is not yet a trust asset.
+3. **Stability across photos (an afternoon).** Scan five restaurants three times each, with different angles and lighting, and count dishes that change colour. Pass: 5% or fewer. Fail: re-scans erode trust.
+
+A free Apple check: the external TestFlight Beta App Review shows how reviewers react to the health framing before the real submission.
+
+**What would change this verdict.** The app clearly beating the rubric-prompted chatbot, and a clinician publicly standing behind the method.
+
+**The question to answer first.** Is the public repo a deliberate strategy or an accident? Either commit to transparency as the product, by publishing the method and getting clinicians to endorse it, or stop publishing the parts a competitor needs. Right now the project pays for both.
+
+**Don't do yet.** Describe the scoring as "validated" in the app, the listing or the site until a clinician has reviewed the thresholds.
+
+**Sources.** [Apple App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) · [Ropes & Gray on the FDA's January 2026 general wellness and CDS updates](https://www.ropesgray.com/en/insights/alerts/2026/01/fda-adapts-with-the-times-on-digital-health-updated-guidances-on-general-wellness-products). Commentary on the FDA guidance, not the guidance itself; read the FDA text before relying on it.
+
+---
+
 ## Closed this week (so nobody chases them again)
 
 - **Hide My Email** — `eatoutbetter.com`, `send.eatoutbetter.com` and `no-reply@eatoutbetter.com` are registered as Sign in with Apple email sources (2026-10-01); Apple shows all three passing SPF. Delivery through Apple's relay has not been tested with a real Hide My Email account.

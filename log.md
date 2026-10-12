@@ -31,6 +31,16 @@
 
 ---
 
+## 2026-10-12 — Pre-mortem on the product itself
+
+**What changed.** Ran the `kill-my-idea` skill against the product as built and wrote the result into `plan.md` ("Product pre-mortem"). No code. A formatted private page of the same findings was also made.
+
+**Why it matters.** The product's real asset is its disciplined, published scoring and eval harness, but that is also the weakness: the rules are public, the model is a commodity, the result is validated by one person at 75%, and nothing is personalized. Apple's health-app rules (accuracy disclosure, and submission by a legal entity) are a launch risk that a clinician reviewer would help with.
+
+**What it sets up.** Three cheap tests: the public rubric in a plain chatbot against the app, a review of the thresholds by three dietitians, and a same-restaurant stability check across photos.
+
+---
+
 ## 2026-10-12 — Fewer "couldn't fully assess" dishes
 
 **What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
