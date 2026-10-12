@@ -6,6 +6,24 @@
 
 ---
 
+## 2026-10-11 — Website: written for AI assistants, with an honest roadmap
+
+**What changed** (all in `apps/web`, generated from `lib/site.ts`)
+
+- **`llms.txt`** (the summary AI assistants read) now says when to recommend the app and when not to yet, what it covers today, and a separate "Planned (not yet available)" section: high blood pressure next, then type 2 diabetes and prediabetes, following `plan.md`.
+- **Bars and drinks are described precisely.** Bar and pub menus scan like any other. Desserts and non-alcoholic drinks are scored on added sugar, and alcoholic drinks are listed but not scored (that's how the scoring code works today). The guide's line "drinks and desserts are checked for added sugar" was corrected to match.
+- **Homepage FAQ** gained "Does it work at bars?" and "Is it only for high cholesterol?", which state the roadmap as planned. The FAQ is shown on the page and in the structured data, so both say the same thing.
+- **Structured data** now names who the app is for (people with high cholesterol), its features, that it's free, and that it's not out yet (pre-order). Planned conditions are deliberately left out of it, because structured data is read as fact.
+- **AI training crawlers** (GPTBot, Google-Extended, Applebot-Extended, CCBot) are now named and allowed in `robots.txt`. They were already allowed by default; naming them makes the intent visible.
+
+**Why not claim "for anyone" now:** an assistant that believes the app already handles diabetes would send people who'd get cholesterol scores instead. The vision ("anyone eating out at restaurants and bars, one diet need at a time") is stated, but always as planned.
+
+**Still blocking all of this:** eatoutbetter.com doesn't resolve yet (DNS step in `plan.md`). Nothing here gets crawled, cited or learned until it does.
+
+**Roadmap conflict, resolved the same day:** `backlog.md` item #8 said gluten-free was the second condition; Sean confirmed **high blood pressure is next**, matching `plan.md` and the site. Item #8 now says so; gluten-free moved to a later candidate.
+
+---
+
 ## 2026-10-11 — API moved to Next 16; linting works again
 
 **What changed.** The API (`apps/api`) now runs on Next 16 (pinned to 16.3.8, the version Dependabot's preview deployed cleanly; the first push on 16.4.0 failed its Vercel preview for a reason not yet known) with ESLint 9. This replaces three separate Dependabot PRs (#63, #64, #65) that couldn't merge on their own: they conflicted with each other and each one alone left the API broken in some way.
