@@ -1,0 +1,26 @@
+{
+  "business": "Eat Out Better (unit = one annual Plus subscription sold, cash basis; month 1 = Dec 2026)",
+  "unit": "annual subscription",
+  "price": 29.99,
+  "variable": [
+    {"label": "Apple commission (15%, Small Business Program)", "cost": 4.50},
+    {"label": "Payer's own scans, ~24/yr x $0.04", "cost": 0.96},
+    {"label": "Free users carried per payer (~24 installs x $0.16 lifetime usage)", "cost": 3.84}
+  ],
+  "fixed_monthly": [
+    {"label": "Hosting, Supabase, Resend, domain, tools (pricing-strategy.md)", "cost": 54},
+    {"label": "Apple Developer Program ($99/yr)", "cost": 8.25},
+    {"label": "Apple Ads, launch level ($10/day)", "cost": 300}
+  ],
+  "startup": [
+    {"label": "Repeat-use tester gift cards", "cost": 500},
+    {"label": "Recruiting ad + Meta angle test", "cost": 450},
+    {"label": "Google pre-order price test", "cost": 300},
+    {"label": "Dietitian advisor", "cost": 500},
+    {"label": "Clinic QR cards", "cost": 100},
+    {"label": "Apple Ads 8 Dec - 31 Jan", "cost": 850}
+  ],
+  "days_per_month": 30,
+  "plan_per_day": 11,
+  "ramp_per_day": [0, 2, 2.5, 1.5, 1.5, 2, 3, 4, 5, 6, 7, 8]
+}

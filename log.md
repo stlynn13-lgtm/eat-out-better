@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-10-12 — Founder pack run: competitors, buyer panel, CFO, pricing, marketing, launch
+
+**What changed.** Six founder skills were added to `.claude/skills/` and run. Their outputs are in `founder/`. The visual summary is a private claude.ai artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab. No app code changed.
+
+**What it found**
+- **0 of 20 simulated buyers would pay.** Their reasons were habit (7), trust (5), "ChatGPT does it free" (4) and convenience (2). Only 2 mentioned price. The buyers are simulated, so these are objections to test, not a forecast.
+- **New finding: people don't want to scan the menu at the table.** Six buyers asked to check the menu at home, from a link or PDF, before going. That isn't in `backlog.md` yet.
+- **$39.99 a year is above the acceptable range** ($5.08 to $34.97). The proposal is to test a $24.99 founding price against $34.99 in the November pre-order test.
+- **The CFO numbers:** $20.69 contribution per $29.99 annual. Break-even is about 18 annual subscriptions a month with Apple Ads, about 3 without. The risk is the volume assumption, not the margin.
+- **At least 9 direct menu-scanner competitors exist,** with no leader and none built for a specific condition. The real competitor is a free chatbot.
+
+**Not decided.** None of the pricing or positioning changes has been agreed.
+
+---
+
 ## 2026-10-12 — Waitlist now records which link a signup came from
 
 **What changed**

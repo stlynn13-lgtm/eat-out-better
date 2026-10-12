@@ -1,0 +1,268 @@
+<title>Eat Out Better Founder Readout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; a verdict band, then one section per skill in run order, each with a chart or table as its evidence. */
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --fg:#1d2420; --muted:#5d6862; --line:#dde2dc;
+  --accent:#1f5f4a; --accent-soft:#e3efe9;
+  --green:#2f8a4f; --yellow:#b88a10; --red:#c0402f;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --surface:#1a201d; --fg:#e6ebe7; --muted:#9aa69f; --line:#2c3531;
+  --accent:#6cc3a0; --accent-soft:#1f2e28; --green:#5cbf7d; --yellow:#e0b440; --red:#ec7461; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121614; --surface:#1a201d; --fg:#e6ebe7; --muted:#9aa69f; --line:#2c3531;
+  --accent:#6cc3a0; --accent-soft:#1f2e28; --green:#5cbf7d; --yellow:#e0b440; --red:#ec7461; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body)}
+.wrap{max-width:860px;margin:0 auto;padding-inline:20px;padding-block:32px 64px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700}
+h2{font-size:24px;font-weight:700}
+h3{font-size:16px;font-weight:700}
+p{margin:0;max-width:68ch}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+header{display:flex;flex-direction:column;gap:12px}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.verdict ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.tile .v{font:600 26px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.sechead{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:20px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+td.r,th.r{text-align:right}
+.pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border-radius:999px;white-space:nowrap}
+.p-d{background:var(--accent-soft);color:var(--accent)}
+.p-r{color:var(--red);border:1px solid var(--red)}
+.p-y{color:var(--yellow);border:1px solid var(--yellow)}
+.p-g{color:var(--green);border:1px solid var(--green)}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:120px 1fr 28px;gap:10px;align-items:center;font-size:14px}
+.bar .track{height:14px;background:var(--accent-soft);border-radius:3px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent)}
+.quote{border-left:3px solid var(--line);padding-left:12px;color:var(--muted);font-style:italic;max-width:68ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.two>*{min-width:0}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px}
+ul.tight{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+svg text{fill:var(--muted);font:11px var(--mono)}
+.timeline{display:flex;flex-direction:column}
+.tl{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.tl .d{font:600 13px var(--mono);color:var(--muted)}
+.tl.crit .d{color:var(--accent)}
+.tl.gate{background:var(--accent-soft);padding-inline:8px;border-radius:4px}
+footer{font-size:13px;color:var(--muted)}
+@media (max-width:480px){.bar{grid-template-columns:96px 1fr 24px}.tl{grid-template-columns:80px 1fr}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Founder pack · 12 Oct 2026 · pre-launch</span>
+  <h1>Eat Out Better: pricing, competitors and go-to-market</h1>
+  <p class="muted">Six founder skills run in order: competitors, buyer panel, CFO, pricing, marketing, launch. Source files are in <span class="num">founder/</span> in the repo. The buyers are simulated, so read their answers as a list of objections, not as a demand forecast.</p>
+</header>
+
+<div class="verdict">
+  <span class="eyebrow">The verdict</span>
+  <h2>The per-sale margin is fine. Demand is unproven.</h2>
+  <ol>
+    <li><strong>0 of 20 simulated buyers paid.</strong> Language models lean agreeable, so a 0% here is a loud signal, not noise. Only 2 of the 20 cited price.</li>
+    <li><strong>They pass on habit, trust and the free chatbot.</strong> "I already know what to order", "Is a dietitian behind this?" and "ChatGPT does it free" make up 16 of the 20 no's.</li>
+    <li><strong>A new finding: nobody wants to scan at the table.</strong> Six buyers said so unprompted. "Check the menu before you go" may be the real use case. Nothing in the backlog covers it yet.</li>
+    <li><strong>$39.99 is above the acceptable range ($5 to $35).</strong> Test a $24.99 founding price against $34.99.</li>
+    <li><strong>The plan already in growth-plan.md still holds.</strong> The repeat-use test (Gate 1, Fri 13 Nov) remains the decision point. These results add two questions for the exit calls.</li>
+  </ol>
+</div>
+
+<div class="tiles">
+  <div class="tile"><span class="v">0 / 20</span><span class="l">simulated buyers who pay</span></div>
+  <div class="tile"><span class="v">$5–$35</span><span class="l">acceptable price range (annual)</span></div>
+  <div class="tile"><span class="v">$20.69</span><span class="l">contribution per $29.99 annual</span></div>
+  <div class="tile"><span class="v">~18/mo</span><span class="l">annual subs to break even (with Apple Ads)</span></div>
+  <div class="tile"><span class="v">9+</span><span class="l">direct menu-scanner competitors</span></div>
+</div>
+
+<section>
+  <div class="sechead"><span class="eyebrow">1 · founder-competitors</span><h2>Lots of apps, no leader, and nobody built for cholesterol</h2></div>
+  <p>At least nine AI menu scanners launched in 2025–26, and nearly all have only a handful of ratings. Every one is either generic ("healthy", macros, seed oils) or built for allergies. None is built around saturated fat and LDL with a reason for each dish. Annual prices run from $19.99 to $39.99, with a median of about $29.99.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Competitor</th><th>Type</th><th class="r">Annual</th><th>Angle</th></tr></thead>
+    <tbody>
+      <tr><td>Menu Me AI</td><td><span class="pill p-d">direct</span></td><td class="r num">$29.99</td><td>Scores 1–10 against a diet profile; 1 free scan a month</td></tr>
+      <tr><td>Dishup</td><td><span class="pill p-d">direct</span></td><td class="r num">$19.99</td><td>Healthy eating out</td></tr>
+      <tr><td>MenuFit</td><td><span class="pill p-d">direct</span></td><td class="r num">~$19.99</td><td>Chains. About 33K ratings; complaints about the paywall</td></tr>
+      <tr><td>FoodScan AI</td><td><span class="pill p-d">direct</span></td><td class="r num">n/a</td><td>Has a heart-healthy goal, the closest match</td></tr>
+      <tr><td>WellMenu · Nellie · MenuScore · What2Eat · Menu Scanner</td><td><span class="pill p-d">direct</span></td><td class="r num">$3.99–$49.99</td><td>Generic, allergy or "toxin" scoring</td></tr>
+      <tr><td>Fig</td><td><span class="pill p-y">indirect</span></td><td class="r num">$39.99</td><td>Grocery scanner, 2,800+ diets, 16K ratings</td></tr>
+      <tr><td>Healthy Dining Finder</td><td><span class="pill p-y">indirect</span></td><td class="r num">free</td><td>Dietitian-vetted chain items, linked to the AHA</td></tr>
+      <tr><td>ChatGPT / Gemini / Claude</td><td><span class="pill p-r">substitute</span></td><td class="r num">free</td><td>Photograph the menu and ask. The real competitor</td></tr>
+    </tbody>
+  </table></div>
+  <div class="two">
+    <div class="box"><h3>The gap</h3><p>A clinical rule for one condition, with an explanation and a free answer. Competitors' customers complain about paywalls right after onboarding and about falsely precise numbers on mixed dishes.</p></div>
+    <div class="box"><h3>The threat</h3><p>MenuFit or Menu Me could add a "cholesterol" profile in a week. The protection is owning "cholesterol" in search and on clinicians' recommendation lists first.</p></div>
+  </div>
+  <p class="muted" style="font-size:13px">The App Store was unreachable from the research environment, so these facts come from search snippets and third-party trackers. Check them on a phone before quoting.</p>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">2 · founder-consumer · 20 simulated buyers</span><h2>Nobody bought. Here is why.</h2></div>
+  <div class="two">
+    <div class="box">
+      <h3>Reason for passing</h3>
+      <div class="bars" role="img" aria-label="Reasons for passing: habit 7, trust 5, need 4, convenience 2, values 1, quality 1">
+        <div class="bar"><span>Habit</span><span class="track"><span class="fill" style="display:block;width:100%"></span></span><span class="num">7</span></div>
+        <div class="bar"><span>Trust</span><span class="track"><span class="fill" style="display:block;width:71.4%"></span></span><span class="num">5</span></div>
+        <div class="bar"><span>Need / ChatGPT</span><span class="track"><span class="fill" style="display:block;width:57.1%"></span></span><span class="num">4</span></div>
+        <div class="bar"><span>Convenience</span><span class="track"><span class="fill" style="display:block;width:28.6%"></span></span><span class="num">2</span></div>
+        <div class="bar"><span>Values</span><span class="track"><span class="fill" style="display:block;width:14.3%"></span></span><span class="num">1</span></div>
+        <div class="bar"><span>Quality</span><span class="track"><span class="fill" style="display:block;width:14.3%"></span></span><span class="num">1</span></div>
+      </div>
+      <p class="muted" style="font-size:13px">0% in every segment: newly diagnosed, long-time statin users, travel diners and caregivers.</p>
+    </div>
+    <div class="box">
+      <h3>What would flip a no</h3>
+      <ul class="tight">
+        <li><strong>Check the menu at home</strong>, from a link or PDF, before going (6 buyers)</li>
+        <li><strong>A named dietitian or doctor</strong> behind the ratings (6)</li>
+        <li><strong>Show the hidden butter</strong> in the dish I always order (2)</li>
+        <li><strong>Prove it beats ChatGPT</strong> on real menus (2)</li>
+        <li>No auto-renewal: a one-time price (2)</li>
+        <li>Per-dish grams of saturated fat (2)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="quote">"I'm not going to hold my phone up over a menu in front of my wife or clients." (P004)</p>
+  <p class="quote">"If it showed me that the grilled fish I always order is actually cooked in butter or cream, something I had no idea about, and I could fix it with one swap." (P005)</p>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">3 · founder-pricing</span><h2>$39.99 is above what buyers will accept</h2></div>
+  <div class="box">
+    <h3>Price range (Van Westendorp, annual)</h3>
+    <div style="overflow-x:auto">
+    <svg viewBox="0 0 640 120" width="100%" style="min-width:420px" role="img" aria-label="Price scale from 0 to 50 dollars. Acceptable range 5.08 to 34.97. Indifference point 20.01. Competitor median 29.99. Planned price 39.99 sits above the range.">
+      <line x1="20" y1="60" x2="620" y2="60" stroke="var(--line)" stroke-width="2"/>
+      <rect x="80.96" y="48" width="359.48" height="24" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/>
+      <line x1="260.12" y1="40" x2="260.12" y2="80" stroke="var(--accent)" stroke-width="2"/>
+      <line x1="319.88" y1="40" x2="319.88" y2="80" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 3"/>
+      <line x1="319.88" y1="40" x2="319.88" y2="80" stroke="var(--yellow)" stroke-width="2"/>
+      <circle cx="499.88" cy="60" r="7" fill="var(--red)"/>
+      <circle cx="319.88" cy="60" r="5" fill="var(--yellow)"/>
+      <text x="80.96" y="96" text-anchor="middle">$5.08</text>
+      <text x="440.44" y="96" text-anchor="middle">$34.97</text>
+      <text x="260.12" y="32" text-anchor="middle">IPP $20</text>
+      <text x="319.88" y="112" text-anchor="middle">$24.99 test</text>
+      <text x="499.88" y="32" text-anchor="middle">plan $39.99</text>
+      <text x="20" y="96" text-anchor="start">$0</text>
+      <text x="620" y="96" text-anchor="end">$50</text>
+    </svg>
+    </div>
+    <p class="muted" style="font-size:13px">The shaded band is the acceptable range. Median answers: a bargain at $15, getting expensive at $30, too expensive at $45.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Rung</th><th class="r">Price</th><th>Why someone steps up</th></tr></thead>
+    <tbody>
+      <tr><td>Free</td><td class="r num">$0</td><td>First scan fully unlocked, then the top 3 picks on every menu</td></tr>
+      <tr><td>Plus annual</td><td class="r num">$24.99 → $34.99</td><td>Every dish, "What to ask for", history, scanning at home. Founding price until 8 Mar 2027</td></tr>
+      <tr><td>Lifetime</td><td class="r num">$59.99</td><td>For buyers who refuse auto-renewal, which 3 of the 20 named</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Test:</strong> run the November Google pre-order test at $24.99 and $34.99, split 50/50. If $34.99 converts at least 70% as well as $24.99, launch at $34.99. A lower price won't fix this on its own: only 2 of the 20 no's were about price.</p>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">4 · founder-cfo</span><h2>Healthy margin per sale. The volume assumption carries the risk.</h2></div>
+  <div class="two">
+    <div class="box">
+      <h3>One $29.99 annual subscription</h3>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>Price</td><td class="r num">$29.99</td></tr>
+          <tr><td>Apple commission, 15%</td><td class="r num">−$4.50</td></tr>
+          <tr><td>The payer's own scans</td><td class="r num">−$0.96</td></tr>
+          <tr><td>Free users each payer carries</td><td class="r num">−$3.84</td></tr>
+          <tr><td><strong>Contribution</strong></td><td class="r num"><strong>$20.69 (69%)</strong></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="box">
+      <h3>Year 1 profit by scenario</h3>
+      <div class="bars" role="img" aria-label="Year one profit: price 39.99 34783 dollars; plan 22033; volume minus 20 percent 16757; price 24.99 15658; at 25 percent of plan volume 2248">
+        <div class="bar"><span>$39.99</span><span class="track"><span class="fill" style="display:block;width:100%"></span></span><span class="num" style="width:auto">35k</span></div>
+        <div class="bar"><span>Plan ($29.99)</span><span class="track"><span class="fill" style="display:block;width:63.3%"></span></span><span class="num">22k</span></div>
+        <div class="bar"><span>Volume −20%</span><span class="track"><span class="fill" style="display:block;width:48.2%"></span></span><span class="num">17k</span></div>
+        <div class="bar"><span>$24.99</span><span class="track"><span class="fill" style="display:block;width:45%"></span></span><span class="num">16k</span></div>
+        <div class="bar"><span>25% of volume</span><span class="track"><span class="fill" style="display:block;width:6.5%;background:var(--red)"></span></span><span class="num">2k</span></div>
+      </div>
+    </div>
+  </div>
+  <p><strong>What to watch:</strong> the plan assumes about 60 payers a month from January, which needs roughly 1,500 installs a month. At a quarter of that volume, year 1 profit is about $2,200 and the startup spend is not earned back within the year. You need about $3,100 in cash before the business pays for itself. <strong>The quickest gain:</strong> pause Apple Ads until the cost per payer is under $20. That drops break-even from about 18 to about 3 subscriptions a month.</p>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">5 · founder-marketing</span><h2>Lead with the hidden butter</h2></div>
+  <div class="box" style="border-left:4px solid var(--accent)">
+    <p><strong>Positioning:</strong> For people whose doctor told them to cut saturated fat, Eat Out Better is the menu check that finds the butter and cream hiding in "healthy" restaurant dishes. A chatbot guesses differently every time.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Objection</th><th class="r">Buyers</th><th>Answer</th><th>Needs first</th></tr></thead>
+    <tbody>
+      <tr><td>"I already know what to order"</td><td class="r num">7</td><td>Chain pages and videos that reveal hidden butter</td><td>Dietitian-reviewed chain pages</td></tr>
+      <tr><td>"Is a dietitian behind this?"</td><td class="r num">5</td><td>A named dietitian on every screen</td><td>Advisor signed by 30 Oct</td></tr>
+      <tr><td>"ChatGPT does it free"</td><td class="r num">4</td><td>A published side-by-side on 15 menus</td><td>Head-to-head by 13 Nov</td></tr>
+      <tr><td>"Not scanning in front of people"</td><td class="r num">6*</td><td>"Check before you go"</td><td><span class="pill p-r">not in backlog</span> menu link/PDF scan</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="font-size:13px">*Mentioned by 6 buyers; it was the primary reason for 2.</p>
+  <div class="two">
+    <div class="box"><h3>Three channels</h3><ul class="tight"><li>Dietitian and cardiology practices (QR cards)</li><li>"What to order at [chain]" search pages</li><li>Short video: "I checked the [chain] menu"</li></ul></div>
+    <div class="box"><h3>Not doing</h3><ul class="tight"><li>LinkedIn to reach users</li><li>Product Hunt as a growth engine</li><li>Meta conversion ads (health ad rules)</li><li>Paid ads above $20 per payer</li></ul></div>
+  </div>
+  <div class="box"><h3>Hooks to lead with</h3><ul class="tight">
+    <li>"Your 'healthy' grilled salmon is probably cooked in butter."</li>
+    <li>"I checked the Olive Garden menu for high cholesterol. 3 dishes made it."</li>
+    <li>"Check the menu before you leave the house. Nobody at the table has to know."</li>
+    <li>"Statins help. What you order still counts."</li>
+  </ul></div>
+</section>
+
+<section>
+  <div class="sechead"><span class="eyebrow">6 · founder-launch</span><h2>The countdown to Tue 8 Dec</h2></div>
+  <div class="timeline">
+    <div class="tl crit"><span class="d">Mon 12 Oct</span><span>Try 1.5.0 (1) on a phone; check PostHog</span></div>
+    <div class="tl crit"><span class="d">Tue 13 Oct</span><span>External TestFlight + Beta App Review; D-U-N-S; Small Business Program</span></div>
+    <div class="tl crit"><span class="d">Sun 18 Oct</span><span>21 testers recruited, 7 per source, each tagged</span></div>
+    <div class="tl"><span class="d">Fri 23 Oct</span><span>Specs: "What to ask for", share card, free-tier gate, <strong>menu link/PDF scan (new)</strong></span></div>
+    <div class="tl crit"><span class="d">Fri 30 Oct</span><span>Dietitian advisor signed</span></div>
+    <div class="tl"><span class="d">9–12 Nov</span><span>Exit calls. New questions: "Did you scan at the table or before you went?" and "Would a dietitian's name change anything?"</span></div>
+    <div class="tl crit gate"><span class="d">Fri 13 Nov</span><span><strong>Gate 1:</strong> 8+ of 20 repeat users, 3+ pre-orders, one source at 50%+</span></div>
+    <div class="tl"><span class="d">16–29 Nov</span><span>Pre-order price test at $24.99 vs $34.99</span></div>
+    <div class="tl crit"><span class="d">Fri 27 Nov</span><span>Launch build done; Organization switch; listing</span></div>
+    <div class="tl crit"><span class="d">Mon 30 Nov</span><span>Submit to the App Store (manual release)</span></div>
+    <div class="tl crit gate"><span class="d">Tue 8 Dec</span><span><strong>Release.</strong> Apple Ads $10/day; waitlist email Thu 10 Dec at 10:00 ET</span></div>
+    <div class="tl"><span class="d">Thu 7 Jan</span><span>Day-30 review: go / no-go on the 4 Jan paywall</span></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>First 30 days</th><th class="r">Target</th><th class="r">Act if</th></tr></thead>
+    <tbody>
+      <tr><td>Installs by 31 Dec</td><td class="r num">250</td><td class="r num">&lt;40/week</td></tr>
+      <tr><td>Completed scan within 7 days</td><td class="r num">60%</td><td class="r num">&lt;45%</td></tr>
+      <tr><td>Scans again on days 8–30</td><td class="r num">20%</td><td class="r num">&lt;10%</td></tr>
+      <tr><td>Ratings</td><td class="r num">50 at 4.6+</td><td class="r num">&lt;4.3</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>Generated from founder/competitors.md, panel/results.md, pricing-curve.md, pricing.md, cfo.md, marketing.md and launch.md (branch claude/magical-curie-pwb3wz). The simulated panel's answers show objections to test with real users. They are not customer evidence.</footer>
+</div>

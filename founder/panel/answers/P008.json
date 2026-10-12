@@ -1,0 +1,13 @@
+{
+  "id": "P008",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "My cardiologist and dietitian are the ones who tell me what to eat, and this is an app from people I have never heard of. I would use the free scan at a restaurant to see if it is any good before I think about paying anything.",
+  "objection": "Another subscription for something I use twice a month, and I do not know whether its colour ratings are right for my cholesterol.",
+  "would_change_my_mind": "My dietitian or doctor recommends it, or the free scans turn out to match what she tells me about specific dishes.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 40
+}

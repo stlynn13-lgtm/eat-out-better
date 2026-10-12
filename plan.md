@@ -19,6 +19,15 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 ---
 
+## Founder pack readout (2026-10-12, not decided)
+
+`founder/` holds the results of six founder skills (summary artifact: https://claude.ai/artifact/G5Gj7jZWFCsBGgm7a1ijab). Three asks for Sean:
+- **Add two questions to the repeat-use exit calls:** "Did you scan at the table or before you went?" and "Would a dietitian's name on it change anything?"
+- **Decide whether "scan a menu from a link or PDF at home" goes into `backlog.md`.** Six of 20 simulated buyers asked for it.
+- **Run the November pre-order test at $24.99 and $34.99,** not $39.99.
+
+---
+
 ## Test spec: does anyone come back? (repeat-use test)
 
 **Status:** not started. Written 2026-10-04 after a pre-mortem on the idea (`.claude/skills/kill-my-idea`). Owner: Sean.
