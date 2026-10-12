@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-10-12 — Fewer "couldn't fully assess" dishes
+
+**What changed.** A real 17-dish scan came back with 6 dishes marked "We couldn't fully assess this dish". That message means a whole batch of dishes failed on our side, not that the dishes were hard to judge. Two fixes:
+
+- **A failed batch now gets one retry**, inside the same 30-second budget scoring already had, so a scan still fits Vercel's 60-second limit. A batch that failed fast (busy API, rate limit, an unreadable reply) gets a second try. One that used up the whole 30 seconds still falls back as before.
+- **A reply with a sentence of text around the scores is now read correctly.** Before, any text outside the list made the whole batch unreadable.
+
+**Why it matters.** Each failed batch put several real dishes at a meaningless neutral 5.0. A retry costs about a cent and only happens when something already went wrong.
+
+**Worth knowing.**
+- Not confirmed which of the two causes hit that scan: the Vercel logs weren't readable from the session. Search the logs for `[Ranking]` on the next bad scan. `Retrying` means the retry fired, and `Chunk … failed` after it means the retry failed too.
+- The retry itself has no automated test (it would need a fake Claude client). The reading fix is covered in `npm run test:dishmatch`.
+
+---
+
 ## 2026-10-12 — Waitlist now records which link a signup came from
 
 **What changed**
