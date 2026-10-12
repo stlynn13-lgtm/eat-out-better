@@ -115,8 +115,11 @@ export default function PrivacyPage() {
         <p>
           <strong>Launch waitlist.</strong> If you join the waitlist on eatoutbetter.com, we
           store the email address you enter, which button you used to sign up (for example,
-          the one at the top of the page), and when you signed up. We use it only to email you
-          when Eat Out Better is available on the App Store. It is kept in one place: a single
+          the one at the top of the page), the label of the link that brought you if it was
+          one of our own (for example, a link we gave a clinic), and when you signed up. The
+          label tells us which of our links people come from; it says nothing else about you.
+          We use your email only to email you when Eat Out Better is available on the App
+          Store. It is kept in one place: a single
           table in our database. We don&apos;t copy it into spreadsheets, inboxes or other
           mailing lists, we don&apos;t send ourselves a notification for each signup, and we
           don&apos;t link it to an app account. We don&apos;t collect your name or anything
@@ -129,7 +132,8 @@ export default function PrivacyPage() {
           every day, along with the page visited, the referring site, your browser, operating
           system and device type, and a country derived from your IP address. Your IP address
           itself is not stored by these tools. We also count which download or waitlist button
-          was used, without identifying who used it.
+          was used, and which of our own links led to a waitlist signup, without identifying
+          who used it.
         </p>
       </Section>
 
