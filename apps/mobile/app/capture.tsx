@@ -89,7 +89,10 @@ export default function CaptureScreen() {
   // null until the first read resolves — the Analyze button must not flash
   // "limit reached" for a frame before we actually know.
   const [quota, setQuota] = useState<ScanQuota | null>(null);
-  const showQuotaWarning = !!quota && !quota.exhausted && quota.remaining <= 2;
+  const quotaWarning =
+    quota && !quota.exhausted && quota.remaining <= 2
+      ? `${quota.remaining} scan${quota.remaining === 1 ? "" : "s"} left today`
+      : null;
 
   // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
   // scales on its own; fixed-point images and their controls don't, so without
@@ -428,14 +431,11 @@ export default function CaptureScreen() {
           <Text className="text-lg font-bold text-gray-900">Scan Menu</Text>
         </View>
 
-        <Text className="text-xl font-bold text-gray-900 mb-1">
-          Photograph the menu
-        </Text>
-        <Text className="text-base text-gray-500 mb-4">
-          One photo per page. Wide menu? Turn your phone sideways.
-        </Text>
-
-        {/* Camera viewfinder */}
+        {/* Camera viewfinder. Only the header row above it is fixed: the big
+            "Photograph the menu" title repeated "Scan Menu", and the tip moved
+            below the shutter into the scroll area. Fixed text above the camera
+            was what could squeeze the shutter off a small screen (an SE with
+            Display Zoom at 320pt wide wrapped the tip to three lines). */}
         <TouchableOpacity
           className="w-full rounded-2xl overflow-hidden bg-gray-900"
           style={{ flex: 1, minHeight: VIEWFINDER_MIN, maxHeight: VIEWFINDER_MAX }}
@@ -589,6 +589,10 @@ export default function CaptureScreen() {
             </TouchableOpacity>
           )}
 
+          <Text className="text-sm text-gray-500 text-center mt-3">
+            One photo per page. Wide menu? Turn your phone sideways.
+          </Text>
+
           {/* The tray is always shown, empty or not. It used to appear with the
               first photo (or the picker opening), and since the viewfinder takes
               the body's leftover height, that shrank the live preview by up to
@@ -661,6 +665,10 @@ export default function CaptureScreen() {
                     >
                       <Text
                         className="text-white font-semibold leading-none"
+                        // Already scaled with the text setting via
+                        // removeBtnSize; scaling the font again would grow
+                        // the "×" faster than its circle.
+                        allowFontScaling={false}
                         style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
                       >
                         ×
@@ -728,12 +736,10 @@ export default function CaptureScreen() {
         <Text
           className="text-xs text-amber-700 text-center mt-3"
           numberOfLines={1}
-          accessibilityElementsHidden={!showQuotaWarning}
-          importantForAccessibility={showQuotaWarning ? "auto" : "no-hide-descendants"}
+          accessibilityElementsHidden={!quotaWarning}
+          importantForAccessibility={quotaWarning ? "auto" : "no-hide-descendants"}
         >
-          {showQuotaWarning && quota
-            ? `${quota.remaining} scan${quota.remaining === 1 ? "" : "s"} left today`
-            : " "}
+          {quotaWarning ?? " "}
         </Text>
 
         <TouchableOpacity
