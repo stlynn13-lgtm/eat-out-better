@@ -79,14 +79,14 @@ footer{font-size:13px;color:var(--muted)}
     <li><strong>0 of 20 simulated buyers paid.</strong> Language models lean agreeable, so a 0% here is a loud signal, not noise. Only 2 of the 20 cited price.</li>
     <li><strong>They pass on habit, trust and the free chatbot.</strong> "I already know what to order", "Is a dietitian behind this?" and "ChatGPT does it free" make up 16 of the 20 no's.</li>
     <li><strong>A new finding: nobody wants to scan at the table.</strong> Six buyers said so unprompted. "Check the menu before you go" may be the real use case. Now backlog #21; the v0 (tell people screenshots work) costs nothing.</li>
-    <li><strong>No price recommendation yet.</strong> The panel's price range was withdrawn: buyers answered the price questions right after reading "$39.99 a year", so the range measured that price back. Re-run the price questions on a pitch with no price before choosing what to test in November.</li>
+    <li><strong>Test $29.99 against $39.99.</strong> With no price shown, buyers would accept $12 to $59 a year, with the least resistance at about $30. The first range ($5 to $35) was withdrawn because buyers had just read "$39.99 a year".</li>
     <li><strong>The plan already in growth-plan.md still holds.</strong> The repeat-use test (Gate 1, Fri 13 Nov) remains the decision point. These results add two questions for the exit calls.</li>
   </ol>
 </div>
 
 <div class="tiles">
   <div class="tile"><span class="v">0 / 20</span><span class="l">simulated buyers who pay</span></div>
-  <div class="tile"><span class="v">—</span><span class="l">price range withdrawn (anchored)</span></div>
+  <div class="tile"><span class="v">$12–$59</span><span class="l">acceptable annual price (no price shown)</span></div>
   <div class="tile"><span class="v">$20.69</span><span class="l">contribution per $29.99 annual</span></div>
   <div class="tile"><span class="v">~18/mo</span><span class="l">annual subs to break even (with Apple Ads)</span></div>
   <div class="tile"><span class="v">9+</span><span class="l">direct menu-scanner competitors</span></div>
@@ -147,13 +147,37 @@ footer{font-size:13px;color:var(--muted)}
 </section>
 
 <section>
-  <div class="sechead"><span class="eyebrow">3 · founder-pricing</span><h2>No price recommendation yet</h2></div>
+  <div class="sechead"><span class="eyebrow">3 · founder-pricing · re-run with no price shown</span><h2>Test $29.99 against $39.99</h2></div>
   <div class="box">
-    <h3>Why the price range was withdrawn</h3>
-    <p>Each simulated buyer read the pitch, including "$39.99 a year" and the $29.99 launch offer, and was then asked the four price questions. Van Westendorp only works if the buyer hasn't been told a price. Half the panel gave the identical answers $5 / $15 / $30 / $40–45, round numbers around $39.99, so the range mostly measured the price it was supposed to test. The earlier "$5 to $35, test $24.99 against $34.99" came from that.</p>
-    <p>The tools are fixed: the price questions are now a separate brief, built from a pitch with every price taken out, and the pricing tool labels answers from a panel that saw a price as anchored.</p>
+    <h3>Price range (Van Westendorp, annual, no price shown)</h3>
+    <div style="overflow-x:auto">
+    <svg viewBox="0 0 640 130" width="100%" style="min-width:420px" role="img" aria-label="Price scale from 0 to 80 dollars a year. Acceptable range 12.08 to 59.04. Least resistance about 30. Competitor annual prices 19.99 to 39.99. Test prices 29.99 and 39.99.">
+      <line x1="20" y1="64" x2="620" y2="64" stroke="var(--line)" stroke-width="2"/>
+      <rect x="169.9" y="88" width="150" height="6" rx="2" fill="var(--muted)" opacity="0.5"/>
+      <rect x="110.6" y="52" width="352.2" height="24" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/>
+      <line x1="244.3" y1="44" x2="244.3" y2="84" stroke="var(--accent)" stroke-width="2"/>
+      <circle cx="244.9" cy="64" r="6" fill="var(--yellow)"/>
+      <circle cx="319.9" cy="64" r="6" fill="var(--yellow)"/>
+      <text x="110.6" y="38" text-anchor="middle">$12</text>
+      <text x="462.8" y="38" text-anchor="middle">$59</text>
+      <text x="244.3" y="38" text-anchor="middle">least resistance ~$30</text>
+      <text x="319.9" y="112" text-anchor="middle">test $39.99</text>
+      <text x="200" y="112" text-anchor="middle">test $29.99</text>
+      <text x="244.9" y="126" text-anchor="middle">competitors $19.99–$39.99</text>
+      <text x="20" y="38" text-anchor="start">$0</text>
+      <text x="620" y="38" text-anchor="end">$80</text>
+    </svg>
+    </div>
+    <p class="muted" style="font-size:13px">The shaded band is the acceptable range and the grey bar shows competitors' annual prices. Median answers: a bargain at $19, getting expensive at $48, too expensive at $79. In the first run, where buyers had just read "$39.99 a year", the top of the range was $35. That run was withdrawn.</p>
   </div>
-  <p><strong>Before the November pre-order test:</strong> re-run the price questions with a price-free pitch, then choose the two test prices from that, the competitor prices above, and the margins below.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Test price</th><th class="r">Contribution</th><th class="r">Year 1 profit at plan</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="num">$29.99</td><td class="r num">$20.69</td><td class="r num">$22,035</td><td>Least resistance; the competitor median</td></tr>
+      <tr><td class="num">$39.99</td><td class="r num">$29.19</td><td class="r num">$32,872</td><td>Same as Fig; below the $48 "getting expensive" median</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Rule:</strong> launch at $39.99 if it converts at least 75% as well as $29.99, because that is where the two prices earn the same. Price still isn't why buyers say no: the same 20 passed on habit, trust and need. The range shows where to set the test prices. It doesn't show that anyone will pay.</p>
 </section>
 
 <section>
@@ -222,7 +246,7 @@ footer{font-size:13px;color:var(--muted)}
     <div class="tl crit"><span class="d">Fri 30 Oct</span><span>Dietitian advisor signed</span></div>
     <div class="tl"><span class="d">9–12 Nov</span><span>Exit calls. New questions: "Did you scan at the table or before you went?" and "Would a dietitian's name change anything?"</span></div>
     <div class="tl crit gate"><span class="d">Fri 13 Nov</span><span><strong>Gate 1:</strong> 8+ of 20 repeat users, 3+ pre-orders, one source at 50%+</span></div>
-    <div class="tl"><span class="d">16–29 Nov</span><span>Pre-order price test (prices to set after the price questions are re-run)</span></div>
+    <div class="tl"><span class="d">16–29 Nov</span><span>Pre-order price test, $29.99 vs $39.99</span></div>
     <div class="tl crit"><span class="d">Fri 27 Nov</span><span>Launch build done; Organization switch; listing</span></div>
     <div class="tl crit"><span class="d">Mon 30 Nov</span><span>Submit to the App Store (manual release)</span></div>
     <div class="tl crit gate"><span class="d">Tue 8 Dec</span><span><strong>Release.</strong> Apple Ads $10/day; waitlist email Thu 10 Dec at 10:00 ET</span></div>
