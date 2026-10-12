@@ -67,6 +67,8 @@ export default function CaptureScreen() {
   const { entry, sid } = useLocalSearchParams<{ entry?: string; sid?: string }>();
   const posthog = usePostHog();
   const { status, cameraRef, requestPermission, capturePhoto, facing } = useCamera();
+  // Live preview showing; zoom and shutter only work then.
+  const cameraLive = status === "active";
   const { startAnalysis } = useAnalysis();
   const analysisError = useAnalysisStore((s) => s.error);
   const setStatus = useAnalysisStore((s) => s.setStatus);
@@ -452,9 +454,9 @@ export default function CaptureScreen() {
           className="w-full rounded-2xl overflow-hidden bg-gray-900"
           style={{ flex: 1, minHeight: VIEWFINDER_MIN, maxHeight: VIEWFINDER_MAX }}
           onPress={handleViewfinderPress}
-          activeOpacity={status === "active" ? 1 : 0.8}
+          activeOpacity={cameraLive ? 1 : 0.8}
         >
-          {status === "active" ? (
+          {cameraLive ? (
             <GestureDetector gesture={pinchGesture}>
               <CameraView
                 ref={cameraRef}
@@ -576,10 +578,10 @@ export default function CaptureScreen() {
                       <TouchableOpacity
                         key={lvl.label}
                         onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                        disabled={status !== "active"}
+                        disabled={!cameraLive}
                         className={`px-4 py-2.5 rounded-full ${
                           active ? "bg-brand-900" : "bg-gray-100"
-                        } ${status === "active" ? "" : "opacity-40"}`}
+                        } ${cameraLive ? "" : "opacity-40"}`}
                         accessibilityLabel={`Zoom ${lvl.label}`}
                       >
                         <Text
@@ -607,11 +609,11 @@ export default function CaptureScreen() {
               <View className="items-center mt-3">
                 <TouchableOpacity
                   className={`rounded-full bg-white items-center justify-center border-4 border-brand-900 ${
-                    status === "active" ? "" : "opacity-40"
+                    cameraLive ? "" : "opacity-40"
                   }`}
                   style={{ width: 68, height: 68 }}
-                  onPress={status === "active" ? handleCapture : handleViewfinderPress}
-                  accessibilityLabel={status === "active" ? "Take photo" : "Enable camera"}
+                  onPress={cameraLive ? handleCapture : handleViewfinderPress}
+                  accessibilityLabel={cameraLive ? "Take photo" : "Enable camera"}
                 />
               </View>
             </>
@@ -804,7 +806,9 @@ export default function CaptureScreen() {
             <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
           {quotaWarning ? (
-            <Text className="text-xs text-amber-700" numberOfLines={1}>
+            // shrink: lets numberOfLines truncate instead of running off a
+            // narrow screen; Feedback keeps its width.
+            <Text className="text-xs text-amber-700 shrink" numberOfLines={1}>
               · {quotaWarning}
             </Text>
           ) : null}
