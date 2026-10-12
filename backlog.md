@@ -71,6 +71,22 @@ Product-improvement release on branch `release/v1.1.0`. These are **committed sc
 
 ---
 
+## 🎙️ Exit-call questions (repeat-use test, 9–12 Nov)
+
+Questions for the 15-minute calls at the end of the repeat-use test (spec in `plan.md`). Each one decides a backlog item, so the answer changes what gets built. Ask what people did last time, not what they'd do in future.
+
+| Question | Decides | Read it as |
+|---|---|---|
+| "Did you decide what to order before you arrived, or at the table?" | Whether the product's moment is planning or ordering (GTM pre-mortem) | At least half say "at the table": the camera-first app is right. Otherwise the planning moment is the product |
+| "Did you scan at the table, or before you went?" (check against PostHog's saved-photo vs camera split) | #21 "Check the menu before you go" | Several "before" answers, or photo scans outnumbering camera scans: raise #21's Confidence above 50% and consider moving it above #9 |
+| "Was there a time you didn't scan because you were with other people?" | #21, and whether the share card fits | Any yes is the social-scan objection confirmed with a real person |
+| "Would a dietitian's or doctor's name on the ratings change anything for you?" | Signing the dietitian advisor and showing the name in the app | Most say yes: put the advisor's name on the results screen, not only on the website |
+| "What did you use before this app, or alongside it? Did you ask ChatGPT or another assistant?" | Whether the blind head-to-head against a free assistant runs before launch | Two or more name an assistant: run the head-to-head first and publish it |
+
+Source: founder pack buyer panel, 2026-10-12 (`founder/panel/results.md`). Six of 20 simulated buyers raised the table scan and six raised the dietitian. Simulated answers chose the questions; only real answers count.
+
+---
+
 ## 🧪 Experiments / Ideas Parking Lot
 
 - "Safe bet" badge — one clearly recommended dish per menu, highlighted prominently

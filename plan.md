@@ -48,7 +48,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 **What we collect.**
 1. App usage from the database: saved scans per account, with dates. Everyone gets a silent account, so this works even for people who skip sign-in. To check before we start: that every saved scan carries a timestamp and the restaurant name where one was printed. There is no analytics yet (it's in NEXT), so this is the only usage source.
 2. A two-question text or form each Sunday, the same for everyone: "How many times did you eat at a restaurant or order takeaway this week?" and "At how many of those did you use the app?" This gives the denominator. Raw scan counts alone can't tell "uses it every time" from "tried it once and forgot".
-3. A 15-minute call at the end of week three with everyone who used it at least twice, and with up to five who didn't. For the non-users the questions are what they did instead and when the app would have helped. Ask what they did last time, not what they'd do in future.
+3. A 15-minute call at the end of week three with everyone who used it at least twice, and with up to five who didn't. For the non-users the questions are what they did instead and when the app would have helped. Ask what they did last time, not what they'd do in future. Also ask the five exit-call questions in `backlog.md` → "Exit-call questions" (table vs before, social scanning, dietitian name, ChatGPT use).
 
 **Dates.** Week 0: recruit, screen, start Beta App Review (about 5 working days). Weeks 1 to 3: run. Week 4: readout.
 
