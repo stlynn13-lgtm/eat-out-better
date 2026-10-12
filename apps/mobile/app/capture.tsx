@@ -6,6 +6,7 @@ import {
   Image,
   Alert,
   Animated,
+  Linking,
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
@@ -114,7 +115,10 @@ export default function CaptureScreen() {
   const trayScrollRef = useRef<ScrollView>(null);
   const [trayViewportHeight, setTrayViewportHeight] = useState(0);
   const [trayContentHeight, setTrayContentHeight] = useState(0);
-  const trayOverflows = trayContentHeight > trayViewportHeight + 1;
+  // Both heights arrive separately and start at 0; don't call it overflow
+  // until the viewport has actually been measured.
+  const trayOverflows =
+    trayViewportHeight > 0 && trayContentHeight > trayViewportHeight + 1;
 
   // An overflowing tray area hides part of the tray below the fold, and
   // nothing else says it scrolls. Flash the indicator when overflow starts and
@@ -221,6 +225,10 @@ export default function CaptureScreen() {
   const handleViewfinderPress = useCallback(async () => {
     if (status === "idle") {
       await requestPermission();
+    } else if (status === "denied") {
+      // The viewfinder says "Tap to open Settings"; iOS won't show the
+      // permission prompt again once it has been refused.
+      await Linking.openSettings();
     }
   }, [status, requestPermission]);
 
@@ -532,62 +540,59 @@ export default function CaptureScreen() {
               gallery controls both grew in this pass and no longer fit either
               side of the shutter on a 390pt-wide phone without shrinking back
               down to the sizes this change exists to fix. */}
-          {status === "active" ? (
-            <>
-              <View className="flex-row items-center justify-between mt-3">
-                <View className="flex-row gap-2">
-                  {ZOOM_LEVELS.map((lvl) => {
-                    const active = activeZoomLabel === lvl.label;
-                    return (
-                      <TouchableOpacity
-                        key={lvl.label}
-                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                        className={`px-4 py-2.5 rounded-full ${
-                          active ? "bg-brand-900" : "bg-gray-100"
-                        }`}
-                        accessibilityLabel={`Zoom ${lvl.label}`}
-                      >
-                        <Text
-                          className={`text-sm font-bold ${
-                            active ? "text-white" : "text-gray-600"
-                          }`}
-                        >
-                          {lvl.label}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-                <TouchableOpacity
-                  className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
-                  onPress={handleGalleryPick}
-                  accessibilityLabel="Add your photos from your library"
-                >
-                  <Text className="text-sm font-semibold text-green-700">
-                    Add your photos
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <View className="items-center mt-3">
-                <TouchableOpacity
-                  className="rounded-full bg-white items-center justify-center border-4 border-brand-900"
-                  style={{ width: 68, height: 68 }}
-                  onPress={handleCapture}
-                  accessibilityLabel="Take photo"
-                />
-              </View>
-            </>
-          ) : (
+          {/* Same controls whatever the camera's status, so their height never
+              changes. Status reads "idle" for a moment on every open (while
+              the permission check resolves) and then "active"; when these
+              rows only appeared once active, the camera shrank ~90pt just
+              after the screen opened. Zoom and shutter are disabled until the
+              camera is live; "Add your photos" always works. */}
+          <View className="flex-row items-center justify-between mt-3">
+            <View className="flex-row gap-2">
+              {ZOOM_LEVELS.map((lvl) => {
+                const active = activeZoomLabel === lvl.label;
+                return (
+                  <TouchableOpacity
+                    key={lvl.label}
+                    onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                    disabled={status !== "active"}
+                    className={`px-4 py-2.5 rounded-full ${
+                      active ? "bg-brand-900" : "bg-gray-100"
+                    } ${status === "active" ? "" : "opacity-40"}`}
+                    accessibilityLabel={`Zoom ${lvl.label}`}
+                  >
+                    <Text
+                      className={`text-sm font-bold ${
+                        active ? "text-white" : "text-gray-600"
+                      }`}
+                    >
+                      {lvl.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
             <TouchableOpacity
-              className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
+              className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
               onPress={handleGalleryPick}
+              accessibilityLabel="Add your photos from your library"
             >
-              <Text className="text-center text-base font-semibold text-green-700">
+              <Text className="text-sm font-semibold text-green-700">
                 Add your photos
               </Text>
             </TouchableOpacity>
-          )}
+          </View>
+
+          <View className="items-center mt-3">
+            <TouchableOpacity
+              className={`rounded-full bg-white items-center justify-center border-4 border-brand-900 ${
+                status === "active" ? "" : "opacity-40"
+              }`}
+              style={{ width: 68, height: 68 }}
+              onPress={handleCapture}
+              disabled={status !== "active"}
+              accessibilityLabel="Take photo"
+            />
+          </View>
 
           <Text className="text-sm text-gray-500 text-center mt-3">
             One photo per page. Wide menu? Turn your phone sideways.
@@ -691,20 +696,15 @@ export default function CaptureScreen() {
                 )}
                 {/* One tile, two states, so its size can't drift between them
                     (a size change here would resize the camera when the
-                    first photo lands). Empty tray: a plain placeholder, not a
-                    second "add from library" button right under "Add your
-                    photos". With photos: tap to add more. */}
+                    first photo lands). Both open the photo library: a tile
+                    that looks tappable but isn't explains nothing. Empty tray
+                    shows an images icon, with photos a "+". */}
                 {localPhotos.length < MAX_PHOTOS && !isPicking && (
                   <TouchableOpacity
                     className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
                     style={{ width: thumbSize, height: thumbSize }}
                     onPress={handleGalleryPick}
-                    disabled={localPhotos.length === 0}
                     accessibilityLabel="Add photos from your library"
-                    accessibilityElementsHidden={localPhotos.length === 0}
-                    importantForAccessibility={
-                      localPhotos.length === 0 ? "no-hide-descendants" : "auto"
-                    }
                   >
                     {localPhotos.length === 0 ? (
                       <Ionicons name="images-outline" size={24} color="#9CA3AF" />
@@ -727,21 +727,6 @@ export default function CaptureScreen() {
 
       {/* Footer: never scrolls, never gets pushed off screen. */}
       <View className="px-5">
-        {/* Warn only when the allowance is nearly gone. Showing a counter from
-            the first scan makes a generous limit feel like a meter running.
-            The row is always there and only its text appears: the quota loads
-            after the screen opens and again after each scan, and a row that
-            appeared then would grow the footer and shrink the camera while
-            the user is framing. */}
-        <Text
-          className="text-xs text-amber-700 text-center mt-3"
-          numberOfLines={1}
-          accessibilityElementsHidden={!quotaWarning}
-          importantForAccessibility={quotaWarning ? "auto" : "no-hide-descendants"}
-        >
-          {quotaWarning ?? " "}
-        </Text>
-
         <TouchableOpacity
           className={`rounded-xl py-4 items-center mt-3 mb-2 ${
             localPhotos.length === 0 || isProcessing || quota?.exhausted
@@ -783,15 +768,23 @@ export default function CaptureScreen() {
 
         {/* Privacy Policy deliberately not repeated here — it lives on the
             welcome and results screens only, so the mid-flow screens stay
-            focused on the task. */}
+            focused on the task.
+            The scan-limit warning shares this line rather than having its
+            own: a row that appeared when the quota loaded (on open, after
+            each scan) would grow the footer and shrink the camera, and a
+            row reserved for it cost ~28pt on every screen for a warning most
+            sessions never see. Shown only when the allowance is nearly gone;
+            a counter from the first scan makes a generous limit feel like a
+            meter running. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
-            <Text
-              className="text-xs text-gray-600 underline"
-            >
-              Feedback
-            </Text>
+            <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
+          {quotaWarning ? (
+            <Text className="text-xs text-amber-700" numberOfLines={1}>
+              · {quotaWarning}
+            </Text>
+          ) : null}
         </View>
       </View>
 
