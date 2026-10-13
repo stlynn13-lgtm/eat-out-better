@@ -21,6 +21,20 @@
 
 ---
 
+## 2026-10-12 — Specs for "What to ask for" and the share card, plus mockups of every recommended change
+
+**What changed.** Two new specs at the repo root, no code. Both are written to be built after Gate 1 (the repeat-use test readout, Fri 13 Nov).
+
+- **`what-to-ask-for-spec.md`** (backlog #3 and #9, merged). Under every yellow or red dish, one question the person could ask their server ("Could I get the hollandaise on the side?") and what it's likely to save, in grams, computed by code. It shows only when the saving is meaningful, and never projects a new score or colour. The asks come from a new `/api/ask` call made after results appear, not from the scoring call. That keeps scores unchanged and stays inside the 60-second scan budget. It also leaves installed builds alone: builds 13, 14 and 1.5.0 already display the old `substitution` field, so filling it would have changed every phone at once, mid-test.
+- **`share-card-spec.md`** (backlog #14). A Share button sends the menu's three best picks as a text with a link. The link opens a picture preview and a page on eatoutbetter.com whose button is tagged `src=share`. The API signs the picks when it makes the scan, so nobody can publish a forged "Scored by Eat Out Better" link on our domain. Nothing is stored. It uses React Native's built-in share sheet, so it can ship over the air.
+- **Mockups:** every recommended change from `growth-plan.md` and the two specs is drawn on a private claude.ai canvas (link in `plan.md`): an overview map by funnel stage, three app screens, the share message, preview and page, the waitlist referral, a chain ordering page and the clinic QR card.
+
+**Why it matters.** `CLAUDE.md` says no build starts without a spec. These are the two features the growth plan leans on for differentiation and free growth. Both specs keep the repeat-use test clean: nothing ships to phones between 19 Oct and 13 Nov.
+
+**Still to spec:** the free-tier depth gate (the paywall), which waits on the Gate 1 pre-order result.
+
+---
+
 ## 2026-10-12 — Waitlist now records which link a signup came from
 
 **What changed**

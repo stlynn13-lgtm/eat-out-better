@@ -2,7 +2,7 @@
 
 **What this is:** the plain-language, always-current answer to "what are we doing and what's next?" Written so a non-developer can read it in two minutes and know where we stand. The detailed, filterable version of all this lives in **Eat_Out_Better_GTM_Launch_Tracker.xlsx** — this file is the readable summary that points into it.
 
-**Last updated:** 2026-10-11
+**Last updated:** 2026-10-12
 **Read with:** `log.md` (what already changed) · the GTM Launch Tracker (full detail) · `CLAUDE.md` (the rules that don't change often).
 
 ---
@@ -16,6 +16,8 @@ Two things it found that block the repeat-use test as written:
 - **This file says there is no analytics, but the app already sends PostHog funnel events** (`apps/mobile/lib/analytics.ts`). Check they arrive and use them as a second usage source.
 
 And one test in the pricing pre-mortem that can't run as written: Apple Ads only lead to a live App Store listing, not a web page. Run the pre-launch price test on Google Search instead.
+
+**Specs written 2026-10-12, build after Gate 1:** `what-to-ask-for-spec.md` (one "ask your server" suggestion on every yellow and red dish, from a separate call after the scan so scores and installed builds don't change) and `share-card-spec.md` (share the best three picks as a signed link with a picture preview, counted as `src=share`). Mockups of every recommended change, with status and the metric each moves, are on a private claude.ai canvas: https://claude.ai/artifact/PdUk16bxWkDjRjQeuEwxRF. Still to spec: the free-tier depth gate (paywall).
 
 ---
 
