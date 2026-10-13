@@ -6,6 +6,24 @@
 
 ---
 
+## 2026-10-12 — CI now checks the API
+
+**What changed.** A new GitHub Actions check, "API checks", runs on every pull request that touches the API, the shared package or the lockfile. It runs lint, typecheck, build and the seven offline test suites. None of them need an API key.
+
+**Why it matters.** Until now the only check on API changes was Vercel's preview deploy, so a broken upgrade showed up only after it was pushed. That's how the Next 16.4.0 failure was found.
+
+---
+
+## 2026-10-12 — Anthropic SDK updated to 0.131
+
+**What changed.** The API's Anthropic SDK went from 0.100.1 to 0.131.0, the version Sean scan-tested on Dependabot's #62 preview. Only the SDK moved. Dependabot's replacement (#100) also pushes Next.js back to 16.4.0, which failed to deploy on Vercel on 2026-10-11, so it wasn't merged.
+
+**Why it matters.** Stays on a supported SDK. Nothing the app does changes.
+
+**Worth knowing.** The root `package.json` pin of `zod` 3.22.4 under the SDK no longer has any effect: the SDK only lists zod as optional and now gets zod 4, and the API code doesn't use zod. It can be removed in a later cleanup.
+
+---
+
 ## 2026-10-12 — Pre-launch plan added to plan.md
 
 **What changed.** `plan.md` now opens with a prioritized pre-launch plan: Priority 0 (this week's foundation), Priority 1 (the repeat-use test, through Gate 1 on Fri 13 Nov), Priority 2 (after Gate 1, before App Store submission) and Priority 3 (launch week). Each item has an owner, a date and a kill rule. It folds in the founder-pack findings (the dietitian advisor, the ChatGPT head-to-head, backlog #21, the $29.99 vs $39.99 pre-order test) and replaces the short "Founder pack readout" section. No code changed.

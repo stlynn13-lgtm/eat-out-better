@@ -154,6 +154,8 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 
 **Publishing updates:** Sean runs `npm run update:production -- --message "what changed"` himself; Claude isn't permitted to. Without the message it stops and waits for one, and nothing is published until it's answered. Check the printed runtime version matches the build you mean to reach.
 
+**API dependencies (2026-10-12).** The API now runs Next.js 16.3.8 with a working lint step (`npm run lint`, ESLint 9; PR #97). Lint had never run on the API before, because there was no config. **Don't move Next to 16.4.0:** its Vercel preview failed in seconds and the cause is unknown. Dependabot is told to skip the 16.4 line (`.github/dependabot.yml`); 16.5 and later will still be proposed, and the new API check tests them. The Anthropic SDK goes from 0.100 to 0.131 in PR #103, which merges once its preview is green.
+
 **Worth knowing:** EAT-9 ("never rank a dish that isn't on the menu") and EAT-17 ("always assume typical ingredients rather than giving up") pull in opposite directions and both are correct. EAT-9 governs which dishes exist and which text belongs to them; EAT-17 governs how hard to think about a dish that really is on the menu. Keep them apart when either is touched again.
 
 ---
@@ -179,7 +181,7 @@ And one test in the pricing pre-mortem that can't run as written: Apple Ads only
 2. **Try the photo-pick fix on a phone**: reopen the app twice so the update applies, pick two library photos, and the "Adding…" tile should appear as soon as the picker closes.
 3. **Move Ray to build 14**, so nobody is left on build 13 and the `ota/1.3.0` line can stop being maintained.
 4. **Paste the feedback script** (PR #56 merged 2026-10-06; the sheet still runs the old one until you do) — `scripts/feedback-sheet/README.md`, 5 minutes, signed in as eatoutbetter@gmail.com. The new version also blocks spreadsheet-formula injection; then search the sheet for cells starting with `=` you didn't write.
-5. **Real-menu scoring** — Sean and Ray are testing it themselves. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
+5. **Real-menu scoring** — Sean and Ray are testing it themselves. **Fixed 2026-10-12 (PR #101):** a 17-dish scan showed 6 dishes as "couldn't fully assess", which means a whole batch failed on our side. A failed batch now gets one retry, and replies with text around the scores are read correctly. The same menu rescanned cleanly on the preview. If it happens again, search the Vercel logs for `[Ranking] Retrying`. Open question: should a restaurant omelet show **green**? The target counted only the eggs' saturated fat (~3g), not the butter it's cooked in.
 6. **Calibrate the zoom buttons** (30 seconds, real phone).
 7. **Test the leave-mid-scan fix and result handoff on a 1.5.0 phone** (published over the air 2026-10-06; open the app twice so the update applies): start an analysis, swipe home right away, wait 5 seconds, reopen. It should carry on to results with no error, and the Vercel logs for `/api/analyze` should show `Replayed stored result` rather than a second full scan. Repeat with two leaves in one scan. While there, check a scan still backs up to the account (the update also carried the signed-scan sync change). Details: `log.md`, 2026-10-06.
 8. **Run the repeat-use test** (spec at the top of this file). It decides whether more build work on accounts, pricing and scoring is worth doing, so it outranks everything on this list except the security follow-ups and item 0, which it depends on.
@@ -334,6 +336,7 @@ A free Apple check: the external TestFlight Beta App Review shows how reviewers 
 - **Dine Right LLC** — in **Good Standing** on the Colorado register (formed 24 June 2026; Sean is the registered agent). The first yearly Periodic Report comes due around June 2027; filing it is the one thing that keeps it that way.
 - **Domain** — `eatoutbetter.com` is owned (Namecheap, registered 25 June 2026, email forwarding on).
 - **Lawyer review** — Sean's decision: no outside review; the Terms and policy rely on the best current guidance in the docs.
+- **Open PR backlog (2026-10-12)** — triaged to zero. Merged: #60 and #61 (CI actions), #90 (website pinned to Node 22), #97 (API on Next 16), #101 (scoring retry), #75 (`/eob-launch-plan` skill), #91 (positioning pre-mortem). Closed: #49 (paywall at launch, superseded by the pricing pre-mortem), #63–#66 and #100 (dependency bumps replaced by #97 and #103, or not wanted), #68 (old landing page, superseded by `apps/web`).
 - **Apple Developer enrollment** — stays **Individual** for TestFlight (Sean's decision). See the note in NEXT before the public App Store launch.
 
 ---
@@ -344,7 +347,7 @@ A free Apple check: the external TestFlight Beta App Review shows how reviewers 
 - **App Store submission assets**: final app icon, screenshots, listing copy (with search keywords), age rating, App Privacy questionnaire (answers drafted in `privacy-policy-accounts-release.md`). ✅ Support URL exists (`/support`). `legal/eula-app-store.txt` is the text to paste as the custom EULA.
 - **UI transparency**: per-dish reasons ("High — fried + cream sauce. Try grilled.").
 - **Basic analytics**: the core funnel events, so we can see whether people complete a scan.
-- **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime).
+- **Light infra**: branch protection, separate dev/prod keys, one launch dashboard (spend + errors + uptime). ✅ CI now runs the API's lint, typecheck, build and offline tests on every API change (`.github/workflows/api-checks.yml`, 2026-10-12).
 
 ➡️ GTM Launch Tracker, filter Priority = P1.
 
