@@ -54,7 +54,7 @@ Times are Mountain Time unless marked. Dates assume Gate 1 passes; a 5–7 resul
 - **Thu 15 Oct:** $150 Meta ad to a tester sign-up page (`?src=meta-test`), running Thursday to Saturday.
 - **Sun 18 Oct:** 21 screened testers, 7 per source, each with its own tag.
 - **19 Oct – 8 Nov:** test runs. Sunday check-in text at 18:00 local. No nudges.
-- **By Fri 23 Oct:** specs for "What to ask for", the share card and the free-tier depth gate. Keyword research on about 30 cholesterol, menu and chain terms (Google Keyword Planner is free); write the pass threshold down before looking.
+- **By Fri 23 Oct:** specs for "What to ask for" and the share card (**done 2026-10-12:** `what-to-ask-for-spec.md`, `share-card-spec.md`) and the free-tier depth gate (still to write). Keyword research on about 30 cholesterol, menu and chain terms (Google Keyword Planner is free); write the pass threshold down before looking.
 - **By Fri 30 Oct:** dietitian advisor signed ($500 or 0.25–0.5% advisor equity) to review the guide and the chain pages. First 10 chain pages drafted.
 - **By Mon 2 Nov:** Apple featuring nomination for February 2027 (American Heart Month). Apple recommends up to three months ahead, minimum two weeks ([Apple](https://developer.apple.com/app-store/getting-featured)).
 - **9–12 Nov:** exit calls, adding "Did you decide what to order before arriving or at the table?" Offer the refundable $29.99 founding annual pre-order (Stripe link) to all 20.
