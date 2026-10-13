@@ -1,0 +1,13 @@
+{
+  "id": "P010",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "quality",
+  "reason": "I already log everything in MyFitnessPal and I like numbers. A green, yellow or red dot with 'fried, cream sauce' is a vague label, and the app says up front it does not count grams, so it would not tell me what I actually want to know.",
+  "objection": "Another subscription for something I use twice a month? And I eat out closer to twice a week, so I'd be paying for a tool that gives me less detail than the one I already have.",
+  "would_change_my_mind": "If it showed estimated cholesterol-relevant numbers per dish, like saturated fat or LDL-related grams, that I could log next to my tracker.",
+  "price_too_cheap": 5,
+  "price_cheap": 20,
+  "price_expensive": 35,
+  "price_too_expensive": 50
+}

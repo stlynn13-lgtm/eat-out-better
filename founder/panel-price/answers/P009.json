@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already know to order grilled and skip the fries, so an app telling me what to eat feels like a solution to a problem I don't have. Fifty dollars a year for something I'd check once a week on a Friday isn't worth it to me.",
+  "objection": "I already know to order grilled and skip the fries, so I don't see what it would add to what I already do.",
+  "would_change_my_mind": "If it showed me that a grilled dish I order every time, like the salmon, actually comes with something on it that I didn't expect, I'd pay for that.",
+  "price_too_cheap": 5,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 45
+}

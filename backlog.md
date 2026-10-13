@@ -52,6 +52,7 @@ Product-improvement release on branch `release/v1.1.0`. These are **committed sc
 | 9 | **"Ask for this exactly" output** | Generate a ready-to-say phrase the user can tell their server ("I have high cholesterol — can I get the salmon grilled with no butter and a side salad instead of fries?") | 45 | 2 | 80% | 1 | **72** | High-leverage low-effort feature. Turns insight into action. |
 | 10 | **Dish comparison mode** | Select two dishes and get a side-by-side breakdown of which is better for your condition and why | 35 | 1 | 70% | 2 | **12** | Useful for "I'm torn between two things" scenarios. |
 | 20 | **Scan result handoff on retry (idempotent /api/analyze)** | When the app re-sends a scan after the user left mid-analysis, collect the result the server already worked out instead of paying for the whole analysis again. | 30 | 1 | 70% | 0.5 | **42** | Building 2026-10-06 (with the EAT-10 retry fix, PR #69). **Why:** iOS kills the phone's connection when the app is backgrounded, but the server keeps working and finishes; today that result is thrown away and the retry re-uploads every photo and re-pays the AI calls (~$0.05 and ~30s each time). **Spec:** the app mints one id per scan and sends it as `x-request-id` on every attempt. The API claims the id in Postgres (`api_claim_analysis`). First claim runs the pipeline and stores the final response, or releases the claim on a transient failure (Claude error, rate limit) so a retry recomputes. A later claim with the same id gets the stored response instantly, or waits up to ~50s for the in-flight one to finish; a claim stuck past 75s (owner died at the 60s limit) is taken over. A replay skips the rate limit and spend cap, since it costs nothing. **Privacy:** rows hold no IP, no user id and no health condition (stripped before storing, re-attached from the request), and are deleted after 15 minutes. Photos are never stored. **Degrades:** no Supabase, no migration or a DB error means the cache is skipped and the scan runs as it does today. |
+| 21 | **Check the menu before you go (menu link / PDF / screenshot)** | Paste a restaurant's menu URL or share a PDF or screenshot to the app from home, and get the same per-dish ratings without photographing a menu at the table. **v0 costs nothing:** the photo-library picker already accepts screenshots of a menu web page or delivery app, so say so on the home screen and in onboarding. **v1:** a "Paste menu link" field. The API fetches the page server-side and sends the text into the existing text path (#1), with PDF handled through the same route. | 55 | 2 | 50% | 2 | **28** | Added 2026-10-12 from the founder pack (`founder/panel/results.md`). Of 20 simulated buyers, 6 said they won't scan a menu in front of friends, a spouse or clients, and asked to check at home first. It was the most common flip condition, tied with "a named dietitian". **Confidence is 50% because the buyers were simulated.** Settle it with the repeat-use exit-call question "Did you scan at the table or before you went?" and PostHog's saved-photo vs camera scan split. If confirmed, raise Confidence and consider moving it above #9. **Why it matters beyond convenience:** it lines the app up with the search channel ("what to order at [chain]" pages reach planners at home) and makes a scan possible for every meal, not only at the table. Overlaps #11 (restaurant search) but needs no menu-data API. **Watch:** fetching arbitrary URLs server-side needs SSRF protection (block private IPs, cap size and time); JS-rendered menus (Toast, Square) may return little text, which is why screenshots stay the fallback. Needs a spec before build. |
 
 ---
 
@@ -67,6 +68,22 @@ Product-improvement release on branch `release/v1.1.0`. These are **committed sc
 | 16 | **Native mobile app (iOS/Android)** | Ship as a native app wrapping the web experience | Only after web version is validated |
 | 17 | **Community-contributed menus** | Users submit and tag menus for shared use | UGC moderation complexity — don't touch until significant scale |
 | 18 | **API for restaurant partners** | White-label the analysis engine for restaurant apps or reservation platforms | B2B revenue opportunity long-term |
+
+---
+
+## 🎙️ Exit-call questions (repeat-use test, 9–12 Nov)
+
+Questions for the 15-minute calls at the end of the repeat-use test (spec in `plan.md`). Each one decides a backlog item, so the answer changes what gets built. Ask what people did last time, not what they'd do in future.
+
+| Question | Decides | Read it as |
+|---|---|---|
+| "Did you decide what to order before you arrived, or at the table?" | Whether the product's moment is planning or ordering (GTM pre-mortem) | At least half say "at the table": the camera-first app is right. Otherwise the planning moment is the product |
+| "Did you scan at the table, or before you went?" (check against PostHog's saved-photo vs camera split) | #21 "Check the menu before you go" | Several "before" answers, or photo scans outnumbering camera scans: raise #21's Confidence above 50% and consider moving it above #9 |
+| "Was there a time you didn't scan because you were with other people?" | #21, and whether the share card fits | Any yes is the social-scan objection confirmed with a real person |
+| "Would a dietitian's or doctor's name on the ratings change anything for you?" | Signing the dietitian advisor and showing the name in the app | Most say yes: put the advisor's name on the results screen, not only on the website |
+| "What did you use before this app, or alongside it? Did you ask ChatGPT or another assistant?" | Whether the blind head-to-head against a free assistant runs before launch | Two or more name an assistant: run the head-to-head first and publish it |
+
+Source: founder pack buyer panel, 2026-10-12 (`founder/panel/results.md`). Six of 20 simulated buyers raised the table scan and six raised the dietitian. Simulated answers chose the questions; only real answers count.
 
 ---
 

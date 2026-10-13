@@ -1,0 +1,222 @@
+[
+ {
+  "id": "P001",
+  "name": "Zoe",
+  "age": 64,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 113000,
+  "behaviour": "Asks ChatGPT or Googles it",
+  "behaviour_how": "Already photographs things and asks an AI assistant; sees no reason to pay for a narrower app.",
+  "objection": "My statin handles it, I don't stress about restaurants",
+  "habit": "you eat lunch out with coworkers twice a week"
+ },
+ {
+  "id": "P002",
+  "name": "Alma",
+  "age": 68,
+  "segment": "Frequent business/travel diner",
+  "income": 217000,
+  "behaviour": "Tracker",
+  "behaviour_how": "Logs food in MyFitnessPal or similar and likes numbers.",
+  "objection": "I'm not going to scan the menu in front of people",
+  "habit": "you mostly eat at chains like Chili's, Olive Garden and Panera"
+ },
+ {
+  "id": "P003",
+  "name": "Maeve",
+  "age": 44,
+  "segment": "Frequent business/travel diner",
+  "income": 166000,
+  "behaviour": "Asks ChatGPT or Googles it",
+  "behaviour_how": "Already photographs things and asks an AI assistant; sees no reason to pay for a narrower app.",
+  "objection": "How accurate is an AI guess about how a restaurant cooks?",
+  "habit": "your doctor told you at your last checkup to cut saturated fat"
+ },
+ {
+  "id": "P004",
+  "name": "Pablo",
+  "age": 55,
+  "segment": "Long-time statin user, settled habits",
+  "income": 101000,
+  "behaviour": "Social eater",
+  "behaviour_how": "Eats out with friends or clients and won't pull out a phone to scan a menu at the table.",
+  "objection": "I'm not going to scan the menu in front of people",
+  "habit": "you eat out with your spouse on weekends"
+ },
+ {
+  "id": "P005",
+  "name": "Bilal",
+  "age": 49,
+  "segment": "Long-time statin user, settled habits",
+  "income": 72000,
+  "behaviour": "Rule-of-thumb orderer",
+  "behaviour_how": "Orders grilled fish or a salad on autopilot and thinks they already know what to pick.",
+  "objection": "My statin handles it, I don't stress about restaurants",
+  "habit": "you travel for work a few days a month"
+ },
+ {
+  "id": "P006",
+  "name": "Kai",
+  "age": 55,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 70000,
+  "behaviour": "Social eater",
+  "behaviour_how": "Eats out with friends or clients and won't pull out a phone to scan a menu at the table.",
+  "objection": "I can just ask ChatGPT for free",
+  "habit": "you eat out with your spouse on weekends"
+ },
+ {
+  "id": "P007",
+  "name": "Darius",
+  "age": 48,
+  "segment": "Frequent business/travel diner",
+  "income": 92000,
+  "behaviour": "Subscription-averse",
+  "behaviour_how": "Cancels app subscriptions on principle and hates trials that auto-renew.",
+  "objection": "Is this advice from an actual doctor or dietitian?",
+  "habit": "you travel for work a few days a month"
+ },
+ {
+  "id": "P008",
+  "name": "Priya",
+  "age": 70,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 133000,
+  "behaviour": "Doctor-led",
+  "behaviour_how": "Does what the cardiologist or dietitian recommends, ignores ads.",
+  "objection": "Another subscription for something I use twice a month?",
+  "habit": "you eat lunch out with coworkers twice a week"
+ },
+ {
+  "id": "P009",
+  "name": "Declan",
+  "age": 65,
+  "segment": "Long-time statin user, settled habits",
+  "income": 48000,
+  "behaviour": "Rule-of-thumb orderer",
+  "behaviour_how": "Orders grilled fish or a salad on autopilot and thinks they already know what to pick.",
+  "objection": "I already know to order grilled and skip the fries",
+  "habit": "you get takeaway on Friday nights"
+ },
+ {
+  "id": "P010",
+  "name": "Dana",
+  "age": 46,
+  "segment": "Frequent business/travel diner",
+  "income": 95000,
+  "behaviour": "Tracker",
+  "behaviour_how": "Logs food in MyFitnessPal or similar and likes numbers.",
+  "objection": "Another subscription for something I use twice a month?",
+  "habit": "you eat lunch out with coworkers twice a week"
+ },
+ {
+  "id": "P011",
+  "name": "Victor",
+  "age": 61,
+  "segment": "Caregiver or spouse ordering for a partner",
+  "income": 105000,
+  "behaviour": "Social eater",
+  "behaviour_how": "Eats out with friends or clients and won't pull out a phone to scan a menu at the table.",
+  "objection": "Is this advice from an actual doctor or dietitian?",
+  "habit": "you eat out with your spouse on weekends"
+ },
+ {
+  "id": "P012",
+  "name": "Luca",
+  "age": 48,
+  "segment": "Caregiver or spouse ordering for a partner",
+  "income": 50000,
+  "behaviour": "Asks ChatGPT or Googles it",
+  "behaviour_how": "Already photographs things and asks an AI assistant; sees no reason to pay for a narrower app.",
+  "objection": "I can just ask ChatGPT for free",
+  "habit": "your doctor told you at your last checkup to cut saturated fat"
+ },
+ {
+  "id": "P013",
+  "name": "Lina",
+  "age": 46,
+  "segment": "Caregiver or spouse ordering for a partner",
+  "income": 92000,
+  "behaviour": "Rule-of-thumb orderer",
+  "behaviour_how": "Orders grilled fish or a salad on autopilot and thinks they already know what to pick.",
+  "objection": "Is this advice from an actual doctor or dietitian?",
+  "habit": "you travel for work a few days a month"
+ },
+ {
+  "id": "P014",
+  "name": "Malik",
+  "age": 45,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 119000,
+  "behaviour": "Subscription-averse",
+  "behaviour_how": "Cancels app subscriptions on principle and hates trials that auto-renew.",
+  "objection": "Another subscription for something I use twice a month?",
+  "habit": "you eat lunch out with coworkers twice a week"
+ },
+ {
+  "id": "P015",
+  "name": "Celine",
+  "age": 58,
+  "segment": "Long-time statin user, settled habits",
+  "income": 59000,
+  "behaviour": "Social eater",
+  "behaviour_how": "Eats out with friends or clients and won't pull out a phone to scan a menu at the table.",
+  "objection": "I'm not going to scan the menu in front of people",
+  "habit": "you travel for work a few days a month"
+ },
+ {
+  "id": "P016",
+  "name": "Callum",
+  "age": 52,
+  "segment": "Long-time statin user, settled habits",
+  "income": 89000,
+  "behaviour": "Subscription-averse",
+  "behaviour_how": "Cancels app subscriptions on principle and hates trials that auto-renew.",
+  "objection": "I'm not going to scan the menu in front of people",
+  "habit": "you get takeaway on Friday nights"
+ },
+ {
+  "id": "P017",
+  "name": "Ines",
+  "age": 41,
+  "segment": "Long-time statin user, settled habits",
+  "income": 68000,
+  "behaviour": "Rule-of-thumb orderer",
+  "behaviour_how": "Orders grilled fish or a salad on autopilot and thinks they already know what to pick.",
+  "objection": "Is this advice from an actual doctor or dietitian?",
+  "habit": "you eat out with your spouse on weekends"
+ },
+ {
+  "id": "P018",
+  "name": "Felix",
+  "age": 58,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 101000,
+  "behaviour": "Doctor-led",
+  "behaviour_how": "Does what the cardiologist or dietitian recommends, ignores ads.",
+  "objection": "Another subscription for something I use twice a month?",
+  "habit": "you eat out with your spouse on weekends"
+ },
+ {
+  "id": "P019",
+  "name": "Cole",
+  "age": 62,
+  "segment": "Newly diagnosed, motivated (told in the last year)",
+  "income": 76000,
+  "behaviour": "Asks ChatGPT or Googles it",
+  "behaviour_how": "Already photographs things and asks an AI assistant; sees no reason to pay for a narrower app.",
+  "objection": "I already know to order grilled and skip the fries",
+  "habit": "your doctor told you at your last checkup to cut saturated fat"
+ },
+ {
+  "id": "P020",
+  "name": "Aria",
+  "age": 52,
+  "segment": "Long-time statin user, settled habits",
+  "income": 120000,
+  "behaviour": "Doctor-led",
+  "behaviour_how": "Does what the cardiologist or dietitian recommends, ignores ads.",
+  "objection": "Another subscription for something I use twice a month?",
+  "habit": "you get takeaway on Friday nights"
+ }
+]

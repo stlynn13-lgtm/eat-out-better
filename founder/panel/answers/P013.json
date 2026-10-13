@@ -1,0 +1,13 @@
+{
+  "id": "P013",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I'd want to know who stands behind the colour-coding before I trust it with my husband's cholesterol. A green or red label from an app I've never heard of is just a guess to me, and I already order grilled fish and salads without thinking, so I'd probably just keep doing that.",
+  "objection": "Is this advice from an actual doctor or dietitian? If nobody qualified checked the ratings, I wouldn't rely on them.",
+  "would_change_my_mind": "A named dietitian or doctor behind the ratings, plus a clear note on how the green, yellow and red calls are made. I'd also try the free first scan before paying anything.",
+  "price_too_cheap": 3,
+  "price_cheap": 15,
+  "price_expensive": 30,
+  "price_too_expensive": 60
+}
