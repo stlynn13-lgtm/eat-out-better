@@ -1,6 +1,15 @@
 import { useWindowDimensions } from "react-native";
 
 /**
+ * Cap on how far text follows the phone's text-size setting, for screens whose
+ * layout is mostly fixed in place (capture screen, the sign-in code field).
+ * 1.3x is still well past default. Use this rather than a new number on any
+ * screen that needs a cap. (The full-screen photo viewer predates it and still
+ * has its own caps.)
+ */
+export const MAX_FONT_SCALE = 1.3;
+
+/**
  * Scale factor for fixed-size assets, following the phone's text-size setting.
  *
  * Text already tracks that setting on its own — React Native's `allowFontScaling`

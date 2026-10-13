@@ -76,6 +76,29 @@
 
 ---
 
+## 2026-10-11 — Capture screen: the Analyze button stays on screen, and the camera no longer jumps
+
+**What changed**
+
+- **The Analyze button now sits in a footer that never moves (PR #93).** Ray, on a regular iPhone with a larger text size, added photos and the Analyze button disappeared off the bottom: the screen couldn't scroll, and the photo tray appearing under the camera left no room. Now the camera preview shrinks to make room (between 220pt and 360pt tall), and if even that isn't enough the rest of the screen scrolls. This replaces the 2026-08-10 approach, where the viewfinder took a fixed 38% of the screen.
+- **The camera preview no longer changes size while you're using it (review follow-up).** After PR #93 the preview shrank the moment the first photo landed, just as you were framing page 2, and grew back if you opened and cancelled the photo picker. The "Added photos" strip is now always shown, empty at first with a placeholder tile and "Up to 10 photos per scan", so the screen's layout doesn't change when photos arrive.
+- **The camera can never scroll.** The header and camera are fixed; only the zoom/shutter buttons and the photo strip under it scroll, and only when they don't fit (small phone, large text). So dragging or pinching on the camera can't move the page. A first version locked scrolling from app code whenever a finger touched the camera; a second review showed that lock came off mid-pinch and could arrive too late on a quick drag, so it was replaced by this layout, which needs no lock at all.
+- **When the buttons and strip do scroll, the scroll bar flashes** when that first happens and each time a photo is added (not when one is removed), so a strip below the fold isn't invisible. It deliberately doesn't jump down to the new photo, because that would pull the shutter out of reach mid-scan. The Analyze button's "(3 pages)" count, which is always visible, confirms the photo was added.
+- **The empty photo strip shows a placeholder tile** (it opens the photo library, like the "+" tile it turns into once photos are added). It holds the strip's height so the camera doesn't resize when the first photo lands.
+- **All of this screen's text grows with the phone's text size only up to 1.3×.** Most of the screen is now fixed in place (header, camera, footer), so text that grows without limit has nowhere to go. A third review found that at the largest accessibility sizes the header text alone could fill a small phone and squeeze the shutter and "Add your photos" out of sight, so no photo could be taken. One cap for every label on the screen, still well past default size. People who use the very largest text sizes see this one screen at 1.3×.
+- **The big "Photograph the menu" title is gone and the tip moved under the shutter.** The title repeated the "Scan Menu" header, and the text fixed above the camera was what could still push the shutter out of reach on an SE with Display Zoom and larger text (a fifth review). Now only the slim header row sits above the camera; "One photo per page. Wide menu? Turn your phone sideways." scrolls with the controls.
+- **The camera no longer shrinks just after the screen opens (sixth review).** For a moment on every open the app hasn't heard back about camera permission, and the zoom buttons and shutter only appeared once it had, shrinking the camera by ~90pt. They're now always there, greyed out until the camera is live; tapping the greyed shutter asks for camera access, like tapping the camera does (seventh review: it briefly did nothing). If camera access is denied, the greyed controls are replaced by one large "Add your photos" button, since they could never work there and the camera's message points to the upload option. Also: the empty-strip tile now opens the photo library like the "+" does, "Tap to open Settings" on a denied camera now opens Settings (it did nothing before this PR too), and "2 scans left today" now sits on the Feedback line instead of taking its own row.
+- **The photo thumbnails follow the same 1.3× limit**, so at large text sizes they no longer outgrow their captions and take height from the camera, and **the Analyze label shrinks slightly instead of being cut off** on narrow phones, keeping the page count visible. The 1.3× limit now lives in one shared place (`lib/utils/scale.ts`), also used by the sign-in code field, and every label on this screen gets it automatically.
+
+**Worth knowing**
+
+- **Trade-off on a small phone (iPhone SE size):** because the photo strip is now always there, the camera may start at its 220pt minimum and the buttons and strip may need a little scrolling before any photo is taken. That's the price of the camera never resizing mid-use. Not yet checked on a real SE.
+- **Not tried on a phone yet.** This was written and type-checked in a cloud session with no iOS simulator. It's plain app code, so it ships with the next over-the-air update, no new build needed.
+
+**What it sets up next.** A phone check (in `plan.md`): an SE-size phone at the largest text size, and a regular phone at default text, before publishing the update.
+
+---
+
 ## 2026-10-11 — Website: IndexNow pings search engines on every deploy
 
 **What changed.** eatoutbetter.com now tells Bing (which feeds ChatGPT search and Copilot), Yandex, Seznam and Naver the moment the website changes, instead of waiting for them to recrawl. A GitHub Action runs after each successful production deploy of the website, reads the sitemap and submits every URL. The ownership key is a public file at `eatoutbetter.com/<key>.txt` (public by design). Google doesn't use IndexNow; Search Console and the sitemap cover it.

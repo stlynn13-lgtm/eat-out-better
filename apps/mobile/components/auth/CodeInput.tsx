@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextInput } from "react-native";
+import { MAX_FONT_SCALE } from "../../lib/utils/scale";
 
 /**
  * The emailed code, in ONE ordinary, visible text field.
@@ -51,7 +52,7 @@ export default function CodeInput({
       placeholder="000000"
       placeholderTextColor="#D1D5DB"
       selectionColor="#1B4332"
-      maxFontSizeMultiplier={1.3}
+      maxFontSizeMultiplier={MAX_FONT_SCALE}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       accessibilityLabel={`${CODE_LENGTH}-digit code`}

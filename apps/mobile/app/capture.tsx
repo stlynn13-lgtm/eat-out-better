@@ -1,12 +1,12 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   Image,
   Alert,
   Animated,
+  Linking,
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
@@ -22,7 +22,10 @@ import { useAnalysis } from "../hooks/useAnalysis";
 import { useAnalysisStore } from "../store/useAnalysisStore";
 import FeedbackSheet from "../components/FeedbackSheet";
 import PhotoViewer from "../components/menu/PhotoViewer";
-import { useAssetScale } from "../lib/utils/scale";
+// Every label on this screen is a CappedText (imported as Text so a new label
+// can't skip the cap by accident): see MAX_FONT_SCALE below.
+import Text from "../components/CappedText";
+import { useScaledSize, MAX_FONT_SCALE } from "../lib/utils/scale";
 import {
   getScanQuota,
   QUOTA_ALERT_TITLE,
@@ -41,11 +44,31 @@ import {
 // users build a scan the server always rejected with a 400.
 const MAX_PHOTOS = 10;
 
+// The viewfinder takes whatever height the body has left after the header,
+// controls and photo tray, between these bounds. It used to be a fixed share of
+// the screen (38%), which fit an empty screen but not one with photos added:
+// the tray appeared below it, there was no room, and the Analyze button was
+// pushed off the bottom of a screen that couldn't scroll (Ray, 2026-10-12, a
+// regular iPhone with a larger text size). Now the viewfinder shrinks to make
+// room, the controls and tray below it scroll if even the minimum doesn't fit,
+// and the Analyze button sits in a footer that never moves.
+const VIEWFINDER_MIN = 220;
+const VIEWFINDER_MAX = 360;
+
+// Text on this screen follows the phone's text-size setting only up to
+// MAX_FONT_SCALE (1.3x), via CappedText. Everything here except the
+// controls/tray strip is fixed in place: header, camera and footer never
+// scroll. Uncapped, at the largest accessibility sizes the header text alone
+// took most of a small phone, squeezing the scrolling strip (shutter, "Add
+// your photos") to nothing so no photo could be added.
+
 export default function CaptureScreen() {
   const router = useRouter();
   const { entry, sid } = useLocalSearchParams<{ entry?: string; sid?: string }>();
   const posthog = usePostHog();
   const { status, cameraRef, requestPermission, capturePhoto, facing } = useCamera();
+  // Live preview showing; zoom and shutter only work then.
+  const cameraLive = status === "active";
   const { startAnalysis } = useAnalysis();
   const analysisError = useAnalysisStore((s) => s.error);
   const setStatus = useAnalysisStore((s) => s.setStatus);
@@ -69,29 +92,51 @@ export default function CaptureScreen() {
   // null until the first read resolves — the Analyze button must not flash
   // "limit reached" for a frame before we actually know.
   const [quota, setQuota] = useState<ScanQuota | null>(null);
+  const quotaWarning =
+    quota && !quota.exhausted && quota.remaining <= 2
+      ? `${quota.remaining} scan${quota.remaining === 1 ? "" : "s"} left today`
+      : null;
 
   // Photo tray sizing follows the phone's text-size setting (EAT-15). Text
   // scales on its own; fixed-point images and their controls don't, so without
   // this the thumbnails stay small while their caption grows past them.
-  const assetScale = useAssetScale();
-  const thumbSize = Math.round(96 * assetScale);
-  const removeBtnSize = Math.round(26 * assetScale);
+  // Same cap as the text, so thumbnails don't outgrow their captions and
+  // take height from the camera.
+  const thumbSize = useScaledSize(96, MAX_FONT_SCALE);
+  const removeBtnSize = useScaledSize(26, MAX_FONT_SCALE);
   // The remove button hangs off the thumbnail's top-right corner, which the
   // horizontal ScrollView clips at its content bounds — the reported "top of
   // the circle is cut off". Reserve the overhang as content padding instead of
   // moving the button inside the photo, where it would cover the menu.
   const trayOverhang = Math.ceil(removeBtnSize / 2) + 2;
 
-  // The viewfinder takes whatever height is left after the header, controls
-  // and photo tray, between these bounds. It used to be a fixed share of the
-  // screen (38%), which fit an empty screen but not one with photos added: the
-  // tray appeared below it, there was no room, and the Analyze button was
-  // pushed off the bottom of a screen that couldn't scroll (Ray, 2026-10-12, a
-  // regular iPhone with a larger text size). Now the viewfinder shrinks to make
-  // room, the body scrolls if even the minimum doesn't fit, and the Analyze
-  // button sits in a footer that never moves.
-  const VIEWFINDER_MIN = 220;
-  const VIEWFINDER_MAX = 360;
+  // Only the controls and photo tray scroll, and only when they don't fit
+  // (small phone, large text). The camera sits outside the scroll area, so a
+  // drag or pinch on it can never move the page.
+  const trayScrollRef = useRef<ScrollView>(null);
+  const [trayViewportHeight, setTrayViewportHeight] = useState(0);
+  const [trayContentHeight, setTrayContentHeight] = useState(0);
+  // Both heights arrive separately and start at 0; don't call it overflow
+  // until the viewport has actually been measured.
+  const trayOverflows =
+    trayViewportHeight > 0 && trayContentHeight > trayViewportHeight + 1;
+
+  // An overflowing tray area hides part of the tray below the fold, and
+  // nothing else says it scrolls. Flash the indicator when overflow starts and
+  // when a photo is added (not removed), rather than auto-scrolling to the new
+  // thumbnail, which would pull the shutter out of reach mid-scan. The
+  // Analyze button's page count, which never scrolls, confirms the add.
+  const prevPhotoCountRef = useRef(0);
+  const prevTrayOverflowsRef = useRef(false);
+  useEffect(() => {
+    const added = localPhotos.length > prevPhotoCountRef.current;
+    const overflowStarted = trayOverflows && !prevTrayOverflowsRef.current;
+    prevPhotoCountRef.current = localPhotos.length;
+    prevTrayOverflowsRef.current = trayOverflows;
+    if (trayOverflows && (added || overflowStarted)) {
+      trayScrollRef.current?.flashScrollIndicators();
+    }
+  }, [localPhotos.length, trayOverflows]);
 
   // Fire menu_scan_started once on mount. Re-uses the session ID passed from
   // results ("Analyze New Menu" flow); generates a fresh one for cold starts.
@@ -181,6 +226,15 @@ export default function CaptureScreen() {
   const handleViewfinderPress = useCallback(async () => {
     if (status === "idle") {
       await requestPermission();
+    } else if (status === "denied") {
+      // The viewfinder says "Tap to open Settings"; iOS won't show the
+      // permission prompt again once it has been refused. openSettings can
+      // reject; nothing useful to show, and the upload option still works.
+      try {
+        await Linking.openSettings();
+      } catch (error) {
+        console.error("Open Settings failed:", error);
+      }
     }
   }, [status, requestPermission]);
 
@@ -371,15 +425,15 @@ export default function CaptureScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Body scrolls only when it can't fit (small phone, large text); the
-          footer below stays put, so Analyze is always on screen. flexGrow lets
-          the viewfinder expand into spare height when everything fits. */}
-      <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingTop: 16 }}
-        alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}
-      >
+      {/* Body: header and camera are fixed; the controls and tray below them
+          scroll only if they can't fit; the footer under the body never
+          moves, so Analyze is always on screen. Height goes to the tray area
+          first (at its full content height), then the viewfinder takes what's
+          left between its bounds. If even the minimum doesn't fit, the tray
+          area shrinks and scrolls instead of the camera. */}
+      {/* overflow-hidden: if the fixed parts ever outgrow the body anyway, clip
+          them here rather than draw the camera under the footer. */}
+      <View className="flex-1 px-5 pt-4 overflow-hidden">
         {/* Header */}
         <View className="flex-row items-center gap-3 mb-5">
           <TouchableOpacity
@@ -391,21 +445,18 @@ export default function CaptureScreen() {
           <Text className="text-lg font-bold text-gray-900">Scan Menu</Text>
         </View>
 
-        <Text className="text-xl font-bold text-gray-900 mb-1">
-          Photograph the menu
-        </Text>
-        <Text className="text-base text-gray-500 mb-4">
-          One photo per page. Wide menu? Turn your phone sideways.
-        </Text>
-
-        {/* Camera viewfinder */}
+        {/* Camera viewfinder. Only the header row above it is fixed: the big
+            "Photograph the menu" title repeated "Scan Menu", and the tip moved
+            below the shutter into the scroll area. Fixed text above the camera
+            was what could squeeze the shutter off a small screen (an SE with
+            Display Zoom at 320pt wide wrapped the tip to three lines). */}
         <TouchableOpacity
           className="w-full rounded-2xl overflow-hidden bg-gray-900"
           style={{ flex: 1, minHeight: VIEWFINDER_MIN, maxHeight: VIEWFINDER_MAX }}
           onPress={handleViewfinderPress}
-          activeOpacity={status === "active" ? 1 : 0.8}
+          activeOpacity={cameraLive ? 1 : 0.8}
         >
-          {status === "active" ? (
+          {cameraLive ? (
             <GestureDetector gesture={pinchGesture}>
               <CameraView
                 ref={cameraRef}
@@ -481,69 +532,103 @@ export default function CaptureScreen() {
           )}
         </TouchableOpacity>
 
-        {/* Camera controls live BELOW the viewfinder so they never block the
-            menu being framed (EAT-16). Split across two rows: the zoom and
-            gallery controls both grew in this pass and no longer fit either
-            side of the shutter on a 390pt-wide phone without shrinking back
-            down to the sizes this change exists to fix. */}
-        {status === "active" ? (
-          <>
-            <View className="flex-row items-center justify-between mt-3">
-              <View className="flex-row gap-2">
-                {ZOOM_LEVELS.map((lvl) => {
-                  const active = activeZoomLabel === lvl.label;
-                  return (
-                    <TouchableOpacity
-                      key={lvl.label}
-                      onPress={() => selectZoomLevel(lvl.value, lvl.label)}
-                      className={`px-4 py-2.5 rounded-full ${
-                        active ? "bg-brand-900" : "bg-gray-100"
-                      }`}
-                      accessibilityLabel={`Zoom ${lvl.label}`}
-                    >
-                      <Text
-                        className={`text-sm font-bold ${
-                          active ? "text-white" : "text-gray-600"
-                        }`}
+        <ScrollView
+          ref={trayScrollRef}
+          // RN's ScrollView defaults to flexGrow 1; 0 makes it take its
+          // content height and give spare room to the viewfinder instead.
+          style={{ flexGrow: 0, flexShrink: 1 }}
+          alwaysBounceVertical={false}
+          onLayout={(e) => setTrayViewportHeight(e.nativeEvent.layout.height)}
+          onContentSizeChange={(_, h) => setTrayContentHeight(h)}
+        >
+          {/* Camera controls live BELOW the viewfinder so they never block the
+              menu being framed (EAT-16). Split across two rows: the zoom and
+              gallery controls both grew in this pass and no longer fit either
+              side of the shutter on a 390pt-wide phone without shrinking back
+              down to the sizes this change exists to fix. */}
+          {/* Same controls while the camera is "idle" or "active", so their
+              height doesn't change between them. Status reads "idle" for a
+              moment on every open (while the permission check resolves) and
+              then "active"; when these rows only appeared once active, the
+              camera shrank ~90pt just after the screen opened. Zoom is
+              disabled until the camera is live; the shutter does what tapping
+              the viewfinder does until then (asks for camera access), so it
+              is never a dead button. "Denied" is settled for the session (iOS
+              restarts the app when the permission changes in Settings), so
+              nothing resizes mid-use there: it gets the single large upload
+              button the viewfinder's "use the upload option below" points to,
+              instead of controls that can never work. */}
+          {status === "denied" ? (
+            <TouchableOpacity
+              className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
+              onPress={handleGalleryPick}
+              accessibilityLabel="Add your photos from your library"
+            >
+              <Text className="text-center text-base font-semibold text-green-700">
+                Add your photos
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <>
+              <View className="flex-row items-center justify-between mt-3">
+                <View className="flex-row gap-2">
+                  {ZOOM_LEVELS.map((lvl) => {
+                    const active = activeZoomLabel === lvl.label;
+                    return (
+                      <TouchableOpacity
+                        key={lvl.label}
+                        onPress={() => selectZoomLevel(lvl.value, lvl.label)}
+                        disabled={!cameraLive}
+                        className={`px-4 py-2.5 rounded-full ${
+                          active ? "bg-brand-900" : "bg-gray-100"
+                        } ${cameraLive ? "" : "opacity-40"}`}
+                        accessibilityLabel={`Zoom ${lvl.label}`}
                       >
-                        {lvl.label}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
+                        <Text
+                          className={`text-sm font-bold ${
+                            active ? "text-white" : "text-gray-600"
+                          }`}
+                        >
+                          {lvl.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <TouchableOpacity
+                  className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
+                  onPress={handleGalleryPick}
+                  accessibilityLabel="Add your photos from your library"
+                >
+                  <Text className="text-sm font-semibold text-green-700">
+                    Add your photos
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                className="px-4 py-2.5 rounded-full border border-green-200 bg-green-50"
-                onPress={handleGalleryPick}
-                accessibilityLabel="Add your photos from your library"
-              >
-                <Text className="text-sm font-semibold text-green-700">
-                  Add your photos
-                </Text>
-              </TouchableOpacity>
-            </View>
 
-            <View className="items-center mt-3">
-              <TouchableOpacity
-                className="rounded-full bg-white items-center justify-center border-4 border-brand-900"
-                style={{ width: 68, height: 68 }}
-                onPress={handleCapture}
-                accessibilityLabel="Take photo"
-              />
-            </View>
-          </>
-        ) : (
-          <TouchableOpacity
-            className="mt-3 py-3 rounded-full border border-green-200 bg-green-50"
-            onPress={handleGalleryPick}
-          >
-            <Text className="text-center text-base font-semibold text-green-700">
-              Add your photos
-            </Text>
-          </TouchableOpacity>
-        )}
+              <View className="items-center mt-3">
+                <TouchableOpacity
+                  className={`rounded-full bg-white items-center justify-center border-4 border-brand-900 ${
+                    cameraLive ? "" : "opacity-40"
+                  }`}
+                  style={{ width: 68, height: 68 }}
+                  onPress={cameraLive ? handleCapture : handleViewfinderPress}
+                  accessibilityLabel={cameraLive ? "Take photo" : "Enable camera"}
+                />
+              </View>
+            </>
+          )}
 
-        {(localPhotos.length > 0 || isPicking) && (
+          <Text className="text-sm text-gray-500 text-center mt-3">
+            One photo per page. Wide menu? Turn your phone sideways.
+          </Text>
+
+          {/* The tray is always shown, empty or not. It used to appear with the
+              first photo (or the picker opening), and since the viewfinder takes
+              the body's leftover height, that shrank the live preview by up to
+              140pt just as the user lined up page 2 — and grew it back if the
+              picker was cancelled. Always-present means the camera never
+              resizes while it's in use, and the photo limit is stated up front. */}
           <View className="mt-4">
             <View className="flex-row items-center justify-between mb-2">
               <Text className="text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -553,15 +638,17 @@ export default function CaptureScreen() {
                 <Text className="text-xs font-semibold text-green-700">
                   {localPhotos.length} / {MAX_PHOTOS}
                 </Text>
-                <TouchableOpacity
-                  onPress={clearAllPhotos}
-                  accessibilityLabel="Remove all photos"
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                >
-                  <Text className="text-xs font-semibold text-red-600">
-                    Clear all
-                  </Text>
-                </TouchableOpacity>
+                {localPhotos.length > 0 && (
+                  <TouchableOpacity
+                    onPress={clearAllPhotos}
+                    accessibilityLabel="Remove all photos"
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  >
+                    <Text className="text-xs font-semibold text-red-600">
+                      Clear all
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
             <ScrollView
@@ -608,6 +695,10 @@ export default function CaptureScreen() {
                     >
                       <Text
                         className="text-white font-semibold leading-none"
+                        // Already scaled with the text setting via
+                        // removeBtnSize; scaling the font again would grow
+                        // the "×" faster than its circle.
+                        allowFontScaling={false}
                         style={{ fontSize: Math.round(removeBtnSize * 0.55) }}
                       >
                         ×
@@ -628,6 +719,11 @@ export default function CaptureScreen() {
                     <Text className="text-xs text-gray-600 mt-1.5">Adding…</Text>
                   </View>
                 )}
+                {/* One tile, two states, so its size can't drift between them
+                    (a size change here would resize the camera when the
+                    first photo lands). Both open the photo library: a tile
+                    that looks tappable but isn't explains nothing. Empty tray
+                    shows an images icon, with photos a "+". */}
                 {localPhotos.length < MAX_PHOTOS && !isPicking && (
                   <TouchableOpacity
                     className="rounded-xl border-2 border-dashed border-gray-300 items-center justify-center"
@@ -635,7 +731,11 @@ export default function CaptureScreen() {
                     onPress={handleGalleryPick}
                     accessibilityLabel="Add photos from your library"
                   >
-                    <Text className="text-gray-500 text-2xl">+</Text>
+                    {localPhotos.length === 0 ? (
+                      <Ionicons name="images-outline" size={24} color="#9CA3AF" />
+                    ) : (
+                      <Text className="text-gray-500 text-2xl">+</Text>
+                    )}
                   </TouchableOpacity>
                 )}
               </View>
@@ -646,20 +746,12 @@ export default function CaptureScreen() {
                 : `Up to ${MAX_PHOTOS} photos per scan`}
             </Text>
           </View>
-        )}
-        <View className="h-2" />
-      </ScrollView>
+          <View className="h-2" />
+        </ScrollView>
+      </View>
 
       {/* Footer: never scrolls, never gets pushed off screen. */}
       <View className="px-5">
-        {/* Warn only when the allowance is nearly gone. Showing a counter from
-            the first scan makes a generous limit feel like a meter running. */}
-        {quota && !quota.exhausted && quota.remaining <= 2 ? (
-          <Text className="text-xs text-amber-700 text-center mt-4">
-            {quota.remaining} scan{quota.remaining === 1 ? "" : "s"} left today
-          </Text>
-        ) : null}
-
         <TouchableOpacity
           className={`rounded-xl py-4 items-center mt-3 mb-2 ${
             localPhotos.length === 0 || isProcessing || quota?.exhausted
@@ -674,6 +766,11 @@ export default function CaptureScreen() {
           activeOpacity={0.85}
         >
           <Text
+            numberOfLines={1}
+            // Shrink rather than truncate on narrow phones: the page count is
+            // what confirms a photo was added.
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
             className={`font-semibold text-base ${
               localPhotos.length === 0 || isProcessing || quota?.exhausted
                 ? "text-gray-500"
@@ -696,11 +793,25 @@ export default function CaptureScreen() {
 
         {/* Privacy Policy deliberately not repeated here — it lives on the
             welcome and results screens only, so the mid-flow screens stay
-            focused on the task. */}
+            focused on the task.
+            The scan-limit warning shares this line rather than having its
+            own: a row that appeared when the quota loaded (on open, after
+            each scan) would grow the footer and shrink the camera, and a
+            row reserved for it cost ~28pt on every screen for a warning most
+            sessions never see. Shown only when the allowance is nearly gone;
+            a counter from the first scan makes a generous limit feel like a
+            meter running. */}
         <View className="flex-row items-center justify-center gap-2 mt-2 mb-1">
           <TouchableOpacity onPress={() => setShowFeedback(true)}>
             <Text className="text-xs text-gray-600 underline">Feedback</Text>
           </TouchableOpacity>
+          {quotaWarning ? (
+            // shrink: lets numberOfLines truncate instead of running off a
+            // narrow screen; Feedback keeps its width.
+            <Text className="text-xs text-amber-700 shrink" numberOfLines={1}>
+              · {quotaWarning}
+            </Text>
+          ) : null}
         </View>
       </View>
 
