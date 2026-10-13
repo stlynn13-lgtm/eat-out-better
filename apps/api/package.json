@@ -23,8 +23,8 @@
     "eval:context": "npx --yes tsx evals/context.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.131.0",
-    "@supabase/supabase-js": "^2.117.2",
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@supabase/supabase-js": "^2.117.3",
     "next": "16.3.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
